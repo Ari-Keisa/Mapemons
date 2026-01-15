@@ -14,10 +14,21 @@
             box-sizing: border-box;
         }
 
+        :root {
+            --primary: #4ecdc4;
+            --secondary: #666;
+            --accent: #ff6b6b;
+            --bg-dark: #0f0c29;
+            --bg-medium: #302b63;
+            --bg-light: #24243e;
+            --text-light: #ffffff;
+            --text-muted: #a0a0c0;
+        }
+
         body {
             font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, sans-serif;
-            background: linear-gradient(135deg, #0f0c29 0%, #302b63 50%, #24243e 100%);
-            color: #fff;
+            background: linear-gradient(135deg, var(--bg-dark) 0%, var(--bg-medium) 50%, var(--bg-light) 100%);
+            color: var(--text-light);
             min-height: 100vh;
             line-height: 1.6;
             overflow-x: hidden;
@@ -32,76 +43,81 @@
         /* ===== ШАПКА ===== */
         .header {
             text-align: center;
-            padding: 40px 0;
-            background: rgba(20, 20, 40, 0.7);
-            border-radius: 20px;
-            margin-bottom: 40px;
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            backdrop-filter: blur(10px);
+            padding: 30px 0;
+            margin-bottom: 30px;
         }
 
         .logo {
-            margin-bottom: 15px;
+            margin-bottom: 20px;
         }
 
         .logo h1 {
-            font-size: 3.5rem;
-            background: linear-gradient(90deg, #4ecdc4, #ff6b6b);
+            font-size: clamp(2.5rem, 5vw, 3.5rem);
+            background: linear-gradient(90deg, var(--primary), var(--accent));
             -webkit-background-clip: text;
             background-clip: text;
             color: transparent;
             margin-bottom: 10px;
-        }
-
-        .logo .accent {
-            color: #ff6b6b;
+            font-weight: 800;
+            letter-spacing: -0.5px;
         }
 
         .tagline {
-            font-size: 1.2rem;
-            color: #a0a0c0;
+            font-size: clamp(1rem, 2vw, 1.2rem);
+            color: var(--text-muted);
             margin-bottom: 25px;
         }
 
         .stats {
             display: flex;
             justify-content: center;
-            gap: 40px;
+            gap: clamp(20px, 4vw, 40px);
             flex-wrap: wrap;
+            background: rgba(20, 20, 40, 0.7);
+            padding: 20px;
+            border-radius: 15px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            max-width: 600px;
+            margin: 0 auto;
         }
 
         .stat-item {
             text-align: center;
+            min-width: 100px;
         }
 
         .stat-number {
-            font-size: 2rem;
+            font-size: clamp(1.8rem, 3vw, 2.2rem);
             font-weight: bold;
-            color: #4ecdc4;
+            color: var(--primary);
             display: block;
+            line-height: 1;
         }
 
         .stat-label {
-            font-size: 0.9rem;
-            color: #a0a0c0;
+            font-size: clamp(0.8rem, 1.5vw, 0.95rem);
+            color: var(--text-muted);
+            margin-top: 5px;
+            display: block;
         }
 
         /* ===== СЕКЦИЯ КАРТЫ ===== */
         .map-section {
             background: rgba(20, 20, 40, 0.7);
             border-radius: 20px;
-            padding: 30px;
-            margin-bottom: 40px;
+            padding: 25px;
+            margin-bottom: 30px;
             border: 1px solid rgba(255, 255, 255, 0.1);
         }
 
         .section-title {
             display: flex;
             align-items: center;
-            gap: 10px;
-            margin-bottom: 25px;
-            color: #4ecdc4;
-            font-size: 1.8rem;
+            gap: 12px;
+            margin-bottom: 20px;
+            color: var(--primary);
+            font-size: clamp(1.4rem, 2.5vw, 1.8rem);
         }
 
         .world-map-container {
@@ -110,14 +126,13 @@
             border-radius: 15px;
             overflow: hidden;
             border: 2px solid rgba(255, 255, 255, 0.1);
-            min-height: 600px;
+            min-height: 500px;
             margin-bottom: 20px;
         }
 
-        /* ===== SVG КАРТА ===== */
         #worldMap {
             width: 100%;
-            height: 600px;
+            height: 500px;
             cursor: grab;
         }
 
@@ -127,8 +142,8 @@
 
         .map-controls {
             position: absolute;
-            top: 20px;
-            right: 20px;
+            top: 15px;
+            right: 15px;
             display: flex;
             gap: 10px;
             z-index: 10;
@@ -150,14 +165,14 @@
         }
 
         .control-btn:hover {
-            background: #4ecdc4;
+            background: var(--primary);
             transform: scale(1.1);
         }
 
         /* ===== ЛЕГЕНДА ===== */
         .legend {
             display: flex;
-            gap: 30px;
+            gap: 25px;
             justify-content: center;
             flex-wrap: wrap;
             margin-top: 20px;
@@ -170,18 +185,17 @@
         }
 
         .legend-color {
-            width: 16px;
-            height: 16px;
+            width: 14px;
+            height: 14px;
             border-radius: 50%;
             border: 2px solid white;
         }
 
-        .legend-color.available { background: #4ecdc4; }
-        .legend-color.soon { background: #ff6b6b; }
-        .legend-color.planned { background: #666; }
+        .legend-color.available { background: var(--primary); }
+        .legend-color.soon { background: var(--accent); }
 
         .legend-text {
-            color: #a0a0c0;
+            color: var(--text-muted);
             font-size: 0.9rem;
         }
 
@@ -189,49 +203,47 @@
         .regions-section {
             background: rgba(20, 20, 40, 0.7);
             border-radius: 20px;
-            padding: 30px;
-            margin-bottom: 40px;
+            padding: 25px;
+            margin-bottom: 30px;
             border: 1px solid rgba(255, 255, 255, 0.1);
         }
 
         .regions-grid {
             display: grid;
             grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-            gap: 25px;
+            gap: 20px;
             margin-top: 20px;
         }
 
         .region-card {
             background: rgba(30, 30, 60, 0.8);
             border-radius: 15px;
-            padding: 25px;
+            padding: 22px;
             transition: all 0.3s ease;
             border: 2px solid transparent;
+            display: flex;
+            flex-direction: column;
         }
 
         .region-card.available {
-            border-color: #4ecdc4;
+            border-color: var(--primary);
         }
 
         .region-card.available:hover {
-            transform: translateY(-10px);
+            transform: translateY(-8px);
             background: rgba(30, 30, 60, 0.95);
-            box-shadow: 0 15px 30px rgba(78, 205, 196, 0.3);
+            box-shadow: 0 15px 30px rgba(78, 205, 196, 0.25);
         }
 
         .region-card.coming-soon {
-            border-color: #ff6b6b;
-            opacity: 0.8;
+            border-color: var(--accent);
+            opacity: 0.85;
         }
 
         .region-card.coming-soon:hover {
             transform: translateY(-5px);
             opacity: 1;
-        }
-
-        .region-card.planned {
-            border-color: #666;
-            opacity: 0.6;
+            background: rgba(30, 30, 60, 0.9);
         }
 
         .region-header {
@@ -244,30 +256,40 @@
         .region-icon {
             width: 50px;
             height: 50px;
-            background: linear-gradient(135deg, #4ecdc4, #44a08d);
+            background: linear-gradient(135deg, var(--primary), #44a08d);
             border-radius: 12px;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 1.5rem;
+            font-size: 1.4rem;
+            flex-shrink: 0;
         }
 
         .region-card.coming-soon .region-icon {
-            background: linear-gradient(135deg, #ff6b6b, #ff8e53);
+            background: linear-gradient(135deg, var(--accent), #ff8e53);
         }
 
-        .region-card.planned .region-icon {
-            background: linear-gradient(135deg, #666, #444);
+        .region-info {
+            flex: 1;
         }
 
         .region-title {
-            font-size: 1.4rem;
-            margin-bottom: 5px;
+            font-size: 1.3rem;
+            margin-bottom: 4px;
+            color: var(--text-light);
         }
 
         .region-subtitle {
-            color: #a0a0c0;
+            color: var(--text-muted);
             font-size: 0.9rem;
+        }
+
+        .region-description {
+            color: var(--text-muted);
+            font-size: 0.9rem;
+            margin: 12px 0;
+            line-height: 1.5;
+            flex: 1;
         }
 
         .region-stats {
@@ -280,57 +302,82 @@
         .region-stat {
             display: flex;
             align-items: center;
-            gap: 5px;
+            gap: 6px;
         }
 
         .region-stat i {
-            color: #4ecdc4;
+            color: var(--primary);
+            font-size: 0.9rem;
         }
 
         .region-btn {
-            display: inline-block;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
             width: 100%;
             padding: 12px;
-            background: linear-gradient(90deg, #4ecdc4, #44a08d);
+            background: linear-gradient(90deg, var(--primary), #44a08d);
             color: white;
             text-decoration: none;
             border-radius: 10px;
-            text-align: center;
             font-weight: 600;
             transition: all 0.3s ease;
             border: none;
             cursor: pointer;
-            margin-top: 10px;
+            margin-top: auto;
+            font-size: 0.95rem;
         }
 
         .region-card.available .region-btn:hover {
-            transform: scale(1.05);
-            box-shadow: 0 5px 15px rgba(78, 205, 196, 0.4);
+            transform: scale(1.03);
+            box-shadow: 0 5px 15px rgba(78, 205, 196, 0.3);
         }
 
         .region-card.coming-soon .region-btn {
-            background: #ff6b6b;
+            background: var(--accent);
             cursor: not-allowed;
-        }
-
-        .region-card.planned .region-btn {
-            background: #666;
-            cursor: not-allowed;
+            opacity: 0.8;
         }
 
         /* ===== ПОИСК ===== */
         .search-section {
             background: rgba(20, 20, 40, 0.7);
             border-radius: 20px;
-            padding: 30px;
-            margin-bottom: 40px;
+            padding: 25px;
+            margin-bottom: 30px;
             border: 1px solid rgba(255, 255, 255, 0.1);
             text-align: center;
         }
 
+        .search-options {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+        }
+
+        .search-option {
+            padding: 8px 16px;
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 20px;
+            color: var(--text-muted);
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-size: 0.9rem;
+        }
+
+        .search-option.active {
+            background: var(--primary);
+            color: white;
+            border-color: var(--primary);
+        }
+
         .search-box {
             max-width: 500px;
-            margin: 20px auto;
+            margin: 0 auto;
             position: relative;
         }
 
@@ -348,8 +395,8 @@
 
         .search-input:focus {
             outline: none;
-            border-color: #4ecdc4;
-            box-shadow: 0 0 20px rgba(78, 205, 196, 0.3);
+            border-color: var(--primary);
+            box-shadow: 0 0 20px rgba(78, 205, 196, 0.25);
         }
 
         .search-btn {
@@ -357,7 +404,7 @@
             right: 5px;
             top: 50%;
             transform: translateY(-50%);
-            background: #4ecdc4;
+            background: var(--primary);
             border: none;
             width: 50px;
             height: 50px;
@@ -370,11 +417,11 @@
 
         .search-btn:hover {
             background: #44a08d;
-            transform: translateY(-50%) scale(1.1);
+            transform: translateY(-50%) scale(1.05);
         }
 
         .search-hint {
-            color: #a0a0c0;
+            color: var(--text-muted);
             font-size: 0.9rem;
             margin-top: 10px;
         }
@@ -382,10 +429,63 @@
         /* ===== ФУТЕР ===== */
         .footer {
             text-align: center;
-            padding: 30px;
-            color: #a0a0c0;
-            font-size: 0.9rem;
+            padding: 30px 0;
+            color: var(--text-muted);
             border-top: 1px solid rgba(255, 255, 255, 0.1);
+            margin-top: 30px;
+        }
+
+        .footer-content {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+            align-items: center;
+        }
+
+        .footer-logo {
+            font-size: 1.5rem;
+            font-weight: bold;
+            background: linear-gradient(90deg, var(--primary), var(--accent));
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+
+        .footer-author {
+            font-size: 1rem;
+            color: var(--text-light);
+        }
+
+        .footer-author .author-name {
+            color: var(--primary);
+            font-weight: 600;
+        }
+
+        .footer-author .alias {
+            color: var(--accent);
+            font-style: italic;
+        }
+
+        .footer-disclaimer {
+            font-size: 0.85rem;
+            max-width: 800px;
+            line-height: 1.5;
+            margin: 0 auto;
+        }
+
+        .footer-disclaimer a {
+            color: var(--primary);
+            text-decoration: none;
+        }
+
+        .footer-disclaimer a:hover {
+            text-decoration: underline;
+        }
+
+        .footer-version {
+            font-size: 0.8rem;
+            color: rgba(160, 160, 192, 0.7);
+            margin-top: 5px;
         }
 
         /* ===== УВЕДОМЛЕНИЯ ===== */
@@ -393,7 +493,7 @@
             position: fixed;
             top: 20px;
             right: 20px;
-            background: rgba(78, 205, 196, 0.9);
+            background: rgba(78, 205, 196, 0.95);
             color: white;
             padding: 15px 25px;
             border-radius: 10px;
@@ -405,6 +505,7 @@
             max-width: 300px;
             backdrop-filter: blur(10px);
             border: 1px solid rgba(255, 255, 255, 0.2);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
         }
 
         @keyframes slideIn {
@@ -414,13 +515,32 @@
 
         /* ===== АДАПТИВНОСТЬ ===== */
         @media (max-width: 768px) {
-            .logo h1 {
-                font-size: 2.5rem;
+            .container {
+                padding: 15px;
             }
             
             .stats {
                 flex-direction: column;
-                gap: 20px;
+                gap: 15px;
+                padding: 15px;
+            }
+            
+            .stat-item {
+                min-width: auto;
+                width: 100%;
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+                padding: 10px 0;
+                border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            }
+            
+            .stat-item:last-child {
+                border-bottom: none;
+            }
+            
+            .stat-number {
+                font-size: 1.5rem;
             }
             
             .regions-grid {
@@ -434,6 +554,54 @@
             #worldMap {
                 height: 400px;
             }
+            
+            .map-controls {
+                top: 10px;
+                right: 10px;
+            }
+            
+            .control-btn {
+                width: 35px;
+                height: 35px;
+                font-size: 1rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .logo h1 {
+                font-size: 2.2rem;
+            }
+            
+            .section-title {
+                font-size: 1.3rem;
+            }
+            
+            .region-card {
+                padding: 18px;
+            }
+            
+            .region-header {
+                gap: 12px;
+            }
+            
+            .region-icon {
+                width: 45px;
+                height: 45px;
+                font-size: 1.2rem;
+            }
+            
+            .region-title {
+                font-size: 1.2rem;
+            }
+            
+            .search-options {
+                gap: 10px;
+            }
+            
+            .search-option {
+                padding: 6px 12px;
+                font-size: 0.85rem;
+            }
         }
     </style>
 </head>
@@ -442,22 +610,28 @@
         <!-- ШАПКА -->
         <header class="header">
             <div class="logo">
-                <h1><i class="fas fa-globe-americas"></i> Map<span class="accent">émon</span></h1>
-                <p class="tagline">Интерактивная векторная карта мира покемонов</p>
+                <h1><i class="fas fa-globe-americas"></i> Map<span style="color: var(--accent);">émon</span></h1>
+                <p class="tagline">Интерактивная карта мира покемонов</p>
             </div>
             
             <div class="stats">
                 <div class="stat-item">
-                    <span class="stat-number" id="regionCount">9</span>
-                    <span class="stat-label">регионов</span>
+                    <div>
+                        <span class="stat-number" id="regionCount">9</span>
+                        <span class="stat-label">регионов</span>
+                    </div>
                 </div>
                 <div class="stat-item">
-                    <span class="stat-number" id="pokemonCount">905</span>
-                    <span class="stat-label">покемонов</span>
+                    <div>
+                        <span class="stat-number" id="locationCount">0</span>
+                        <span class="stat-label">локаций</span>
+                    </div>
                 </div>
                 <div class="stat-item">
-                    <span class="stat-number" id="locationCount">247</span>
-                    <span class="stat-label">локаций</span>
+                    <div>
+                        <span class="stat-number" id="pokemonCount">0</span>
+                        <span class="stat-label">покемонов</span>
+                    </div>
                 </div>
             </div>
         </header>
@@ -470,10 +644,10 @@
             </h2>
             
             <div class="world-map-container">
-                <!-- SVG КАРТА (рисуется JavaScript) -->
+                <!-- SVG карта рисуется через map-renderer.js -->
                 <svg id="worldMap" viewBox="0 0 800 600"></svg>
                 
-                <!-- КОНТРОЛЫ КАРТЫ -->
+                <!-- Контролы карты -->
                 <div class="map-controls">
                     <button class="control-btn" id="zoomIn" title="Увеличить">
                         <i class="fas fa-search-plus"></i>
@@ -487,19 +661,14 @@
                 </div>
             </div>
             
-            <!-- ЛЕГЕНДА -->
             <div class="legend">
                 <div class="legend-item">
                     <div class="legend-color available"></div>
-                    <span class="legend-text">Доступен</span>
+                    <span class="legend-text">Доступен для посещения</span>
                 </div>
                 <div class="legend-item">
                     <div class="legend-color soon"></div>
-                    <span class="legend-text">Скоро</span>
-                </div>
-                <div class="legend-item">
-                    <div class="legend-color planned"></div>
-                    <span class="legend-text">В планах</span>
+                    <span class="legend-text">Скоро будет доступен</span>
                 </div>
             </div>
         </section>
@@ -512,7 +681,7 @@
             </h2>
             
             <div class="regions-grid" id="regionsGrid">
-                <!-- Регионы будут добавлены через JavaScript -->
+                <!-- Регионы добавляются через JavaScript -->
             </div>
         </section>
 
@@ -520,585 +689,62 @@
         <section class="search-section">
             <h2 class="section-title">
                 <i class="fas fa-search"></i>
-                Поиск покемонов
+                Поиск
             </h2>
+            
+            <div class="search-options">
+                <div class="search-option active" data-type="pokemon">
+                    <i class="fas fa-dragon"></i> Покемоны
+                </div>
+                <div class="search-option" data-type="item">
+                    <i class="fas fa-shopping-bag"></i> Предметы
+                </div>
+                <div class="search-option" data-type="location">
+                    <i class="fas fa-map-marker-alt"></i> Локации
+                </div>
+            </div>
             
             <div class="search-box">
                 <input type="text" 
                        id="pokemonSearch" 
                        class="search-input" 
-                       placeholder="Введите имя покемона или номер...">
+                       placeholder="Введите имя покемона, предмета или локации...">
                 <button class="search-btn" id="searchButton">
                     <i class="fas fa-search"></i>
                 </button>
             </div>
             
-            <p class="search-hint">Например: Pikachu, Charizard, #025</p>
+            <p class="search-hint">Например: Pikachu, Poké Ball, Viridian City</p>
         </section>
 
         <!-- ФУТЕР -->
         <footer class="footer">
-            <p>© 2023 Mapémon Project. Pokémon © Nintendo, Game Freak. Данный проект не является официальным.</p>
-            <p>Версия 0.1.0 | Данные обновляются</p>
+            <div class="footer-content">
+                <div class="footer-logo">
+                    <i class="fas fa-globe-americas"></i> Mapémon
+                </div>
+                
+                <div class="footer-author">
+                    Создано <span class="author-name">Ari San</span> 
+                    <span class="alias">(Your secret angel)</span>
+                </div>
+                
+                <div class="footer-disclaimer">
+                    <strong>Mapémon Project</strong> — интерактивная карта мира покемонов. 
+                    Pokémon © Nintendo, Game Freak. 
+                    Данный проект является фанатским и не связан с официальными правообладателями.
+                </div>
+                
+                <div class="footer-version">
+                    © 2026 Mapémon Project • Версия 0.1.0 • Данные собираются
+                </div>
+            </div>
         </footer>
     </div>
 
-    <!-- JavaScript -->
-    <script>
-        // ===== ДАННЫЕ РЕГИОНОВ =====
-        const regionsData = [
-            {
-                id: 'kanto',
-                name: 'Kanto',
-                title: 'Канто',
-                subtitle: 'Первый регион',
-                status: 'available',
-                icon: 'fas fa-mountain',
-                color: '#4ecdc4',
-                pokemonCount: 151,
-                locationCount: 30,
-                description: 'Классический регион, где всё начиналось. Дом для первых покемонов.',
-                coordinates: { x: 550, y: 250 },
-                shape: 'polygon',
-                points: [[550,250], [600,230], [620,240], [630,270], [610,290], [590,300], [570,290], [550,270]]
-            },
-            {
-                id: 'johto',
-                name: 'Johto',
-                title: 'Джото',
-                subtitle: 'Традиционный регион',
-                status: 'soon',
-                icon: 'fas fa-torii-gate',
-                color: '#ff6b6b',
-                pokemonCount: 100,
-                locationCount: 25,
-                description: 'Регион с богатой историей и традициями.',
-                coordinates: { x: 450, y: 200 },
-                shape: 'circle',
-                radius: 35
-            },
-            {
-                id: 'hoenn',
-                name: 'Hoenn',
-                title: 'Хоэнн',
-                subtitle: 'Океанский регион',
-                status: 'soon',
-                icon: 'fas fa-water',
-                color: '#ff6b6b',
-                pokemonCount: 135,
-                locationCount: 35,
-                description: 'Регион с обширными океанами и вулканами.',
-                coordinates: { x: 300, y: 150 },
-                shape: 'polygon',
-                points: [[300,150], [350,130], [380,140], [390,170], [360,190], [330,180], [310,160]]
-            },
-            {
-                id: 'sinnoh',
-                name: 'Sinnoh',
-                title: 'Синно',
-                subtitle: 'Мифический регион',
-                status: 'planned',
-                icon: 'fas fa-snowflake',
-                color: '#666',
-                pokemonCount: 107,
-                locationCount: 28,
-                description: 'Холодный регион с глубокой мифологией.',
-                coordinates: { x: 200, y: 100 },
-                shape: 'circle',
-                radius: 30
-            },
-            {
-                id: 'unova',
-                name: 'Unova',
-                title: 'Юнова',
-                subtitle: 'Урбанистический регион',
-                status: 'planned',
-                icon: 'fas fa-city',
-                color: '#666',
-                pokemonCount: 156,
-                locationCount: 32,
-                description: 'Современный регион, вдохновлённый Нью-Йорком.',
-                coordinates: { x: 150, y: 300 },
-                shape: 'rect',
-                width: 60,
-                height: 40
-            },
-            {
-                id: 'kalos',
-                name: 'Kalos',
-                title: 'Калос',
-                subtitle: 'Романтический регион',
-                status: 'planned',
-                icon: 'fas fa-chess-queen',
-                color: '#666',
-                pokemonCount: 72,
-                locationCount: 22,
-                description: 'Регион, вдохновлённый Францией.',
-                coordinates: { x: 100, y: 200 },
-                shape: 'polygon',
-                points: [[100,200], [150,180], [180,210], [150,240], [100,220]]
-            },
-            {
-                id: 'alola',
-                name: 'Alola',
-                title: 'Алола',
-                subtitle: 'Тропический регион',
-                status: 'planned',
-                icon: 'fas fa-umbrella-beach',
-                color: '#666',
-                pokemonCount: 86,
-                locationCount: 20,
-                description: 'Тропические острова.',
-                coordinates: { x: 700, y: 350 },
-                shape: 'circle',
-                radius: 25
-            },
-            {
-                id: 'galar',
-                name: 'Galar',
-                title: 'Галар',
-                subtitle: 'Индустриальный регион',
-                status: 'planned',
-                icon: 'fas fa-industry',
-                color: '#666',
-                pokemonCount: 89,
-                locationCount: 26,
-                description: 'Регион, вдохновлённый Великобританией.',
-                coordinates: { x: 50, y: 100 },
-                shape: 'rect',
-                width: 50,
-                height: 30
-            },
-            {
-                id: 'paldea',
-                name: 'Paldea',
-                title: 'Палдея',
-                subtitle: 'Открытый мир',
-                status: 'planned',
-                icon: 'fas fa-globe-americas',
-                color: '#666',
-                pokemonCount: 103,
-                locationCount: 40,
-                description: 'Обширный открытый мир.',
-                coordinates: { x: 50, y: 400 },
-                shape: 'polygon',
-                points: [[50,400], [100,380], [130,410], [100,440], [50,420]]
-            }
-        ];
-
-        // ===== ИНИЦИАЛИЗАЦИЯ =====
-        document.addEventListener('DOMContentLoaded', function() {
-            // Рисуем SVG карту
-            renderWorldMap();
-            
-            // Заполняем список регионов
-            renderRegionsList();
-            
-            // Настраиваем поиск
-            setupSearch();
-            
-            // Настраиваем управление картой
-            setupMapControls();
-        });
-
-        // ===== ОТРИСОВКА SVG КАРТЫ =====
-        function renderWorldMap() {
-            const svg = document.getElementById('worldMap');
-            if (!svg) return;
-            
-            // Очищаем SVG
-            svg.innerHTML = '';
-            
-            // Добавляем фон
-            const background = document.createElementNS('http://www.w3.org/2000/svg', 'rect');
-            background.setAttribute('width', '800');
-            background.setAttribute('height', '600');
-            background.setAttribute('fill', '#0d2b4e');
-            background.setAttribute('rx', '10');
-            svg.appendChild(background);
-            
-            // Рисуем сетку
-            drawGrid(svg);
-            
-            // Рисуем регионы
-            regionsData.forEach(region => {
-                drawRegion(svg, region);
-            });
-            
-            // Добавляем связи между регионами
-            drawConnections(svg);
-        }
-
-        // Сетка для карты
-        function drawGrid(svg) {
-            for (let x = 50; x < 800; x += 50) {
-                const line = document.createElementNS('http://www.w3.org/2000/svg', 'line');
-                line.setAttribute('x1', x);
-                line.setAttribute('y1', '0');
-                line.setAttribute('x2', x);
-                line.setAttribute('y2', '600');
-                line.setAttribute('stroke', 'rgba(255,255,255,0.1)');
-                line.setAttribute('stroke-width', '1');
-                svg.appendChild(line);
-            }
-            
-            for (let y = 50; y < 600; y += 50) {
-                const line = document.createElementNS('http://www.w3.org/2000/svg', 'line');
-                line.setAttribute('x1', '0');
-                line.setAttribute('y1', y);
-                line.setAttribute('x2', '800');
-                line.setAttribute('y2', y);
-                line.setAttribute('stroke', 'rgba(255,255,255,0.1)');
-                line.setAttribute('stroke-width', '1');
-                svg.appendChild(line);
-            }
-        }
-
-        // Рисуем один регион
-        function drawRegion(svg, region) {
-            const group = document.createElementNS('http://www.w3.org/2000/svg', 'g');
-            group.setAttribute('class', `region-svg ${region.status}`);
-            group.setAttribute('data-region', region.id);
-            group.style.cursor = region.status === 'available' ? 'pointer' : 'default';
-            
-            let shape;
-            
-            // Создаем форму региона
-            switch (region.shape) {
-                case 'circle':
-                    shape = document.createElementNS('http://www.w3.org/2000/svg', 'circle');
-                    shape.setAttribute('cx', region.coordinates.x);
-                    shape.setAttribute('cy', region.coordinates.y);
-                    shape.setAttribute('r', region.radius);
-                    break;
-                    
-                case 'rect':
-                    shape = document.createElementNS('http://www.w3.org/2000/svg', 'rect');
-                    shape.setAttribute('x', region.coordinates.x - region.width/2);
-                    shape.setAttribute('y', region.coordinates.y - region.height/2);
-                    shape.setAttribute('width', region.width);
-                    shape.setAttribute('height', region.height);
-                    shape.setAttribute('rx', '5');
-                    shape.setAttribute('ry', '5');
-                    break;
-                    
-                case 'polygon':
-                    shape = document.createElementNS('http://www.w3.org/2000/svg', 'polygon');
-                    const points = region.points.map(p => p.join(',')).join(' ');
-                    shape.setAttribute('points', points);
-                    break;
-            }
-            
-            // Стили формы
-            shape.setAttribute('fill', region.color);
-            shape.setAttribute('stroke', '#fff');
-            shape.setAttribute('stroke-width', '2');
-            shape.setAttribute('opacity', region.status === 'available' ? '0.9' : '0.7');
-            
-            // Анимация при наведении
-            shape.addEventListener('mouseenter', () => {
-                if (region.status === 'available') {
-                    shape.setAttribute('filter', 'url(#glow)');
-                    shape.setAttribute('transform', 'scale(1.05)');
-                }
-            });
-            
-            shape.addEventListener('mouseleave', () => {
-                shape.removeAttribute('filter');
-                shape.removeAttribute('transform');
-            });
-            
-            // Клик по региону
-            shape.addEventListener('click', () => {
-                if (region.status === 'available') {
-                    window.location.href = `pages/${region.id}.html`;
-                } else {
-                    showNotification(`Регион "${region.title}" скоро будет доступен!`, 'info');
-                }
-            });
-            
-            group.appendChild(shape);
-            
-            // Добавляем текст с названием
-            const text = document.createElementNS('http://www.w3.org/2000/svg', 'text');
-            text.setAttribute('x', region.coordinates.x);
-            text.setAttribute('y', region.coordinates.y + 5);
-            text.setAttribute('text-anchor', 'middle');
-            text.setAttribute('fill', 'white');
-            text.setAttribute('font-size', '12');
-            text.setAttribute('font-weight', 'bold');
-            text.setAttribute('pointer-events', 'none');
-            text.textContent = region.name;
-            
-            group.appendChild(text);
-            svg.appendChild(group);
-            
-            // Добавляем эффект свечения
-            if (!document.getElementById('glowFilter')) {
-                const defs = document.createElementNS('http://www.w3.org/2000/svg', 'defs');
-                const filter = document.createElementNS('http://www.w3.org/2000/svg', 'filter');
-                filter.setAttribute('id', 'glow');
-                
-                const feGaussianBlur = document.createElementNS('http://www.w3.org/2000/svg', 'feGaussianBlur');
-                feGaussianBlur.setAttribute('stdDeviation', '3.5');
-                feGaussianBlur.setAttribute('result', 'coloredBlur');
-                
-                const feMerge = document.createElementNS('http://www.w3.org/2000/svg', 'feMerge');
-                const feMergeNode1 = document.createElementNS('http://www.w3.org/2000/svg', 'feMergeNode');
-                feMergeNode1.setAttribute('in', 'coloredBlur');
-                const feMergeNode2 = document.createElementNS('http://www.w3.org/2000/svg', 'feMergeNode');
-                feMergeNode2.setAttribute('in', 'SourceGraphic');
-                
-                feMerge.appendChild(feMergeNode1);
-                feMerge.appendChild(feMergeNode2);
-                filter.appendChild(feGaussianBlur);
-                filter.appendChild(feMerge);
-                defs.appendChild(filter);
-                svg.appendChild(defs);
-            }
-        }
-
-        // Рисуем связи между регионами
-        function drawConnections(svg) {
-            // Связь между Канто и Джото
-            const connection1 = document.createElementNS('http://www.w3.org/2000/svg', 'line');
-            connection1.setAttribute('x1', '550');
-            connection1.setAttribute('y1', '250');
-            connection1.setAttribute('x2', '450');
-            connection1.setAttribute('y2', '200');
-            connection1.setAttribute('stroke', 'rgba(255,255,255,0.3)');
-            connection1.setAttribute('stroke-width', '2');
-            connection1.setAttribute('stroke-dasharray', '5,5');
-            svg.appendChild(connection1);
-            
-            // Связь между Джото и Хоэнн
-            const connection2 = document.createElementNS('http://www.w3.org/2000/svg', 'line');
-            connection2.setAttribute('x1', '450');
-            connection2.setAttribute('y1', '200');
-            connection2.setAttribute('x2', '300');
-            connection2.setAttribute('y2', '150');
-            connection2.setAttribute('stroke', 'rgba(255,255,255,0.3)');
-            connection2.setAttribute('stroke-width', '2');
-            connection2.setAttribute('stroke-dasharray', '5,5');
-            svg.appendChild(connection2);
-        }
-
-        // ===== СПИСОК РЕГИОНОВ =====
-        function renderRegionsList() {
-            const grid = document.getElementById('regionsGrid');
-            if (!grid) return;
-            
-            grid.innerHTML = '';
-            
-            regionsData.forEach(region => {
-                const card = document.createElement('div');
-                card.className = `region-card ${region.status}`;
-                card.innerHTML = `
-                    <div class="region-header">
-                        <div class="region-icon">
-                            <i class="${region.icon}"></i>
-                        </div>
-                        <div>
-                            <h3 class="region-title">${region.title}</h3>
-                            <p class="region-subtitle">${region.subtitle}</p>
-                        </div>
-                    </div>
-                    
-                    <p style="color: #a0a0c0; margin: 15px 0; font-size: 0.9rem;">
-                        ${region.description}
-                    </p>
-                    
-                    <div class="region-stats">
-                        <div class="region-stat">
-                            <i class="fas fa-dragon"></i>
-                            <span>${region.pokemonCount} покемонов</span>
-                        </div>
-                        <div class="region-stat">
-                            <i class="fas fa-map-marker-alt"></i>
-                            <span>${region.locationCount} локаций</span>
-                        </div>
-                    </div>
-                    
-                    ${region.status === 'available' 
-                        ? `<a href="pages/${region.id}.html" class="region-btn">
-                              <i class="fas fa-arrow-right"></i> Посетить
-                           </a>`
-                        : `<button class="region-btn" disabled>
-                              <i class="fas fa-clock"></i> ${region.status === 'soon' ? 'Скоро' : 'В планах'}
-                           </button>`
-                    }
-                `;
-                
-                grid.appendChild(card);
-            });
-            
-            // Обновляем статистику в шапке
-            updateHeaderStats();
-        }
-
-        // Обновляем статистику в шапке
-        function updateHeaderStats() {
-            document.getElementById('regionCount').textContent = regionsData.length;
-            
-            const totalPokemon = regionsData.reduce((sum, region) => sum + region.pokemonCount, 0);
-            document.getElementById('pokemonCount').textContent = totalPokemon;
-            
-            const totalLocations = regionsData.reduce((sum, region) => sum + region.locationCount, 0);
-            document.getElementById('locationCount').textContent = totalLocations;
-        }
-
-        // ===== ПОИСК =====
-        function setupSearch() {
-            const searchInput = document.getElementById('pokemonSearch');
-            const searchButton = document.getElementById('searchButton');
-            
-            if (!searchInput || !searchButton) return;
-            
-            const performSearch = () => {
-                const query = searchInput.value.trim();
-                if (!query) return;
-                
-                showNotification(`Поиск: "${query}" - функция скоро будет доступна!`, 'info');
-                searchInput.value = '';
-            };
-            
-            searchButton.addEventListener('click', performSearch);
-            searchInput.addEventListener('keypress', (e) => {
-                if (e.key === 'Enter') performSearch();
-            });
-        }
-
-        // ===== УПРАВЛЕНИЕ КАРТОЙ =====
-        function setupMapControls() {
-            const svg = document.getElementById('worldMap');
-            const zoomInBtn = document.getElementById('zoomIn');
-            const zoomOutBtn = document.getElementById('zoomOut');
-            const resetBtn = document.getElementById('resetView');
-            
-            if (!svg || !zoomInBtn || !zoomOutBtn || !resetBtn) return;
-            
-            let scale = 1;
-            const minScale = 0.5;
-            const maxScale = 3;
-            
-            const updateScale = () => {
-                svg.style.transform = `scale(${scale})`;
-                svg.style.transformOrigin = 'center';
-            };
-            
-            zoomInBtn.addEventListener('click', () => {
-                if (scale < maxScale) {
-                    scale += 0.2;
-                    updateScale();
-                }
-            });
-            
-            zoomOutBtn.addEventListener('click', () => {
-                if (scale > minScale) {
-                    scale -= 0.2;
-                    updateScale();
-                }
-            });
-            
-            resetBtn.addEventListener('click', () => {
-                scale = 1;
-                updateScale();
-            });
-        }
-
-        // ===== УВЕДОМЛЕНИЯ =====
-        function showNotification(message, type = 'info') {
-            // Удаляем старое уведомление
-            const oldNotification = document.querySelector('.notification');
-            if (oldNotification) {
-                oldNotification.remove();
-            }
-            
-            // Создаем новое
-            const notification = document.createElement('div');
-            notification.className = 'notification';
-            notification.innerHTML = `
-                <i class="fas fa-${type === 'info' ? 'info-circle' : 'check-circle'}"></i>
-                <span>${message}</span>
-            `;
-            
-            document.body.appendChild(notification);
-            
-            // Удаляем через 3 секунды
-            setTimeout(() => {
-                if (notification.parentNode) {
-                    notification.remove();
-                }
-            }, 3000);
-        }
-
-        // ===== ДРАГ & ДРОП ДЛЯ КАРТЫ =====
-        (function setupMapDrag() {
-            const svg = document.getElementById('worldMap');
-            if (!svg) return;
-            
-            let isDragging = false;
-            let startX, startY;
-            let translateX = 0, translateY = 0;
-            let currentTranslateX = 0, currentTranslateY = 0;
-            
-            svg.addEventListener('mousedown', (e) => {
-                isDragging = true;
-                startX = e.clientX - currentTranslateX;
-                startY = e.clientY - currentTranslateY;
-                svg.style.cursor = 'grabbing';
-            });
-            
-            document.addEventListener('mousemove', (e) => {
-                if (!isDragging) return;
-                
-                e.preventDefault();
-                translateX = e.clientX - startX;
-                translateY = e.clientY - startY;
-                
-                svg.style.transform = `translate(${translateX}px, ${translateY}px) scale(${getCurrentScale()})`;
-            });
-            
-            document.addEventListener('mouseup', () => {
-                if (isDragging) {
-                    isDragging = false;
-                    currentTranslateX = translateX;
-                    currentTranslateY = translateY;
-                    svg.style.cursor = 'grab';
-                }
-            });
-            
-            // Для touch-устройств
-            svg.addEventListener('touchstart', (e) => {
-                isDragging = true;
-                startX = e.touches[0].clientX - currentTranslateX;
-                startY = e.touches[0].clientY - currentTranslateY;
-            });
-            
-            document.addEventListener('touchmove', (e) => {
-                if (!isDragging) return;
-                
-                e.preventDefault();
-                translateX = e.touches[0].clientX - startX;
-                translateY = e.touches[0].clientY - startY;
-                
-                svg.style.transform = `translate(${translateX}px, ${translateY}px) scale(${getCurrentScale()})`;
-            });
-            
-            document.addEventListener('touchend', () => {
-                if (isDragging) {
-                    isDragging = false;
-                    currentTranslateX = translateX;
-                    currentTranslateY = translateY;
-                }
-            });
-            
-            function getCurrentScale() {
-                const transform = svg.style.transform;
-                const match = transform.match(/scale\(([\d.]+)\)/);
-                return match ? parseFloat(match[1]) : 1;
-            }
-        })();
-    </script>
+    <!-- JavaScript файлы -->
+    <script src="js/map-data.js"></script>      <!-- Данные регионов -->
+    <script src="js/map-renderer.js"></script>  <!-- Отрисовка SVG карты -->
+    <script src="js/main.js"></script>          <!-- Основная логика -->
 </body>
 </html>
