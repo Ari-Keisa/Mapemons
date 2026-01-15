@@ -1,1 +1,772 @@
 
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Канто - Mapémon</title>
+    <link rel="stylesheet" href="../css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        /* ===== БАЗОВЫЕ СТИЛИ ===== */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary: #4ecdc4;
+            --accent: #ff6b6b;
+            --bg-dark: #0f0c29;
+            --bg-medium: #302b63;
+            --bg-light: #24243e;
+            --text-light: #ffffff;
+            --text-muted: #a0a0c0;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, sans-serif;
+            background: linear-gradient(135deg, var(--bg-dark) 0%, var(--bg-medium) 50%, var(--bg-light) 100%);
+            color: var(--text-light);
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        /* ===== КНОПКА НАЗАД ===== */
+        .back-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            color: var(--primary);
+            text-decoration: none;
+            margin-bottom: 30px;
+            padding: 10px 20px;
+            background: rgba(20, 20, 40, 0.7);
+            border-radius: 50px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            transition: all 0.3s ease;
+        }
+
+        .back-link:hover {
+            background: var(--primary);
+            color: white;
+            transform: translateX(-5px);
+            box-shadow: 0 5px 15px rgba(78, 205, 196, 0.3);
+        }
+
+        /* ===== ШАПКА РЕГИОНА ===== */
+        .region-header {
+            text-align: center;
+            padding: 40px 0;
+            background: rgba(20, 20, 40, 0.7);
+            border-radius: 20px;
+            border: 2px solid var(--primary);
+            margin-bottom: 40px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .region-header::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 5px;
+            background: linear-gradient(90deg, var(--primary), var(--accent));
+            animation: shimmer 3s infinite;
+        }
+
+        @keyframes shimmer {
+            0% { background-position: -200px 0; }
+            100% { background-position: calc(200px + 100%) 0; }
+        }
+
+        .region-icon {
+            font-size: 4rem;
+            color: var(--primary);
+            margin-bottom: 20px;
+            animation: float 3s ease-in-out infinite;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-15px); }
+        }
+
+        .region-header h1 {
+            font-size: 3.5rem;
+            margin-bottom: 10px;
+            background: linear-gradient(90deg, var(--primary), var(--accent));
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+
+        .region-subtitle {
+            font-size: 1.2rem;
+            color: var(--text-muted);
+            max-width: 600px;
+            margin: 0 auto;
+            line-height: 1.6;
+        }
+
+        /* ===== COMING SOON БЛОК ===== */
+        .coming-soon {
+            background: rgba(20, 20, 40, 0.9);
+            border-radius: 20px;
+            padding: 50px;
+            text-align: center;
+            border: 2px solid transparent;
+            position: relative;
+            overflow: hidden;
+            margin-bottom: 40px;
+            animation: borderGlow 4s infinite alternate;
+        }
+
+        @keyframes borderGlow {
+            0% {
+                border-color: var(--primary);
+                box-shadow: 0 0 30px rgba(78, 205, 196, 0.3);
+            }
+            100% {
+                border-color: var(--accent);
+                box-shadow: 0 0 30px rgba(255, 107, 107, 0.3);
+            }
+        }
+
+        .coming-soon::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: linear-gradient(
+                45deg,
+                transparent 30%,
+                rgba(78, 205, 196, 0.1) 50%,
+                transparent 70%
+            );
+            animation: shine 6s infinite linear;
+        }
+
+        @keyframes shine {
+            0% { transform: translateX(-100%) translateY(-100%) rotate(45deg); }
+            100% { transform: translateX(100%) translateY(100%) rotate(45deg); }
+        }
+
+        .coming-icon {
+            font-size: 5rem;
+            margin-bottom: 30px;
+            background: linear-gradient(90deg, var(--primary), var(--accent));
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            display: inline-block;
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+        }
+
+        .coming-title {
+            font-size: 2.5rem;
+            margin-bottom: 20px;
+            color: var(--primary);
+        }
+
+        .coming-text {
+            font-size: 1.1rem;
+            color: var(--text-muted);
+            margin-bottom: 30px;
+            line-height: 1.6;
+            max-width: 700px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        /* ===== ПРОГРЕСС БАР ===== */
+        .progress-section {
+            background: rgba(20, 20, 40, 0.7);
+            border-radius: 20px;
+            padding: 30px;
+            margin-bottom: 40px;
+        }
+
+        .progress-title {
+            font-size: 1.5rem;
+            color: var(--primary);
+            margin-bottom: 20px;
+            text-align: center;
+        }
+
+        .progress-item {
+            margin-bottom: 25px;
+        }
+
+        .progress-label {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 8px;
+            font-size: 1rem;
+        }
+
+        .progress-bar {
+            height: 10px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 5px;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, var(--primary), var(--accent));
+            border-radius: 5px;
+            width: 0;
+            animation: fillProgress 2s ease-out forwards;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .progress-fill::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(
+                90deg,
+                transparent,
+                rgba(255, 255, 255, 0.4),
+                transparent
+            );
+            animation: shimmerProgress 2s infinite;
+        }
+
+        @keyframes fillProgress {
+            to { width: var(--progress-width); }
+        }
+
+        @keyframes shimmerProgress {
+            0% { transform: translateX(-100%); }
+            100% { transform: translateX(200%); }
+        }
+
+        /* ===== ЧТО БУДЕТ ===== */
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 25px;
+            margin-top: 30px;
+        }
+
+        .feature-card {
+            background: rgba(30, 30, 60, 0.8);
+            border-radius: 15px;
+            padding: 25px;
+            text-align: center;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            transition: all 0.3s ease;
+        }
+
+        .feature-card:hover {
+            transform: translateY(-10px);
+            border-color: var(--primary);
+            box-shadow: 0 15px 30px rgba(78, 205, 196, 0.2);
+        }
+
+        .feature-icon {
+            font-size: 2.5rem;
+            color: var(--primary);
+            margin-bottom: 15px;
+        }
+
+        .feature-title {
+            font-size: 1.2rem;
+            margin-bottom: 10px;
+            color: var(--text-light);
+        }
+
+        .feature-desc {
+            color: var(--text-muted);
+            font-size: 0.9rem;
+            line-height: 1.5;
+        }
+
+        /* ===== ТАЙМЕР (опционально) ===== */
+        .countdown {
+            background: rgba(20, 20, 40, 0.7);
+            border-radius: 20px;
+            padding: 30px;
+            text-align: center;
+            margin-bottom: 40px;
+            border: 2px solid var(--primary);
+        }
+
+        .countdown-title {
+            font-size: 1.5rem;
+            color: var(--primary);
+            margin-bottom: 20px;
+        }
+
+        .timer {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            flex-wrap: wrap;
+        }
+
+        .time-unit {
+            background: rgba(78, 205, 196, 0.1);
+            padding: 20px;
+            border-radius: 10px;
+            min-width: 80px;
+        }
+
+        .time-number {
+            font-size: 2.5rem;
+            font-weight: bold;
+            color: var(--primary);
+            display: block;
+        }
+
+        .time-label {
+            font-size: 0.9rem;
+            color: var(--text-muted);
+            margin-top: 5px;
+        }
+
+        /* ===== ФУТЕР СТРАНИЦЫ ===== */
+        .page-footer {
+            text-align: center;
+            padding: 30px 0;
+            color: var(--text-muted);
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            margin-top: 40px;
+        }
+
+        .page-footer a {
+            color: var(--primary);
+            text-decoration: none;
+        }
+
+        .page-footer a:hover {
+            text-decoration: underline;
+        }
+
+        /* ===== АДАПТИВНОСТЬ ===== */
+        @media (max-width: 768px) {
+            .region-header h1 {
+                font-size: 2.5rem;
+            }
+            
+            .region-icon {
+                font-size: 3rem;
+            }
+            
+            .coming-soon {
+                padding: 30px 20px;
+            }
+            
+            .coming-title {
+                font-size: 2rem;
+            }
+            
+            .coming-icon {
+                font-size: 4rem;
+            }
+            
+            .timer {
+                gap: 10px;
+            }
+            
+            .time-unit {
+                min-width: 70px;
+                padding: 15px;
+            }
+            
+            .time-number {
+                font-size: 2rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .region-header h1 {
+                font-size: 2rem;
+            }
+            
+            .features-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .timer {
+                flex-direction: column;
+                align-items: center;
+            }
+            
+            .time-unit {
+                width: 100%;
+                max-width: 200px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- КНОПКА НАЗАД -->
+        <a href="../index.html" class="back-link">
+            <i class="fas fa-arrow-left"></i> Вернуться к карте мира
+        </a>
+
+        <!-- ШАПКА РЕГИОНА -->
+        <div class="region-header">
+            <div class="region-icon">
+                <i class="fas fa-mountain"></i>
+            </div>
+            <h1 id="regionName">Канто</h1>
+            <p class="region-subtitle" id="regionDescription">
+                Классический регион, где всё начиналось. Дом для первых покемонов и тренеров.
+            </p>
+        </div>
+
+        <!-- COMING SOON -->
+        <div class="coming-soon">
+            <div class="coming-icon">
+                <i class="fas fa-tools"></i>
+            </div>
+            <h2 class="coming-title">Страница в разработке</h2>
+            <p class="coming-text">
+                Мы активно работаем над созданием детальной интерактивной карты этого региона.
+                Скоро здесь появятся все города, маршруты, пещеры и информация о покемонах!
+            </p>
+            
+            <!-- ТАЙМЕР -->
+            <div class="countdown">
+                <h3 class="countdown-title">До запуска осталось:</h3>
+                <div class="timer">
+                    <div class="time-unit">
+                        <span class="time-number" id="days">14</span>
+                        <span class="time-label">дней</span>
+                    </div>
+                    <div class="time-unit">
+                        <span class="time-number" id="hours">06</span>
+                        <span class="time-label">часов</span>
+                    </div>
+                    <div class="time-unit">
+                        <span class="time-number" id="minutes">45</span>
+                        <span class="time-label">минут</span>
+                    </div>
+                    <div class="time-unit">
+                        <span class="time-number" id="seconds">22</span>
+                        <span class="time-label">секунд</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- ПРОГРЕСС РАЗРАБОТКИ -->
+        <div class="progress-section">
+            <h3 class="progress-title">Прогресс разработки</h3>
+            
+            <div class="progress-item">
+                <div class="progress-label">
+                    <span>Сбор данных о локациях</span>
+                    <span>65%</span>
+                </div>
+                <div class="progress-bar">
+                    <div class="progress-fill" style="--progress-width: 65%;"></div>
+                </div>
+            </div>
+            
+            <div class="progress-item">
+                <div class="progress-label">
+                    <span>Информация о покемонах</span>
+                    <span>40%</span>
+                </div>
+                <div class="progress-bar">
+                    <div class="progress-fill" style="--progress-width: 40%;"></div>
+                </div>
+            </div>
+            
+            <div class="progress-item">
+                <div class="progress-label">
+                    <span>Создание интерактивной карты</span>
+                    <span>25%</span>
+                </div>
+                <div class="progress-bar">
+                    <div class="progress-fill" style="--progress-width: 25%;"></div>
+                </div>
+            </div>
+            
+            <div class="progress-item">
+                <div class="progress-label">
+                    <span>Дизайн и анимации</span>
+                    <span>80%</span>
+                </div>
+                <div class="progress-bar">
+                    <div class="progress-fill" style="--progress-width: 80%;"></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- ЧТО БУДЕТ НА СТРАНИЦЕ -->
+        <div class="progress-section">
+            <h3 class="progress-title">Что будет на странице региона</h3>
+            
+            <div class="features-grid">
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-map-marked-alt"></i>
+                    </div>
+                    <h4 class="feature-title">Интерактивная карта</h4>
+                    <p class="feature-desc">
+                        Детальная карта с городами, маршрутами и достопримечательностями
+                    </p>
+                </div>
+                
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-dragon"></i>
+                    </div>
+                    <h4 class="feature-title">База покемонов</h4>
+                    <p class="feature-desc">
+                        Полная информация о покемонах региона, местах обитания и эволюциях
+                    </p>
+                </div>
+                
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-search"></i>
+                    </div>
+                    <h4 class="feature-title">Умный поиск</h4>
+                    <p class="feature-desc">
+                        Поиск покемонов, предметов и локаций с фильтрами
+                    </p>
+                </div>
+                
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-route"></i>
+                    </div>
+                    <h4 class="feature-title">Маршруты передвижения</h4>
+                    <p class="feature-desc">
+                        Оптимальные пути между локациями с указанием расстояний
+                    </p>
+                </div>
+            </div>
+        </div>
+
+        <!-- ФУТЕР -->
+        <div class="page-footer">
+            <p>© 2026 Mapémon Project • Страница региона <span id="footerRegionName">Канто</span></p>
+            <p>Следите за обновлениями в <a href="../index.html">основном проекте</a></p>
+        </div>
+    </div>
+
+    <!-- JavaScript для таймера и динамического контента -->
+    <script>
+        // Данные регионов
+        const regionData = {
+            kanto: {
+                name: "Канто",
+                description: "Классический регион, где всё начиналось. Дом для первых покемонов и тренеров.",
+                icon: "fas fa-mountain",
+                color: "#4ecdc4"
+            },
+            johto: {
+                name: "Джото",
+                description: "Регион с богатой историей и традициями. Связан с Канто через горы.",
+                icon: "fas fa-torii-gate",
+                color: "#4ecdc4"
+            },
+            hoenn: {
+                name: "Хоэнн",
+                description: "Регион с обширными океанами и вулканами. Дом для Team Magma и Team Aqua.",
+                icon: "fas fa-water",
+                color: "#4ecdc4"
+            },
+            sinnoh: {
+                name: "Синно",
+                description: "Холодный регион с глубокой мифологией. Место рождения покемонов.",
+                icon: "fas fa-snowflake",
+                color: "#4ecdc4"
+            },
+            unova: {
+                name: "Юнова",
+                description: "Современный регион, вдохновлённый Нью-Йорком. Много городских локаций.",
+                icon: "fas fa-city",
+                color: "#4ecdc4"
+            }
+        };
+
+        // Определяем текущий регион из URL
+        function getCurrentRegion() {
+            const path = window.location.pathname;
+            const filename = path.split('/').pop();
+            return filename.replace('.html', '');
+        }
+
+        // Обновляем контент страницы в зависимости от региона
+        function updatePageForRegion() {
+            const regionId = getCurrentRegion();
+            const region = regionData[regionId];
+            
+            if (!region) return;
+            
+            // Обновляем заголовок страницы
+            document.title = `${region.name} - Mapémon`;
+            
+            // Обновляем иконку
+            const iconElement = document.querySelector('.region-icon i');
+            if (iconElement) {
+                iconElement.className = region.icon;
+            }
+            
+            // Обновляем название региона
+            const nameElements = document.querySelectorAll('#regionName, #footerRegionName');
+            nameElements.forEach(el => {
+                el.textContent = region.name;
+            });
+            
+            // Обновляем описание
+            const descElement = document.getElementById('regionDescription');
+            if (descElement) {
+                descElement.textContent = region.description;
+            }
+            
+            // Обновляем цвет акцента если нужно
+            if (region.color) {
+                document.documentElement.style.setProperty('--primary', region.color);
+            }
+        }
+
+        // Таймер обратного отсчёта
+        function updateCountdown() {
+            // Устанавливаем дату запуска (например, через 14 дней)
+            const launchDate = new Date();
+            launchDate.setDate(launchDate.getDate() + 14);
+            
+            function update() {
+                const now = new Date();
+                const diff = launchDate - now;
+                
+                if (diff <= 0) {
+                    document.querySelector('.countdown-title').textContent = 'Запуск скоро!';
+                    document.querySelector('.timer').style.display = 'none';
+                    return;
+                }
+                
+                const days = Math.floor(diff / (1000 * 60 * 60 * 24));
+                const hours = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+                const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+                const seconds = Math.floor((diff % (1000 * 60)) / 1000);
+                
+                document.getElementById('days').textContent = days.toString().padStart(2, '0');
+                document.getElementById('hours').textContent = hours.toString().padStart(2, '0');
+                document.getElementById('minutes').textContent = minutes.toString().padStart(2, '0');
+                document.getElementById('seconds').textContent = seconds.toString().padStart(2, '0');
+            }
+            
+            update();
+            setInterval(update, 1000);
+        }
+
+        // Анимация прогресс-баров при прокрутке
+        function animateProgressBars() {
+            const progressBars = document.querySelectorAll('.progress-fill');
+            
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        const progressBar = entry.target;
+                        progressBar.style.animationDelay = '0.5s';
+                        progressBar.style.animationPlayState = 'running';
+                    }
+                });
+            }, { threshold: 0.5 });
+            
+            progressBars.forEach(bar => {
+                bar.style.animationPlayState = 'paused';
+                observer.observe(bar);
+            });
+        }
+
+        // Инициализация при загрузке
+        document.addEventListener('DOMContentLoaded', function() {
+            updatePageForRegion();
+            updateCountdown();
+            animateProgressBars();
+            
+            // Анимация появления элементов
+            const elements = document.querySelectorAll('.region-header, .coming-soon, .progress-section, .feature-card');
+            elements.forEach((el, index) => {
+                el.style.opacity = '0';
+                el.style.transform = 'translateY(20px)';
+                
+                setTimeout(() => {
+                    el.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
+                    el.style.opacity = '1';
+                    el.style.transform = 'translateY(0)';
+                }, index * 200);
+            });
+            
+            // Показать уведомление
+            setTimeout(() => {
+                const notification = document.createElement('div');
+                notification.className = 'notification';
+                notification.innerHTML = `
+                    <i class="fas fa-info-circle"></i>
+                    <span>Страница региона скоро будет обновлена с интерактивной картой!</span>
+                `;
+                notification.style.cssText = `
+                    position: fixed;
+                    bottom: 20px;
+                    right: 20px;
+                    background: rgba(78, 205, 196, 0.95);
+                    color: white;
+                    padding: 15px 25px;
+                    border-radius: 10px;
+                    z-index: 1000;
+                    animation: slideIn 0.3s ease;
+                    max-width: 300px;
+                    backdrop-filter: blur(10px);
+                    border: 1px solid rgba(255, 255, 255, 0.2);
+                `;
+                
+                const style = document.createElement('style');
+                style.textContent = `
+                    @keyframes slideIn {
+                        from { transform: translateX(100%); opacity: 0; }
+                        to { transform: translateX(0); opacity: 1; }
+                    }
+                `;
+                
+                document.head.appendChild(style);
+                document.body.appendChild(notification);
+                
+                setTimeout(() => {
+                    notification.style.animation = 'slideOut 0.3s ease forwards';
+                    setTimeout(() => {
+                        if (notification.parentNode) {
+                            notification.parentNode.removeChild(notification);
+                            document.head.removeChild(style);
+                        }
+                    }, 300);
+                }, 5000);
+            }, 2000);
+        });
+    </script>
+</body>
+</html>
