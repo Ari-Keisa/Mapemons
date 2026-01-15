@@ -1,4 +1,3 @@
-
 // main.js - Основная логика приложения
 
 // Инициализация при загрузке страницы
@@ -9,8 +8,8 @@ document.addEventListener('DOMContentLoaded', function() {
     // Заполняем список регионов
     renderRegionsList();
     
-    // Настраиваем поиск
-    setupSearch();
+    // Настраиваем поиск и переключение
+    setupSearchAndServices();
     
     // Настраиваем управление картой
     setupMapControls();
@@ -65,82 +64,103 @@ function renderRegionsList() {
                 </div>
             </div>
             
-            ${region.status === 'available' 
-                ? `<a href="pages/${region.id}.html" class="region-btn">
-                      <i class="fas fa-arrow-right"></i> Посетить
-                   </a>`
-                : `<button class="region-btn" disabled>
-                      <i class="fas fa-clock"></i> Скоро
-                   </button>`
-            }
+            <a href="pages/${region.id}.html" class="region-btn">
+                <i class="fas fa-arrow-right"></i> Посетить
+            </a>
         `;
         
         grid.appendChild(card);
     });
 }
 
-// Настраиваем поиск
-function setupSearch() {
+// Настраиваем поиск и сервисы
+function setupSearchAndServices() {
     const searchInput = document.getElementById('pokemonSearch');
     const searchButton = document.getElementById('searchButton');
+    const searchBox = document.getElementById('searchBox');
+    const searchHint = document.getElementById('searchHint');
     const searchOptions = document.querySelectorAll('.search-option');
+    const pokecenterList = document.getElementById('pokecenterList');
+    const pokemartList = document.getElementById('pokemartList');
     
-    if (!searchInput || !searchButton) return;
+    // Подсказки для разных типов поиска
+    const searchHints = {
+        pokemon: 'Например: Pikachu, Charizard, #025',
+        item: 'Например: Poké Ball, Potion, Black Belt, Charcoal',
+        pokecenter: 'Список всех покецентров по регионам',
+        pokemart: 'Список всех покемарктов по регионам'
+    };
     
-    // Переключение типа поиска
+    // Плейсхолдеры для поиска
+    const searchPlaceholders = {
+        pokemon: 'Введите имя покемона или номер...',
+        item: 'Введите название предмета...',
+        pokecenter: 'Покецентры всех регионов',
+        pokemart: 'Покемаркты всех регионов'
+    };
+    
+    // Функция переключения типа поиска/сервиса
+    function switchSearchType(type) {
+        // Обновляем активную кнопку
+        searchOptions.forEach(opt => opt.classList.remove('active'));
+        document.querySelector(`.search-option[data-type="${type}"]`).classList.add('active');
+        
+        // Обновляем подсказку
+        searchHint.textContent = searchHints[type];
+        
+        // Показываем/скрываем поле поиска и списки локаций
+        if (type === 'pokemon' || type === 'item') {
+            searchBox.classList.remove('hidden');
+            searchInput.placeholder = searchPlaceholders[type];
+            pokecenterList.classList.remove('active');
+            pokemartList.classList.remove('active');
+        } else if (type === 'pokecenter') {
+            searchBox.classList.add('hidden');
+            pokecenterList.classList.add('active');
+            pokemartList.classList.remove('active');
+        } else if (type === 'pokemart') {
+            searchBox.classList.add('hidden');
+            pokecenterList.classList.remove('active');
+            pokemartList.classList.add('active');
+        }
+    }
+    
+    // Обработчики для кнопок поиска/сервисов
     searchOptions.forEach(option => {
         option.addEventListener('click', function() {
-            searchOptions.forEach(opt => opt.classList.remove('active'));
-            this.classList.add('active');
-            
-            const searchType = this.getAttribute('data-type');
-            updateSearchPlaceholder(searchType);
+            const type = this.getAttribute('data-type');
+            switchSearchType(type);
         });
     });
     
-    // Функция поиска
-    const performSearch = () => {
+    // Функция поиска (для покемонов и предметов)
+    function performSearch() {
         const query = searchInput.value.trim();
         if (!query) return;
         
         const activeType = document.querySelector('.search-option.active').getAttribute('data-type');
-        const message = `Поиск ${getSearchTypeName(activeType)}: "${query}" - функция скоро будет доступна!`;
+        const typeNames = {
+            pokemon: 'покемонов',
+            item: 'предметов'
+        };
+        
+        const typeName = typeNames[activeType] || activeType;
+        const message = `Поиск ${typeName}: "${query}" - функция скоро будет доступна!`;
         
         showNotification(message, 'info');
         searchInput.value = '';
-    };
+    }
     
-    // Обработчики событий
-    searchButton.addEventListener('click', performSearch);
-    searchInput.addEventListener('keypress', (e) => {
-        if (e.key === 'Enter') performSearch();
-    });
+    // Обработчики событий для поиска
+    if (searchButton && searchInput) {
+        searchButton.addEventListener('click', performSearch);
+        searchInput.addEventListener('keypress', (e) => {
+            if (e.key === 'Enter') performSearch();
+        });
+    }
     
-    // Устанавливаем начальный плейсхолдер
-    updateSearchPlaceholder('pokemon');
-}
-
-function updateSearchPlaceholder(type) {
-    const searchInput = document.getElementById('pokemonSearch');
-    if (!searchInput) return;
-    
-    const placeholders = {
-        pokemon: 'Введите имя покемона или номер...',
-        item: 'Введите название предмета...',
-        location: 'Введите название локации...'
-    };
-    
-    searchInput.placeholder = placeholders[type] || placeholders.pokemon;
-}
-
-function getSearchTypeName(type) {
-    const names = {
-        pokemon: 'покемонов',
-        item: 'предметов',
-        location: 'локаций'
-    };
-    
-    return names[type] || 'покемонов';
+    // Устанавливаем начальный тип (покемоны)
+    switchSearchType('pokemon');
 }
 
 // Настраиваем управление картой
@@ -161,19 +181,18 @@ function updateStatistics() {
     if (!window.regionsData) return;
     
     const totalRegions = window.regionsData.length;
-    const availableRegions = window.regionsData.filter(r => r.status === 'available').length;
+    const totalLocations = window.regionsData.reduce((sum, region) => sum + region.locationCount, 0);
+    const totalPokemon = window.regionsData.reduce((sum, region) => sum + region.pokemonCount, 0);
     
     // Обновляем счетчики в шапке
     document.getElementById('regionCount').textContent = totalRegions;
-    document.getElementById('locationCount').textContent = '0'; // Пока 0
-    document.getElementById('pokemonCount').textContent = '0'; // Пока 0
+    document.getElementById('locationCount').textContent = totalLocations;
+    document.getElementById('pokemonCount').textContent = totalPokemon;
     
-    // Показываем уведомление о сборке данных
-    if (availableRegions === 1) {
-        setTimeout(() => {
-            showNotification('Сейчас в разработке: регион Канто. Данные собираются!', 'info');
-        }, 1000);
-    }
+    // Показываем уведомление
+    setTimeout(() => {
+        showNotification('Добро пожаловать в Mapémon! Начинаем с регионов Канто, Джото, Хоэнн, Синно и Юнова.', 'info');
+    }, 1000);
 }
 
 // Функция уведомлений
@@ -207,7 +226,7 @@ if (typeof module !== 'undefined' && module.exports) {
     module.exports = {
         initMap,
         renderRegionsList,
-        setupSearch,
+        setupSearchAndServices,
         setupMapControls,
         updateStatistics,
         showNotification
