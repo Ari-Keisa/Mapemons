@@ -260,30 +260,15 @@
             border-radius: 15px;
             padding: 22px;
             transition: all 0.3s ease;
-            border: 2px solid transparent;
+            border: 2px solid var(--primary);
             display: flex;
             flex-direction: column;
         }
 
-        .region-card.available {
-            border-color: var(--primary);
-        }
-
-        .region-card.available:hover {
+        .region-card:hover {
             transform: translateY(-8px);
             background: rgba(30, 30, 60, 0.95);
             box-shadow: 0 15px 30px rgba(78, 205, 196, 0.25);
-        }
-
-        .region-card.coming-soon {
-            border-color: var(--accent);
-            opacity: 0.85;
-        }
-
-        .region-card.coming-soon:hover {
-            transform: translateY(-5px);
-            opacity: 1;
-            background: rgba(30, 30, 60, 0.9);
         }
 
         .region-header {
@@ -303,10 +288,6 @@
             justify-content: center;
             font-size: 1.4rem;
             flex-shrink: 0;
-        }
-
-        .region-card.coming-soon .region-icon {
-            background: linear-gradient(135deg, var(--accent), #ff8e53);
         }
 
         .region-info {
@@ -332,6 +313,24 @@
             flex: 1;
         }
 
+        .region-stats {
+            display: flex;
+            gap: 15px;
+            margin: 15px 0;
+            font-size: 0.9rem;
+        }
+
+        .region-stat {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .region-stat i {
+            color: var(--primary);
+            font-size: 0.9rem;
+        }
+
         .region-btn {
             display: inline-flex;
             align-items: center;
@@ -351,15 +350,9 @@
             font-size: 0.95rem;
         }
 
-        .region-card.available .region-btn:hover {
+        .region-btn:hover {
             transform: scale(1.03);
             box-shadow: 0 5px 15px rgba(78, 205, 196, 0.3);
-        }
-
-        .region-card.coming-soon .region-btn {
-            background: var(--accent);
-            cursor: not-allowed;
-            opacity: 0.8;
         }
 
         /* ===== ПОИСК ===== */
@@ -615,13 +608,13 @@
                 </div>
                 <div class="stat-item">
                     <div>
-                        <span class="stat-number" id="locationCount">0</span>
+                        <span class="stat-number" id="locationCount">150</span>
                         <span class="stat-label">локаций</span>
                     </div>
                 </div>
                 <div class="stat-item">
                     <div>
-                        <span class="stat-number" id="pokemonCount">0</span>
+                        <span class="stat-number" id="pokemonCount">649</span>
                         <span class="stat-label">покемонов</span>
                     </div>
                 </div>
@@ -673,7 +666,165 @@
             </h2>
             
             <div class="regions-grid" id="regionsGrid">
-                <!-- Регионы добавляются через JavaScript -->
+                <!-- КАНТО -->
+                <div class="region-card">
+                    <div class="region-header">
+                        <div class="region-icon">
+                            <i class="fas fa-mountain"></i>
+                        </div>
+                        <div class="region-info">
+                            <h3 class="region-title">Канто</h3>
+                            <p class="region-subtitle">Первый регион</p>
+                        </div>
+                    </div>
+                    
+                    <p class="region-description">
+                        Классический регион, где всё начиналось. Дом для первых покемонов и тренеров.
+                    </p>
+                    
+                    <div class="region-stats">
+                        <div class="region-stat">
+                            <i class="fas fa-map-marker-alt"></i>
+                            <span>30 локаций</span>
+                        </div>
+                        <div class="region-stat">
+                            <i class="fas fa-dragon"></i>
+                            <span>151 покемон</span>
+                        </div>
+                    </div>
+                    
+                    <a href="pages/kanto.html" class="region-btn">
+                        <i class="fas fa-arrow-right"></i> Посетить
+                    </a>
+                </div>
+                
+                <!-- ДЖОТО -->
+                <div class="region-card">
+                    <div class="region-header">
+                        <div class="region-icon">
+                            <i class="fas fa-torii-gate"></i>
+                        </div>
+                        <div class="region-info">
+                            <h3 class="region-title">Джото</h3>
+                            <p class="region-subtitle">Традиционный регион</p>
+                        </div>
+                    </div>
+                    
+                    <p class="region-description">
+                        Регион с богатой историей и традициями. Связан с Канто через горы.
+                    </p>
+                    
+                    <div class="region-stats">
+                        <div class="region-stat">
+                            <i class="fas fa-map-marker-alt"></i>
+                            <span>25 локаций</span>
+                        </div>
+                        <div class="region-stat">
+                            <i class="fas fa-dragon"></i>
+                            <span>100 покемонов</span>
+                        </div>
+                    </div>
+                    
+                    <a href="pages/johto.html" class="region-btn">
+                        <i class="fas fa-arrow-right"></i> Посетить
+                    </a>
+                </div>
+                
+                <!-- ХОЭНН -->
+                <div class="region-card">
+                    <div class="region-header">
+                        <div class="region-icon">
+                            <i class="fas fa-water"></i>
+                        </div>
+                        <div class="region-info">
+                            <h3 class="region-title">Хоэнн</h3>
+                            <p class="region-subtitle">Океанский регион</p>
+                        </div>
+                    </div>
+                    
+                    <p class="region-description">
+                        Регион с обширными океанами и вулканами. Дом для Team Magma и Team Aqua.
+                    </p>
+                    
+                    <div class="region-stats">
+                        <div class="region-stat">
+                            <i class="fas fa-map-marker-alt"></i>
+                            <span>35 локаций</span>
+                        </div>
+                        <div class="region-stat">
+                            <i class="fas fa-dragon"></i>
+                            <span>135 покемонов</span>
+                        </div>
+                    </div>
+                    
+                    <a href="pages/hoenn.html" class="region-btn">
+                        <i class="fas fa-arrow-right"></i> Посетить
+                    </a>
+                </div>
+                
+                <!-- СИННО -->
+                <div class="region-card">
+                    <div class="region-header">
+                        <div class="region-icon">
+                            <i class="fas fa-snowflake"></i>
+                        </div>
+                        <div class="region-info">
+                            <h3 class="region-title">Синно</h3>
+                            <p class="region-subtitle">Мифический регион</p>
+                        </div>
+                    </div>
+                    
+                    <p class="region-description">
+                        Холодный регион с глубокой мифологией. Место рождения покемонов.
+                    </p>
+                    
+                    <div class="region-stats">
+                        <div class="region-stat">
+                            <i class="fas fa-map-marker-alt"></i>
+                            <span>28 локаций</span>
+                        </div>
+                        <div class="region-stat">
+                            <i class="fas fa-dragon"></i>
+                            <span>107 покемонов</span>
+                        </div>
+                    </div>
+                    
+                    <a href="pages/sinnoh.html" class="region-btn">
+                        <i class="fas fa-arrow-right"></i> Посетить
+                    </a>
+                </div>
+                
+                <!-- ЮНОВА -->
+                <div class="region-card">
+                    <div class="region-header">
+                        <div class="region-icon">
+                            <i class="fas fa-city"></i>
+                        </div>
+                        <div class="region-info">
+                            <h3 class="region-title">Юнова</h3>
+                            <p class="region-subtitle">Урбанистический регион</p>
+                        </div>
+                    </div>
+                    
+                    <p class="region-description">
+                        Современный регион, вдохновлённый Нью-Йорком. Много городских локаций.
+                    </p>
+                    
+                    <div class="region-stats">
+                        <div class="region-stat">
+                            <i class="fas fa-map-marker-alt"></i>
+                            <span>32 локации</span>
+                        </div>
+                        <div class="region-stat">
+                            <i class="fas fa-dragon"></i>
+                            <span>156 покемонов</span>
+                        </div>
+                    </div>
+                    
+                    <a href="pages/unova.html" class="region-btn">
+                        <i class="fas fa-arrow-right"></i> Посетить
+                    </a>
+                </div>
             </div>
         </section>
 
@@ -746,7 +897,56 @@
                     </div>
                 </div>
                 
-                <!-- Добавить остальные регионы по аналогии -->
+                <div class="region-locations">
+                    <h4><i class="fas fa-water"></i> Хоэнн</h4>
+                    <div class="locations-grid">
+                        <div class="location-item">Литлрут Таун</div>
+                        <div class="location-item">Олдэйл Таун</div>
+                        <div class="location-item">Петалбург-Сити</div>
+                        <div class="location-item">Растбор-Сити</div>
+                        <div class="location-item">Дьюфорд-Таун</div>
+                        <div class="location-item">Слейтпорт-Сити</div>
+                        <div class="location-item">Моссдип-Сити</div>
+                        <div class="location-item">Фортри-Сити</div>
+                        <div class="location-item">Лилликоув-Сити</div>
+                        <div class="location-item">Мов Слайт-Сити</div>
+                        <div class="location-item">Пасифидлог-Таун</div>
+                        <div class="location-item">Эвер Гранд-Сити</div>
+                    </div>
+                </div>
+                
+                <div class="region-locations">
+                    <h4><i class="fas fa-snowflake"></i> Синно</h4>
+                    <div class="locations-grid">
+                        <div class="location-item">Сэнджем Таун</div>
+                        <div class="location-item">Джубилайф-Сити</div>
+                        <div class="location-item">Оребург-Сити</div>
+                        <div class="location-item">Хартхом-Сити</div>
+                        <div class="location-item">Соласон-Сити</div>
+                        <div class="location-item">Вейлоун-Сити</div>
+                        <div class="location-item">Пастория-Сити</div>
+                        <div class="location-item">Кэналэйв-Сити</div>
+                        <div class="location-item">Сноупоинт-Сити</div>
+                        <div class="location-item">Саннишор-Сити</div>
+                    </div>
+                </div>
+                
+                <div class="region-locations">
+                    <h4><i class="fas fa-city"></i> Юнова</h4>
+                    <div class="locations-grid">
+                        <div class="location-item">Нувема Таун</div>
+                        <div class="location-item">Аккумла Таун</div>
+                        <div class="location-item">Страйатон-Сити</div>
+                        <div class="location-item">Накреане-Сити</div>
+                        <div class="location-item">Кастелия-Сити</div>
+                        <div class="location-item">Нимбаса-Сити</div>
+                        <div class="location-item">Анвил-Таун</div>
+                        <div class="location-item">Лакомс-Таун</div>
+                        <div class="location-item">Опелисид-Сити</div>
+                        <div class="location-item">Исисс-Сити</div>
+                        <div class="location-item">Н-Сити</div>
+                    </div>
+                </div>
             </div>
             
             <div class="locations-list" id="pokemartList">
@@ -781,7 +981,50 @@
                     </div>
                 </div>
                 
-                <!-- Добавить остальные регионы по аналогии -->
+                <div class="region-locations">
+                    <h4><i class="fas fa-water"></i> Хоэнн</h4>
+                    <div class="locations-grid">
+                        <div class="location-item">Петалбург-Сити</div>
+                        <div class="location-item">Растбор-Сити</div>
+                        <div class="location-item">Слейтпорт-Сити</div>
+                        <div class="location-item">Моссдип-Сити</div>
+                        <div class="location-item">Фортри-Сити</div>
+                        <div class="location-item">Лилликоув-Сити</div>
+                        <div class="location-item">Мов Слайт-Сити</div>
+                        <div class="location-item">Пасифидлог-Таун</div>
+                        <div class="location-item">Эвер Гранд-Сити</div>
+                    </div>
+                </div>
+                
+                <div class="region-locations">
+                    <h4><i class="fas fa-snowflake"></i> Синно</h4>
+                    <div class="locations-grid">
+                        <div class="location-item">Джубилайф-Сити</div>
+                        <div class="location-item">Оребург-Сити</div>
+                        <div class="location-item">Хартхом-Сити</div>
+                        <div class="location-item">Соласон-Сити</div>
+                        <div class="location-item">Вейлоун-Сити</div>
+                        <div class="location-item">Пастория-Сити</div>
+                        <div class="location-item">Кэналэйв-Сити</div>
+                        <div class="location-item">Сноупоинт-Сити</div>
+                        <div class="location-item">Саннишор-Сити</div>
+                    </div>
+                </div>
+                
+                <div class="region-locations">
+                    <h4><i class="fas fa-city"></i> Юнова</h4>
+                    <div class="locations-grid">
+                        <div class="location-item">Страйатон-Сити</div>
+                        <div class="location-item">Накреане-Сити</div>
+                        <div class="location-item">Кастелия-Сити</div>
+                        <div class="location-item">Нимбаса-Сити</div>
+                        <div class="location-item">Анвил-Таун</div>
+                        <div class="location-item">Лакомс-Таун</div>
+                        <div class="location-item">Опелисид-Сити</div>
+                        <div class="location-item">Исисс-Сити</div>
+                        <div class="location-item">Н-Сити</div>
+                    </div>
+                </div>
             </div>
         </section>
 
