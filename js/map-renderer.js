@@ -45,7 +45,7 @@ class MapRenderer {
     overlay.setAttribute('fill', 'rgba(13, 43, 78, 0.4)'); // 0.4 = 40% прозрачности
     overlay.setAttribute('rx', '10'); // скругленные углы
     this.svg.appendChild(overlay);
-}
+    }
     
     drawGrid() {
         // Вертикальные линии
