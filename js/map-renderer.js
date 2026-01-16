@@ -16,11 +16,11 @@ class MapRenderer {
     
     init() {
         this.clearMap();
-        this.drawBackground();
-        this.drawGrid();
-        this.drawRegions();
-        this.drawConnections();
-        this.setupInteractions();
+        this.drawBackground();    // 1. Фон с картинкой
+        this.drawGrid();          // 2. Сетка (полупрозрачная)
+        this.drawRegions();       // 3. Регионы
+        this.drawConnections();   // 4. Связи
+        this.setupInteractions(); // 5. Взаимодействие
     }
     
     clearMap() {
@@ -28,39 +28,39 @@ class MapRenderer {
     }
     
     drawBackground() {
-    // 1. Фоновая картинка (pokemap.png должна быть в корне)
-    const bgImage = document.createElementNS('http://www.w3.org/2000/svg', 'image');
-    bgImage.setAttribute('href', 'pokemap.png'); // ← имя твоей картинки
-    bgImage.setAttribute('width', '800');
-    bgImage.setAttribute('height', '600');
-    bgImage.setAttribute('x', '0');
-    bgImage.setAttribute('y', '0');
-    bgImage.setAttribute('preserveAspectRatio', 'xMidYMid meet');
-    this.svg.appendChild(bgImage);
-    
-    // 2. Полупрозрачный синий слой поверх картинки
-    const overlay = document.createElementNS('http://www.w3.org/2000/svg', 'rect');
-    overlay.setAttribute('width', '800');
-    overlay.setAttribute('height', '600');
-    overlay.setAttribute('fill', 'rgba(13, 43, 78, 0.4)'); // 0.4 = 40% прозрачности
-    overlay.setAttribute('rx', '10'); // скругленные углы
-    this.svg.appendChild(overlay);
+        // 1. ФОНОВАЯ КАРТИНКА (pokemap.png должна быть в корне проекта!)
+        const bgImage = document.createElementNS('http://www.w3.org/2000/svg', 'image');
+        bgImage.setAttribute('href', 'pokemap.png');
+        bgImage.setAttribute('width', '800');
+        bgImage.setAttribute('height', '600');
+        bgImage.setAttribute('x', '0');
+        bgImage.setAttribute('y', '0');
+        bgImage.setAttribute('preserveAspectRatio', 'xMidYMid meet');
+        this.svg.appendChild(bgImage);
+        
+        // 2. ТЁМНЫЙ ОВЕРЛЕЙ для контраста
+        const overlay = document.createElementNS('http://www.w3.org/2000/svg', 'rect');
+        overlay.setAttribute('width', '800');
+        overlay.setAttribute('height', '600');
+        overlay.setAttribute('fill', 'rgba(13, 43, 78, 0.4)'); // 40% прозрачности
+        overlay.setAttribute('rx', '10');
+        this.svg.appendChild(overlay);
     }
     
     drawGrid() {
-        // Вертикальные линии
+        // ВЕРТИКАЛЬНЫЕ ЛИНИИ (еле видные)
         for (let x = 50; x < 800; x += 50) {
             const line = document.createElementNS('http://www.w3.org/2000/svg', 'line');
             line.setAttribute('x1', x);
             line.setAttribute('y1', '0');
             line.setAttribute('x2', x);
             line.setAttribute('y2', '600');
-            line.setAttribute('stroke', 'rgba(255, 255, 255, 0.08)');
+            line.setAttribute('stroke', 'rgba(255, 255, 255, 0.1)'); // ОЧЕНЬ прозрачные!
             line.setAttribute('stroke-width', '1');
             this.svg.appendChild(line);
         }
         
-        // Горизонтальные линии
+        // ГОРИЗОНТАЛЬНЫЕ ЛИНИИ
         for (let y = 50; y < 600; y += 50) {
             const line = document.createElementNS('http://www.w3.org/2000/svg', 'line');
             line.setAttribute('x1', '0');
@@ -74,7 +74,7 @@ class MapRenderer {
     }
     
     drawRegions() {
-        // Добавляем фильтр для свечения
+        // Добавляем фильтр свечения
         this.addGlowFilter();
         
         this.regions.forEach(region => {
@@ -131,14 +131,15 @@ class MapRenderer {
             text.setAttribute('font-weight', 'bold');
             text.setAttribute('pointer-events', 'none');
             text.textContent = region.name;
-            
             group.appendChild(text);
+            
             this.svg.appendChild(group);
         });
     }
     
     addGlowFilter() {
         const defs = document.createElementNS('http://www.w3.org/2000/svg', 'defs');
+        
         const filter = document.createElementNS('http://www.w3.org/2000/svg', 'filter');
         filter.setAttribute('id', 'glow');
         
@@ -147,13 +148,16 @@ class MapRenderer {
         feGaussianBlur.setAttribute('result', 'coloredBlur');
         
         const feMerge = document.createElementNS('http://www.w3.org/2000/svg', 'feMerge');
+        
         const feMergeNode1 = document.createElementNS('http://www.w3.org/2000/svg', 'feMergeNode');
         feMergeNode1.setAttribute('in', 'coloredBlur');
+        
         const feMergeNode2 = document.createElementNS('http://www.w3.org/2000/svg', 'feMergeNode');
         feMergeNode2.setAttribute('in', 'SourceGraphic');
         
         feMerge.appendChild(feMergeNode1);
         feMerge.appendChild(feMergeNode2);
+        
         filter.appendChild(feGaussianBlur);
         filter.appendChild(feMerge);
         defs.appendChild(filter);
@@ -214,7 +218,7 @@ class MapRenderer {
             });
         });
         
-        // Драг & дроп для всей карты
+        // Перетаскивание для всей карты
         this.setupDragAndDrop();
     }
     
@@ -232,7 +236,7 @@ class MapRenderer {
         let currentTranslateX = 0, currentTranslateY = 0;
         let translateX = 0, translateY = 0;
         
-        // Мышь
+        // Мышка
         this.svg.addEventListener('mousedown', (e) => {
             if (e.target.classList.contains('region-shape')) return;
             
@@ -248,7 +252,6 @@ class MapRenderer {
             e.preventDefault();
             translateX = e.clientX - startX;
             translateY = e.clientY - startY;
-            
             this.updateTransform(translateX, translateY, this.scale);
         });
         
@@ -261,7 +264,7 @@ class MapRenderer {
             }
         });
         
-        // Тач для мобильных
+        // Для мобильных
         this.svg.addEventListener('touchstart', (e) => {
             if (e.target.classList.contains('region-shape')) return;
             
@@ -276,7 +279,6 @@ class MapRenderer {
             e.preventDefault();
             translateX = e.touches[0].clientX - startX;
             translateY = e.touches[0].clientY - startY;
-            
             this.updateTransform(translateX, translateY, this.scale);
         });
         
