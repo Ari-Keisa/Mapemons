@@ -36,7 +36,7 @@ function setupSearchAndServices() {
     // Подсказки для разных типов поиска
     const searchHints = {
         pokemon: 'Например: Pikachu, Charizard, #025',
-        item: 'Например: Чёрный пояс, Уголёк, Poké Ball, Potion',
+        item: 'Например: Чёрный пояс, Уголёк,...',
         pokecenter: 'Список всех покецентров по регионам',
         pokemart: 'Список всех покемарктов по регионам'
     };
