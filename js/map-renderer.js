@@ -28,13 +28,24 @@ class MapRenderer {
     }
     
     drawBackground() {
-        const bg = document.createElementNS('http://www.w3.org/2000/svg', 'rect');
-        bg.setAttribute('width', '800');
-        bg.setAttribute('height', '600');
-        bg.setAttribute('fill', '#0d2b4e');
-        bg.setAttribute('rx', '10');
-        this.svg.appendChild(bg);
-    }
+    // 1. Фоновая картинка (pokemap.png должна быть в корне)
+    const bgImage = document.createElementNS('http://www.w3.org/2000/svg', 'image');
+    bgImage.setAttribute('href', 'pokemap.png'); // ← имя твоей картинки
+    bgImage.setAttribute('width', '800');
+    bgImage.setAttribute('height', '600');
+    bgImage.setAttribute('x', '0');
+    bgImage.setAttribute('y', '0');
+    bgImage.setAttribute('preserveAspectRatio', 'xMidYMid meet');
+    this.svg.appendChild(bgImage);
+    
+    // 2. Полупрозрачный синий слой поверх картинки
+    const overlay = document.createElementNS('http://www.w3.org/2000/svg', 'rect');
+    overlay.setAttribute('width', '800');
+    overlay.setAttribute('height', '600');
+    overlay.setAttribute('fill', 'rgba(13, 43, 78, 0.4)'); // 0.4 = 40% прозрачности
+    overlay.setAttribute('rx', '10'); // скругленные углы
+    this.svg.appendChild(overlay);
+}
     
     drawGrid() {
         // Вертикальные линии
@@ -56,7 +67,7 @@ class MapRenderer {
             line.setAttribute('y1', y);
             line.setAttribute('x2', '800');
             line.setAttribute('y2', y);
-            line.setAttribute('stroke', 'rgba(255, 255, 255, 0.08)');
+            line.setAttribute('stroke', 'rgba(255, 255, 255, 0.1)');
             line.setAttribute('stroke-width', '1');
             this.svg.appendChild(line);
         }
