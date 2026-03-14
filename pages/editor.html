@@ -1,0 +1,561 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mapémon - Редактор Графа (Распутай паутину)</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            background: #0f0c29;
+            color: white;
+            font-family: sans-serif;
+            overflow: hidden;
+        }
+
+        /* ===== ТВОИ ЦВЕТА ===== */
+        :root {
+            --primary: #4ecdc4; --secondary: #666; --accent: #ff6b6b;
+            --city-color: #ff6b6b; --route-color: #44a08d; --special-color: #9370db;
+            --forest-color: #2d7a2d; --meadow-color: #4caf50; --cave-color: #8b4513;
+            --island-color: #ff8c00; --mountain-color: #5d4037; --canyon-color: #64b5f6;
+            --building-color: #795548; --other-color: #ffd54f; --water-color: #2980b9;
+        }
+
+        /* ПАНЕЛЬ УПРАВЛЕНИЯ */
+        .toolbar {
+            position: fixed;
+            top: 0; left: 0; right: 0;
+            height: 60px;
+            background: rgba(20, 20, 40, 0.95);
+            display: flex;
+            align-items: center;
+            padding: 0 20px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.5);
+            z-index: 1000;
+            border-bottom: 2px solid var(--primary);
+            gap: 20px;
+        }
+
+        .toolbar h1 { margin: 0; font-size: 1.2rem; color: var(--primary); }
+        .status-counter { font-size: 1.1rem; font-weight: bold; color: #ff4757; flex-grow: 1; }
+        .status-counter.clear { color: #2ed573; }
+
+        .btn-export {
+            background: linear-gradient(90deg, #ff6b6b, #ff8e53);
+            color: white; border: none; padding: 10px 20px;
+            border-radius: 8px; font-weight: bold; cursor: pointer; transition: 0.3s;
+        }
+        .btn-export:hover { transform: scale(1.05); }
+
+        /* РАБОЧАЯ ОБЛАСТЬ И КАМЕРА */
+        .workspace-wrapper {
+            position: absolute;
+            top: 60px; left: 0; right: 0; bottom: 0;
+            background: radial-gradient(circle at center, #1a1a2e 0%, #0f0c29 100%);
+            overflow: hidden; /* Камера управляется скриптом */
+            cursor: grab;
+        }
+        .workspace-wrapper:active { cursor: grabbing; }
+
+        .canvas {
+            position: absolute;
+            top: 0; left: 0;
+            width: 2500px; height: 2000px;
+            transform-origin: 0 0;
+            background-image: 
+                linear-gradient(rgba(255,255,255,0.03) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(255,255,255,0.03) 1px, transparent 1px);
+            background-size: 50px 50px;
+        }
+
+        /* КНОПКИ КАМЕРЫ */
+        .map-controls {
+            position: fixed; bottom: 30px; right: 30px;
+            display: flex; flex-direction: column; gap: 10px; z-index: 100;
+        }
+        .control-btn {
+            width: 45px; height: 45px; border-radius: 50%;
+            background: linear-gradient(135deg, var(--primary), #44a08d);
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            color: white; font-size: 1.2rem; cursor: pointer;
+            display: flex; align-items: center; justify-content: center;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+        }
+        .control-btn:hover { background: linear-gradient(135deg, var(--accent), #ff8e53); }
+
+        /* ЛИНИИ */
+        #svgLayer { position: absolute; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; overflow: visible; }
+        .connection-line {
+            fill: none; stroke-width: 3;
+            stroke: rgba(255, 255, 255, 0.4); 
+            transition: stroke 0.3s;
+        }
+        .connection-line.intersecting { stroke: #ff4757; stroke-width: 4; z-index: 100; }
+        marker path { fill: currentColor; }
+
+        /* ЛОКАЦИИ (ОБЛАЧКА) */
+        .location-node {
+            position: absolute;
+            width: 140px; height: 100px;
+            transform: translate(-50%, -50%);
+            cursor: grab;
+            z-index: 10;
+        }
+        .location-node:active { cursor: grabbing; z-index: 100; filter: drop-shadow(0 0 15px rgba(255,255,255,0.8)); }
+        
+        .node-shape { filter: drop-shadow(0 3px 8px rgba(0, 0, 0, 0.4)); pointer-events: none; }
+        .node-text { pointer-events: none; user-select: none; text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.8); }
+
+        /* МОДАЛКА ЭКСПОРТА */
+        .modal { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.8); z-index: 2000; display: none; align-items: center; justify-content: center; }
+        .modal-content { background: #1a1a2e; padding: 20px; border-radius: 15px; width: 80%; max-width: 800px; border: 2px solid var(--primary); display: flex; flex-direction: column; gap: 15px; }
+        textarea { width: 100%; height: 400px; background: #0f0c29; color: var(--primary); border: 1px solid var(--primary); border-radius: 8px; padding: 15px; font-family: monospace; resize: none; outline: none; }
+        .btn-close { background: #666; color: white; border: none; padding: 10px; border-radius: 5px; cursor: pointer; align-self: flex-end; }
+    </style>
+</head>
+<body>
+
+    <div class="toolbar">
+        <h1>🕷 Игра: Распутай Канто</h1>
+        <div class="status-counter" id="intersectionsCount">Считаем линии...</div>
+        <button class="btn-export" onclick="exportData()">💾 СКОПИРОВАТЬ JSON</button>
+    </div>
+
+    <div class="workspace-wrapper" id="workspaceWrapper">
+        <div class="canvas" id="canvas">
+            <svg id="svgLayer">
+                <defs>
+                    <marker id="arrow" markerWidth="10" markerHeight="10" refX="15" refY="3" orient="auto" markerUnits="strokeWidth">
+                        <path d="M0,0 L0,6 L9,3 z" fill="currentColor" />
+                    </marker>
+                </defs>
+            </svg>
+            <div id="nodesLayer"></div>
+        </div>
+    </div>
+
+    <div class="map-controls">
+        <button class="control-btn" onclick="zoomIn()"><i class="fas fa-plus"></i></button>
+        <button class="control-btn" onclick="zoomOut()"><i class="fas fa-minus"></i></button>
+        <button class="control-btn" onclick="resetCamera()"><i class="fas fa-expand"></i></button>
+    </div>
+
+    <div class="modal" id="exportModal">
+        <div class="modal-content">
+            <h2 style="margin:0; color:var(--primary);">Готовые координаты</h2>
+            <p style="margin:0; color:#aaa;">Скопируй этот код и полностью замени им содержимое файла <b>location_layout.json</b></p>
+            <textarea id="exportTextarea" readonly></textarea>
+            <button class="btn-close" onclick="document.getElementById('exportModal').style.display='none'">Закрыть</button>
+        </div>
+    </div>
+
+    <script>
+        // ===== ТВОИ ДАННЫЕ =====
+        const typesConfig = {
+            'city': '#ff6b6b', 'route': '#44a08d', 'special': '#9370db',
+            'forest': '#2d7a2d', 'meadow': '#4caf50', 'cave': '#8b4513',
+            'island': '#ff8c00', 'mountain': '#5d4037', 'canyon': '#64b5f6',
+            'building': '#795548', 'other': '#ffd54f', 'water': '#2980b9'
+        };
+
+        const kantoLocations = {
+            "Паллет": { name: "🏘 Паллет", type: "city", x: 600, y: 1300 },
+            "Виридиан": { name: "🏘 Виридиан", type: "city", x: 600, y: 900 },
+            "Пьютер": { name: "🏘 Пьютер", type: "city", x: 800, y: 700 },
+            "Церулин": { name: "🏘 Церулин", type: "city", x: 1200, y: 100 },
+            "Целадон": { name: "🏘 Целадон", type: "city", x: 1200, y: 1300 },
+            "Плато Индиго": { name: "🏞 Плато Индиго", type: "city", x: 1600, y: 900 },
+            "Лавендер": { name: "🏘 Лавендер", type: "city", x: 200, y: 100 },
+            "Вермилион": { name: "🏘 Вермилион", type: "city", x: 400, y: 100 },
+            "Саффрон": { name: "🌆 Саффрон", type: "city", x: 1000, y: 300 },
+            "Фуксия": { name: "🏘 Фуксия", type: "city", x: 1800, y: 500 },
+            "Остров Синабар": { name: "🏝 Остров Синабар", type: "city", x: 1400, y: 300 },
+            "Первый остров": { name: "🏝 Первый остров", type: "city", x: 0, y: 500 },
+            "Второй остров": { name: "🏝 Второй остров", type: "city", x: -200, y: 900 },
+            "Третий остров": { name: "🏝 Третий остров", type: "city", x: -400, y: 1100 },
+            "Четвертый остров": { name: "🏝 Четвертый остров", type: "city", x: 0, y: 1300 },
+            "Пятый остров": { name: "🏝 Пятый остров", type: "city", x: 200, y: 1500 },
+            "Шестой остров": { name: "🏝 Шестой остров", type: "city", x: 1200, y: 1500 },
+            "Седьмой остров": { name: "🏝 Седьмой остров", type: "city", x: 2000, y: 1500 },
+            "Маршрут 1": { name: "🛣 Маршрут 1", type: "route", x: 600, y: 1100 },
+            "Маршрут 2": { name: "🛣 Маршрут 2", type: "route", x: 600, y: 700 },
+            "Маршрут 22": { name: "🛣 Маршрут 22", type: "route", x: 800, y: 900 },
+            "Маршрут 23": { name: "🛣 Маршрут 23", type: "route", x: 1000, y: 900 },
+            "Дорога победы Канто 1": { name: "🛣 Дорога победы Канто 1", type: "route", x: 1200, y: 900 },
+            "Дорога победы Канто 2": { name: "🛣 Дорога победы Канто 2", type: "route", x: 1400, y: 900 },
+            "Маршрут 3": { name: "🛣 Маршрут 3", type: "route", x: 900, y: 400 },
+            "Маршрут 4": { name: "🛣 Маршрут 4", type: "route", x: 1200, y: 0 },
+            "Маршрут 5": { name: "🛣 Маршрут 5", type: "route", x: 600, y: 300 },
+            "Маршрут 6": { name: "🛣 Маршрут 6", type: "route", x: 800, y: 500 },
+            "Маршрут 7": { name: "🛣 Маршрут 7", type: "route", x: 1000, y: 1100 },
+            "Маршрут 8": { name: "🛣 Маршрут 8", type: "route", x: 800, y: 300 },
+            "Маршрут 9": { name: "🛣 Маршрут 9", type: "route", x: 1000, y: 100 },
+            "Маршрут 10": { name: "🛣 Маршрут 10", type: "route", x: 400, y: 100 },
+            "Маршрут 11": { name: "🛣 Маршрут 11", type: "route", x: 400, y: 300 },
+            "Маршрут 12": { name: "🛣 Маршрут 12", type: "route", x: 200, y: 300 },
+            "Маршрут 13": { name: "🛣 Маршрут 13", type: "route", x: 1200, y: 500 },
+            "Маршрут 14": { name: "🛣 Маршрут 14", type: "route", x: 1400, y: 500 },
+            "Маршрут 15": { name: "🛣 Маршрут 15", type: "route", x: 1600, y: 500 },
+            "Маршрут 16": { name: "🛣 Маршрут 16", type: "route", x: 1400, y: 1300 },
+            "Маршрут 17": { name: "🛣 Маршрут 17", type: "route", x: 1600, y: 1100 },
+            "Маршрут 18": { name: "🛣 Маршрут 18", type: "route", x: 1800, y: 900 },
+            "Маршрут 19": { name: "🌊 Маршрут 19", type: "water", x: 1800, y: 300 },
+            "Маршрут 20": { name: "🌊 Маршрут 20", type: "water", x: 1600, y: 300 },
+            "Маршрут 21": { name: "🌊 Маршрут 21", type: "water", x: 800, y: 1300 },
+            "Маршрут 24": { name: "🛣 Маршрут 24", type: "route", x: 1400, y: 100 },
+            "Маршрут 25": { name: "🛣 Маршрут 25", type: "route", x: 1600, y: 100 },
+            "Маршрут 26": { name: "🛣 Маршрут 26", type: "route", x: 1800, y: 100 },
+            "Маршрут 27": { name: "🛣 Маршрут 27", type: "route", x: 1800, y: 0 },
+            "Маршрут 28": { name: "🛣 Маршрут 28", type: "route", x: 1400, y: 0 },
+            "Связующий мост": { name: "🌉 Связующий мост", type: "route", x: -600, y: 1100 },
+            "Путь третьего острова": { name: "🛣 Путь третьего острова", type: "route", x: -200, y: 1300 },
+            "Воспламеняющаяся дорога": { name: "🛣 Воспламеняющаяся дорога", type: "route", x: 0, y: 700 },
+            "Водная тропа": { name: "🛣 Водная тропа", type: "route", x: 1400, y: 1500 },
+            "Электростанция": { name: "⚡️🏭 Электростанция", type: "special", x: 800, y: 100 },
+            "Острова Морской пены": { name: "🏝 Острова Морской пены", type: "island", x: 1000, y: 1300 },
+            "Зона сафари": { name: "🏜 Зона сафари", type: "special", x: 1800, y: 700 },
+            "Горящая гора": { name: "🌋 Горящая гора", type: "special", x: -200, y: 700 },
+            "Пляж сокровищ": { name: "🏖 Пляж сокровищ", type: "special", x: -200, y: 500 },
+            "Пещера Церулина": { name: "🍘 Пещера Церулина", type: "cave", x: 1200, y: 300 },
+            "Лес Виридиана": { name: "🌲🌳 Лес Виридиана", type: "forest", x: 400, y: 700 },
+            "Ягодный лес": { name: "🌳 Ягодный лес", type: "forest", x: -600, y: 1300 },
+            "Узорчатый лес": { name: "🌳 Узорчатый лес", type: "forest", x: 1800, y: 1700 },
+            "Луг Пятого Острова": { name: "🏕 Луг Пятого Острова", type: "meadow", x: 400, y: 1500 },
+            "Долина руин": { name: "🏕 Долина руин", type: "meadow", x: 1400, y: 1700 },
+            "Пещера Диглетов": { name: "🍘 Пещера Диглетов", type: "cave", x: 400, y: 500 },
+            "Каменный тоннель": { name: "🍘 Каменный тоннель", type: "cave", x: 600, y: 100 },
+            "Пещера ледопада": { name: "🧊 Пещера ледопада", type: "cave", x: 200, y: 1300 },
+            "Потерянная пещера": { name: "🗻 Потерянная пещера", type: "cave", x: 1000, y: 1700 },
+            "Пещера изменения": { name: "🏜 Пещера изменения", type: "cave", x: 1600, y: 1700 },
+            "Пещера серебряной горы": { name: "🍘 Пещера серебряной горы", type: "cave", x: 1000, y: -100 },
+            "Водный лабиринт": { name: "🌊 Водный лабиринт", type: "island", x: 800, y: 1500 },
+            "Остров отверженных": { name: "🏝 Остров отверженных", type: "island", x: 1600, y: 1500 },
+            "Остров рождения": { name: "🏝 Остров рождения", type: "island", x: 2400, y: 1700 },
+            "Лунная гора": { name: "🏔 Лунная гора", type: "mountain", x: 300, y: -100 },
+            "Серебряная гора": { name: "🏔 Серебряная гора", type: "mountain", x: 1200, y: -100 },
+            "Край мыса": { name: "⛰ Край мыса", type: "mountain", x: -400, y: 900 },
+            "Вход в каньон": { name: "🏞 Вход в каньон", type: "canyon", x: 2200, y: 1500 },
+            "Каньон Сево": { name: "🏞 Каньон Сево", type: "canyon", x: 2200, y: 1700 },
+            "Особняк покемонов": { name: "⛪️ Особняк покемонов", type: "building", x: 1200, y: 700 },
+            "Башня покемонов": { name: "🛕 Башня покемонов", type: "building", x: 200, y: 0 },
+            "SS Anne": { name: "🛳 SS Anne", type: "other", x: 0, y: 300 },
+            "Водопад Тодзё": { name: "💦 Водопад Тодзё", type: "other", x: 1600, y: 0 },
+            "Порт третьего острова": { name: "🛥 Порт третьего острова", type: "other", x: -400, y: 1300 },
+            "Великолепный курорт": { name: "🏖 Великолепный курорт", type: "other", x: 1000, y: 1500 },
+            "Мемориальный столп": { name: "🛕 Мемориальный столп", type: "other", x: 600, y: 1500 },
+            "Башня тренеров": { name: "🕍 Башня тренеров", type: "other", x: 2000, y: 1700 },
+            "Зелёная тропинка": { name: "🛣 Зелёная тропинка", type: "other", x: 1800, y: 1500 },
+            "Руины Таноби": { name: "⛩ Руины Таноби", type: "other", x: 2400, y: 1500 },
+            "Палата Монеана": { name: "🛖 Палата Монеана", type: "other", x: 500, y: -200 },
+            "Палата Липту": { name: "🛖 Палата Липту", type: "other", x: 550, y: -250 },
+            "Палата Випза": { name: "🛖 Палата Випза", type: "other", x: 500, y: -300 },
+            "Палата Дилфорда": { name: "🛖 Палата Дилфорда", type: "other", x: 450, y: -250 },
+            "Палата Скуфиба": { name: "🛖 Палата Скуфиба", type: "other", x: 400, y: -200 },
+            "Палата Рикси": { name: "🛖 Палата Рикси", type: "other", x: 450, y: -150 },
+            "Палата Виапоса": { name: "🛖 Палата Виапоса", type: "other", x: 500, y: -100 },
+            "Скала Навел": { name: "🏞 Скала Навел", type: "other", x: 2600, y: 1700 }
+        };
+
+        const kantoConnections = [
+            ["Паллет", "Маршрут 1"], ["Маршрут 1", "Виридиан"], ["Виридиан", "Маршрут 2"], ["Маршрут 2", "Лес Виридиана"],
+            ["Лес Виридиана", "Пещера Диглетов"], ["Пещера Диглетов", "Маршрут 11"], ["Маршрут 11", "Вермилион"], ["Вермилион", "Маршрут 6"],
+            ["Маршрут 6", "Саффрон"], ["Саффрон", "Маршрут 5"], ["Маршрут 5", "Церулин"], ["Церулин", "Маршрут 4"],
+            ["Маршрут 4", "Маршрут 9"], ["Маршрут 9", "Маршрут 10"], ["Маршрут 10", "Лавендер"], ["Лавендер", "Маршрут 8"],
+            ["Маршрут 8", "Саффрон"], ["Лавендер", "Маршрут 12"], ["Маршрут 12", "Маршрут 13"], ["Маршрут 13", "Маршрут 14"],
+            ["Маршрут 14", "Маршрут 15"], ["Маршрут 15", "Фуксия"], ["Фуксия", "Маршрут 18"], ["Маршрут 18", "Маршрут 17"],
+            ["Маршрут 17", "Маршрут 16"], ["Маршрут 16", "Целадон"], ["Целадон", "Маршрут 7"], ["Маршрут 7", "Саффрон"],
+            ["Фуксия", "Маршрут 19"], ["Маршрут 19", "Маршрут 20"], ["Маршрут 20", "Остров Синабар"], ["Остров Синабар", "Маршрут 21"],
+            ["Маршрут 21", "Паллет"], ["Церулин", "Маршрут 24"], ["Маршрут 24", "Маршрут 25"], ["Виридиан", "Маршрут 22"],
+            ["Маршрут 22", "Маршрут 23"], ["Маршрут 23", "Дорога победы Канто 1"], ["Дорога победы Канто 1", "Дорога победы Канто 2"], ["Дорога победы Канто 2", "Плато Индиго"],
+            ["Маршрут 25", "Маршрут 26"], ["Маршрут 26", "Маршрут 27"], ["Маршрут 27", "Водопад Тодзё"], ["Маршрут 27", "Маршрут 28"],
+            ["Маршрут 28", "Серебряная гора"], ["Серебряная гора", "Пещера серебряной горы"], ["Вермилион", "SS Anne"], ["Вермилион", "Первый остров"],
+            ["Первый остров", "Пляж сокровищ"], ["Первый остров", "Воспламеняющаяся дорога"], ["Воспламеняющаяся дорога", "Горящая гора"], ["Первый остров", "Второй остров"],
+            ["Второй остров", "Край мыса"], ["Второй остров", "Третий остров"], ["Третий остров", "Связующий мост"], ["Связующий мост", "Ягодный лес"],
+            ["Третий остров", "Порт третьего острова"], ["Третий остров", "Путь третьего острова"], ["Путь третьего острова", "Четвертый остров"], ["Четвертый остров", "Пещера ледопада"],
+            ["Четвертый остров", "Пятый остров"], ["Пятый остров", "Луг Пятого Острова"], ["Луг Пятого Острова", "Мемориальный столп"], ["Пятый остров", "Водный лабиринт"],
+            ["Водный лабиринт", "Великолепный курорт"], ["Великолепный курорт", "Потерянная пещера"], ["Пятый остров", "Шестой остров"], ["Шестой остров", "Водная тропа"],
+            ["Водная тропа", "Долина руин"], ["Остров отверженных", "Пещера изменения"], ["Остров отверженных", "Зелёная тропинка"], ["Зелёная тропинка", "Узорчатый лес"],
+            ["Шестой остров", "Седьмой остров"], ["Седьмой остров", "Башня тренеров"], ["Седьмой остров", "Вход в каньон"], ["Вход в каньон", "Каньон Сево"],
+            ["Каньон Сево", "Руины Таноби"], ["Седьмой остров", "Остров рождения"], ["Остров рождения", "Скала Навел"], ["Маршрут 10", "Электростанция"],
+            ["Маршрут 10", "Каменный тоннель"], ["Церулин", "Пещера Церулина"], ["Лавендер", "Башня покемонов"], ["Фуксия", "Зона сафари"],
+            ["Остров Синабар", "Особняк покемонов"], ["Маршрут 20", "Острова Морской пены"]
+        ];
+
+        // ===== ЛОГИКА КАМЕРЫ И ДРАГА =====
+        const wrapper = document.getElementById('workspaceWrapper');
+        const canvas = document.getElementById('canvas');
+        const svgLayer = document.getElementById('svgLayer');
+        const nodesLayer = document.getElementById('nodesLayer');
+        
+        let zoomLevel = 1;
+        let panX = 0, panY = 0;
+        let isPanning = false;
+        let panStart = { x: 0, y: 0 };
+        
+        let isDraggingNode = false;
+        let draggedNode = null;
+        let nodeDragOffset = { x: 0, y: 0 };
+        const lineElements = [];
+
+        // 1. ИНИЦИАЛИЗАЦИЯ
+        function initEditor() {
+            // Чуть центрируем начальные координаты
+            for(let key in kantoLocations) {
+                kantoLocations[key].x += 500;
+                kantoLocations[key].y += 300;
+            }
+            drawLines();
+            drawNodes();
+            setupCamera();
+            updateIntersections(); // Проверяем красные линии при старте
+        }
+
+        // 2. ОТРИСОВКА ЛИНИЙ
+        function drawLines() {
+            lineElements.length = 0;
+            kantoConnections.forEach(([fromId, toId]) => {
+                const from = kantoLocations[fromId];
+                const to = kantoLocations[toId];
+                if (from && to) {
+                    const line = document.createElementNS("http://www.w3.org/2000/svg", "line");
+                    line.dataset.from = fromId;
+                    line.dataset.to = toId;
+                    line.setAttribute("class", "connection-line");
+                    line.setAttribute("marker-end", "url(#arrow)");
+                    updateSingleLine(line, from, to);
+                    svgLayer.appendChild(line);
+                    lineElements.push(line);
+                }
+            });
+        }
+
+        // Вычисление отступа для стрелок (55px от центра, чтобы не лезло под облачко)
+        function updateSingleLine(line, from, to) {
+            const dx = to.x - from.x;
+            const dy = to.y - from.y;
+            const dist = Math.sqrt(dx*dx + dy*dy);
+            if (dist === 0) return;
+
+            const offset = 55; // Радиус облачка ~50px + 5px запас
+            const x2 = to.x - (dx / dist) * offset;
+            const y2 = to.y - (dy / dist) * offset;
+
+            line.setAttribute("x1", from.x);
+            line.setAttribute("y1", from.y);
+            line.setAttribute("x2", x2);
+            line.setAttribute("y2", y2);
+        }
+
+        // Разбивка текста на 2 строчки для облачка
+        function getSVGText(name) {
+            const words = name.split(' ');
+            if (words.length > 2) {
+                return `<tspan x="70" dy="-0.6em">${words.slice(0, 2).join(' ')}</tspan>
+                        <tspan x="70" dy="1.2em">${words.slice(2).join(' ')}</tspan>`;
+            }
+            return name;
+        }
+
+        // 3. ОТРИСОВКА ТОЧЕК (ОБЛАЧЕК)
+        function drawNodes() {
+            Object.keys(kantoLocations).forEach(key => {
+                const loc = kantoLocations[key];
+                
+                const node = document.createElement('div');
+                node.className = 'location-node';
+                node.dataset.id = key;
+                node.style.left = loc.x + 'px';
+                node.style.top = loc.y + 'px';
+                
+                const color = typesConfig[loc.type] || '#666';
+                
+                // Вставляем твоё облачко
+                node.innerHTML = `
+                    <svg width="140" height="100" viewBox="0 0 140 100" style="position:absolute; top:-50px; left:-70px; pointer-events:none;">
+                        <path d="M 20,50 Q 10,30 30,20 Q 50,10 70,20 Q 90,10 110,20 Q 130,30 120,50 Q 130,70 110,80 Q 90,90 70,80 Q 50,90 30,80 Q 10,70 20,50 Z" 
+                              fill="${color}" stroke="white" stroke-width="2" style="pointer-events:auto;" class="node-shape"></path>
+                        <text x="70" y="55" text-anchor="middle" class="node-text">${getSVGText(loc.name)}</text>
+                    </svg>
+                `;
+
+                // Обработчик перетаскивания точки
+                const pathElement = node.querySelector('.node-shape');
+                pathElement.addEventListener('mousedown', (e) => {
+                    isDraggingNode = true;
+                    draggedNode = node;
+                    
+                    // Запоминаем, где мы кликнули внутри точки (чтобы она не дергалась)
+                    const rect = node.getBoundingClientRect();
+                    nodeDragOffset.x = (e.clientX - rect.left) / zoomLevel - 70; // 70 = половина ширины
+                    nodeDragOffset.y = (e.clientY - rect.top) / zoomLevel - 50;  // 50 = половина высоты
+                    
+                    e.stopPropagation(); // Отменяем движение камеры
+                });
+                
+                nodesLayer.appendChild(node);
+            });
+        }
+
+        // 4. УПРАВЛЕНИЕ КАМЕРОЙ И ПЕРЕТАСКИВАНИЕМ
+        function setupCamera() {
+            // Камера: нажали на фон
+            wrapper.addEventListener('mousedown', (e) => {
+                if (isDraggingNode) return;
+                isPanning = true;
+                panStart.x = e.clientX - panX;
+                panStart.y = e.clientY - panY;
+            });
+
+            // Камера: отпустили кнопку мыши
+            window.addEventListener('mouseup', () => {
+                isPanning = false;
+                if (isDraggingNode) {
+                    isDraggingNode = false;
+                    draggedNode = null;
+                    updateIntersections(); // Проверяем красные нити после того как отпустили
+                }
+            });
+
+            // Движение мыши
+            window.addEventListener('mousemove', (e) => {
+                // Если двигаем камеру
+                if (isPanning) {
+                    panX = e.clientX - panStart.x;
+                    panY = e.clientY - panStart.y;
+                    updateCanvasTransform();
+                }
+                
+                // Если двигаем точку
+                if (isDraggingNode && draggedNode) {
+                    const canvasRect = canvas.getBoundingClientRect();
+                    // Высчитываем реальные координаты внутри канваса
+                    let newX = (e.clientX - canvasRect.left) / zoomLevel - nodeDragOffset.x;
+                    let newY = (e.clientY - canvasRect.top) / zoomLevel - nodeDragOffset.y;
+
+                    // Ограничения карты
+                    newX = Math.max(70, Math.min(newX, 2930));
+                    newY = Math.max(50, Math.min(newY, 2450));
+
+                    draggedNode.style.left = newX + 'px';
+                    draggedNode.style.top = newY + 'px';
+
+                    const id = draggedNode.dataset.id;
+                    kantoLocations[id].x = newX;
+                    kantoLocations[id].y = newY;
+
+                    // Обновляем линии, прикрепленные к этой точке
+                    lineElements.forEach(line => {
+                        if (line.dataset.from === id || line.dataset.to === id) {
+                            updateSingleLine(line, kantoLocations[line.dataset.from], kantoLocations[line.dataset.to]);
+                        }
+                    });
+                }
+            });
+
+            // Зум колесиком (в точку мыши)
+            wrapper.addEventListener('wheel', (e) => {
+                e.preventDefault();
+                const delta = e.deltaY > 0 ? -0.1 : 0.1;
+                const oldZoom = zoomLevel;
+                zoomLevel = Math.max(0.2, Math.min(2.5, oldZoom + delta));
+
+                const mouseX = e.clientX - wrapper.getBoundingClientRect().left;
+                const mouseY = e.clientY - wrapper.getBoundingClientRect().top;
+
+                // Математика зума в точку
+                panX = mouseX - (mouseX - panX) * (zoomLevel / oldZoom);
+                panY = mouseY - (mouseY - panY) * (zoomLevel / oldZoom);
+
+                updateCanvasTransform();
+            }, { passive: false });
+        }
+
+        function updateCanvasTransform() {
+            canvas.style.transform = `translate(${panX}px, ${panY}px) scale(${zoomLevel})`;
+        }
+
+        function zoomIn() { zoomLevel = Math.min(2.5, zoomLevel + 0.2); updateCanvasTransform(); }
+        function zoomOut() { zoomLevel = Math.max(0.2, zoomLevel - 0.2); updateCanvasTransform(); }
+        function resetCamera() { zoomLevel = 1; panX = 0; panY = 0; updateCanvasTransform(); }
+
+        // 5. ИГРА: РАСПУТАЙ ПАУТИНУ
+        function doIntersect(p1, q1, p2, q2) {
+            function orientation(p, q, r) {
+                let val = (q.y - p.y) * (r.x - q.x) - (q.x - p.x) * (r.y - q.y);
+                if (val == 0) return 0;
+                return (val > 0) ? 1 : 2;
+            }
+            let o1 = orientation(p1, q1, p2);
+            let o2 = orientation(p1, q1, q2);
+            let o3 = orientation(p2, q2, p1);
+            let o4 = orientation(p2, q2, q1);
+
+            // Игнорируем линии, исходящие из одной точки
+            if (p1.x === p2.x && p1.y === p2.y) return false;
+            if (p1.x === q2.x && p1.y === q2.y) return false;
+            if (q1.x === p2.x && q1.y === p2.y) return false;
+            if (q1.x === q2.x && q1.y === q2.y) return false;
+
+            return (o1 != o2 && o3 != o4);
+        }
+
+        function updateIntersections() {
+            let intersectCount = 0;
+            lineElements.forEach(line => line.classList.remove('intersecting'));
+
+            for (let i = 0; i < lineElements.length; i++) {
+                let l1 = lineElements[i];
+                let p1 = kantoLocations[l1.dataset.from];
+                let q1 = kantoLocations[l1.dataset.to];
+
+                for (let j = i + 1; j < lineElements.length; j++) {
+                    let l2 = lineElements[j];
+                    let p2 = kantoLocations[l2.dataset.from];
+                    let q2 = kantoLocations[l2.dataset.to];
+
+                    if (doIntersect(p1, q1, p2, q2)) {
+                        l1.classList.add('intersecting');
+                        l2.classList.add('intersecting');
+                        intersectCount++;
+                    }
+                }
+            }
+
+            const counter = document.getElementById('intersectionsCount');
+            if (intersectCount === 0) {
+                counter.innerText = "Идеально! Пересечений нет 🎉";
+                counter.className = "status-counter clear";
+            } else {
+                counter.innerText = `Пересечений: ${intersectCount} 🔴`;
+                counter.className = "status-counter";
+            }
+        }
+
+        // 6. ЭКСПОРТ
+        function exportData() {
+            let output = "{\n";
+            const keys = Object.keys(kantoLocations);
+            
+            keys.forEach((key, index) => {
+                const loc = kantoLocations[key];
+                // Вычитаем смещение, которое мы добавили вначале, чтобы вернуть оригинальные рамки
+                let exportX = Math.round(loc.x - 500);
+                let exportY = Math.round(loc.y - 300);
+                
+                output += `  "${key}": { "x": ${exportX}, "y": ${exportY} }`;
+                if (index < keys.length - 1) output += ",";
+                output += "\n";
+            });
+            output += "}";
+
+            document.getElementById('exportTextarea').value = output;
+            document.getElementById('exportModal').style.display = 'flex';
+        }
+
+        initEditor();
+    </script>
+</body>
+</html>

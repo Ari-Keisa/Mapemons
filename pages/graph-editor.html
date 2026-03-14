@@ -1,0 +1,1138 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Редактор графа локаций</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/networkx/3.2.1/networkx.browser.min.js"></script>
+    <style>
+        /* Все стили остаются теми же, что и в предыдущей версии */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+            color: #f0f0f0;
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .header {
+            text-align: center;
+            padding: 20px;
+            background: rgba(0, 0, 0, 0.3);
+            border-radius: 15px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .main-content {
+            display: flex;
+            gap: 20px;
+            height: 70vh;
+        }
+
+        .sidebar {
+            width: 300px;
+            background: rgba(0, 0, 0, 0.4);
+            border-radius: 15px;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .editor-section {
+            background: rgba(255, 255, 255, 0.05);
+            padding: 15px;
+            border-radius: 10px;
+        }
+
+        .editor-section h3 {
+            margin-bottom: 15px;
+            color: #4fc3f7;
+            font-size: 18px;
+        }
+
+        .form-group {
+            margin-bottom: 15px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 5px;
+            font-size: 14px;
+            color: #bbbbbb;
+        }
+
+        .form-group input, .form-group select {
+            width: 100%;
+            padding: 10px;
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 8px;
+            color: white;
+            font-size: 14px;
+        }
+
+        .form-group input:focus, .form-group select:focus {
+            outline: none;
+            border-color: #4fc3f7;
+        }
+
+        .btn {
+            padding: 12px 20px;
+            border: none;
+            border-radius: 8px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-size: 14px;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, #4fc3f7 0%, #2196f3 100%);
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background: linear-gradient(135deg, #29b6f6 0%, #1976d2 100%);
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(33, 150, 243, 0.4);
+        }
+
+        .btn-secondary {
+            background: rgba(255, 255, 255, 0.1);
+            color: white;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .btn-secondary:hover {
+            background: rgba(255, 255, 255, 0.15);
+            transform: translateY(-2px);
+        }
+
+        .btn-danger {
+            background: linear-gradient(135deg, #ff6b6b 0%, #f44336 100%);
+            color: white;
+        }
+
+        .btn-danger:hover {
+            background: linear-gradient(135deg, #f55 0%, #d32f2f 100%);
+            transform: translateY(-2px);
+        }
+
+        /* ОБЛАСТЬ ВЫБОРА ТИПА - ИСПРАВЛЕНА! */
+        .location-types {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 10px;
+            margin-top: 10px;
+            max-height: 200px;
+            overflow-y: auto;
+            padding: 5px;
+        }
+
+        .type-option {
+            padding: 8px;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border: 2px solid transparent;
+            text-align: center;
+            font-size: 12px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 5px;
+            min-height: 60px;
+            justify-content: center;
+        }
+
+        .type-option:hover {
+            transform: scale(1.05);
+            background-color: rgba(255, 255, 255, 0.1) !important;
+        }
+
+        .type-option.selected {
+            border-color: white !important;
+            box-shadow: 0 0 10px rgba(255, 255, 255, 0.3);
+            background-color: rgba(255, 255, 255, 0.15) !important;
+        }
+
+        .type-icon {
+            font-size: 20px;
+        }
+
+        /* Граф холст */
+        .graph-canvas {
+            flex: 1;
+            background: rgba(0, 0, 0, 0.3);
+            border-radius: 15px;
+            position: relative;
+            overflow: hidden;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        #graphArea {
+            width: 100%;
+            height: 100%;
+            position: relative;
+            min-height: 500px;
+        }
+
+        /* Локации (облачка) */
+        .location-node {
+            position: absolute;
+            cursor: move;
+            z-index: 10;
+            transition: transform 0.2s ease, filter 0.3s ease;
+            filter: drop-shadow(0 3px 10px rgba(0, 0, 0, 0.5));
+            transform-origin: center;
+        }
+
+        .location-node:hover {
+            transform: scale(1.15);
+            z-index: 100;
+        }
+
+        .location-node.dragging {
+            cursor: grabbing;
+            z-index: 1000;
+            filter: drop-shadow(0 5px 20px rgba(0, 0, 0, 0.7));
+        }
+
+        .location-node.selected {
+            animation: pulseSelected 1.5s infinite;
+        }
+
+        @keyframes pulseSelected {
+            0%, 100% { transform: scale(1.1); }
+            50% { transform: scale(1.2); }
+        }
+
+        .node-shape {
+            transition: all 0.3s ease;
+        }
+
+        .node-text {
+            fill: white;
+            font-size: 13px;
+            font-weight: bold;
+            text-anchor: middle;
+            pointer-events: none;
+            user-select: none;
+            text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.8);
+        }
+
+        /* Стрелки связей */
+        .connection-line {
+            stroke-width: 3;
+            stroke-linecap: round;
+            pointer-events: none;
+            filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.5));
+        }
+
+        .connection-arrow {
+            fill: #4fc3f7;
+            filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.5));
+        }
+
+        /* Нижняя панель */
+        .bottom-panel {
+            background: rgba(0, 0, 0, 0.4);
+            border-radius: 15px;
+            padding: 20px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .connections-list {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-bottom: 15px;
+            max-height: 100px;
+            overflow-y: auto;
+            padding: 10px;
+            background: rgba(0, 0, 0, 0.2);
+            border-radius: 8px;
+        }
+
+        .connection-item {
+            background: rgba(79, 195, 247, 0.2);
+            padding: 5px 10px;
+            border-radius: 15px;
+            font-size: 12px;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .remove-connection {
+            background: none;
+            border: none;
+            color: #ff6b6b;
+            cursor: pointer;
+            font-size: 14px;
+            padding: 0 5px;
+        }
+
+        .code-output {
+            background: #1e1e1e;
+            color: #d4d4d4;
+            padding: 15px;
+            border-radius: 8px;
+            font-family: 'Consolas', 'Monaco', monospace;
+            font-size: 13px;
+            height: 200px;
+            overflow-y: auto;
+            white-space: pre-wrap;
+            margin-top: 15px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .instructions {
+            font-size: 13px;
+            color: #aaaaaa;
+            margin-top: 10px;
+            line-height: 1.5;
+        }
+
+        /* Полоса прокрутки */
+        .location-types::-webkit-scrollbar {
+            width: 6px;
+        }
+
+        .location-types::-webkit-scrollbar-track {
+            background: rgba(0, 0, 0, 0.2);
+            border-radius: 3px;
+        }
+
+        .location-types::-webkit-scrollbar-thumb {
+            background: rgba(79, 195, 247, 0.5);
+            border-radius: 3px;
+        }
+
+        .location-types::-webkit-scrollbar-thumb:hover {
+            background: rgba(79, 195, 247, 0.8);
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🎮 Редактор графа локаций</h1>
+            <p class="instructions">Создавайте локации, соединяйте их стрелками, настраивайте как в игре "Паутинка"</p>
+        </div>
+
+        <div class="main-content">
+            <!-- Левая панель создания -->
+            <div class="sidebar">
+                <div class="editor-section">
+                    <h3>📝 Создание локации</h3>
+                    <div class="form-group">
+                        <label for="locationName">Название локации:</label>
+                        <input type="text" id="locationName" placeholder="Например: Стартовый город">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label>Тип локации:</label>
+                        <!-- ВОТ ИСПРАВЛЕННАЯ ОБЛАСТЬ - ТЕПЕРЬ НЕ ПУСТАЯ! -->
+                        <div class="location-types" id="typeSelection">
+                            <!-- Встраиваем типы прямо в HTML, чтобы они точно отобразились -->
+                            <div class="type-option city selected" data-type="city" style="border-color: #ff6b6b; background-color: rgba(255, 107, 107, 0.2);">
+                                <div class="type-icon">🏘</div>
+                                <div>Город</div>
+                            </div>
+                            <div class="type-option route" data-type="route" style="border-color: #44a08d; background-color: rgba(68, 160, 141, 0.2);">
+                                <div class="type-icon">🛣</div>
+                                <div>Маршрут</div>
+                            </div>
+                            <div class="type-option special" data-type="special" style="border-color: #9370db; background-color: rgba(147, 112, 219, 0.2);">
+                                <div class="type-icon">⭐</div>
+                                <div>Особое</div>
+                            </div>
+                            <div class="type-option forest" data-type="forest" style="border-color: #2d7a2d; background-color: rgba(45, 122, 45, 0.2);">
+                                <div class="type-icon">🌲</div>
+                                <div>Лес</div>
+                            </div>
+                            <div class="type-option meadow" data-type="meadow" style="border-color: #6daa6d; background-color: rgba(109, 170, 109, 0.2);">
+                                <div class="type-icon">🏕</div>
+                                <div>Луг</div>
+                            </div>
+                            <div class="type-option cave" data-type="cave" style="border-color: #8b4513; background-color: rgba(139, 69, 19, 0.2);">
+                                <div class="type-icon">🍘</div>
+                                <div>Пещера</div>
+                            </div>
+                            <div class="type-option island" data-type="island" style="border-color: #ff8c00; background-color: rgba(255, 140, 0, 0.2);">
+                                <div class="type-icon">🏝</div>
+                                <div>Остров</div>
+                            </div>
+                            <div class="type-option mountain" data-type="mountain" style="border-color: #654321; background-color: rgba(101, 67, 33, 0.2);">
+                                <div class="type-icon">🏔</div>
+                                <div>Горы</div>
+                            </div>
+                            <div class="type-option canyon" data-type="canyon" style="border-color: #87cefa; background-color: rgba(135, 206, 250, 0.2);">
+                                <div class="type-icon">🏞</div>
+                                <div>Каньон</div>
+                            </div>
+                            <div class="type-option building" data-type="building" style="border-color: #a9a9a9; background-color: rgba(169, 169, 169, 0.2);">
+                                <div class="type-icon">⛪️</div>
+                                <div>Строение</div>
+                            </div>
+                            <div class="type-option other" data-type="other" style="border-color: #ffd700; background-color: rgba(255, 215, 0, 0.2);">
+                                <div class="type-icon">🛳</div>
+                                <div>Прочее</div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <button id="createLocation" class="btn btn-primary">➕ Создать локацию</button>
+                    <div class="instructions" style="margin-top: 10px; font-size: 12px;">
+                        После создания перемещайте локации мышкой
+                    </div>
+                </div>
+
+                <div class="editor-section">
+                    <h3>🔗 Создание связи</h3>
+                    <div class="form-group">
+                        <label for="fromLocation">Откуда:</label>
+                        <select id="fromLocation">
+                            <option value="">Выберите локацию</option>
+                        </select>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="toLocation">Куда:</label>
+                        <select id="toLocation">
+                            <option value="">Выберите локацию</option>
+                        </select>
+                    </div>
+                    
+                    <button id="createConnection" class="btn btn-secondary">➡️ Создать связь</button>
+                </div>
+
+                <div class="editor-section">
+                    <h3>⚙️ Управление графом</h3>
+                    <div style="display: flex; gap: 10px; flex-wrap: wrap;">
+                        <button id="clearAll" class="btn btn-danger">🗑️ Очистить всё</button>
+                        <button id="arrangeGraph" class="btn btn-secondary">🔀 Авто-расположение</button>
+                        <button id="deleteSelected" class="btn btn-danger" style="display: none;">❌ Удалить выбранное</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Холст графа -->
+            <div class="graph-canvas">
+                <div id="graphArea">
+                    <!-- Здесь будут появляться локации -->
+                </div>
+            </div>
+        </div>
+
+        <!-- Нижняя панель с кодом -->
+        <div class="bottom-panel">
+            <h3>🔗 Текущие связи:</h3>
+            <div id="connectionsList" class="connections-list">
+                <!-- Список связей будет здесь -->
+                <div style="color: #888; font-style: italic;">Пока нет связей</div>
+            </div>
+            
+            <button id="generateCode" class="btn btn-primary">💾 Сгенерировать код графа</button>
+            
+            <div class="code-output" id="codeOutput">
+// Код графа появится здесь...
+// 1. Создайте локации с названиями и типами
+// 2. Создайте связи между ними
+// 3. Нажмите "Сгенерировать код графа"
+            </div>
+            
+            <p class="instructions">
+                💡 <strong>Инструкция:</strong><br>
+                1) Создайте локацию → 2) Перетаскивайте локации мышкой → 
+                3) Создавайте связи между локациями → 4) Сгенерируйте код для использования в другом месте
+            </p>
+        </div>
+    </div>
+
+    <script>
+        // Определяем типы локаций с цветами и иконками
+        const locationTypes = {
+            'city': { color: '#ff6b6b', icon: '🏘', name: 'Город' },
+            'route': { color: '#44a08d', icon: '🛣', name: 'Маршрут' },
+            'special': { color: '#9370db', icon: '⭐', name: 'Особое' },
+            'forest': { color: '#2d7a2d', icon: '🌲', name: 'Лес' },
+            'meadow': { color: '#6daa6d', icon: '🏕', name: 'Луг' },
+            'cave': { color: '#8b4513', icon: '🍘', name: 'Пещера' },
+            'island': { color: '#ff8c00', icon: '🏝', name: 'Остров' },
+            'mountain': { color: '#654321', icon: '🏔', name: 'Горы' },
+            'canyon': { color: '#87cefa', icon: '🏞', name: 'Каньон' },
+            'building': { color: '#a9a9a9', icon: '⛪️', name: 'Строение' },
+            'other': { color: '#ffd700', icon: '🛳', name: 'Прочее' }
+        };
+
+        // Граф для хранения логики
+        let graph = new networkx.Graph();
+        let locations = [];
+        let connections = [];
+        let selectedType = 'city';
+        let selectedNode = null;
+        let isDragging = false;
+        let dragOffset = { x: 0, y: 0 };
+        let selectedLocationId = null;
+
+        // Инициализация
+        document.addEventListener('DOMContentLoaded', function() {
+            initTypeOptions();
+            initEventListeners();
+            loadExampleData(); // Загружаем пример для демонстрации
+        });
+
+        // Создание опций типов - ТЕПЕРЬ РАБОТАЕТ!
+        function initTypeOptions() {
+            const typeOptions = document.querySelectorAll('.type-option');
+            
+            typeOptions.forEach(option => {
+                option.addEventListener('click', function() {
+                    // Снимаем выделение со всех
+                    typeOptions.forEach(opt => opt.classList.remove('selected'));
+                    
+                    // Выделяем выбранный
+                    this.classList.add('selected');
+                    selectedType = this.dataset.type;
+                    
+                    console.log('Выбран тип локации:', selectedType);
+                });
+            });
+        }
+
+        // Инициализация обработчиков событий
+        function initEventListeners() {
+            document.getElementById('createLocation').addEventListener('click', createLocation);
+            document.getElementById('createConnection').addEventListener('click', createConnection);
+            document.getElementById('generateCode').addEventListener('click', generateCode);
+            document.getElementById('clearAll').addEventListener('click', clearAll);
+            document.getElementById('arrangeGraph').addEventListener('click', arrangeGraph);
+            document.getElementById('deleteSelected').addEventListener('click', deleteSelectedLocation);
+            
+            // Добавляем возможность создания по Enter
+            document.getElementById('locationName').addEventListener('keypress', function(e) {
+                if (e.key === 'Enter') {
+                    createLocation();
+                }
+            });
+        }
+
+        // Создание новой локации
+        function createLocation() {
+            const nameInput = document.getElementById('locationName');
+            const name = nameInput.value.trim();
+            
+            if (!name) {
+                alert('Введите название локации!');
+                nameInput.focus();
+                return;
+            }
+            
+            // Проверяем, нет ли уже локации с таким именем
+            if (locations.some(loc => loc.name === name)) {
+                alert('Локация с таким именем уже существует!');
+                nameInput.focus();
+                return;
+            }
+            
+            const typeData = locationTypes[selectedType];
+            if (!typeData) {
+                alert('Выберите тип локации!');
+                return;
+            }
+            
+            const id = `loc_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
+            
+            // Получаем размеры области графа
+            const graphArea = document.getElementById('graphArea');
+            const areaWidth = graphArea.offsetWidth;
+            const areaHeight = graphArea.offsetHeight;
+            
+            // Создаем элемент локации
+            const location = {
+                id,
+                name,
+                type: selectedType,
+                x: Math.random() * (areaWidth - 140) + 70,
+                y: Math.random() * (areaHeight - 100) + 50,
+                element: null
+            };
+            
+            locations.push(location);
+            graph.addNode(id, { ...location });
+            
+            renderLocation(location);
+            updateLocationSelects();
+            
+            // Очищаем поле и фокусируемся снова
+            nameInput.value = '';
+            nameInput.focus();
+            
+            console.log('✅ Создана локация:', location.name, 'тип:', location.type);
+        }
+
+        // Отрисовка локации на холсте
+        function renderLocation(location) {
+            const graphArea = document.getElementById('graphArea');
+            const typeData = locationTypes[location.type];
+            
+            // Создаем SVG элемент для облачка
+            const svgNS = "http://www.w3.org/2000/svg";
+            const svg = document.createElementNS(svgNS, "svg");
+            svg.className = "location-node";
+            svg.id = location.id;
+            svg.setAttribute("width", "120");
+            svg.setAttribute("height", "80");
+            svg.style.left = (location.x - 60) + "px";
+            svg.style.top = (location.y - 40) + "px";
+            
+            // Облачко (округлый прямоугольник)
+            const cloud = document.createElementNS(svgNS, "rect");
+            cloud.className = "node-shape";
+            cloud.setAttribute("x", "10");
+            cloud.setAttribute("y", "10");
+            cloud.setAttribute("width", "100");
+            cloud.setAttribute("height", "60");
+            cloud.setAttribute("rx", "20");
+            cloud.setAttribute("ry", "20");
+            cloud.setAttribute("fill", typeData.color);
+            cloud.setAttribute("stroke", "white");
+            cloud.setAttribute("stroke-width", "2");
+            
+            // Иконка типа
+            const icon = document.createElementNS(svgNS, "text");
+            icon.className = "node-text";
+            icon.setAttribute("x", "60");
+            icon.setAttribute("y", "35");
+            icon.setAttribute("font-size", "20");
+            icon.textContent = typeData.icon;
+            
+            // Название локации
+            const text = document.createElementNS(svgNS, "text");
+            text.className = "node-text";
+            text.setAttribute("x", "60");
+            text.setAttribute("y", "55");
+            text.textContent = location.name;
+            
+            svg.appendChild(cloud);
+            svg.appendChild(icon);
+            svg.appendChild(text);
+            graphArea.appendChild(svg);
+            
+            // Сохраняем ссылку на элемент
+            location.element = svg;
+            
+            // Добавляем обработчики перетаскивания
+            addDragHandlers(svg, location);
+            
+            // Добавляем обработчик клика для выбора
+            svg.addEventListener('click', function(e) {
+                e.stopPropagation();
+                selectLocation(location.id);
+            });
+        }
+
+        // Выбор локации
+        function selectLocation(locationId) {
+            // Снимаем выделение со всех
+            document.querySelectorAll('.location-node').forEach(node => {
+                node.classList.remove('selected');
+            });
+            
+            // Выделяем выбранную
+            const node = document.getElementById(locationId);
+            if (node) {
+                node.classList.add('selected');
+                selectedLocationId = locationId;
+                document.getElementById('deleteSelected').style.display = 'block';
+            }
+        }
+
+        // Удаление выбранной локации
+        function deleteSelectedLocation() {
+            if (!selectedLocationId) return;
+            
+            if (confirm('Удалить выбранную локацию и все связанные с ней связи?')) {
+                // Удаляем связи, связанные с этой локацией
+                const connectionsToRemove = connections.filter(conn => 
+                    conn.from === selectedLocationId || conn.to === selectedLocationId
+                );
+                
+                connectionsToRemove.forEach(conn => {
+                    removeConnection(conn.id);
+                });
+                
+                // Удаляем локацию из массива
+                locations = locations.filter(loc => loc.id !== selectedLocationId);
+                
+                // Удаляем из графа
+                graph.removeNode(selectedLocationId);
+                
+                // Удаляем из DOM
+                const element = document.getElementById(selectedLocationId);
+                if (element) element.remove();
+                
+                // Сбрасываем выбранную локацию
+                selectedLocationId = null;
+                document.getElementById('deleteSelected').style.display = 'none';
+                
+                // Обновляем выпадающие списки
+                updateLocationSelects();
+                updateConnectionsList();
+            }
+        }
+
+        // Добавление обработчиков перетаскивания
+        function addDragHandlers(svgElement, location) {
+            svgElement.addEventListener('mousedown', startDrag);
+            svgElement.addEventListener('touchstart', startDrag, { passive: false });
+            
+            function startDrag(e) {
+                e.preventDefault();
+                e.stopPropagation();
+                
+                isDragging = true;
+                selectedNode = location;
+                
+                const rect = svgElement.getBoundingClientRect();
+                const clientX = e.type.includes('touch') ? e.touches[0].clientX : e.clientX;
+                const clientY = e.type.includes('touch') ? e.touches[0].clientY : e.clientY;
+                
+                dragOffset.x = clientX - rect.left;
+                dragOffset.y = clientY - rect.top;
+                
+                svgElement.classList.add('dragging');
+                svgElement.style.zIndex = '1000';
+                
+                document.addEventListener('mousemove', drag);
+                document.addEventListener('touchmove', drag, { passive: false });
+                document.addEventListener('mouseup', stopDrag);
+                document.addEventListener('touchend', stopDrag);
+            }
+            
+            function drag(e) {
+                if (!isDragging) return;
+                
+                e.preventDefault();
+                const graphArea = document.getElementById('graphArea');
+                const rect = graphArea.getBoundingClientRect();
+                
+                const clientX = e.type.includes('touch') ? e.touches[0].clientX : e.clientX;
+                const clientY = e.type.includes('touch') ? e.touches[0].clientY : e.clientY;
+                
+                let newX = clientX - rect.left - dragOffset.x;
+                let newY = clientY - rect.top - dragOffset.y;
+                
+                // Ограничиваем движение в пределах холста
+                newX = Math.max(0, Math.min(newX, rect.width - 120));
+                newY = Math.max(0, Math.min(newY, rect.height - 80));
+                
+                svgElement.style.left = newX + "px";
+                svgElement.style.top = newY + "px";
+                
+                location.x = newX + 60;
+                location.y = newY + 40;
+                
+                updateConnections();
+            }
+            
+            function stopDrag() {
+                isDragging = false;
+                if (svgElement) {
+                    svgElement.classList.remove('dragging');
+                    svgElement.style.zIndex = '10';
+                }
+                
+                document.removeEventListener('mousemove', drag);
+                document.removeEventListener('touchmove', drag);
+                document.removeEventListener('mouseup', stopDrag);
+                document.removeEventListener('touchend', stopDrag);
+            }
+        }
+
+        // Создание связи между локациями
+        function createConnection() {
+            const fromSelect = document.getElementById('fromLocation');
+            const toSelect = document.getElementById('toLocation');
+            
+            const fromId = fromSelect.value;
+            const toId = toSelect.value;
+            
+            if (!fromId || !toId) {
+                alert('Выберите обе локации!');
+                return;
+            }
+            
+            if (fromId === toId) {
+                alert('Нельзя создать связь локации с самой собой!');
+                return;
+            }
+            
+            // Проверяем, нет ли уже такой связи
+            const connectionId = `${fromId}_${toId}`;
+            const reverseConnectionId = `${toId}_${fromId}`;
+            
+            if (connections.some(conn => conn.id === connectionId || conn.id === reverseConnectionId)) {
+                alert('Такая связь уже существует!');
+                return;
+            }
+            
+            const fromLoc = locations.find(l => l.id === fromId);
+            const toLoc = locations.find(l => l.id === toId);
+            
+            if (!fromLoc || !toLoc) {
+                alert('Одна из локаций не найдена!');
+                return;
+            }
+            
+            const connection = {
+                id: connectionId,
+                from: fromId,
+                to: toId,
+                bidirectional: false
+            };
+            
+            connections.push(connection);
+            graph.addEdge(fromId, toId);
+            
+            renderConnection(connection);
+            updateConnectionsList();
+            
+            // Очищаем выбор
+            fromSelect.value = '';
+            toSelect.value = '';
+        }
+
+        // Отрисовка связи
+        function renderConnection(connection) {
+            const fromLoc = locations.find(l => l.id === connection.from);
+            const toLoc = locations.find(l => l.id === connection.to);
+            
+            if (!fromLoc || !toLoc) return;
+            
+            const svgNS = "http://www.w3.org/2000/svg";
+            const graphArea = document.getElementById('graphArea');
+            
+            // Создаем линию
+            const line = document.createElementNS(svgNS, "line");
+            line.id = `conn_${connection.id}`;
+            line.className = "connection-line";
+            line.setAttribute("stroke", "#4fc3f7");
+            line.setAttribute("opacity", "0.8");
+            
+            // Создаем стрелку
+            const arrow = document.createElementNS(svgNS, "polygon");
+            arrow.id = `arrow_${connection.id}`;
+            arrow.className = "connection-arrow";
+            arrow.setAttribute("points", "0,0 -6,-3 -6,3");
+            arrow.setAttribute("opacity", "0.8");
+            
+            graphArea.appendChild(line);
+            graphArea.appendChild(arrow);
+            
+            updateConnectionPosition(connection);
+        }
+
+        // Обновление позиции связи
+        function updateConnectionPosition(connection) {
+            const fromLoc = locations.find(l => l.id === connection.from);
+            const toLoc = locations.find(l => l.id === connection.to);
+            
+            if (!fromLoc || !toLoc) return;
+            
+            const line = document.getElementById(`conn_${connection.id}`);
+            const arrow = document.getElementById(`arrow_${connection.id}`);
+            
+            if (!line || !arrow) return;
+            
+            // Вычисляем угол между точками
+            const dx = toLoc.x - fromLoc.x;
+            const dy = toLoc.y - fromLoc.y;
+            const angle = Math.atan2(dy, dx);
+            
+            // Корректируем начальную и конечную точки (от края облачка)
+            const radius = 40;
+            const startX = fromLoc.x + Math.cos(angle) * radius;
+            const startY = fromLoc.y + Math.sin(angle) * radius;
+            const endX = toLoc.x - Math.cos(angle) * radius;
+            const endY = toLoc.y - Math.sin(angle) * radius;
+            
+            line.setAttribute("x1", startX);
+            line.setAttribute("y1", startY);
+            line.setAttribute("x2", endX);
+            line.setAttribute("y2", endY);
+            
+            // Позиционируем стрелку
+            arrow.setAttribute("transform", `translate(${endX},${endY}) rotate(${angle * 180 / Math.PI})`);
+        }
+
+        // Обновление всех связей
+        function updateConnections() {
+            connections.forEach(conn => {
+                updateConnectionPosition(conn);
+            });
+        }
+
+        // Обновление списка связей
+        function updateConnectionsList() {
+            const list = document.getElementById('connectionsList');
+            
+            if (connections.length === 0) {
+                list.innerHTML = '<div style="color: #888; font-style: italic;">Пока нет связей</div>';
+                return;
+            }
+            
+            list.innerHTML = '';
+            
+            connections.forEach(conn => {
+                const fromLoc = locations.find(l => l.id === conn.from);
+                const toLoc = locations.find(l => l.id === conn.to);
+                
+                if (!fromLoc || !toLoc) return;
+                
+                const div = document.createElement('div');
+                div.className = 'connection-item';
+                div.innerHTML = `
+                    ${fromLoc.name} → ${toLoc.name}
+                    <button class="remove-connection" data-id="${conn.id}">✕</button>
+                `;
+                
+                list.appendChild(div);
+            });
+            
+            // Добавляем обработчики удаления
+            document.querySelectorAll('.remove-connection').forEach(btn => {
+                btn.addEventListener('click', function() {
+                    const connId = this.dataset.id;
+                    removeConnection(connId);
+                });
+            });
+        }
+
+        // Удаление связи
+        function removeConnection(connId) {
+            connections = connections.filter(conn => conn.id !== connId);
+            
+            // Удаляем из графа
+            const [from, to] = connId.split('_');
+            graph.removeEdge(from, to);
+            
+            // Удаляем из DOM
+            const line = document.getElementById(`conn_${connId}`);
+            const arrow = document.getElementById(`arrow_${connId}`);
+            if (line) line.remove();
+            if (arrow) arrow.remove();
+            
+            updateConnectionsList();
+        }
+
+        // Обновление выпадающих списков локаций
+        function updateLocationSelects() {
+            const fromSelect = document.getElementById('fromLocation');
+            const toSelect = document.getElementById('toLocation');
+            
+            // Сохраняем текущие значения
+            const currentFrom = fromSelect.value;
+            const currentTo = toSelect.value;
+            
+            // Очищаем и заполняем заново
+            fromSelect.innerHTML = '<option value="">Выберите локацию</option>';
+            toSelect.innerHTML = '<option value="">Выберите локацию</option>';
+            
+            locations.forEach(loc => {
+                const option1 = document.createElement('option');
+                option1.value = loc.id;
+                option1.textContent = `${loc.name} (${locationTypes[loc.type].name})`;
+                fromSelect.appendChild(option1);
+                
+                const option2 = document.createElement('option');
+                option2.value = loc.id;
+                option2.textContent = `${loc.name} (${locationTypes[loc.type].name})`;
+                toSelect.appendChild(option2);
+            });
+            
+            // Восстанавливаем значения
+            if (locations.some(l => l.id === currentFrom)) fromSelect.value = currentFrom;
+            if (locations.some(l => l.id === currentTo)) toSelect.value = currentTo;
+        }
+
+        // Генерация кода графа
+        function generateCode() {
+            if (locations.length === 0) {
+                document.getElementById('codeOutput').textContent = '// Сначала создайте хотя бы одну локацию';
+                return;
+            }
+            
+            const graphData = {
+                locations: locations.map(loc => ({
+                    id: loc.id,
+                    name: loc.name,
+                    type: loc.type,
+                    x: Math.round(loc.x),
+                    y: Math.round(loc.y)
+                })),
+                connections: connections.map(conn => ({
+                    from: conn.from,
+                    to: conn.to,
+                    bidirectional: conn.bidirectional
+                }))
+            };
+            
+            const code = `// Код графа локаций
+// Скопируйте этот код для использования в другом месте
+
+const graphData = ${JSON.stringify(graphData, null, 2)};
+
+// Типы локаций
+const locationTypes = ${JSON.stringify(locationTypes, null, 2)};
+
+// Для использования в NetworkX:
+/*
+const graph = new networkx.Graph();
+graphData.locations.forEach(loc => {
+    graph.addNode(loc.id, { ...loc });
+});
+graphData.connections.forEach(conn => {
+    graph.addEdge(conn.from, conn.to);
+});
+*/`;
+            
+            document.getElementById('codeOutput').textContent = code;
+            
+            // Автоматически прокручиваем к коду
+            document.getElementById('codeOutput').scrollIntoView({ behavior: 'smooth' });
+        }
+
+        // Авто-расположение графа
+        function arrangeGraph() {
+            const graphArea = document.getElementById('graphArea');
+            const width = graphArea.offsetWidth;
+            const height = graphArea.offsetHeight;
+            
+            if (locations.length === 0) return;
+            
+            // Простое круговое расположение
+            const centerX = width / 2;
+            const centerY = height / 2;
+            const radius = Math.min(width, height) * 0.35;
+            
+            locations.forEach((loc, index) => {
+                const angle = (index / locations.length) * 2 * Math.PI;
+                loc.x = centerX + Math.cos(angle) * radius;
+                loc.y = centerY + Math.sin(angle) * radius;
+                
+                if (loc.element) {
+                    loc.element.style.left = (loc.x - 60) + "px";
+                    loc.element.style.top = (loc.y - 40) + "px";
+                }
+            });
+            
+            updateConnections();
+        }
+
+        // Очистка всего
+        function clearAll() {
+            if (locations.length === 0 && connections.length === 0) {
+                alert('Нечего очищать!');
+                return;
+            }
+            
+            if (confirm('Вы уверены? Все локации и связи будут удалены.')) {
+                locations = [];
+                connections = [];
+                graph = new networkx.Graph();
+                selectedLocationId = null;
+                
+                document.getElementById('graphArea').innerHTML = '';
+                document.getElementById('connectionsList').innerHTML = '<div style="color: #888; font-style: italic;">Пока нет связей</div>';
+                document.getElementById('codeOutput').textContent = '// Код графа появится здесь...\n// 1. Создайте локации с названиями и типами\n// 2. Создайте связи между ними\n// 3. Нажмите "Сгенерировать код графа"';
+                document.getElementById('deleteSelected').style.display = 'none';
+                
+                updateLocationSelects();
+            }
+        }
+
+        // Загрузка примера данных
+        function loadExampleData() {
+            setTimeout(() => {
+                if (locations.length === 0) {
+                    console.log('Загружаем пример локаций...');
+                    
+                    const exampleLocations = [
+                        { name: "Паллет", type: "city" },
+                        { name: "Лес Вермильон", type: "forest" },
+                        { name: "Гора Лун", type: "mountain" },
+                        { name: "Пещера Мьюту", type: "cave" }
+                    ];
+                    
+                    // Создаем примерные локации
+                    exampleLocations.forEach(locData => {
+                        const nameInput = document.getElementById('locationName');
+                        nameInput.value = locData.name;
+                        selectedType = locData.type;
+                        
+                        // Выбираем соответствующий тип
+                        document.querySelectorAll('.type-option').forEach(opt => {
+                            opt.classList.remove('selected');
+                            if (opt.dataset.type === locData.type) {
+                                opt.classList.add('selected');
+                            }
+                        });
+                        
+                        createLocation();
+                    });
+                    
+                    // Создаем примерные связи
+                    setTimeout(() => {
+                        if (locations.length >= 3) {
+                            const fromSelect = document.getElementById('fromLocation');
+                            const toSelect = document.getElementById('toLocation');
+                            
+                            // Связь 1 → 2
+                            fromSelect.value = locations[0].id;
+                            toSelect.value = locations[1].id;
+                            createConnection();
+                            
+                            // Связь 2 → 3
+                            fromSelect.value = locations[1].id;
+                            toSelect.value = locations[2].id;
+                            createConnection();
+                            
+                            arrangeGraph();
+                        }
+                    }, 300);
+                }
+            }, 500);
+        }
+
+        // Обработчик клика по холсту для снятия выделения
+        document.getElementById('graphArea').addEventListener('click', function(e) {
+            if (e.target.id === 'graphArea') {
+                document.querySelectorAll('.location-node').forEach(node => {
+                    node.classList.remove('selected');
+                });
+                selectedLocationId = null;
+                document.getElementById('deleteSelected').style.display = 'none';
+            }
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,571 @@
+{
+  "FIRE_AFFINITY": {
+    "ru_name": "Сродство к Огню",
+    "bonuses": [
+      { "profession": "INCUBATION", "value": 1.05 },
+      { "profession": "BLACKSMITHING", "value": 1.05 },
+      { "profession": "COOKING", "value": 1.05 }
+    ],
+    "conditions": {
+      "types": ["FIRE"]
+    }
+  },
+  "GARDENING_HELPERS": {
+    "ru_name": "Помощники Садовода",
+    "bonuses": [
+      { "profession": "GARDENING", "value": 1.05 }
+    ],
+    "conditions": {
+      "types": ["WATER", "GRASS"]
+    }
+  },
+  "EARTH_MOVERS": {
+    "ru_name": "Землекопы",
+    "bonuses": [
+      { "profession": "MINING", "value": 1.10 },
+      { "profession": "CONSTRUCTION", "value": 1.05 }
+    ],
+    "conditions": {
+      "types": ["GROUND", "ROCK"]
+    }
+  },
+  "NATURE_GATHERERS": {
+    "ru_name": "Собиратели Природы",
+    "bonuses": [
+      { "profession": "FORAGING", "value": 1.05 },
+      { "profession": "ALCHEMY", "value": 1.05 }
+    ],
+    "conditions": {
+      "types": ["GRASS", "BUG", "POISON"]
+    }
+  },
+  "SMART_WORKERS": {
+    "ru_name": "Интеллектуальный Труд",
+    "bonuses": [
+      { "profession": "RESEARCH", "value": 1.10 },
+      { "profession": "ALCHEMY", "value": 1.05 }
+    ],
+    "conditions": {
+      "types": ["PSYCHIC", "GHOST"]
+    }
+  },
+  "HEAVY_LABOR": {
+    "ru_name": "Тяжелый Труд",
+    "bonuses": [
+      { "profession": "LOGGING", "value": 1.10 },
+      { "profession": "CONSTRUCTION", "value": 1.05 }
+    ],
+    "conditions": {
+      "types": ["FIGHTING"]
+    }
+  },
+  "WATER_DWELLERS": {
+    "ru_name": "Обитатели Вод",
+    "bonuses": [
+      { "profession": "FISHING", "value": 1.10 }
+    ],
+    "conditions": {
+      "types": ["WATER"]
+    }
+  },
+  "MYSTIC_GUARDIANS": {
+    "ru_name": "Мистические Хранители",
+    "bonuses": [
+      { "profession": "CARETAKING", "value": 1.10 },
+      { "profession": "JEWELRY", "value": 1.05 },
+      { "profession": "ALCHEMY", "value": 1.05 }
+    ],
+    "conditions": {
+      "types": ["FAIRY", "DRAGON"]
+    }
+  },
+  "HARDENED_WORKERS": {
+    "ru_name": "Стальные Рабочие",
+    "bonuses": [
+      { "profession": "BLACKSMITHING", "value": 1.10 },
+      { "profession": "MINING", "value": 1.05 }
+    ],
+    "conditions": {
+      "types": ["STEEL"]
+    }
+  },
+  "CONSTRUCTION_CREW": {
+    "ru_name": "Бригада Строителей",
+    "bonuses": [
+      { "profession": "CONSTRUCTION", "value": 1.10 }
+    ],
+    "conditions": {
+      "species": ["MACHOP", "MACHOKE", "MACHAMP", "TIMBURR", "GURDURR", "CONKELDURR"]
+    }
+  },
+  "EGG_NURSES": {
+    "ru_name": "Заботливые Няни",
+    "bonuses": [
+      { "profession": "CARETAKING", "value": 1.25 },
+      { "profession": "INCUBATION", "value": 1.15 }
+    ],
+    "conditions": {
+      "species": ["CHANSEY", "BLISSEY", "AUDINO", "TOGEPI", "TOGETIC", "TOGEKISS"]
+    }
+  },
+  "MASTER_MINERS": {
+    "ru_name": "Мастера-Шахтеры",
+    "bonuses": [
+      { "profession": "MINING", "value": 1.15 }
+    ],
+    "conditions": {
+      "species": ["GEODUDE", "GRAVELER", "GOLEM", "ONIX", "STEELIX", "RHYHORN", "RHYDON", "RHYPERIOR"]
+    }
+  },
+  "LUMBERJACKS": {
+    "ru_name": "Мастера-Лесорубы",
+    "bonuses": [
+      { "profession": "LOGGING", "value": 1.15 }
+    ],
+    "conditions": {
+      "species": ["PINSIR", "SCYTHER", "HERACROSS", "AXEW", "FRAXURE", "HAXORUS"]
+    }
+  },
+  "SILK_WEAVERS": {
+    "ru_name": "Шелкопряды",
+    "bonuses": [
+      { "profession": "TAILORING", "value": 1.20 }
+    ],
+    "conditions": {
+      "species": ["CATERPIE", "WEEDLE", "SPINARAK", "ARIADOS", "WURMPLE", "SEWADDLE", "JOLTIK", "LARVESTA"]
+    }
+  },
+  "HONEY_GATHERERS": {
+    "ru_name": "Сборщики Меда",
+    "bonuses": [
+      { "profession": "FORAGING", "value": 1.20 },
+      { "profession": "COOKING", "value": 1.10 }
+    ],
+    "conditions": {
+      "abilities": ["HONEYGATHER"],
+      "species": ["COMBEE", "VESPIQUEN", "TEDDIURSA", "URSARING"]
+    }
+  },
+  "SUCTION_CUP_FISHERS": {
+    "ru_name": "Рыбаки (Присоски)",
+    "bonuses": [
+      { "profession": "FISHING", "value": 1.25 }
+    ],
+    "conditions": {
+      "abilities": ["SUCTIONCUPS"]
+    }
+  },
+  "MASTER_CHEFS": {
+    "ru_name": "Мастера-Повара",
+    "bonuses": [
+      { "profession": "COOKING", "value": 1.15 }
+    ],
+    "conditions": {
+      "species": ["SNORLAX", "LICKITUNG", "SLOWPOKE", "MILTANK", "ALCREMIE"]
+    }
+  },
+  "KNOWLEDGE_SEEKERS": {
+    "ru_name": "Искатели Знаний",
+    "bonuses": [
+      { "profession": "RESEARCH", "value": 1.15 }
+    ],
+    "conditions": {
+      "species": ["ALAKAZAM", "SLOWKING", "METAGROSS", "PORYGON", "PORYGON2", "PORYGONZ", "ORBEETLE"]
+    }
+  },
+  "BIPEDAL_MANIPULATORS": {
+    "ru_name": "Двуногие Мастера",
+    "bonuses": [
+      { "profession": "ARTISAN", "value": 1.10 },
+      { "profession": "CONSTRUCTION", "value": 1.10 },
+      { "profession": "BLACKSMITHING", "value": 1.05 },
+      { "profession": "ALCHEMY", "value": 1.05 },
+      { "profession": "TAILORING", "value": 1.05 },
+      { "profession": "WOODWORKING", "value": 1.05 }
+    ],
+    "conditions": {
+      "shapes": ["BIPEDAL", "BIPEDALTAIL"]
+    }
+  },
+  "MULTI_ARMED_MASTERS": {
+    "ru_name": "Многорукие Мастера",
+    "bonuses": [
+      { "profession": "ARTISAN", "value": 1.15 },
+      { "profession": "CONSTRUCTION", "value": 1.15 }
+    ],
+    "conditions": {
+      "shapes": ["HEADARMS"]
+    }
+  },
+  "AERIAL_SCOUTS": {
+    "ru_name": "Воздушные Разведчики",
+    "bonuses": [
+      { "profession": "FORAGING", "value": 1.15 }
+    ],
+    "conditions": {
+      "shapes": ["WINGED", "MULTIWINGED"]
+    }
+  },
+  "AMORPHOUS_ALCHEMISTS": {
+    "ru_name": "Аморфные Алхимики",
+    "bonuses": [
+      { "profession": "ALCHEMY", "value": 1.15 }
+    ],
+    "conditions": {
+      "shapes": ["HEAD", "HEADBASE", "MULTIBODY"]
+    }
+  },
+  "BURROWERS_AND_TUNNELERS": {
+    "ru_name": "Землерои",
+    "bonuses": [
+      { "profession": "MINING", "value": 1.15 }
+    ],
+    "conditions": {
+      "shapes": ["SERPENTINE", "INSECTOID"]
+    }
+  },
+  "AQUATIC_FORM": {
+    "ru_name": "Водная Форма",
+    "bonuses": [
+      { "profession": "FISHING", "value": 1.10 }
+    ],
+    "conditions": {
+      "shapes": ["FINNED", "HEADLEGS"]
+    }
+  },
+  "NATURAL_CARRIERS": {
+    "ru_name": "Четвероногие Рабочие",
+    "bonuses": [
+      { "profession": "LOGGING", "value": 1.05 },
+      { "profession": "GARDENING", "value": 1.05 }
+    ],
+    "conditions": {
+      "shapes": ["QUADRUPED"]
+    }
+  },
+  "FLAME_BODY_BONUS": {
+    "ru_name": "Талант: Огненное Тело",
+    "bonuses": [
+      { "profession": "INCUBATION", "value": 1.25 }
+    ],
+    "conditions": {
+      "abilities": ["FLAMEBODY", "MAGMAARMOR"]
+    }
+  },
+  "MASTER_FORAGERS": {
+    "ru_name": "Талант: Собиратель",
+    "bonuses": [
+      { "profession": "FORAGING", "value": 1.25 }
+    ],
+    "conditions": {
+      "abilities": ["PICKUP", "FRISK", "HONEYGATHER"]
+    }
+  },
+  "MASTER_CUTTERS": {
+    "ru_name": "Талант: Острые Клинки",
+    "bonuses": [
+      { "profession": "LOGGING", "value": 1.20 },
+      { "profession": "GARDENING", "value": 1.10 }
+    ],
+    "conditions": {
+      "abilities": ["HYPERCUTTER", "TOUGHCLAWS", "SHARPNESS"]
+    }
+  },
+  "NATURAL_NURSES": {
+    "ru_name": "Талант: Природный Целитель",
+    "bonuses": [
+      { "profession": "CARETAKING", "value": 1.30 },
+      { "profession": "ALCHEMY", "value": 1.10 }
+    ],
+    "conditions": {
+      "abilities": ["HEALER", "NATURALCURE", "FRIENDGUARD"]
+    }
+  },
+  "MASTER_ANGLERS": {
+    "ru_name": "Талант: Мертвая Хватка",
+    "bonuses": [
+      { "profession": "FISHING", "value": 1.30 }
+    ],
+    "conditions": {
+      "abilities": ["SUCTIONCUPS", "STICKYHOLD"]
+    }
+  },
+  "GREEN_THUMB": {
+    "ru_name": "Талант: Зеленый Палец",
+    "bonuses": [
+      { "profession": "GARDENING", "value": 1.20 }
+    ],
+    "conditions": {
+      "abilities": ["HARVEST", "WATERABSORB", "CHLOROPHYLL", "LEAFGUARD"]
+    }
+  },
+  "ANALYTICAL_MINDS": {
+    "ru_name": "Талант: Аналитический Ум",
+    "bonuses": [
+      { "profession": "RESEARCH", "value": 1.25 }
+    ],
+    "conditions": {
+      "abilities": ["ANALYTIC", "DOWNLOAD", "FOREWARN", "TELEPATHY"]
+    }
+  },
+  "POISON_HANDLERS": {
+    "ru_name": "Талант: Иммунитет к Яду",
+    "bonuses": [
+      { "profession": "ALCHEMY", "value": 1.20 }
+    ],
+    "conditions": {
+      "abilities": ["POISONHEAL", "POISONPOINT", "EFFECTSPORE", "TOXICBOOST"]
+    }
+  },
+  "ELECTRIC_PRECISION": {
+    "ru_name": "Электрическая Точность",
+    "bonuses": [
+      { "profession": "ARTISAN", "value": 1.05 },
+      { "profession": "RESEARCH", "value": 1.05 }
+    ],
+    "conditions": {
+      "types": ["ELECTRIC"]
+    }
+  },
+  "TECHNICIAN_CRAFTING": {
+    "ru_name": "Талант: Техник",
+    "bonuses": [
+      { "profession": "ARTISAN", "value": 1.15 }
+    ],
+    "conditions": {
+      "abilities": ["TECHNICIAN", "KEENEYE"]
+    }
+  },
+  "LIVING_GENERATORS": {
+    "ru_name": "Талант: Живой Генератор",
+    "bonuses": [
+      { "profession": "ARTISAN", "value": 1.10 },
+      { "profession": "CONSTRUCTION", "value": 1.10 }
+    ],
+    "conditions": {
+      "abilities": ["VOLTABSORB", "MOTORDRIVE", "LIGHTNINGROD"]
+    }
+  },
+  "TIRELESS_WORKERS": {
+    "ru_name": "Талант: Неутомимый Работник",
+    "bonuses": [
+      { "profession": "CONSTRUCTION", "value": 1.15 },
+      { "profession": "MINING", "value": 1.15 },
+      { "profession": "LOGGING", "value": 1.15 }
+    ],
+    "conditions": {
+      "abilities": ["STAMINA", "GUTS", "STURDY", "ROCKHEAD"]
+    }
+  },
+  "SMEARGLE_ARTISTRY": {
+    "ru_name": "Особое: Художник",
+    "bonuses": [
+      { "profession": "ARTISAN", "value": 1.50 },
+      { "profession": "TAILORING", "value": 1.25 },
+      { "profession": "WOODWORKING", "value": 1.25 }
+    ],
+    "conditions": {
+      "species": ["SMEARGLE"]
+    }
+  },
+  "NURSE_JOY_ASSISTANT": {
+    "ru_name": "Особое: Помощник Медсестры",
+    "bonuses": [
+      { "profession": "CARETAKING", "value": 1.40 },
+      { "profession": "ALCHEMY", "value": 1.20 }
+    ],
+    "conditions": {
+      "species": ["CHANSEY", "BLISSEY", "AUDINO"]
+    }
+  },
+  "DIGITAL_BEING": {
+    "ru_name": "Особое: Цифровое Существо",
+    "bonuses": [
+      { "profession": "RESEARCH", "value": 1.40 }
+    ],
+    "conditions": {
+      "species": ["PORYGON", "PORYGON2", "PORYGONZ"]
+    }
+  },
+  "SUPER_INTELLIGENCE": {
+    "ru_name": "Особое: Сверхинтеллект",
+    "bonuses": [
+      { "profession": "RESEARCH", "value": 1.25 },
+      { "profession": "ALCHEMY", "value": 1.10 }
+    ],
+    "conditions": {
+      "species": ["ALAKAZAM", "METAGROSS", "SLOWKING", "ORBEETLE"]
+    }
+  },
+  "PERFECT_WORKER": {
+    "ru_name": "Особое: Идеальный дровосек",
+    "bonuses": [
+      { "profession": "LOGGING", "value": 1.15 },
+      { "profession": "WOODWORKING", "value": 1.15 }
+    ],
+    "conditions": {
+      "species": ["BIDOOF", "BIBAREL"]
+    }
+  },
+  "GEM_EATERS": {
+    "ru_name": "Особое: Пожиратели Камней",
+    "bonuses": [
+      { "profession": "JEWELRY", "value": 1.30 },
+      { "profession": "MINING", "value": 1.15 }
+    ],
+    "conditions": {
+      "species": ["SABLEYE", "MAWILE", "CARBINK", "DIANCIE"]
+    }
+  },
+  "MASTER_TUNNELERS": {
+    "ru_name": "Особое: Мастера-Туннельщики",
+    "bonuses": [
+      { "profession": "MINING", "value": 1.30 },
+      { "profession": "CONSTRUCTION", "value": 1.10 }
+    ],
+    "conditions": {
+      "species": ["DIGLETT", "DUGTRIO", "DRILBUR", "EXCADRILL"]
+    }
+  },
+  "SPORE_MASTERS": {
+    "ru_name": "Особое: Грибные Споры",
+    "bonuses": [
+      { "profession": "ALCHEMY", "value": 1.25 },
+      { "profession": "GARDENING", "value": 1.10 }
+    ],
+    "conditions": {
+      "species": ["PARAS", "PARASECT", "SHROOMISH", "BRELOOM", "FOONGUS", "AMOONGUSS", "SHIINOTIC"]
+    }
+  },
+  "PAYDAY_BONUS": {
+    "ru_name": "Особое: Pay Day",
+    "bonuses": [
+      { "profession": "FORAGING", "value": 1.20 },
+      { "profession": "JEWELRY", "value": 1.15 }
+    ],
+    "conditions": {
+      "species": ["MEOWTH", "PERSIAN", "PERRSERKER"]
+    }
+  },
+  "LEAF_TAILORS": {
+    "ru_name": "Особое: Лиственный Портной",
+    "bonuses": [
+      { "profession": "TAILORING", "value": 1.30 }
+    ],
+    "conditions": {
+      "species": ["SEWADDLE", "SWADLOON", "LEAVANNY"]
+    }
+  },
+  "ULTIMATE_GOURMAND": {
+    "ru_name": "Особое: Ненасытный Гурман",
+    "bonuses": [
+      { "profession": "COOKING", "value": 1.25 },
+      { "profession": "FORAGING", "value": 1.15 }
+    ],
+    "conditions": {
+      "species": ["SNORLAX", "MUNCHLAX", "LICKITUNG", "LICKILICKY", "SLURPUFF", "GULPIN", "SWALOT"]
+    }
+  },
+  "FORGE_HEART": {
+    "ru_name": "Особое: Сердце Кузни",
+    "bonuses": [
+      { "profession": "BLACKSMITHING", "value": 1.40 },
+      { "profession": "MINING", "value": 1.20 }
+    ],
+    "conditions": {
+      "species": ["HEATRAN", "MAGCARGO", "COALOSSAL"]
+    }
+  },
+  "MOOMOO_MILK": {
+    "ru_name": "Особое: Молоко Муму",
+    "bonuses": [
+      { "profession": "COOKING", "value": 1.20 },
+      { "profession": "CARETAKING", "value": 1.15 }
+    ],
+    "conditions": {
+      "species": ["MILTANK"]
+    }
+  },
+  "MASTER_OF_DISGUISE": {
+    "ru_name": "Особое: Мастер Маскировки",
+    "bonuses": [
+      { "profession": "TAILORING", "value": 1.20 },
+      { "profession":"ARTISAN", "value": 1.20 }
+    ],
+    "conditions": {
+      "species": ["DITTO", "ZORUA", "ZOROARK", "MIMIKYU"]
+    }
+  },
+  "ANTIQUE_SPIRITS": {
+    "ru_name": "Особое: Древние Духи",
+    "bonuses": [
+      { "profession": "ALCHEMY", "value": 1.15 },
+      { "profession": "RESEARCH", "value": 1.15 },
+      { "profession": "ARTISAN", "value": 1.15 }
+    ],
+    "conditions": {
+      "species": ["SINISTEA", "POLTEAGEIST", "YAMASK", "COFAGRIGUS", "RUNERIGUS"]
+    }
+  },
+  "BLADE_MASTERS": {
+    "ru_name": "Особое: Мастера Клинка",
+    "bonuses": [
+      { "profession": "LOGGING", "value": 1.30 },
+      { "profession": "WOODWORKING", "value": 1.20 },
+      { "profession": "BLACKSMITHING", "value": 1.10 }
+    ],
+    "conditions": {
+      "species": ["SCYTHER", "SCIZOR", "KARTANA", "GALLADE", "SIRFETCHD", "BISHARP", "AEGISLASH"]
+    }
+  },
+  "RARE_BEING_BONUS": {
+    "ru_name": "Особое: Легенда",
+    "bonuses": [
+      { "profession": "LOGGING", "value": 1.10 },
+      { "profession": "MINING", "value": 1.10 },
+      { "profession": "FORAGING", "value": 1.10 },
+      { "profession": "FISHING", "value": 1.10 },
+      { "profession": "BLACKSMITHING", "value": 1.10 },
+      { "profession": "WOODWORKING", "value": 1.10 },
+      { "profession": "ALCHEMY", "value": 1.10 },
+      { "profession": "COOKING", "value": 1.10 },
+      { "profession": "ARTISAN", "value": 1.10 },
+      { "profession": "TAILORING", "value": 1.10 },
+      { "profession": "JEWELRY", "value": 1.10 },
+      { "profession": "GARDENING", "value": 1.10 },
+      { "profession": "INCUBATION", "value": 1.10 },
+      { "profession": "CARETAKING", "value": 1.10 },
+      { "profession": "RESEARCH", "value": 1.10 },
+      { "profession": "CONSTRUCTION", "value": 1.10 },
+      { "profession": "GENERAL_LABOR", "value": 1.10 }
+    ],
+    "conditions": {
+      "flags": ["LEGENDARY", "MYTHICAL", "ULTRABEAST"]
+    }
+  },
+  "JACK_OF_ALL_TRADES": {
+    "ru_name": "Особое: Мастер на все руки",
+    "bonuses": [
+      { "profession": "LOGGING", "value": 1.05 },
+      { "profession": "MINING", "value": 1.05 },
+      { "profession": "FORAGING", "value": 1.05 },
+      { "profession": "FISHING", "value": 1.05 },
+      { "profession": "BLACKSMITHING", "value": 1.05 },
+      { "profession": "WOODWORKING", "value": 1.05 },
+      { "profession": "ALCHEMY", "value": 1.05 },
+      { "profession": "COOKING", "value": 1.05 },
+      { "profession": "ARTISAN", "value": 1.05 },
+      { "profession": "TAILORING", "value": 1.05 },
+      { "profession": "JEWELRY", "value": 1.05 },
+      { "profession": "GARDENING", "value": 1.05 },
+      { "profession": "INCUBATION", "value": 1.05 },
+      { "profession": "CARETAKING", "value": 1.05 },
+      { "profession": "RESEARCH", "value": 1.05 },
+      { "profession": "CONSTRUCTION", "value": 1.05 },
+      { "profession": "GENERAL_LABOR", "value": 1.05 }
+    ],
+    "conditions": {
+      "species": ["MEW", "ARCEUS"]
+    }
+  }
+}

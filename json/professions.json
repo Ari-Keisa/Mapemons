@@ -1,0 +1,104 @@
+{
+  "LOGGING": {
+    "num_id": 101,
+    "category": "GATHERING",
+    "ru_name": "🌲 Лесозаготовка",
+    "description": "Добыча древесины разных сортов."
+  },
+  "MINING": {
+    "num_id": 102,
+    "category": "GATHERING",
+    "ru_name": "⛏️ Горное дело",
+    "description": "Добыча камня, руды и ископаемых."
+  },
+  "FORAGING": {
+    "num_id": 103,
+    "category": "GATHERING",
+    "ru_name": "🌿 Собирательство",
+    "description": "Сбор трав, грибов, меда и реагентов."
+  },
+  "FISHING": {
+    "num_id": 104,
+    "category": "GATHERING",
+    "ru_name": "🎣 Рыболовство",
+    "description": "Вылов рыбы и затонувших предметов."
+  },
+  "BLACKSMITHING": {
+    "num_id": 201,
+    "category": "CRAFTING",
+    "ru_name": "🔨 Кузнечное дело",
+    "description": "Переплавка руды в слитки."
+  },
+  "WOODWORKING": {
+    "num_id": 202,
+    "category": "CRAFTING",
+    "ru_name": "🪚 Плотничество",
+    "description": "Обработка древесины и создание мебели."
+  },
+  "ALCHEMY": {
+    "num_id": 203,
+    "category": "CRAFTING",
+    "ru_name": "🧪 Алхимия",
+    "description": "Создание зелий и лечебных предметов."
+  },
+  "COOKING": {
+    "num_id": 204,
+    "category": "CRAFTING",
+    "ru_name": "🍳 Кулинария",
+    "description": "Приготовление еды для баффов и приманок."
+  },
+  "ARTISAN": {
+    "num_id": 205,
+    "category": "CRAFTING",
+    "ru_name": "🎨 Ремесло",
+    "description": "Создание Покеболлов, инструментов, блоков и других предметов."
+  },
+  "TAILORING": {
+    "num_id": 206,
+    "category": "CRAFTING",
+    "ru_name": "🧵 Портняжное дело",
+    "description": "Создание одежды, сумок и тканевых предметов."
+  },
+  "JEWELRY": {
+    "num_id": 207,
+    "category": "CRAFTING",
+    "ru_name": "💎 Ювелирное дело",
+    "description": "Обработка камней эволюции и создание амулетов."
+  },
+  "GARDENING": {
+    "num_id": 301,
+    "category": "OPERATIONS",
+    "ru_name": "🧑‍🌾 Садоводство",
+    "description": "Выращивание и уход за ягодами."
+  },
+  "INCUBATION": {
+    "num_id": 302,
+    "category": "OPERATIONS",
+    "ru_name": "🥚 Инкубация",
+    "description": "Ускорение вылупления яиц в Инкубатории."
+  },
+  "CARETAKING": {
+    "num_id": 303,
+    "category": "OPERATIONS",
+    "ru_name": "❤️ Уход за покемонами",
+    "description": "Уход за покемонами в Яслях, дающий им опыт."
+  },
+  "RESEARCH": {
+    "num_id": 304,
+    "category": "OPERATIONS",
+    "ru_name": "🔬 Исследования",
+    "description": "Открытие новых рецептов и технологий."
+  },
+  "CONSTRUCTION": {
+    "num_id": 305,
+    "category": "OPERATIONS",
+    "ru_name": "🏗️ Строительство",
+    "description": "Ускорение постройки и улучшения зданий."
+  },
+  "GENERAL_LABOR": {
+    "num_id": 401,
+    "category": "EXPLORATION",
+    "ru_name": "📦 Разнорабочий",
+    "description": "Базовые работы, которые могут делать все (охрана, экспедиции)."
+  }
+}

@@ -1,0 +1,10466 @@
+{
+  "pokemon": {
+    "001": {
+      "en": "BULBASAUR",
+      "ru": "БУЛЬБАЗАВР",
+      "type": [
+        "grass",
+        "poison"
+      ],
+      "evolves_to": [
+        "002"
+      ],
+      "evolves_from": null,
+      "is_starter": true
+    },
+    "002": {
+      "en": "IVYSAUR",
+      "ru": "ИВИЗАВР",
+      "type": [
+        "grass",
+        "poison"
+      ],
+      "evolves_to": [
+        "003"
+      ],
+      "evolves_from": [
+        "001"
+      ]
+    },
+    "003": {
+      "en": "VENUSAUR",
+      "ru": "ВЕНУЗАВР",
+      "type": [
+        "grass",
+        "poison"
+      ],
+      "evolves_to": null,
+      "evolves_from": [
+        "002"
+      ]
+    },
+    "004": {
+      "en": "CHARMANDER",
+      "ru": "ЧАРМАНДЕР",
+      "type": [
+        "fire"
+      ],
+      "evolves_to": [
+        "005"
+      ],
+      "evolves_from": null,
+      "is_starter": true
+    },
+    "005": {
+      "en": "CHARMELEON",
+      "ru": "ЧАРМЕЛЕОН",
+      "type": [
+        "fire"
+      ],
+      "evolves_to": [
+        "006"
+      ],
+      "evolves_from": [
+        "004"
+      ]
+    },
+    "006": {
+      "en": "CHARIZARD",
+      "ru": "ЧАРИЗАРД",
+      "type": [
+        "fire",
+        "flying"
+      ],
+      "evolves_to": null,
+      "evolves_from": [
+        "005"
+      ]
+    },
+    "007": {
+      "en": "SQUIRTLE",
+      "ru": "СКВИРТЛ",
+      "type": [
+        "water"
+      ],
+      "evolves_to": [
+        "008"
+      ],
+      "evolves_from": null,
+      "is_starter": true
+    },
+    "008": {
+      "en": "WARTORTLE",
+      "ru": "ВАРТОРТЛ",
+      "type": [
+        "water"
+      ],
+      "evolves_to": [
+        "009"
+      ],
+      "evolves_from": [
+        "007"
+      ]
+    },
+    "009": {
+      "en": "BLASTOISE",
+      "ru": "БЛАСТОЙЗ",
+      "type": [
+        "water"
+      ],
+      "evolves_to": null,
+      "evolves_from": [
+        "008"
+      ]
+    },
+    "010": {
+      "en": "CATERPIE",
+      "ru": "КАТЕРПИ",
+      "type": [
+        "bug"
+      ],
+      "evolves_to": [
+        "011"
+      ],
+      "evolves_from": null
+    },
+    "011": {
+      "en": "METAPOD",
+      "ru": "МЕТАПОД",
+      "type": [
+        "bug"
+      ],
+      "evolves_to": [
+        "012"
+      ],
+      "evolves_from": [
+        "010"
+      ]
+    },
+    "012": {
+      "en": "BUTTERFREE",
+      "ru": "БАТТЕРФРИ",
+      "type": [
+        "bug",
+        "flying"
+      ],
+      "evolves_to": null,
+      "evolves_from": [
+        "011"
+      ]
+    },
+    "013": {
+      "en": "WEEDLE",
+      "ru": "ВИДЛ",
+      "type": [
+        "bug",
+        "poison"
+      ],
+      "evolves_to": [
+        "014"
+      ],
+      "evolves_from": null
+    },
+    "014": {
+      "en": "KAKUNA",
+      "ru": "КАКУНА",
+      "type": [
+        "bug",
+        "poison"
+      ],
+      "evolves_to": [
+        "015"
+      ],
+      "evolves_from": [
+        "013"
+      ]
+    },
+    "015": {
+      "en": "BEEDRILL",
+      "ru": "БИДРИЛЛ",
+      "type": [
+        "bug",
+        "poison"
+      ],
+      "evolves_to": null,
+      "evolves_from": [
+        "014"
+      ]
+    },
+    "016": {
+      "en": "PIDGEY",
+      "ru": "ПИДЖИ",
+      "type": [
+        "normal",
+        "flying"
+      ],
+      "evolves_to": [
+        "017"
+      ],
+      "evolves_from": null
+    },
+    "017": {
+      "en": "PIDGEOTTO",
+      "ru": "ПИДЖИОТТО",
+      "type": [
+        "normal",
+        "flying"
+      ],
+      "evolves_to": [
+        "018"
+      ],
+      "evolves_from": [
+        "016"
+      ]
+    },
+    "018": {
+      "en": "PIDGEOT",
+      "ru": "ПИДЖИОТ",
+      "type": [
+        "normal",
+        "flying"
+      ],
+      "evolves_to": null,
+      "evolves_from": [
+        "017"
+      ]
+    },
+    "019": {
+      "en": "RATTATA",
+      "ru": "РАТТАТА",
+      "type": [
+        "normal"
+      ],
+      "evolves_to": [
+        "020"
+      ],
+      "evolves_from": null
+    },
+    "020": {
+      "en": "RATICATE",
+      "ru": "РАТИКЕЙТ",
+      "type": [
+        "normal"
+      ],
+      "evolves_to": null,
+      "evolves_from": [
+        "019"
+      ]
+    },
+    "021": {
+      "en": "SPEAROW",
+      "ru": "СПИРОУ",
+      "type": [
+        "normal",
+        "flying"
+      ],
+      "evolves_to": [
+        "022"
+      ],
+      "evolves_from": null
+    },
+    "022": {
+      "en": "FEAROW",
+      "ru": "ФИРОУ",
+      "type": [
+        "normal",
+        "flying"
+      ],
+      "evolves_to": null,
+      "evolves_from": [
+        "021"
+      ]
+    },
+    "023": {
+      "en": "EKANS",
+      "ru": "ЭКАНС",
+      "type": [
+        "poison"
+      ],
+      "evolves_to": [
+        "024"
+      ],
+      "evolves_from": null
+    },
+    "024": {
+      "en": "ARBOK",
+      "ru": "АРБОК",
+      "type": [
+        "poison"
+      ],
+      "evolves_to": null,
+      "evolves_from": [
+        "023"
+      ]
+    },
+    "025": {
+      "en": "PIKACHU",
+      "ru": "ПИКАЧУ",
+      "type": [
+        "electric"
+      ],
+      "evolves_to": [
+        "026"
+      ],
+      "evolves_from": [
+        "172"
+      ]
+    },
+    "026": {
+      "en": "RAICHU",
+      "ru": "РАЙЧУ",
+      "type": [
+        "electric"
+      ],
+      "evolves_to": null,
+      "evolves_from": [
+        "025"
+      ]
+    },
+    "027": {
+      "en": "SANDSHREW",
+      "ru": "СЭНДШРЮ",
+      "type": [
+        "ground"
+      ],
+      "evolves_to": [
+        "028"
+      ],
+      "evolves_from": null
+    },
+    "028": {
+      "en": "SANDSLASH",
+      "ru": "СЭНДСЛЭШ",
+      "type": [
+        "ground"
+      ],
+      "evolves_to": null,
+      "evolves_from": [
+        "027"
+      ]
+    },
+    "029": {
+      "en": "NIDORAN♀",
+      "ru": "НИДОРАН♀",
+      "type": [
+        "poison"
+      ],
+      "evolves_to": [
+        "030"
+      ],
+      "evolves_from": null
+    },
+    "030": {
+      "en": "NIDORINA",
+      "ru": "НИДОРИНА",
+      "type": [
+        "poison"
+      ],
+      "evolves_to": [
+        "031"
+      ],
+      "evolves_from": [
+        "029"
+      ]
+    },
+    "031": {
+      "en": "NIDOQUEEN",
+      "ru": "НИДОКУИН",
+      "type": [
+        "poison",
+        "ground"
+      ],
+      "evolves_to": null,
+      "evolves_from": [
+        "030"
+      ]
+    },
+    "032": {
+      "en": "NIDORAN♂",
+      "ru": "НИДОРАН♂",
+      "type": [
+        "poison"
+      ],
+      "evolves_to": [
+        "033"
+      ],
+      "evolves_from": null
+    },
+    "033": {
+      "en": "NIDORINO",
+      "ru": "НИДОРИНО",
+      "type": [
+        "poison"
+      ],
+      "evolves_to": [
+        "034"
+      ],
+      "evolves_from": [
+        "032"
+      ]
+    },
+    "034": {
+      "en": "NIDOKING",
+      "ru": "НИДОКИНГ",
+      "type": [
+        "poison",
+        "ground"
+      ],
+      "evolves_to": null,
+      "evolves_from": [
+        "033"
+      ]
+    },
+    "035": {
+      "en": "CLEFAIRY",
+      "ru": "КЛЕФЕЙРИ",
+      "type": [
+        "fairy"
+      ],
+      "evolves_to": [
+        "036"
+      ],
+      "evolves_from": [
+        "173"
+      ]
+    },
+    "036": {
+      "en": "CLEFABLE",
+      "ru": "КЛЕФЕЙБЛ",
+      "type": [
+        "fairy"
+      ],
+      "evolves_to": null,
+      "evolves_from": [
+        "035"
+      ]
+    },
+    "037": {
+      "en": "VULPIX",
+      "ru": "ВУЛЬПИКС",
+      "type": [
+        "fire"
+      ],
+      "evolves_to": [
+        "038"
+      ],
+      "evolves_from": null
+    },
+    "038": {
+      "en": "NINETALES",
+      "ru": "НАЙНТЕЙЛС",
+      "type": [
+        "fire"
+      ],
+      "evolves_to": null,
+      "evolves_from": [
+        "037"
+      ]
+    },
+    "039": {
+      "en": "JIGGLYPUFF",
+      "ru": "ДЖИГГЛИПУФФ",
+      "type": [
+        "normal",
+        "fairy"
+      ],
+      "evolves_to": [
+        "040"
+      ],
+      "evolves_from": [
+        "174"
+      ]
+    },
+    "040": {
+      "en": "WIGGLYTUFF",
+      "ru": "ВИГГЛИТАФФ",
+      "type": [
+        "normal",
+        "fairy"
+      ],
+      "evolves_to": null,
+      "evolves_from": [
+        "039"
+      ]
+    },
+    "041": {
+      "en": "ZUBAT",
+      "ru": "ЗУБАТ",
+      "type": [
+        "poison",
+        "flying"
+      ],
+      "evolves_to": [
+        "042"
+      ],
+      "evolves_from": null
+    },
+    "042": {
+      "en": "GOLBAT",
+      "ru": "ГОЛБАТ",
+      "type": [
+        "poison",
+        "flying"
+      ],
+      "evolves_to": [
+        "169"
+      ],
+      "evolves_from": [
+        "041"
+      ]
+    },
+    "043": {
+      "en": "ODDISH",
+      "ru": "ОДДИШ",
+      "type": [
+        "grass",
+        "poison"
+      ],
+      "evolves_to": [
+        "044"
+      ],
+      "evolves_from": null
+    },
+    "044": {
+      "en": "GLOOM",
+      "ru": "ГЛУМ",
+      "type": [
+        "grass",
+        "poison"
+      ],
+      "evolves_to": [
+        "045",
+        "182"
+      ],
+      "evolves_from": [
+        "043"
+      ]
+    },
+    "045": {
+      "en": "VILEPLUME",
+      "ru": "ВАЙЛПЛУМ",
+      "type": [
+        "grass",
+        "poison"
+      ],
+      "evolves_to": null,
+      "evolves_from": [
+        "044"
+      ]
+    },
+    "046": {
+      "en": "PARAS",
+      "ru": "ПАРАС",
+      "type": [
+        "bug",
+        "grass"
+      ],
+      "evolves_to": [
+        "047"
+      ],
+      "evolves_from": null
+    },
+    "047": {
+      "en": "PARASECT",
+      "ru": "ПАРАСЕКТ",
+      "type": [
+        "bug",
+        "grass"
+      ],
+      "evolves_to": null,
+      "evolves_from": [
+        "046"
+      ]
+    },
+    "048": {
+      "en": "VENONAT",
+      "ru": "ВЕНОНАТ",
+      "type": [
+        "bug",
+        "poison"
+      ],
+      "evolves_to": [
+        "049"
+      ],
+      "evolves_from": null
+    },
+    "049": {
+      "en": "VENOMOTH",
+      "ru": "ВЕНОМОТ",
+      "type": [
+        "bug",
+        "poison"
+      ],
+      "evolves_to": null,
+      "evolves_from": [
+        "048"
+      ]
+    },
+    "050": {
+      "en": "DIGLETT",
+      "ru": "ДИГЛЕТТ",
+      "type": [
+        "ground"
+      ],
+      "evolves_to": [
+        "051"
+      ],
+      "evolves_from": null
+    },
+    "051": {
+      "en": "DUGTRIO",
+      "ru": "ДАГТРИО",
+      "type": [
+        "ground"
+      ],
+      "evolves_to": null,
+      "evolves_from": [
+        "050"
+      ]
+    },
+    "052": {
+      "en": "MEOWTH",
+      "ru": "МЯУТ",
+      "type": [
+        "normal"
+      ],
+      "evolves_to": [
+        "053",
+        "863"
+      ],
+      "evolves_from": null
+    },
+    "053": {
+      "en": "PERSIAN",
+      "ru": "ПЕРСИАН",
+      "type": [
+        "normal"
+      ],
+      "evolves_to": null,
+      "evolves_from": [
+        "052"
+      ]
+    },
+    "054": {
+      "en": "PSYDUCK",
+      "ru": "ПСАЙДАК",
+      "type": [
+        "water"
+      ],
+      "evolves_to": [
+        "055"
+      ],
+      "evolves_from": null
+    },
+    "055": {
+      "en": "GOLDUCK",
+      "ru": "ГОЛДАК",
+      "type": [
+        "water"
+      ],
+      "evolves_to": null,
+      "evolves_from": [
+        "054"
+      ]
+    },
+    "056": {
+      "en": "MANKEY",
+      "ru": "МАНКИ",
+      "type": [
+        "fighting"
+      ],
+      "evolves_to": [
+        "057"
+      ],
+      "evolves_from": null
+    },
+    "057": {
+      "en": "PRIMEAPE",
+      "ru": "ПРАЙМЕЙП",
+      "type": [
+        "fighting"
+      ],
+      "evolves_to": null,
+      "evolves_from": [
+        "056"
+      ]
+    },
+    "058": {
+      "en": "GROWLITHE",
+      "ru": "ГРОУЛИТ",
+      "type": [
+        "fire"
+      ],
+      "evolves_to": [
+        "059"
+      ],
+      "evolves_from": null
+    },
+    "059": {
+      "en": "ARCANINE",
+      "ru": "АРКАНАЙН",
+      "type": [
+        "fire"
+      ],
+      "evolves_to": null,
+      "evolves_from": [
+        "058"
+      ]
+    },
+    "060": {
+      "en": "POLIWAG",
+      "ru": "ПОЛИВАГ",
+      "type": [
+        "water"
+      ],
+      "evolves_to": [
+        "061"
+      ],
+      "evolves_from": null
+    },
+    "061": {
+      "en": "POLIWHIRL",
+      "ru": "ПОЛИВИРЛ",
+      "type": [
+        "water"
+      ],
+      "evolves_to": [
+        "062",
+        "186"
+      ],
+      "evolves_from": [
+        "060"
+      ]
+    },
+    "062": {
+      "en": "POLIWRATH",
+      "ru": "ПОЛИРАТ",
+      "type": [
+        "water",
+        "fighting"
+      ],
+      "evolves_to": null,
+      "evolves_from": [
+        "061"
+      ]
+    },
+    "063": {
+      "en": "ABRA",
+      "ru": "АБРА",
+      "type": [
+        "psychic"
+      ],
+      "evolves_to": [
+        "064"
+      ],
+      "evolves_from": null
+    },
+    "064": {
+      "en": "KADABRA",
+      "ru": "КАДАБРА",
+      "type": [
+        "psychic"
+      ],
+      "evolves_to": [
+        "065"
+      ],
+      "evolves_from": [
+        "063"
+      ]
+    },
+    "065": {
+      "en": "ALAKAZAM",
+      "ru": "АЛАКАЗАМ",
+      "type": [
+        "psychic"
+      ],
+      "evolves_to": null,
+      "evolves_from": [
+        "064"
+      ]
+    },
+    "066": {
+      "en": "MACHOP",
+      "ru": "МАЧОП",
+      "type": [
+        "fighting"
+      ],
+      "evolves_to": [
+        "067"
+      ],
+      "evolves_from": null
+    },
+    "067": {
+      "en": "MACHOKE",
+      "ru": "МАЧОК",
+      "type": [
+        "fighting"
+      ],
+      "evolves_to": [
+        "068"
+      ],
+      "evolves_from": [
+        "066"
+      ]
+    },
+    "068": {
+      "en": "MACHAMP",
+      "ru": "МАЧЕМП",
+      "type": [
+        "fighting"
+      ],
+      "evolves_to": null,
+      "evolves_from": [
+        "067"
+      ]
+    },
+    "069": {
+      "en": "BELLSPROUT",
+      "ru": "БЕЛЛСПРАУТ",
+      "type": [
+        "grass",
+        "poison"
+      ],
+      "evolves_to": [
+        "070"
+      ],
+      "evolves_from": null
+    },
+    "070": {
+      "en": "WEEPINBELL",
+      "ru": "ВИПИНБЕЛЛ",
+      "type": [
+        "grass",
+        "poison"
+      ],
+      "evolves_to": [
+        "071"
+      ],
+      "evolves_from": [
+        "069"
+      ]
+    },
+    "071": {
+      "en": "VICTREEBEL",
+      "ru": "ВИКТРИБЕЛ",
+      "type": [
+        "grass",
+        "poison"
+      ],
+      "evolves_to": null,
+      "evolves_from": [
+        "070"
+      ]
+    },
+    "072": {
+      "en": "TENTACOOL",
+      "ru": "ТЕНТАКУЛ",
+      "type": [
+        "water",
+        "poison"
+      ],
+      "evolves_to": [
+        "073"
+      ],
+      "evolves_from": null
+    },
+    "073": {
+      "en": "TENTACRUEL",
+      "ru": "ТЕНТАКРУЭЛЬ",
+      "type": [
+        "water",
+        "poison"
+      ],
+      "evolves_to": null,
+      "evolves_from": [
+        "072"
+      ]
+    },
+    "074": {
+      "en": "GEODUDE",
+      "ru": "ГЕОДУД",
+      "type": [
+        "rock",
+        "ground"
+      ],
+      "evolves_to": [
+        "075"
+      ],
+      "evolves_from": null
+    },
+    "075": {
+      "en": "GRAVELER",
+      "ru": "ГРАВЕЛЕР",
+      "type": [
+        "rock",
+        "ground"
+      ],
+      "evolves_to": [
+        "076"
+      ],
+      "evolves_from": [
+        "074"
+      ]
+    },
+    "076": {
+      "en": "GOLEM",
+      "ru": "ГОЛЕМ",
+      "type": [
+        "rock",
+        "ground"
+      ],
+      "evolves_to": null,
+      "evolves_from": [
+        "075"
+      ]
+    },
+    "077": {
+      "en": "PONYTA",
+      "ru": "ПОНИТА",
+      "type": [
+        "fire"
+      ],
+      "evolves_to": [
+        "078"
+      ],
+      "evolves_from": null
+    },
+    "078": {
+      "en": "RAPIDASH",
+      "ru": "РАПИДАШ",
+      "type": [
+        "fire"
+      ],
+      "evolves_to": null,
+      "evolves_from": [
+        "077"
+      ]
+    },
+    "079": {
+      "en": "SLOWPOKE",
+      "ru": "СЛОУПОК",
+      "type": [
+        "water",
+        "psychic"
+      ],
+      "evolves_to": [
+        "080",
+        "199"
+      ],
+      "evolves_from": null
+    },
+    "080": {
+      "en": "SLOWBRO",
+      "ru": "СЛОУБРО",
+      "type": [
+        "water",
+        "psychic"
+      ],
+      "evolves_to": null,
+      "evolves_from": [
+        "079"
+      ]
+    },
+    "081": {
+      "en": "MAGNEMITE",
+      "ru": "МАГНЕМАЙТ",
+      "type": [
+        "electric",
+        "steel"
+      ],
+      "evolves_to": [
+        "082"
+      ],
+      "evolves_from": null
+    },
+    "082": {
+      "en": "MAGNETON",
+      "ru": "МАГНЕТОН",
+      "type": [
+        "electric",
+        "steel"
+      ],
+      "evolves_to": [
+        "462"
+      ],
+      "evolves_from": [
+        "081"
+      ]
+    },
+    "083": {
+      "en": "FARFETCH'D",
+      "ru": "ФАРФЕТЧД",
+      "type": [
+        "normal",
+        "flying"
+      ],
+      "evolves_to": [
+        "865"
+      ],
+      "evolves_from": null
+    },
+    "084": {
+      "en": "DODUO",
+      "ru": "ДОДУО",
+      "type": [
+        "normal",
+        "flying"
+      ],
+      "evolves_to": [
+        "085"
+      ],
+      "evolves_from": null
+    },
+    "085": {
+      "en": "DODRIO",
+      "ru": "ДОДРИО",
+      "type": [
+        "normal",
+        "flying"
+      ],
+      "evolves_to": null,
+      "evolves_from": [
+        "084"
+      ]
+    },
+    "086": {
+      "en": "SEEL",
+      "ru": "СИЛ",
+      "type": [
+        "water"
+      ],
+      "evolves_to": [
+        "087"
+      ],
+      "evolves_from": null
+    },
+    "087": {
+      "en": "DEWGONG",
+      "ru": "ДЬЮГОНГ",
+      "type": [
+        "water",
+        "ice"
+      ],
+      "evolves_to": null,
+      "evolves_from": [
+        "086"
+      ]
+    },
+    "088": {
+      "en": "GRIMER",
+      "ru": "ГРАЙМЕР",
+      "type": [
+        "poison"
+      ],
+      "evolves_to": [
+        "089"
+      ],
+      "evolves_from": null
+    },
+    "089": {
+      "en": "MUK",
+      "ru": "МАК",
+      "type": [
+        "poison"
+      ],
+      "evolves_to": null,
+      "evolves_from": [
+        "088"
+      ]
+    },
+    "090": {
+      "en": "SHELLDER",
+      "ru": "ШЕЛЛДЕР",
+      "type": [
+        "water"
+      ],
+      "evolves_to": [
+        "091"
+      ],
+      "evolves_from": null
+    },
+    "091": {
+      "en": "CLOYSTER",
+      "ru": "КЛОЙСТЕР",
+      "type": [
+        "water",
+        "ice"
+      ],
+      "evolves_to": null,
+      "evolves_from": [
+        "090"
+      ]
+    },
+    "092": {
+      "en": "GASTLY",
+      "ru": "ГАСТЛИ",
+      "type": [
+        "ghost",
+        "poison"
+      ],
+      "evolves_to": [
+        "093"
+      ],
+      "evolves_from": null
+    },
+    "093": {
+      "en": "HAUNTER",
+      "ru": "ХОНТЕР",
+      "type": [
+        "ghost",
+        "poison"
+      ],
+      "evolves_to": [
+        "094"
+      ],
+      "evolves_from": [
+        "092"
+      ]
+    },
+    "094": {
+      "en": "GENGAR",
+      "ru": "ГЕНГАР",
+      "type": [
+        "ghost",
+        "poison"
+      ],
+      "evolves_to": null,
+      "evolves_from": [
+        "093"
+      ]
+    },
+    "095": {
+      "en": "ONIX",
+      "ru": "ОНИКС",
+      "type": [
+        "rock",
+        "ground"
+      ],
+      "evolves_to": [
+        "208"
+      ],
+      "evolves_from": null
+    },
+    "096": {
+      "en": "DROWZEE",
+      "ru": "ДРОУЗИ",
+      "type": [
+        "psychic"
+      ],
+      "evolves_to": [
+        "097"
+      ],
+      "evolves_from": null
+    },
+    "097": {
+      "en": "HYPNO",
+      "ru": "ГИПНО",
+      "type": [
+        "psychic"
+      ],
+      "evolves_to": null,
+      "evolves_from": [
+        "096"
+      ]
+    },
+    "098": {
+      "en": "KRABBY",
+      "ru": "КРАББИ",
+      "type": [
+        "water"
+      ],
+      "evolves_to": [
+        "099"
+      ],
+      "evolves_from": null
+    },
+    "099": {
+      "en": "KINGLER",
+      "ru": "КИНГЛЕР",
+      "type": [
+        "water"
+      ],
+      "evolves_to": null,
+      "evolves_from": [
+        "098"
+      ]
+    },
+    "100": {
+      "en": "VOLTORB",
+      "ru": "ВОЛТОРБ",
+      "type": [
+        "electric"
+      ],
+      "evolves_to": [
+        "101"
+      ],
+      "evolves_from": null
+    },
+    "101": {
+      "en": "ELECTRODE",
+      "ru": "ЭЛЕКТРОД",
+      "type": [
+        "electric"
+      ],
+      "evolves_to": null,
+      "evolves_from": [
+        "100"
+      ]
+    },
+    "102": {
+      "en": "EXEGGCUTE",
+      "ru": "ЭКСЕГГУТ",
+      "type": [
+        "grass",
+        "psychic"
+      ],
+      "evolves_to": [
+        "103"
+      ],
+      "evolves_from": null
+    },
+    "103": {
+      "en": "EXEGGUTOR",
+      "ru": "ЭКСЕГГУТОР",
+      "type": [
+        "grass",
+        "psychic"
+      ],
+      "evolves_to": null,
+      "evolves_from": [
+        "102"
+      ]
+    },
+    "104": {
+      "en": "CUBONE",
+      "ru": "КЬЮБОН",
+      "type": [
+        "ground"
+      ],
+      "evolves_to": [
+        "105"
+      ],
+      "evolves_from": null
+    },
+    "105": {
+      "en": "MAROWAK",
+      "ru": "МАРОВАК",
+      "type": [
+        "ground"
+      ],
+      "evolves_to": null,
+      "evolves_from": [
+        "104"
+      ]
+    },
+    "106": {
+      "en": "HITMONLEE",
+      "ru": "ХИТМОНЛИ",
+      "type": [
+        "fighting"
+      ],
+      "evolves_to": null,
+      "evolves_from": [
+        "236"
+      ]
+    },
+    "107": {
+      "en": "HITMONCHAN",
+      "ru": "ХИТМОНЧАН",
+      "type": [
+        "fighting"
+      ],
+      "evolves_to": null,
+      "evolves_from": [
+        "236"
+      ]
+    },
+    "108": {
+      "en": "LICKITUNG",
+      "ru": "ЛИКИТУНГ",
+      "type": [
+        "normal"
+      ],
+      "evolves_to": [
+        "463"
+      ],
+      "evolves_from": null
+    },
+    "109": {
+      "en": "KOFFING",
+      "ru": "КОФФИНГ",
+      "type": [
+        "poison"
+      ],
+      "evolves_to": [
+        "110"
+      ],
+      "evolves_from": null
+    },
+    "110": {
+      "en": "WEEZING",
+      "ru": "ВИЗИНГ",
+      "type": [
+        "poison"
+      ],
+      "evolves_to": null,
+      "evolves_from": [
+        "109"
+      ]
+    },
+    "111": {
+      "en": "RHYHORN",
+      "ru": "РАЙХОРН",
+      "type": [
+        "ground",
+        "rock"
+      ],
+      "evolves_to": [
+        "112"
+      ],
+      "evolves_from": null
+    },
+    "112": {
+      "en": "RHYDON",
+      "ru": "РАЙДОН",
+      "type": [
+        "ground",
+        "rock"
+      ],
+      "evolves_to": [
+        "464"
+      ],
+      "evolves_from": [
+        "111"
+      ]
+    },
+    "113": {
+      "en": "CHANSEY",
+      "ru": "ЧЕНСИ",
+      "type": [
+        "normal"
+      ],
+      "evolves_to": [
+        "242"
+      ],
+      "evolves_from": [
+        "440"
+      ]
+    },
+    "114": {
+      "en": "TANGELA",
+      "ru": "ТАНГЕЛА",
+      "type": [
+        "grass"
+      ],
+      "evolves_to": [
+        "465"
+      ],
+      "evolves_from": null
+    },
+    "115": {
+      "en": "KANGASKHAN",
+      "ru": "КАНГАСХАН",
+      "type": [
+        "normal"
+      ],
+      "evolves_to": null,
+      "evolves_from": null
+    },
+    "116": {
+      "en": "HORSEA",
+      "ru": "ХОРСИ",
+      "type": [
+        "water"
+      ],
+      "evolves_to": [
+        "117"
+      ],
+      "evolves_from": null
+    },
+    "117": {
+      "en": "SEADRA",
+      "ru": "СИДРА",
+      "type": [
+        "water"
+      ],
+      "evolves_to": [
+        "230"
+      ],
+      "evolves_from": [
+        "116"
+      ]
+    },
+    "118": {
+      "en": "GOLDEEN",
+      "ru": "ГОЛДИН",
+      "type": [
+        "water"
+      ],
+      "evolves_to": [
+        "119"
+      ],
+      "evolves_from": null
+    },
+    "119": {
+      "en": "SEAKING",
+      "ru": "СИКИНГ",
+      "type": [
+        "water"
+      ],
+      "evolves_to": null,
+      "evolves_from": [
+        "118"
+      ]
+    },
+    "120": {
+      "en": "STARYU",
+      "ru": "СТАРЬЮ",
+      "type": [
+        "water"
+      ],
+      "evolves_to": [
+        "121"
+      ],
+      "evolves_from": null
+    },
+    "121": {
+      "en": "STARMIE",
+      "ru": "СТАРМИ",
+      "type": [
+        "water",
+        "psychic"
+      ],
+      "evolves_to": null,
+      "evolves_from": [
+        "120"
+      ]
+    },
+    "122": {
+      "en": "MR. MIME",
+      "ru": "МИСТЕР МАЙМ",
+      "type": [
+        "psychic",
+        "fairy"
+      ],
+      "evolves_to": null,
+      "evolves_from": [
+        "439"
+      ]
+    },
+    "123": {
+      "en": "SCYTHER",
+      "ru": "САЙТЕР",
+      "type": [
+        "bug",
+        "flying"
+      ],
+      "evolves_to": [
+        "212",
+        "900"
+      ],
+      "evolves_from": null
+    },
+    "124": {
+      "en": "JYNX",
+      "ru": "ДЖИНКС",
+      "type": [
+        "ice",
+        "psychic"
+      ],
+      "evolves_to": null,
+      "evolves_from": [
+        "238"
+      ]
+    },
+    "125": {
+      "en": "ELECTABUZZ",
+      "ru": "ЭЛЕКТАБАЗЗ",
+      "type": [
+        "electric"
+      ],
+      "evolves_to": [
+        "466"
+      ],
+      "evolves_from": [
+        "239"
+      ]
+    },
+    "126": {
+      "en": "MAGMAR",
+      "ru": "МАГМАР",
+      "type": [
+        "fire"
+      ],
+      "evolves_to": [
+        "467"
+      ],
+      "evolves_from": [
+        "240"
+      ]
+    },
+    "127": {
+      "en": "PINSIR",
+      "ru": "ПИНСИР",
+      "type": [
+        "bug"
+      ],
+      "evolves_to": null,
+      "evolves_from": null
+    },
+    "128": {
+      "en": "TAUROS",
+      "ru": "ТАУРОС",
+      "type": [
+        "normal"
+      ],
+      "evolves_to": null,
+      "evolves_from": null
+    },
+    "129": {
+      "en": "MAGIKARP",
+      "ru": "МЭДЖИКАРП",
+      "type": [
+        "water"
+      ],
+      "evolves_to": [
+        "130"
+      ],
+      "evolves_from": null
+    },
+    "130": {
+      "en": "GYARADOS",
+      "ru": "ГЯРАДОС",
+      "type": [
+        "water",
+        "flying"
+      ],
+      "evolves_to": null,
+      "evolves_from": [
+        "129"
+      ]
+    },
+    "131": {
+      "en": "LAPRAS",
+      "ru": "ЛАПРАС",
+      "type": [
+        "water",
+        "ice"
+      ],
+      "evolves_to": null,
+      "evolves_from": null
+    },
+    "132": {
+      "en": "DITTO",
+      "ru": "ДИТТО",
+      "type": [
+        "normal"
+      ],
+      "evolves_to": null,
+      "evolves_from": null
+    },
+    "133": {
+      "en": "EEVEE",
+      "ru": "ИВИ",
+      "type": [
+        "normal"
+      ],
+      "evolves_to": [
+        "134",
+        "135",
+        "136",
+        "196",
+        "197",
+        "470",
+        "471",
+        "700"
+      ],
+      "evolves_from": null
+    },
+    "134": {
+      "en": "VAPOREON",
+      "ru": "ВАПОРЕОН",
+      "type": [
+        "water"
+      ],
+      "evolves_to": null,
+      "evolves_from": [
+        "133"
+      ]
+    },
+    "135": {
+      "en": "JOLTEON",
+      "ru": "ДЖОЛТЕОН",
+      "type": [
+        "electric"
+      ],
+      "evolves_to": null,
+      "evolves_from": [
+        "133"
+      ]
+    },
+    "136": {
+      "en": "FLAREON",
+      "ru": "ФЛАРЕОН",
+      "type": [
+        "fire"
+      ],
+      "evolves_to": null,
+      "evolves_from": [
+        "133"
+      ]
+    },
+    "137": {
+      "en": "PORYGON",
+      "ru": "ПОРИГОН",
+      "type": [
+        "normal"
+      ],
+      "evolves_to": [
+        "233"
+      ],
+      "evolves_from": null
+    },
+    "138": {
+      "en": "OMANYTE",
+      "ru": "ОМАНАЙТ",
+      "type": [
+        "rock",
+        "water"
+      ],
+      "evolves_to": [
+        "139"
+      ],
+      "evolves_from": null
+    },
+    "139": {
+      "en": "OMASTAR",
+      "ru": "ОМАСТАР",
+      "type": [
+        "rock",
+        "water"
+      ],
+      "evolves_to": null,
+      "evolves_from": [
+        "138"
+      ]
+    },
+    "140": {
+      "en": "KABUTO",
+      "ru": "КАБУТО",
+      "type": [
+        "rock",
+        "water"
+      ],
+      "evolves_to": [
+        "141"
+      ],
+      "evolves_from": null
+    },
+    "141": {
+      "en": "KABUTOPS",
+      "ru": "КАБУТОПС",
+      "type": [
+        "rock",
+        "water"
+      ],
+      "evolves_to": null,
+      "evolves_from": [
+        "140"
+      ]
+    },
+    "142": {
+      "en": "AERODACTYL",
+      "ru": "АЭРОДАКТИЛЬ",
+      "type": [
+        "rock",
+        "flying"
+      ],
+      "evolves_to": null,
+      "evolves_from": null
+    },
+    "143": {
+      "en": "SNORLAX",
+      "ru": "СНОРЛАКС",
+      "type": [
+        "normal"
+      ],
+      "evolves_to": null,
+      "evolves_from": [
+        "446"
+      ]
+    },
+    "144": {
+      "en": "ARTICUNO",
+      "ru": "АРТИКУНО",
+      "type": [
+        "ice",
+        "flying"
+      ],
+      "evolves_to": null,
+      "evolves_from": null,
+      "is_legendary": true
+    },
+    "145": {
+      "en": "ZAPDOS",
+      "ru": "ЗАПДОС",
+      "type": [
+        "electric",
+        "flying"
+      ],
+      "evolves_to": null,
+      "evolves_from": null,
+      "is_legendary": true
+    },
+    "146": {
+      "en": "MOLTRES",
+      "ru": "МОЛТРЕС",
+      "type": [
+        "fire",
+        "flying"
+      ],
+      "evolves_to": null,
+      "evolves_from": null,
+      "is_legendary": true
+    },
+    "147": {
+      "en": "DRATINI",
+      "ru": "ДРАТИНИ",
+      "type": [
+        "dragon"
+      ],
+      "evolves_to": [
+        "148"
+      ],
+      "evolves_from": null
+    },
+    "148": {
+      "en": "DRAGONAIR",
+      "ru": "ДРАГОНАЙР",
+      "type": [
+        "dragon"
+      ],
+      "evolves_to": [
+        "149"
+      ],
+      "evolves_from": [
+        "147"
+      ]
+    },
+    "149": {
+      "en": "DRAGONITE",
+      "ru": "ДРАГОНАЙТ",
+      "type": [
+        "dragon",
+        "flying"
+      ],
+      "evolves_to": null,
+      "evolves_from": [
+        "148"
+      ]
+    },
+    "150": {
+      "en": "MEWTWO",
+      "ru": "МЬЮТУ",
+      "type": [
+        "psychic"
+      ],
+      "evolves_to": null,
+      "evolves_from": null,
+      "is_legendary": true
+    },
+    "151": {
+      "en": "MEW",
+      "ru": "МЬЮ",
+      "type": [
+        "psychic"
+      ],
+      "evolves_to": null,
+      "evolves_from": null,
+      "is_legendary": true
+    },
+    "152": {
+      "en": "CHIKORITA",
+      "ru": "ЧИКОРИТА",
+      "type": [
+        "grass"
+      ],
+      "evolves_to": [
+        "153"
+      ],
+      "evolves_from": null,
+      "is_starter": true
+    },
+    "153": {
+      "en": "BAYLEEF",
+      "ru": "БЭЙЛИФ",
+      "type": [
+        "grass"
+      ],
+      "evolves_to": [
+        "154"
+      ],
+      "evolves_from": [
+        "152"
+      ]
+    },
+    "154": {
+      "en": "MEGANIUM",
+      "ru": "МЕГАНИУМ",
+      "type": [
+        "grass"
+      ],
+      "evolves_to": null,
+      "evolves_from": [
+        "153"
+      ]
+    },
+    "155": {
+      "en": "CYNDAQUIL",
+      "ru": "СИНДАКВИЛ",
+      "type": [
+        "fire"
+      ],
+      "evolves_to": [
+        "156"
+      ],
+      "evolves_from": null,
+      "is_starter": true
+    },
+    "156": {
+      "en": "QUILAVA",
+      "ru": "КВИЛАВА",
+      "type": [
+        "fire"
+      ],
+      "evolves_to": [
+        "157"
+      ],
+      "evolves_from": [
+        "155"
+      ]
+    },
+    "157": {
+      "en": "TYPHLOSION",
+      "ru": "ТАЙФЛОЖН",
+      "type": [
+        "fire"
+      ],
+      "evolves_to": null,
+      "evolves_from": [
+        "156"
+      ]
+    },
+    "158": {
+      "en": "TOTODILE",
+      "ru": "ТОТОДАЙЛ",
+      "type": [
+        "water"
+      ],
+      "evolves_to": [
+        "159"
+      ],
+      "evolves_from": null,
+      "is_starter": true
+    },
+    "159": {
+      "en": "CROCONAW",
+      "ru": "КРОКОНАВ",
+      "type": [
+        "water"
+      ],
+      "evolves_to": [
+        "160"
+      ],
+      "evolves_from": [
+        "158"
+      ]
+    },
+    "160": {
+      "en": "FERALIGATR",
+      "ru": "ФЕРАЛИГАТР",
+      "type": [
+        "water"
+      ],
+      "evolves_to": null,
+      "evolves_from": [
+        "159"
+      ]
+    },
+    "161": {
+      "en": "SENTRET",
+      "ru": "СЕНТРЕТ",
+      "type": [
+        "normal"
+      ],
+      "evolves_to": [
+        "162"
+      ],
+      "evolves_from": null
+    },
+    "162": {
+      "en": "FURRET",
+      "ru": "ФУРРЕТ",
+      "type": [
+        "normal"
+      ],
+      "evolves_to": null,
+      "evolves_from": [
+        "161"
+      ]
+    },
+    "163": {
+      "en": "HOOTHOOT",
+      "ru": "ХУТХУТ",
+      "type": [
+        "normal",
+        "flying"
+      ],
+      "evolves_to": [
+        "164"
+      ],
+      "evolves_from": null
+    },
+    "164": {
+      "en": "NOCTOWL",
+      "ru": "НОКТАУЛ",
+      "type": [
+        "normal",
+        "flying"
+      ],
+      "evolves_to": null,
+      "evolves_from": [
+        "163"
+      ]
+    },
+    "165": {
+      "en": "LEDYBA",
+      "ru": "ЛЕДИБА",
+      "type": [
+        "bug",
+        "flying"
+      ],
+      "evolves_to": [
+        "166"
+      ],
+      "evolves_from": null
+    },
+    "166": {
+      "en": "LEDIAN",
+      "ru": "ЛЕДИАН",
+      "type": [
+        "bug",
+        "flying"
+      ],
+      "evolves_to": null,
+      "evolves_from": [
+        "165"
+      ]
+    },
+    "167": {
+      "en": "SPINARAK",
+      "ru": "СПИНАРАК",
+      "type": [
+        "bug",
+        "poison"
+      ],
+      "evolves_to": [
+        "168"
+      ],
+      "evolves_from": null
+    },
+    "168": {
+      "en": "ARIADOS",
+      "ru": "АРИАДОС",
+      "type": [
+        "bug",
+        "poison"
+      ],
+      "evolves_to": null,
+      "evolves_from": [
+        "167"
+      ]
+    },
+    "169": {
+      "en": "CROBAT",
+      "ru": "КРОБАТ",
+      "type": [
+        "poison",
+        "flying"
+      ],
+      "evolves_to": null,
+      "evolves_from": [
+        "042"
+      ]
+    },
+    "170": {
+      "en": "CHINCHOU",
+      "ru": "ЧИНЧОУ",
+      "type": [
+        "water",
+        "electric"
+      ],
+      "evolves_to": [
+        "171"
+      ],
+      "evolves_from": null
+    },
+    "171": {
+      "en": "LANTURN",
+      "ru": "ЛАНТУРН",
+      "type": [
+        "water",
+        "electric"
+      ],
+      "evolves_to": null,
+      "evolves_from": [
+        "170"
+      ]
+    },
+    "172": {
+      "en": "PICHU",
+      "ru": "ПИЧУ",
+      "type": [
+        "electric"
+      ],
+      "evolves_to": [
+        "025"
+      ],
+      "evolves_from": null
+    },
+    "173": {
+      "en": "CLEFFA",
+      "ru": "КЛЕФФА",
+      "type": [
+        "fairy"
+      ],
+      "evolves_to": [
+        "035"
+      ],
+      "evolves_from": null
+    },
+    "174": {
+      "en": "IGGLYBUFF",
+      "ru": "ИГГЛИБАФФ",
+      "type": [
+        "normal",
+        "fairy"
+      ],
+      "evolves_to": [
+        "039"
+      ],
+      "evolves_from": null
+    },
+    "175": {
+      "en": "TOGEPI",
+      "ru": "ТОГЕПИ",
+      "type": [
+        "fairy"
+      ],
+      "evolves_to": [
+        "176"
+      ],
+      "evolves_from": null
+    },
+    "176": {
+      "en": "TOGETIC",
+      "ru": "ТОГЕТИК",
+      "type": [
+        "fairy",
+        "flying"
+      ],
+      "evolves_to": [
+        "468"
+      ],
+      "evolves_from": [
+        "175"
+      ]
+    },
+    "177": {
+      "en": "NATU",
+      "ru": "НАТУ",
+      "type": [
+        "psychic",
+        "flying"
+      ],
+      "evolves_to": [
+        "178"
+      ],
+      "evolves_from": null
+    },
+    "178": {
+      "en": "XATU",
+      "ru": "КСАТУ",
+      "type": [
+        "psychic",
+        "flying"
+      ],
+      "evolves_to": null,
+      "evolves_from": [
+        "177"
+      ]
+    },
+    "179": {
+      "en": "MAREEP",
+      "ru": "МАРИП",
+      "type": [
+        "electric"
+      ],
+      "evolves_to": [
+        "180"
+      ],
+      "evolves_from": null
+    },
+    "180": {
+      "en": "FLAAFFY",
+      "ru": "ФЛААФФИ",
+      "type": [
+        "electric"
+      ],
+      "evolves_to": [
+        "181"
+      ],
+      "evolves_from": [
+        "179"
+      ]
+    },
+    "181": {
+      "en": "AMPHAROS",
+      "ru": "АМФАРОС",
+      "type": [
+        "electric"
+      ],
+      "evolves_to": null,
+      "evolves_from": [
+        "180"
+      ]
+    },
+    "182": {
+      "en": "BELLOSSOM",
+      "ru": "БЕЛЛОССОМ",
+      "type": [
+        "grass"
+      ],
+      "evolves_to": null,
+      "evolves_from": [
+        "044"
+      ]
+    },
+    "183": {
+      "en": "MARILL",
+      "ru": "МАРИЛЛ",
+      "type": [
+        "water",
+        "fairy"
+      ],
+      "evolves_to": [
+        "184"
+      ],
+      "evolves_from": [
+        "298"
+      ]
+    },
+    "184": {
+      "en": "AZUMARILL",
+      "ru": "АЗУМАРИЛЛ",
+      "type": [
+        "water",
+        "fairy"
+      ],
+      "evolves_to": null,
+      "evolves_from": [
+        "183"
+      ]
+    },
+    "185": {
+      "en": "SUDOWOODO",
+      "ru": "СУДОВУДО",
+      "type": [
+        "rock"
+      ],
+      "evolves_to": null,
+      "evolves_from": [
+        "438"
+      ]
+    },
+    "186": {
+      "en": "POLITOED",
+      "ru": "ПОЛИТОД",
+      "type": [
+        "water"
+      ],
+      "evolves_to": null,
+      "evolves_from": [
+        "061"
+      ]
+    },
+    "187": {
+      "en": "HOPPIP",
+      "ru": "ХОППИП",
+      "type": [
+        "grass",
+        "flying"
+      ],
+      "evolves_to": [
+        "188"
+      ],
+      "evolves_from": null
+    },
+    "188": {
+      "en": "SKIPLOOM",
+      "ru": "СКИПЛУМ",
+      "type": [
+        "grass",
+        "flying"
+      ],
+      "evolves_to": [
+        "189"
+      ],
+      "evolves_from": [
+        "187"
+      ]
+    },
+    "189": {
+      "en": "JUMPLUFF",
+      "ru": "ДЖАМПЛАФФ",
+      "type": [
+        "grass",
+        "flying"
+      ],
+      "evolves_to": null,
+      "evolves_from": [
+        "188"
+      ]
+    },
+    "190": {
+      "en": "AIPOM",
+      "ru": "ЭЙПОМ",
+      "type": [
+        "normal"
+      ],
+      "evolves_to": [
+        "424"
+      ],
+      "evolves_from": null
+    },
+    "191": {
+      "en": "SUNKERN",
+      "ru": "САНКЕРН",
+      "type": [
+        "grass"
+      ],
+      "evolves_to": [
+        "192"
+      ],
+      "evolves_from": null
+    },
+    "192": {
+      "en": "SUNFLORA",
+      "ru": "САНФЛОРА",
+      "type": [
+        "grass"
+      ],
+      "evolves_to": null,
+      "evolves_from": [
+        "191"
+      ]
+    },
+    "193": {
+      "en": "YANMA",
+      "ru": "ЯНМА",
+      "type": [
+        "bug",
+        "flying"
+      ],
+      "evolves_to": [
+        "469"
+      ],
+      "evolves_from": null
+    },
+    "194": {
+      "en": "WOOPER",
+      "ru": "ВУПЕР",
+      "type": [
+        "water",
+        "ground"
+      ],
+      "evolves_to": [
+        "195"
+      ],
+      "evolves_from": null
+    },
+    "195": {
+      "en": "QUAGSIRE",
+      "ru": "КВАГСАЙР",
+      "type": [
+        "water",
+        "ground"
+      ],
+      "evolves_to": null,
+      "evolves_from": [
+        "194"
+      ]
+    },
+    "196": {
+      "en": "ESPEON",
+      "ru": "ЭСПЕОН",
+      "type": [
+        "psychic"
+      ],
+      "evolves_to": null,
+      "evolves_from": [
+        "133"
+      ]
+    },
+    "197": {
+      "en": "UMBREON",
+      "ru": "АМБРЕОН",
+      "type": [
+        "dark"
+      ],
+      "evolves_to": null,
+      "evolves_from": [
+        "133"
+      ]
+    },
+    "198": {
+      "en": "MURKROW",
+      "ru": "МЕРКРОУ",
+      "type": [
+        "dark",
+        "flying"
+      ],
+      "evolves_to": [
+        "430"
+      ],
+      "evolves_from": null
+    },
+    "199": {
+      "en": "SLOWKING",
+      "ru": "СЛОУКИНГ",
+      "type": [
+        "water",
+        "psychic"
+      ],
+      "evolves_to": null,
+      "evolves_from": [
+        "079"
+      ]
+    },
+    "200": {
+      "en": "MISDREAVUS",
+      "ru": "МИСДРИВУС",
+      "type": [
+        "ghost"
+      ],
+      "evolves_to": [
+        "429"
+      ],
+      "evolves_from": null
+    },
+    "201": {
+      "en": "UNOWN",
+      "ru": "АНОУН",
+      "type": [
+        "psychic"
+      ],
+      "evolves_to": null,
+      "evolves_from": null
+    },
+    "202": {
+      "en": "WOBBUFFET",
+      "ru": "ВОББАФЕТ",
+      "type": [
+        "psychic"
+      ],
+      "evolves_to": null,
+      "evolves_from": [
+        "360"
+      ]
+    },
+    "203": {
+      "en": "GIRAFARIG",
+      "ru": "ЖИРАФАРИГ",
+      "type": [
+        "normal",
+        "psychic"
+      ],
+      "evolves_to": [
+        "981"
+      ],
+      "evolves_from": null
+    },
+    "204": {
+      "en": "PINECO",
+      "ru": "ПАЙНЕКО",
+      "type": [
+        "bug"
+      ],
+      "evolves_to": [
+        "205"
+      ],
+      "evolves_from": null
+    },
+    "205": {
+      "en": "FORRETRESS",
+      "ru": "ФОРРЕТРЭСС",
+      "type": [
+        "bug",
+        "steel"
+      ],
+      "evolves_to": null,
+      "evolves_from": [
+        "204"
+      ]
+    },
+    "206": {
+      "en": "DUNSPARCE",
+      "ru": "ДАНСПАРС",
+      "type": [
+        "normal"
+      ],
+      "evolves_to": [
+        "982"
+      ],
+      "evolves_from": null
+    },
+    "207": {
+      "en": "GLIGAR",
+      "ru": "ГЛАЙГАР",
+      "type": [
+        "ground",
+        "flying"
+      ],
+      "evolves_to": [
+        "472"
+      ],
+      "evolves_from": null
+    },
+    "208": {
+      "en": "STEELIX",
+      "ru": "СТИЛИКС",
+      "type": [
+        "steel",
+        "ground"
+      ],
+      "evolves_to": null,
+      "evolves_from": [
+        "095"
+      ]
+    },
+    "209": {
+      "en": "SNUBBULL",
+      "ru": "СНАББУЛЛ",
+      "type": [
+        "fairy"
+      ],
+      "evolves_to": [
+        "210"
+      ],
+      "evolves_from": null
+    },
+    "210": {
+      "en": "GRANBULL",
+      "ru": "ГРАНБУЛЛ",
+      "type": [
+        "fairy"
+      ],
+      "evolves_to": null,
+      "evolves_from": [
+        "209"
+      ]
+    },
+    "211": {
+      "en": "QWILFISH",
+      "ru": "КВИЛФИШ",
+      "type": [
+        "water",
+        "poison"
+      ],
+      "evolves_to": null,
+      "evolves_from": null
+    },
+    "212": {
+      "en": "SCIZOR",
+      "ru": "СКИЗОР",
+      "type": [
+        "bug",
+        "steel"
+      ],
+      "evolves_to": null,
+      "evolves_from": [
+        "123"
+      ]
+    },
+    "213": {
+      "en": "SHUCKLE",
+      "ru": "ШАКЛ",
+      "type": [
+        "bug",
+        "rock"
+      ],
+      "evolves_to": null,
+      "evolves_from": null
+    },
+    "214": {
+      "en": "HERACROSS",
+      "ru": "ГЕРАКРОСС",
+      "type": [
+        "bug",
+        "fighting"
+      ],
+      "evolves_to": null,
+      "evolves_from": null
+    },
+    "215": {
+      "en": "SNEASEL",
+      "ru": "СНИЗЕЛ",
+      "type": [
+        "dark",
+        "ice"
+      ],
+      "evolves_to": [
+        "461"
+      ],
+      "evolves_from": null
+    },
+    "216": {
+      "en": "TEDDIURSA",
+      "ru": "ТЕДДИУРСА",
+      "type": [
+        "normal"
+      ],
+      "evolves_to": [
+        "217"
+      ],
+      "evolves_from": null
+    },
+    "217": {
+      "en": "URSARING",
+      "ru": "УРСАРИНГ",
+      "type": [
+        "normal"
+      ],
+      "evolves_to": [
+        "901"
+      ],
+      "evolves_from": [
+        "216"
+      ]
+    },
+    "218": {
+      "en": "SLUGMA",
+      "ru": "СЛАГМА",
+      "type": [
+        "fire"
+      ],
+      "evolves_to": [
+        "219"
+      ],
+      "evolves_from": null
+    },
+    "219": {
+      "en": "MAGCARGO",
+      "ru": "МАГКАРГО",
+      "type": [
+        "fire",
+        "rock"
+      ],
+      "evolves_to": null,
+      "evolves_from": [
+        "218"
+      ]
+    },
+    "220": {
+      "en": "SWINUB",
+      "ru": "СВИНАБ",
+      "type": [
+        "ice",
+        "ground"
+      ],
+      "evolves_to": [
+        "221"
+      ],
+      "evolves_from": null
+    },
+    "221": {
+      "en": "PILOSWINE",
+      "ru": "ПИЛОСВАЙН",
+      "type": [
+        "ice",
+        "ground"
+      ],
+      "evolves_to": [
+        "473"
+      ],
+      "evolves_from": [
+        "220"
+      ]
+    },
+    "222": {
+      "en": "CORSOLA",
+      "ru": "КОРСОЛА",
+      "type": [
+        "water",
+        "rock"
+      ],
+      "evolves_to": null,
+      "evolves_from": null
+    },
+    "223": {
+      "en": "REMORAID",
+      "ru": "РЕМОРАЙД",
+      "type": [
+        "water"
+      ],
+      "evolves_to": [
+        "224"
+      ],
+      "evolves_from": null
+    },
+    "224": {
+      "en": "OCTILLERY",
+      "ru": "ОКТИЛЛЕРИ",
+      "type": [
+        "water"
+      ],
+      "evolves_to": null,
+      "evolves_from": [
+        "223"
+      ]
+    },
+    "225": {
+      "en": "DELIBIRD",
+      "ru": "ДЕЛИБЕРД",
+      "type": [
+        "ice",
+        "flying"
+      ],
+      "evolves_to": null,
+      "evolves_from": null
+    },
+    "226": {
+      "en": "MANTINE",
+      "ru": "МАНТАЙН",
+      "type": [
+        "water",
+        "flying"
+      ],
+      "evolves_to": null,
+      "evolves_from": [
+        "458"
+      ]
+    },
+    "227": {
+      "en": "SKARMORY",
+      "ru": "СКАРМОРИ",
+      "type": [
+        "steel",
+        "flying"
+      ],
+      "evolves_to": null,
+      "evolves_from": null
+    },
+    "228": {
+      "en": "HOUNDOUR",
+      "ru": "ХАНДУР",
+      "type": [
+        "dark",
+        "fire"
+      ],
+      "evolves_to": [
+        "229"
+      ],
+      "evolves_from": null
+    },
+    "229": {
+      "en": "HOUNDOOM",
+      "ru": "ХАНДУМ",
+      "type": [
+        "dark",
+        "fire"
+      ],
+      "evolves_to": null,
+      "evolves_from": [
+        "228"
+      ]
+    },
+    "230": {
+      "en": "KINGDRA",
+      "ru": "КИНГДРА",
+      "type": [
+        "water",
+        "dragon"
+      ],
+      "evolves_to": null,
+      "evolves_from": [
+        "117"
+      ]
+    },
+    "231": {
+      "en": "PHANPY",
+      "ru": "ФАНПИ",
+      "type": [
+        "ground"
+      ],
+      "evolves_to": [
+        "232"
+      ],
+      "evolves_from": null
+    },
+    "232": {
+      "en": "DONPHAN",
+      "ru": "ДОНФАН",
+      "type": [
+        "ground"
+      ],
+      "evolves_to": null,
+      "evolves_from": [
+        "231"
+      ]
+    },
+    "233": {
+      "en": "PORYGON2",
+      "ru": "ПОРИГОН2",
+      "type": [
+        "normal"
+      ],
+      "evolves_to": [
+        "474"
+      ],
+      "evolves_from": [
+        "137"
+      ]
+    },
+    "234": {
+      "en": "STANTLER",
+      "ru": "СТАНТЛЕР",
+      "type": [
+        "normal"
+      ],
+      "evolves_to": [
+        "899"
+      ],
+      "evolves_from": null
+    },
+    "235": {
+      "en": "SMEARGLE",
+      "ru": "СМИРГЛ",
+      "type": [
+        "normal"
+      ],
+      "evolves_to": null,
+      "evolves_from": null
+    },
+    "236": {
+      "en": "TYROGUE",
+      "ru": "ТАЙРОГ",
+      "type": [
+        "fighting"
+      ],
+      "evolves_to": [
+        "106",
+        "107",
+        "237"
+      ],
+      "evolves_from": null
+    },
+    "237": {
+      "en": "HITMONTOP",
+      "ru": "ХИТМОНТОП",
+      "type": [
+        "fighting"
+      ],
+      "evolves_to": null,
+      "evolves_from": [
+        "236"
+      ]
+    },
+    "238": {
+      "en": "SMOOCHUM",
+      "ru": "СМУЧУМ",
+      "type": [
+        "ice",
+        "psychic"
+      ],
+      "evolves_to": [
+        "124"
+      ],
+      "evolves_from": null
+    },
+    "239": {
+      "en": "ELEKID",
+      "ru": "ЭЛЕКИД",
+      "type": [
+        "electric"
+      ],
+      "evolves_to": [
+        "125"
+      ],
+      "evolves_from": null
+    },
+    "240": {
+      "en": "MAGBY",
+      "ru": "МАГБИ",
+      "type": [
+        "fire"
+      ],
+      "evolves_to": [
+        "126"
+      ],
+      "evolves_from": null
+    },
+    "241": {
+      "en": "MILTANK",
+      "ru": "МИЛТАНК",
+      "type": [
+        "normal"
+      ],
+      "evolves_to": null,
+      "evolves_from": null
+    },
+    "242": {
+      "en": "BLISSEY",
+      "ru": "БЛИССИ",
+      "type": [
+        "normal"
+      ],
+      "evolves_to": null,
+      "evolves_from": [
+        "113"
+      ]
+    },
+    "243": {
+      "en": "RAIKOU",
+      "ru": "РАЙКУ",
+      "type": [
+        "electric"
+      ],
+      "evolves_to": null,
+      "evolves_from": null,
+      "is_legendary": true
+    },
+    "244": {
+      "en": "ENTEI",
+      "ru": "ЭНТЕЙ",
+      "type": [
+        "fire"
+      ],
+      "evolves_to": null,
+      "evolves_from": null,
+      "is_legendary": true
+    },
+    "245": {
+      "en": "SUICUNE",
+      "ru": "СУЙКУН",
+      "type": [
+        "water"
+      ],
+      "evolves_to": null,
+      "evolves_from": null,
+      "is_legendary": true
+    },
+    "246": {
+      "en": "LARVITAR",
+      "ru": "ЛАРВИТАР",
+      "type": [
+        "rock",
+        "ground"
+      ],
+      "evolves_to": [
+        "247"
+      ],
+      "evolves_from": null
+    },
+    "247": {
+      "en": "PUPITAR",
+      "ru": "ПЬЮПИТАР",
+      "type": [
+        "rock",
+        "ground"
+      ],
+      "evolves_to": [
+        "248"
+      ],
+      "evolves_from": [
+        "246"
+      ]
+    },
+    "248": {
+      "en": "TYRANITAR",
+      "ru": "ТИРАНИТАР",
+      "type": [
+        "rock",
+        "dark"
+      ],
+      "evolves_to": null,
+      "evolves_from": [
+        "247"
+      ]
+    },
+    "249": {
+      "en": "LUGIA",
+      "ru": "ЛУГИЯ",
+      "type": [
+        "psychic",
+        "flying"
+      ],
+      "evolves_to": null,
+      "evolves_from": null,
+      "is_legendary": true
+    },
+    "250": {
+      "en": "HO-OH",
+      "ru": "ХО-ОХ",
+      "type": [
+        "fire",
+        "flying"
+      ],
+      "evolves_to": null,
+      "evolves_from": null,
+      "is_legendary": true
+    },
+    "251": {
+      "en": "CELEBI",
+      "ru": "СЕЛЕБИ",
+      "type": [
+        "grass",
+        "psychic"
+      ],
+      "evolves_to": null,
+      "evolves_from": null,
+      "is_legendary": true
+    },
+    "252": {
+      "en": "TREECKO",
+      "ru": "ТРИКО",
+      "type": [
+        "grass"
+      ],
+      "evolves_to": [
+        "253"
+      ],
+      "evolves_from": null,
+      "is_starter": true
+    },
+    "253": {
+      "en": "GROVYLE",
+      "ru": "ГРОУВАЙЛ",
+      "type": [
+        "grass"
+      ],
+      "evolves_to": [
+        "254"
+      ],
+      "evolves_from": [
+        "252"
+      ]
+    },
+    "254": {
+      "en": "SCEPTILE",
+      "ru": "СЕПТАЙЛ",
+      "type": [
+        "grass"
+      ],
+      "evolves_to": null,
+      "evolves_from": [
+        "253"
+      ]
+    },
+    "255": {
+      "en": "TORCHIC",
+      "ru": "ТОРЧИК",
+      "type": [
+        "fire"
+      ],
+      "evolves_to": [
+        "256"
+      ],
+      "evolves_from": null,
+      "is_starter": true
+    },
+    "256": {
+      "en": "COMBUSKEN",
+      "ru": "КОМБАСКЕН",
+      "type": [
+        "fire",
+        "fighting"
+      ],
+      "evolves_to": [
+        "257"
+      ],
+      "evolves_from": [
+        "255"
+      ]
+    },
+    "257": {
+      "en": "BLAZIKEN",
+      "ru": "БЛЕЙЗИКЕН",
+      "type": [
+        "fire",
+        "fighting"
+      ],
+      "evolves_to": null,
+      "evolves_from": [
+        "256"
+      ]
+    },
+    "258": {
+      "en": "MUDKIP",
+      "ru": "МАДКИП",
+      "type": [
+        "water"
+      ],
+      "evolves_to": [
+        "259"
+      ],
+      "evolves_from": null,
+      "is_starter": true
+    },
+    "259": {
+      "en": "MARSHTOMP",
+      "ru": "МАРШТОМП",
+      "type": [
+        "water",
+        "ground"
+      ],
+      "evolves_to": [
+        "260"
+      ],
+      "evolves_from": [
+        "258"
+      ]
+    },
+    "260": {
+      "en": "SWAMPERT",
+      "ru": "СВАМПЕРТ",
+      "type": [
+        "water",
+        "ground"
+      ],
+      "evolves_to": null,
+      "evolves_from": [
+        "259"
+      ]
+    },
+    "261": {
+      "en": "POOCHYENA",
+      "ru": "ПУЧИНА",
+      "type": [
+        "dark"
+      ],
+      "evolves_to": [
+        "262"
+      ],
+      "evolves_from": null
+    },
+    "262": {
+      "en": "MIGHTYENA",
+      "ru": "МАЙТИЕНА",
+      "type": [
+        "dark"
+      ],
+      "evolves_to": null,
+      "evolves_from": [
+        "261"
+      ]
+    },
+    "263": {
+      "en": "ZIGZAGOON",
+      "ru": "ЗИГЗАГУН",
+      "type": [
+        "normal"
+      ],
+      "evolves_to": [
+        "264"
+      ],
+      "evolves_from": null
+    },
+    "264": {
+      "en": "LINOONE",
+      "ru": "ЛАЙНУН",
+      "type": [
+        "normal"
+      ],
+      "evolves_to": null,
+      "evolves_from": [
+        "263"
+      ]
+    },
+    "265": {
+      "en": "WURMPLE",
+      "ru": "ВУРМПЛ",
+      "type": [
+        "bug"
+      ],
+      "evolves_to": [
+        "266",
+        "268"
+      ],
+      "evolves_from": null
+    },
+    "266": {
+      "en": "SILCOON",
+      "ru": "СИЛКУН",
+      "type": [
+        "bug"
+      ],
+      "evolves_to": [
+        "267"
+      ],
+      "evolves_from": [
+        "265"
+      ]
+    },
+    "267": {
+      "en": "BEAUTIFLY",
+      "ru": "БЬЮТИФЛАЙ",
+      "type": [
+        "bug",
+        "flying"
+      ],
+      "evolves_to": null,
+      "evolves_from": [
+        "266"
+      ]
+    },
+    "268": {
+      "en": "CASCOON",
+      "ru": "КАСКУН",
+      "type": [
+        "bug"
+      ],
+      "evolves_to": [
+        "269"
+      ],
+      "evolves_from": [
+        "265"
+      ]
+    },
+    "269": {
+      "en": "DUSTOX",
+      "ru": "ДАСТОКС",
+      "type": [
+        "bug",
+        "poison"
+      ],
+      "evolves_to": null,
+      "evolves_from": [
+        "268"
+      ]
+    },
+    "270": {
+      "en": "LOTAD",
+      "ru": "ЛОТАД",
+      "type": [
+        "water",
+        "grass"
+      ],
+      "evolves_to": [
+        "271"
+      ],
+      "evolves_from": null
+    },
+    "271": {
+      "en": "LOMBRE",
+      "ru": "ЛОМБРЕ",
+      "type": [
+        "water",
+        "grass"
+      ],
+      "evolves_to": [
+        "272"
+      ],
+      "evolves_from": [
+        "270"
+      ]
+    },
+    "272": {
+      "en": "LUDICOLO",
+      "ru": "ЛУДИКОЛО",
+      "type": [
+        "water",
+        "grass"
+      ],
+      "evolves_to": null,
+      "evolves_from": [
+        "271"
+      ]
+    },
+    "273": {
+      "en": "SEEDOT",
+      "ru": "СИДОТ",
+      "type": [
+        "grass"
+      ],
+      "evolves_to": [
+        "274"
+      ],
+      "evolves_from": null
+    },
+    "274": {
+      "en": "NUZLEAF",
+      "ru": "НАЗЛИФ",
+      "type": [
+        "grass",
+        "dark"
+      ],
+      "evolves_to": [
+        "275"
+      ],
+      "evolves_from": [
+        "273"
+      ]
+    },
+    "275": {
+      "en": "SHIFTRY",
+      "ru": "ШИФРИ",
+      "type": [
+        "grass",
+        "dark"
+      ],
+      "evolves_to": null,
+      "evolves_from": [
+        "274"
+      ]
+    },
+    "276": {
+      "en": "TAILLOW",
+      "ru": "ТЭЙЛОУ",
+      "type": [
+        "normal",
+        "flying"
+      ],
+      "evolves_to": [
+        "277"
+      ],
+      "evolves_from": null
+    },
+    "277": {
+      "en": "SWELLOW",
+      "ru": "СВЕЛЛОУ",
+      "type": [
+        "normal",
+        "flying"
+      ],
+      "evolves_to": null,
+      "evolves_from": [
+        "276"
+      ]
+    },
+    "278": {
+      "en": "WINGULL",
+      "ru": "ВИНГУЛЛ",
+      "type": [
+        "water",
+        "flying"
+      ],
+      "evolves_to": [
+        "279"
+      ],
+      "evolves_from": null
+    },
+    "279": {
+      "en": "PELIPPER",
+      "ru": "ПЕЛИППЕР",
+      "type": [
+        "water",
+        "flying"
+      ],
+      "evolves_to": null,
+      "evolves_from": [
+        "278"
+      ]
+    },
+    "280": {
+      "en": "RALTS",
+      "ru": "РАЛЬТС",
+      "type": [
+        "psychic",
+        "fairy"
+      ],
+      "evolves_to": [
+        "281"
+      ],
+      "evolves_from": null
+    },
+    "281": {
+      "en": "KIRLIA",
+      "ru": "КИРЛИЯ",
+      "type": [
+        "psychic",
+        "fairy"
+      ],
+      "evolves_to": [
+        "282",
+        "475"
+      ],
+      "evolves_from": [
+        "280"
+      ]
+    },
+    "282": {
+      "en": "GARDEVOIR",
+      "ru": "ГАРДЕВУАР",
+      "type": [
+        "psychic",
+        "fairy"
+      ],
+      "evolves_to": null,
+      "evolves_from": [
+        "281"
+      ]
+    },
+    "283": {
+      "en": "SURSKIT",
+      "ru": "СЁРСКИТ",
+      "type": [
+        "bug",
+        "water"
+      ],
+      "evolves_to": [
+        "284"
+      ],
+      "evolves_from": null
+    },
+    "284": {
+      "en": "MASQUERAIN",
+      "ru": "МАСКЕРЕЙН",
+      "type": [
+        "bug",
+        "flying"
+      ],
+      "evolves_to": null,
+      "evolves_from": [
+        "283"
+      ]
+    },
+    "285": {
+      "en": "SHROOMISH",
+      "ru": "ШРУМИШ",
+      "type": [
+        "grass"
+      ],
+      "evolves_to": [
+        "286"
+      ],
+      "evolves_from": null
+    },
+    "286": {
+      "en": "BRELOOM",
+      "ru": "БРИЛУМ",
+      "type": [
+        "grass",
+        "fighting"
+      ],
+      "evolves_to": null,
+      "evolves_from": [
+        "285"
+      ]
+    },
+    "287": {
+      "en": "SLAKOTH",
+      "ru": "СЛАКОТ",
+      "type": [
+        "normal"
+      ],
+      "evolves_to": [
+        "288"
+      ],
+      "evolves_from": null
+    },
+    "288": {
+      "en": "VIGOROTH",
+      "ru": "ВИГОРОТ",
+      "type": [
+        "normal"
+      ],
+      "evolves_to": [
+        "289"
+      ],
+      "evolves_from": [
+        "287"
+      ]
+    },
+    "289": {
+      "en": "SLAKING",
+      "ru": "СЛЕЙКИНГ",
+      "type": [
+        "normal"
+      ],
+      "evolves_to": null,
+      "evolves_from": [
+        "288"
+      ]
+    },
+    "290": {
+      "en": "NINCADA",
+      "ru": "НИНКАДА",
+      "type": [
+        "bug",
+        "ground"
+      ],
+      "evolves_to": [
+        "291",
+        "292"
+      ],
+      "evolves_from": null
+    },
+    "291": {
+      "en": "NINJASK",
+      "ru": "НИНДЗЯСК",
+      "type": [
+        "bug",
+        "flying"
+      ],
+      "evolves_to": null,
+      "evolves_from": [
+        "290"
+      ]
+    },
+    "292": {
+      "en": "SHEDINJA",
+      "ru": "ШЕДИНДЗЯ",
+      "type": [
+        "bug",
+        "ghost"
+      ],
+      "evolves_to": null,
+      "evolves_from": [
+        "290"
+      ]
+    },
+    "293": {
+      "en": "WHISMUR",
+      "ru": "ВИСМУР",
+      "type": [
+        "normal"
+      ],
+      "evolves_to": [
+        "294"
+      ],
+      "evolves_from": null
+    },
+    "294": {
+      "en": "LOUDRED",
+      "ru": "ЛАУДРЕД",
+      "type": [
+        "normal"
+      ],
+      "evolves_to": [
+        "295"
+      ],
+      "evolves_from": [
+        "293"
+      ]
+    },
+    "295": {
+      "en": "EXPLOUD",
+      "ru": "ЭКСПЛАУД",
+      "type": [
+        "normal"
+      ],
+      "evolves_to": null,
+      "evolves_from": [
+        "294"
+      ]
+    },
+    "296": {
+      "en": "MAKUHITA",
+      "ru": "МАКУХИТА",
+      "type": [
+        "fighting"
+      ],
+      "evolves_to": [
+        "297"
+      ],
+      "evolves_from": null
+    },
+    "297": {
+      "en": "HARIYAMA",
+      "ru": "ХАРИЯМА",
+      "type": [
+        "fighting"
+      ],
+      "evolves_to": null,
+      "evolves_from": [
+        "296"
+      ]
+    },
+    "298": {
+      "en": "AZURILL",
+      "ru": "АЗУРИЛЛ",
+      "type": [
+        "normal",
+        "fairy"
+      ],
+      "evolves_to": [
+        "183"
+      ],
+      "evolves_from": null
+    },
+    "299": {
+      "en": "NOSEPASS",
+      "ru": "НОУЗПАСС",
+      "type": [
+        "rock"
+      ],
+      "evolves_to": [
+        "476"
+      ],
+      "evolves_from": null
+    },
+    "300": {
+      "en": "SKITTY",
+      "ru": "СКИТТИ",
+      "type": [
+        "normal"
+      ],
+      "evolves_to": [
+        "301"
+      ],
+      "evolves_from": null
+    },
+    "301": {
+      "en": "DELCATTY",
+      "ru": "ДЕЛКАТТИ",
+      "type": [
+        "normal"
+      ],
+      "evolves_to": null,
+      "evolves_from": [
+        "300"
+      ]
+    },
+    "302": {
+      "en": "SABLEYE",
+      "ru": "СЭЙБЛАЙ",
+      "type": [
+        "dark",
+        "ghost"
+      ],
+      "evolves_to": null,
+      "evolves_from": null
+    },
+    "303": {
+      "en": "MAWILE",
+      "ru": "МАВАЙЛ",
+      "type": [
+        "steel",
+        "fairy"
+      ],
+      "evolves_to": null,
+      "evolves_from": null
+    },
+    "304": {
+      "en": "ARON",
+      "ru": "АРОН",
+      "type": [
+        "steel",
+        "rock"
+      ],
+      "evolves_to": [
+        "305"
+      ],
+      "evolves_from": null
+    },
+    "305": {
+      "en": "LAIRON",
+      "ru": "ЛАЙРОН",
+      "type": [
+        "steel",
+        "rock"
+      ],
+      "evolves_to": [
+        "306"
+      ],
+      "evolves_from": [
+        "304"
+      ]
+    },
+    "306": {
+      "en": "AGGRON",
+      "ru": "АГГРОН",
+      "type": [
+        "steel",
+        "rock"
+      ],
+      "evolves_to": null,
+      "evolves_from": [
+        "305"
+      ]
+    },
+    "307": {
+      "en": "MEDITITE",
+      "ru": "МЕДИТАЙТ",
+      "type": [
+        "fighting",
+        "psychic"
+      ],
+      "evolves_to": [
+        "308"
+      ],
+      "evolves_from": null
+    },
+    "308": {
+      "en": "MEDICHAM",
+      "ru": "МЕДИЧАМ",
+      "type": [
+        "fighting",
+        "psychic"
+      ],
+      "evolves_to": null,
+      "evolves_from": [
+        "307"
+      ]
+    },
+    "309": {
+      "en": "ELECTRIKE",
+      "ru": "ЭЛЕКТРАЙК",
+      "type": [
+        "electric"
+      ],
+      "evolves_to": [
+        "310"
+      ],
+      "evolves_from": null
+    },
+    "310": {
+      "en": "MANECTRIC",
+      "ru": "МАНЕКТРИК",
+      "type": [
+        "electric"
+      ],
+      "evolves_to": null,
+      "evolves_from": [
+        "309"
+      ]
+    },
+    "311": {
+      "en": "PLUSLE",
+      "ru": "ПЛАСЛ",
+      "type": [
+        "electric"
+      ],
+      "evolves_to": null,
+      "evolves_from": null
+    },
+    "312": {
+      "en": "MINUN",
+      "ru": "МАЙНУН",
+      "type": [
+        "electric"
+      ],
+      "evolves_to": null,
+      "evolves_from": null
+    },
+    "313": {
+      "en": "VOLBEAT",
+      "ru": "ВОЛБИТ",
+      "type": [
+        "bug"
+      ],
+      "evolves_to": null,
+      "evolves_from": null
+    },
+    "314": {
+      "en": "ILLUMISE",
+      "ru": "ИЛЛЮМАЙЗ",
+      "type": [
+        "bug"
+      ],
+      "evolves_to": null,
+      "evolves_from": null
+    },
+    "315": {
+      "en": "ROSELIA",
+      "ru": "РОЗЕЛИЯ",
+      "type": [
+        "grass",
+        "poison"
+      ],
+      "evolves_to": [
+        "407"
+      ],
+      "evolves_from": [
+        "406"
+      ]
+    },
+    "316": {
+      "en": "GULPIN",
+      "ru": "ГАЛПИН",
+      "type": [
+        "poison"
+      ],
+      "evolves_to": [
+        "317"
+      ],
+      "evolves_from": null
+    },
+    "317": {
+      "en": "SWALOT",
+      "ru": "СВАЛОТ",
+      "type": [
+        "poison"
+      ],
+      "evolves_to": null,
+      "evolves_from": [
+        "316"
+      ]
+    },
+    "318": {
+      "en": "CARVANHA",
+      "ru": "КАРВАНЬЯ",
+      "type": [
+        "water",
+        "dark"
+      ],
+      "evolves_to": [
+        "319"
+      ],
+      "evolves_from": null
+    },
+    "319": {
+      "en": "SHARPEDO",
+      "ru": "ШАРПЕДО",
+      "type": [
+        "water",
+        "dark"
+      ],
+      "evolves_to": null,
+      "evolves_from": [
+        "318"
+      ]
+    },
+    "320": {
+      "en": "WAILMER",
+      "ru": "ВЕЙЛМЕР",
+      "type": [
+        "water"
+      ],
+      "evolves_to": [
+        "321"
+      ],
+      "evolves_from": null
+    },
+    "321": {
+      "en": "WAILORD",
+      "ru": "ВЕЙЛОРД",
+      "type": [
+        "water"
+      ],
+      "evolves_to": null,
+      "evolves_from": [
+        "320"
+      ]
+    },
+    "322": {
+      "en": "NUMEL",
+      "ru": "НУМЕЛ",
+      "type": [
+        "fire",
+        "ground"
+      ],
+      "evolves_to": [
+        "323"
+      ],
+      "evolves_from": null
+    },
+    "323": {
+      "en": "CAMERUPT",
+      "ru": "КАМЕРУПТ",
+      "type": [
+        "fire",
+        "ground"
+      ],
+      "evolves_to": null,
+      "evolves_from": [
+        "322"
+      ]
+    },
+    "324": {
+      "en": "TORKOAL",
+      "ru": "ТОРКОАЛ",
+      "type": [
+        "fire"
+      ],
+      "evolves_to": null,
+      "evolves_from": null
+    },
+    "325": {
+      "en": "SPOINK",
+      "ru": "СПОИНК",
+      "type": [
+        "psychic"
+      ],
+      "evolves_to": [
+        "326"
+      ],
+      "evolves_from": null
+    },
+    "326": {
+      "en": "GRUMPIG",
+      "ru": "ГРАМПИГ",
+      "type": [
+        "psychic"
+      ],
+      "evolves_to": null,
+      "evolves_from": [
+        "325"
+      ]
+    },
+    "327": {
+      "en": "SPINDA",
+      "ru": "СПИНДА",
+      "type": [
+        "normal"
+      ],
+      "evolves_to": null,
+      "evolves_from": null
+    },
+    "328": {
+      "en": "TRAPINCH",
+      "ru": "ТРАПИНЧ",
+      "type": [
+        "ground"
+      ],
+      "evolves_to": [
+        "329"
+      ],
+      "evolves_from": null
+    },
+    "329": {
+      "en": "VIBRAVA",
+      "ru": "ВИБРАВА",
+      "type": [
+        "ground",
+        "dragon"
+      ],
+      "evolves_to": [
+        "330"
+      ],
+      "evolves_from": [
+        "328"
+      ]
+    },
+    "330": {
+      "en": "FLYGON",
+      "ru": "ФЛАЙГОН",
+      "type": [
+        "ground",
+        "dragon"
+      ],
+      "evolves_to": null,
+      "evolves_from": [
+        "329"
+      ]
+    },
+    "331": {
+      "en": "CACNEA",
+      "ru": "КАКНЕЯ",
+      "type": [
+        "grass"
+      ],
+      "evolves_to": [
+        "332"
+      ],
+      "evolves_from": null
+    },
+    "332": {
+      "en": "CACTURNE",
+      "ru": "КАКТУРН",
+      "type": [
+        "grass",
+        "dark"
+      ],
+      "evolves_to": null,
+      "evolves_from": [
+        "331"
+      ]
+    },
+    "333": {
+      "en": "SWABLU",
+      "ru": "СВАБЛУ",
+      "type": [
+        "normal",
+        "flying"
+      ],
+      "evolves_to": [
+        "334"
+      ],
+      "evolves_from": null
+    },
+    "334": {
+      "en": "ALTARIA",
+      "ru": "АЛЬТАРИЯ",
+      "type": [
+        "dragon",
+        "flying"
+      ],
+      "evolves_to": null,
+      "evolves_from": [
+        "333"
+      ]
+    },
+    "335": {
+      "en": "ZANGOOSE",
+      "ru": "ЗАНГУС",
+      "type": [
+        "normal"
+      ],
+      "evolves_to": null,
+      "evolves_from": null
+    },
+    "336": {
+      "en": "SEVIPER",
+      "ru": "СЕВАЙПЕР",
+      "type": [
+        "poison"
+      ],
+      "evolves_to": null,
+      "evolves_from": null
+    },
+    "337": {
+      "en": "LUNATONE",
+      "ru": "ЛУНАТОН",
+      "type": [
+        "rock",
+        "psychic"
+      ],
+      "evolves_to": null,
+      "evolves_from": null
+    },
+    "338": {
+      "en": "SOLROCK",
+      "ru": "СОЛРОК",
+      "type": [
+        "rock",
+        "psychic"
+      ],
+      "evolves_to": null,
+      "evolves_from": null
+    },
+    "339": {
+      "en": "BARBOACH",
+      "ru": "БАРБОЧ",
+      "type": [
+        "water",
+        "ground"
+      ],
+      "evolves_to": [
+        "340"
+      ],
+      "evolves_from": null
+    },
+    "340": {
+      "en": "WHISCASH",
+      "ru": "ВИСКАШ",
+      "type": [
+        "water",
+        "ground"
+      ],
+      "evolves_to": null,
+      "evolves_from": [
+        "339"
+      ]
+    },
+    "341": {
+      "en": "CORPHISH",
+      "ru": "КОРФИШ",
+      "type": [
+        "water"
+      ],
+      "evolves_to": [
+        "342"
+      ],
+      "evolves_from": null
+    },
+    "342": {
+      "en": "CRAWDAUNT",
+      "ru": "КРОДОНТ",
+      "type": [
+        "water",
+        "dark"
+      ],
+      "evolves_to": null,
+      "evolves_from": [
+        "341"
+      ]
+    },
+    "343": {
+      "en": "BALTOY",
+      "ru": "БАЛТОЙ",
+      "type": [
+        "ground",
+        "psychic"
+      ],
+      "evolves_to": [
+        "344"
+      ],
+      "evolves_from": null
+    },
+    "344": {
+      "en": "CLAYDOL",
+      "ru": "КЛЕЙДОЛ",
+      "type": [
+        "ground",
+        "psychic"
+      ],
+      "evolves_to": null,
+      "evolves_from": [
+        "343"
+      ]
+    },
+    "345": {
+      "en": "LILEEP",
+      "ru": "ЛИЛИП",
+      "type": [
+        "rock",
+        "grass"
+      ],
+      "evolves_to": [
+        "346"
+      ],
+      "evolves_from": null
+    },
+    "346": {
+      "en": "CRADILY",
+      "ru": "КРАДИЛИ",
+      "type": [
+        "rock",
+        "grass"
+      ],
+      "evolves_to": null,
+      "evolves_from": [
+        "345"
+      ]
+    },
+    "347": {
+      "en": "ANORITH",
+      "ru": "АНОРИТ",
+      "type": [
+        "rock",
+        "bug"
+      ],
+      "evolves_to": [
+        "348"
+      ],
+      "evolves_from": null
+    },
+    "348": {
+      "en": "ARMALDO",
+      "ru": "АРМАЛЬДО",
+      "type": [
+        "rock",
+        "bug"
+      ],
+      "evolves_to": null,
+      "evolves_from": [
+        "347"
+      ]
+    },
+    "349": {
+      "en": "FEEBAS",
+      "ru": "ФИБАС",
+      "type": [
+        "water"
+      ],
+      "evolves_to": [
+        "350"
+      ],
+      "evolves_from": null
+    },
+    "350": {
+      "en": "MILOTIC",
+      "ru": "МАЙЛОТИК",
+      "type": [
+        "water"
+      ],
+      "evolves_to": null,
+      "evolves_from": [
+        "349"
+      ]
+    },
+    "351": {
+      "en": "CASTFORM",
+      "ru": "КАСТФОРМ",
+      "type": [
+        "normal"
+      ],
+      "evolves_to": null,
+      "evolves_from": null
+    },
+    "352": {
+      "en": "KECLEON",
+      "ru": "КЕКЛЕОН",
+      "type": [
+        "normal"
+      ],
+      "evolves_to": null,
+      "evolves_from": null
+    },
+    "353": {
+      "en": "SHUPPET",
+      "ru": "ШАППЕТ",
+      "type": [
+        "ghost"
+      ],
+      "evolves_to": [
+        "354"
+      ],
+      "evolves_from": null
+    },
+    "354": {
+      "en": "BANETTE",
+      "ru": "БАНЕТТ",
+      "type": [
+        "ghost"
+      ],
+      "evolves_to": null,
+      "evolves_from": [
+        "353"
+      ]
+    },
+    "355": {
+      "en": "DUSKULL",
+      "ru": "ДАСКАЛЛ",
+      "type": [
+        "ghost"
+      ],
+      "evolves_to": [
+        "356"
+      ],
+      "evolves_from": null
+    },
+    "356": {
+      "en": "DUSCLOPS",
+      "ru": "ДАСКЛОПС",
+      "type": [
+        "ghost"
+      ],
+      "evolves_to": [
+        "477"
+      ],
+      "evolves_from": [
+        "355"
+      ]
+    },
+    "357": {
+      "en": "TROPIUS",
+      "ru": "ТРОПИУС",
+      "type": [
+        "grass",
+        "flying"
+      ],
+      "evolves_to": null,
+      "evolves_from": null
+    },
+    "358": {
+      "en": "CHIMECHO",
+      "ru": "ЧАЙМЕКО",
+      "type": [
+        "psychic"
+      ],
+      "evolves_to": null,
+      "evolves_from": [
+        "433"
+      ]
+    },
+    "359": {
+      "en": "ABSOL",
+      "ru": "АБСОЛ",
+      "type": [
+        "dark"
+      ],
+      "evolves_to": null,
+      "evolves_from": null
+    },
+    "360": {
+      "en": "WYNAUT",
+      "ru": "ВАЙНАУТ",
+      "type": [
+        "psychic"
+      ],
+      "evolves_to": [
+        "202"
+      ],
+      "evolves_from": null
+    },
+    "361": {
+      "en": "SNORUNT",
+      "ru": "СНОРАНТ",
+      "type": [
+        "ice"
+      ],
+      "evolves_to": [
+        "362",
+        "478"
+      ],
+      "evolves_from": null
+    },
+    "362": {
+      "en": "GLALIE",
+      "ru": "ГЛЭЙЛИ",
+      "type": [
+        "ice"
+      ],
+      "evolves_to": null,
+      "evolves_from": [
+        "361"
+      ]
+    },
+    "363": {
+      "en": "SPHEAL",
+      "ru": "СФИЛ",
+      "type": [
+        "ice",
+        "water"
+      ],
+      "evolves_to": [
+        "364"
+      ],
+      "evolves_from": null
+    },
+    "364": {
+      "en": "SEALEO",
+      "ru": "СИЛИО",
+      "type": [
+        "ice",
+        "water"
+      ],
+      "evolves_to": [
+        "365"
+      ],
+      "evolves_from": [
+        "363"
+      ]
+    },
+    "365": {
+      "en": "WALREIN",
+      "ru": "УОЛРЕЙН",
+      "type": [
+        "ice",
+        "water"
+      ],
+      "evolves_to": null,
+      "evolves_from": [
+        "364"
+      ]
+    },
+    "366": {
+      "en": "CLAMPERL",
+      "ru": "КЛЭМПЕРЛ",
+      "type": [
+        "water"
+      ],
+      "evolves_to": [
+        "367",
+        "368"
+      ],
+      "evolves_from": null
+    },
+    "367": {
+      "en": "HUNTAIL",
+      "ru": "ХАНТЕЙЛ",
+      "type": [
+        "water"
+      ],
+      "evolves_to": null,
+      "evolves_from": [
+        "366"
+      ]
+    },
+    "368": {
+      "en": "GOREBYSS",
+      "ru": "ГОРБИСС",
+      "type": [
+        "water"
+      ],
+      "evolves_to": null,
+      "evolves_from": [
+        "366"
+      ]
+    },
+    "369": {
+      "en": "RELICANTH",
+      "ru": "РЕЛИКАНТ",
+      "type": [
+        "water",
+        "rock"
+      ],
+      "evolves_to": null,
+      "evolves_from": null
+    },
+    "370": {
+      "en": "LUVDISC",
+      "ru": "ЛАВДИСК",
+      "type": [
+        "water"
+      ],
+      "evolves_to": null,
+      "evolves_from": null
+    },
+    "371": {
+      "en": "BAGON",
+      "ru": "БЭЙГОН",
+      "type": [
+        "dragon"
+      ],
+      "evolves_to": [
+        "372"
+      ],
+      "evolves_from": null
+    },
+    "372": {
+      "en": "SHELGON",
+      "ru": "ШЕЛГОН",
+      "type": [
+        "dragon"
+      ],
+      "evolves_to": [
+        "373"
+      ],
+      "evolves_from": [
+        "371"
+      ]
+    },
+    "373": {
+      "en": "SALAMENCE",
+      "ru": "САЛАМЕНС",
+      "type": [
+        "dragon",
+        "flying"
+      ],
+      "evolves_to": null,
+      "evolves_from": [
+        "372"
+      ]
+    },
+    "374": {
+      "en": "BELDUM",
+      "ru": "БЕЛДУМ",
+      "type": [
+        "steel",
+        "psychic"
+      ],
+      "evolves_to": [
+        "375"
+      ],
+      "evolves_from": null
+    },
+    "375": {
+      "en": "METANG",
+      "ru": "МЕТАНГ",
+      "type": [
+        "steel",
+        "psychic"
+      ],
+      "evolves_to": [
+        "376"
+      ],
+      "evolves_from": [
+        "374"
+      ]
+    },
+    "376": {
+      "en": "METAGROSS",
+      "ru": "МЕТАГРОСС",
+      "type": [
+        "steel",
+        "psychic"
+      ],
+      "evolves_to": null,
+      "evolves_from": [
+        "375"
+      ]
+    },
+    "377": {
+      "en": "REGIROCK",
+      "ru": "РЕДЖИРОК",
+      "type": [
+        "rock"
+      ],
+      "evolves_to": null,
+      "evolves_from": null,
+      "is_legendary": true
+    },
+    "378": {
+      "en": "REGICE",
+      "ru": "РЕДЖИАЙС",
+      "type": [
+        "ice"
+      ],
+      "evolves_to": null,
+      "evolves_from": null,
+      "is_legendary": true
+    },
+    "379": {
+      "en": "REGISTEEL",
+      "ru": "РЕДЖИСТИЛ",
+      "type": [
+        "steel"
+      ],
+      "evolves_to": null,
+      "evolves_from": null,
+      "is_legendary": true
+    },
+    "380": {
+      "en": "LATIAS",
+      "ru": "ЛАТИАС",
+      "type": [
+        "dragon",
+        "psychic"
+      ],
+      "evolves_to": null,
+      "evolves_from": null,
+      "is_legendary": true
+    },
+    "381": {
+      "en": "LATIOS",
+      "ru": "ЛАТИОС",
+      "type": [
+        "dragon",
+        "psychic"
+      ],
+      "evolves_to": null,
+      "evolves_from": null,
+      "is_legendary": true
+    },
+    "382": {
+      "en": "KYOGRE",
+      "ru": "КАЙОГР",
+      "type": [
+        "water"
+      ],
+      "evolves_to": null,
+      "evolves_from": null,
+      "is_legendary": true
+    },
+    "383": {
+      "en": "GROUDON",
+      "ru": "ГРОУДОН",
+      "type": [
+        "ground"
+      ],
+      "evolves_to": null,
+      "evolves_from": null,
+      "is_legendary": true
+    },
+    "384": {
+      "en": "RAYQUAZA",
+      "ru": "РЭЙКВАЗА",
+      "type": [
+        "dragon",
+        "flying"
+      ],
+      "evolves_to": null,
+      "evolves_from": null,
+      "is_legendary": true
+    },
+    "385": {
+      "en": "JIRACHI",
+      "ru": "ДЖИРАЧИ",
+      "type": [
+        "steel",
+        "psychic"
+      ],
+      "evolves_to": null,
+      "evolves_from": null,
+      "is_legendary": true
+    },
+    "386": {
+      "en": "DEOXYS",
+      "ru": "ДЕОКСИС",
+      "type": [
+        "psychic"
+      ],
+      "evolves_to": null,
+      "evolves_from": null,
+      "is_legendary": true
+    },
+    "387": {
+      "en": "TURTWIG",
+      "ru": "ТОРТВИГ",
+      "type": [
+        "grass"
+      ],
+      "evolves_to": [
+        "388"
+      ],
+      "evolves_from": null,
+      "is_starter": true
+    },
+    "388": {
+      "en": "GROTLE",
+      "ru": "ГРОТЛ",
+      "type": [
+        "grass"
+      ],
+      "evolves_to": [
+        "389"
+      ],
+      "evolves_from": [
+        "387"
+      ]
+    },
+    "389": {
+      "en": "TORTERRA",
+      "ru": "ТОРТЕРРА",
+      "type": [
+        "grass",
+        "ground"
+      ],
+      "evolves_to": null,
+      "evolves_from": [
+        "388"
+      ]
+    },
+    "390": {
+      "en": "CHIMCHAR",
+      "ru": "ЧИМЧАР",
+      "type": [
+        "fire"
+      ],
+      "evolves_to": [
+        "391"
+      ],
+      "evolves_from": null,
+      "is_starter": true
+    },
+    "391": {
+      "en": "MONFERNO",
+      "ru": "МОНФЕРНО",
+      "type": [
+        "fire",
+        "fighting"
+      ],
+      "evolves_to": [
+        "392"
+      ],
+      "evolves_from": [
+        "390"
+      ]
+    },
+    "392": {
+      "en": "INFERNAPE",
+      "ru": "ИНФЕРНЕЙП",
+      "type": [
+        "fire",
+        "fighting"
+      ],
+      "evolves_to": null,
+      "evolves_from": [
+        "391"
+      ]
+    },
+    "393": {
+      "en": "PIPLUP",
+      "ru": "ПИПЛАП",
+      "type": [
+        "water"
+      ],
+      "evolves_to": [
+        "394"
+      ],
+      "evolves_from": null,
+      "is_starter": true
+    },
+    "394": {
+      "en": "PRINPLUP",
+      "ru": "ПРИНПЛАП",
+      "type": [
+        "water"
+      ],
+      "evolves_to": [
+        "395"
+      ],
+      "evolves_from": [
+        "393"
+      ]
+    },
+    "395": {
+      "en": "EMPOLEON",
+      "ru": "ЭМПОЛЕОН",
+      "type": [
+        "water",
+        "steel"
+      ],
+      "evolves_to": null,
+      "evolves_from": [
+        "394"
+      ]
+    },
+    "396": {
+      "en": "STARLY",
+      "ru": "СТАРЛИ",
+      "type": [
+        "normal",
+        "flying"
+      ],
+      "evolves_to": [
+        "397"
+      ],
+      "evolves_from": null
+    },
+    "397": {
+      "en": "STARAVIA",
+      "ru": "СТАРАВИЯ",
+      "type": [
+        "normal",
+        "flying"
+      ],
+      "evolves_to": [
+        "398"
+      ],
+      "evolves_from": [
+        "396"
+      ]
+    },
+    "398": {
+      "en": "STARAPTOR",
+      "ru": "СТАРАПТОР",
+      "type": [
+        "normal",
+        "flying"
+      ],
+      "evolves_to": null,
+      "evolves_from": [
+        "397"
+      ]
+    },
+    "399": {
+      "en": "BIDOOF",
+      "ru": "БИДУФ",
+      "type": [
+        "normal"
+      ],
+      "evolves_to": [
+        "400"
+      ],
+      "evolves_from": null
+    },
+    "400": {
+      "en": "BIBAREL",
+      "ru": "БИБАРЕЛЬ",
+      "type": [
+        "normal",
+        "water"
+      ],
+      "evolves_to": null,
+      "evolves_from": [
+        "399"
+      ]
+    },
+    "401": {
+      "en": "KRICKETOT",
+      "ru": "КРИКЕТОТ",
+      "type": [
+        "bug"
+      ],
+      "evolves_to": [
+        "402"
+      ],
+      "evolves_from": null
+    },
+    "402": {
+      "en": "KRICKETUNE",
+      "ru": "КРИКЕТУН",
+      "type": [
+        "bug"
+      ],
+      "evolves_to": null,
+      "evolves_from": [
+        "401"
+      ]
+    },
+    "403": {
+      "en": "SHINX",
+      "ru": "ШИНКС",
+      "type": [
+        "electric"
+      ],
+      "evolves_to": [
+        "404"
+      ],
+      "evolves_from": null
+    },
+    "404": {
+      "en": "LUXIO",
+      "ru": "ЛЮКСИО",
+      "type": [
+        "electric"
+      ],
+      "evolves_to": [
+        "405"
+      ],
+      "evolves_from": [
+        "403"
+      ]
+    },
+    "405": {
+      "en": "LUXRAY",
+      "ru": "ЛЮКСРЭЙ",
+      "type": [
+        "electric"
+      ],
+      "evolves_to": null,
+      "evolves_from": [
+        "404"
+      ]
+    },
+    "406": {
+      "en": "BUDEW",
+      "ru": "БЬЮДЬЮ",
+      "type": [
+        "grass",
+        "poison"
+      ],
+      "evolves_to": [
+        "315"
+      ],
+      "evolves_from": null
+    },
+    "407": {
+      "en": "ROSERADE",
+      "ru": "РОУЗРЕЙД",
+      "type": [
+        "grass",
+        "poison"
+      ],
+      "evolves_to": null,
+      "evolves_from": [
+        "315"
+      ]
+    },
+    "408": {
+      "en": "CRANIDOS",
+      "ru": "КРАНИДОС",
+      "type": [
+        "rock"
+      ],
+      "evolves_to": [
+        "409"
+      ],
+      "evolves_from": null
+    },
+    "409": {
+      "en": "RAMPARDOS",
+      "ru": "РАМПАРДОС",
+      "type": [
+        "rock"
+      ],
+      "evolves_to": null,
+      "evolves_from": [
+        "408"
+      ]
+    },
+    "410": {
+      "en": "SHIELDON",
+      "ru": "ШИЛДОН",
+      "type": [
+        "rock",
+        "steel"
+      ],
+      "evolves_to": [
+        "411"
+      ],
+      "evolves_from": null
+    },
+    "411": {
+      "en": "BASTIODON",
+      "ru": "БАСТИОДОН",
+      "type": [
+        "rock",
+        "steel"
+      ],
+      "evolves_to": null,
+      "evolves_from": [
+        "410"
+      ]
+    },
+    "412": {
+      "en": "BURMY",
+      "ru": "БЁРМИ",
+      "type": [
+        "bug"
+      ],
+      "evolves_to": [
+        "413",
+        "414"
+      ],
+      "evolves_from": null
+    },
+    "413": {
+      "en": "WORMADAM",
+      "ru": "ВОРМАДАМ",
+      "type": [
+        "bug",
+        "grass"
+      ],
+      "evolves_to": null,
+      "evolves_from": [
+        "412"
+      ]
+    },
+    "414": {
+      "en": "MOTHIM",
+      "ru": "МОТИМ",
+      "type": [
+        "bug",
+        "flying"
+      ],
+      "evolves_to": null,
+      "evolves_from": [
+        "412"
+      ]
+    },
+    "415": {
+      "en": "COMBEE",
+      "ru": "КОМБИ",
+      "type": [
+        "bug",
+        "flying"
+      ],
+      "evolves_to": [
+        "416"
+      ],
+      "evolves_from": null
+    },
+    "416": {
+      "en": "VESPIQUEN",
+      "ru": "ВЕСПИКВИН",
+      "type": [
+        "bug",
+        "flying"
+      ],
+      "evolves_to": null,
+      "evolves_from": [
+        "415"
+      ]
+    },
+    "417": {
+      "en": "PACHIRISU",
+      "ru": "ПАЧИРИСУ",
+      "type": [
+        "electric"
+      ],
+      "evolves_to": null,
+      "evolves_from": null
+    },
+    "418": {
+      "en": "BUIZEL",
+      "ru": "БУИЗЕЛЬ",
+      "type": [
+        "water"
+      ],
+      "evolves_to": [
+        "419"
+      ],
+      "evolves_from": null
+    },
+    "419": {
+      "en": "FLOATZEL",
+      "ru": "ФЛОТЗЕЛЬ",
+      "type": [
+        "water"
+      ],
+      "evolves_to": null,
+      "evolves_from": [
+        "418"
+      ]
+    },
+    "420": {
+      "en": "CHERUBI",
+      "ru": "ЧЕРУБИ",
+      "type": [
+        "grass"
+      ],
+      "evolves_to": [
+        "421"
+      ],
+      "evolves_from": null
+    },
+    "421": {
+      "en": "CHERRIM",
+      "ru": "ЧЕРРИМ",
+      "type": [
+        "grass"
+      ],
+      "evolves_to": null,
+      "evolves_from": [
+        "420"
+      ]
+    },
+    "422": {
+      "en": "SHELLOS",
+      "ru": "ШЕЛЛОС",
+      "type": [
+        "water"
+      ],
+      "evolves_to": [
+        "423"
+      ],
+      "evolves_from": null
+    },
+    "423": {
+      "en": "GASTRODON",
+      "ru": "ГАСТРОДОН",
+      "type": [
+        "water",
+        "ground"
+      ],
+      "evolves_to": null,
+      "evolves_from": [
+        "422"
+      ]
+    },
+    "424": {
+      "en": "AMBIPOM",
+      "ru": "АМБИПОМ",
+      "type": [
+        "normal"
+      ],
+      "evolves_to": null,
+      "evolves_from": [
+        "190"
+      ]
+    },
+    "425": {
+      "en": "DRIFLOON",
+      "ru": "ДРИФЛУН",
+      "type": [
+        "ghost",
+        "flying"
+      ],
+      "evolves_to": [
+        "426"
+      ],
+      "evolves_from": null
+    },
+    "426": {
+      "en": "DRIFBLIM",
+      "ru": "ДРИФБЛИМ",
+      "type": [
+        "ghost",
+        "flying"
+      ],
+      "evolves_to": null,
+      "evolves_from": [
+        "425"
+      ]
+    },
+    "427": {
+      "en": "BUNEARY",
+      "ru": "БАНИРИ",
+      "type": [
+        "normal"
+      ],
+      "evolves_to": [
+        "428"
+      ],
+      "evolves_from": null
+    },
+    "428": {
+      "en": "LOPUNNY",
+      "ru": "ЛОПАННИ",
+      "type": [
+        "normal"
+      ],
+      "evolves_to": null,
+      "evolves_from": [
+        "427"
+      ]
+    },
+    "429": {
+      "en": "MISMAGIUS",
+      "ru": "МИСМАГИУС",
+      "type": [
+        "ghost"
+      ],
+      "evolves_to": null,
+      "evolves_from": [
+        "200"
+      ]
+    },
+    "430": {
+      "en": "HONCHKROW",
+      "ru": "ХОНЧКРОУ",
+      "type": [
+        "dark",
+        "flying"
+      ],
+      "evolves_to": null,
+      "evolves_from": [
+        "198"
+      ]
+    },
+    "431": {
+      "en": "GLAMEOW",
+      "ru": "ГЛЭМЯУ",
+      "type": [
+        "normal"
+      ],
+      "evolves_to": [
+        "432"
+      ],
+      "evolves_from": null
+    },
+    "432": {
+      "en": "PURUGLY",
+      "ru": "ПУРУГЛИ",
+      "type": [
+        "normal"
+      ],
+      "evolves_to": null,
+      "evolves_from": [
+        "431"
+      ]
+    },
+    "433": {
+      "en": "CHINGLING",
+      "ru": "ЧИНЛИНГ",
+      "type": [
+        "psychic"
+      ],
+      "evolves_to": [
+        "358"
+      ],
+      "evolves_from": null
+    },
+    "434": {
+      "en": "STUNKY",
+      "ru": "СТАНКИ",
+      "type": [
+        "poison",
+        "dark"
+      ],
+      "evolves_to": [
+        "435"
+      ],
+      "evolves_from": null
+    },
+    "435": {
+      "en": "SKUNTANK",
+      "ru": "СКАНТАНК",
+      "type": [
+        "poison",
+        "dark"
+      ],
+      "evolves_to": null,
+      "evolves_from": [
+        "434"
+      ]
+    },
+    "436": {
+      "en": "BRONZOR",
+      "ru": "БРОНЗОР",
+      "type": [
+        "steel",
+        "psychic"
+      ],
+      "evolves_to": [
+        "437"
+      ],
+      "evolves_from": null
+    },
+    "437": {
+      "en": "BRONZONG",
+      "ru": "БРОНЗОНГ",
+      "type": [
+        "steel",
+        "psychic"
+      ],
+      "evolves_to": null,
+      "evolves_from": [
+        "436"
+      ]
+    },
+    "438": {
+      "en": "BONSLY",
+      "ru": "БОНСЛИ",
+      "type": [
+        "rock"
+      ],
+      "evolves_to": [
+        "185"
+      ],
+      "evolves_from": null
+    },
+    "439": {
+      "en": "MIME JR.",
+      "ru": "МАЙМ МЛАДШИЙ",
+      "type": [
+        "psychic",
+        "fairy"
+      ],
+      "evolves_to": [
+        "122"
+      ],
+      "evolves_from": null
+    },
+    "440": {
+      "en": "HAPPINY",
+      "ru": "ХЭППИНИ",
+      "type": [
+        "normal"
+      ],
+      "evolves_to": [
+        "113"
+      ],
+      "evolves_from": null
+    },
+    "441": {
+      "en": "CHATOT",
+      "ru": "ЧАТОТ",
+      "type": [
+        "normal",
+        "flying"
+      ],
+      "evolves_to": null,
+      "evolves_from": null
+    },
+    "442": {
+      "en": "SPIRITOMB",
+      "ru": "СПИРИТОМБ",
+      "type": [
+        "ghost",
+        "dark"
+      ],
+      "evolves_to": null,
+      "evolves_from": null
+    },
+    "443": {
+      "en": "GIBLE",
+      "ru": "ГИБЛ",
+      "type": [
+        "dragon",
+        "ground"
+      ],
+      "evolves_to": [
+        "444"
+      ],
+      "evolves_from": null
+    },
+    "444": {
+      "en": "GABITE",
+      "ru": "ГАБАЙТ",
+      "type": [
+        "dragon",
+        "ground"
+      ],
+      "evolves_to": [
+        "445"
+      ],
+      "evolves_from": [
+        "443"
+      ]
+    },
+    "445": {
+      "en": "GARCHOMP",
+      "ru": "ГАРЧОМП",
+      "type": [
+        "dragon",
+        "ground"
+      ],
+      "evolves_to": null,
+      "evolves_from": [
+        "444"
+      ]
+    },
+    "446": {
+      "en": "MUNCHLAX",
+      "ru": "МАНЧЛАКС",
+      "type": [
+        "normal"
+      ],
+      "evolves_to": [
+        "143"
+      ],
+      "evolves_from": null
+    },
+    "447": {
+      "en": "RIOLU",
+      "ru": "РИОЛУ",
+      "type": [
+        "fighting"
+      ],
+      "evolves_to": [
+        "448"
+      ],
+      "evolves_from": null
+    },
+    "448": {
+      "en": "LUCARIO",
+      "ru": "ЛУКАРИО",
+      "type": [
+        "fighting",
+        "steel"
+      ],
+      "evolves_to": null,
+      "evolves_from": [
+        "447"
+      ]
+    },
+    "449": {
+      "en": "HIPPOPOTAS",
+      "ru": "ГИППОПОТАС",
+      "type": [
+        "ground"
+      ],
+      "evolves_to": [
+        "450"
+      ],
+      "evolves_from": null
+    },
+    "450": {
+      "en": "HIPPOWDON",
+      "ru": "ГИППОПОДОН",
+      "type": [
+        "ground"
+      ],
+      "evolves_to": null,
+      "evolves_from": [
+        "449"
+      ]
+    },
+    "451": {
+      "en": "SKORUPI",
+      "ru": "СКОРУПИ",
+      "type": [
+        "poison",
+        "bug"
+      ],
+      "evolves_to": [
+        "452"
+      ],
+      "evolves_from": null
+    },
+    "452": {
+      "en": "DRAPION",
+      "ru": "ДРАПИОН",
+      "type": [
+        "poison",
+        "dark"
+      ],
+      "evolves_to": null,
+      "evolves_from": [
+        "451"
+      ]
+    },
+    "453": {
+      "en": "CROAGUNK",
+      "ru": "КРОГАНК",
+      "type": [
+        "poison",
+        "fighting"
+      ],
+      "evolves_to": [
+        "454"
+      ],
+      "evolves_from": null
+    },
+    "454": {
+      "en": "TOXICROAK",
+      "ru": "ТОКСИКРОУК",
+      "type": [
+        "poison",
+        "fighting"
+      ],
+      "evolves_to": null,
+      "evolves_from": [
+        "453"
+      ]
+    },
+    "455": {
+      "en": "CARNIVINE",
+      "ru": "КАРНИВАЙН",
+      "type": [
+        "grass"
+      ],
+      "evolves_to": null,
+      "evolves_from": null
+    },
+    "456": {
+      "en": "FINNEON",
+      "ru": "ФИННЕОН",
+      "type": [
+        "water"
+      ],
+      "evolves_to": [
+        "457"
+      ],
+      "evolves_from": null
+    },
+    "457": {
+      "en": "LUMINEON",
+      "ru": "ЛЮМИНЕОН",
+      "type": [
+        "water"
+      ],
+      "evolves_to": null,
+      "evolves_from": [
+        "456"
+      ]
+    },
+    "458": {
+      "en": "MANTYKE",
+      "ru": "МАНТАЙК",
+      "type": [
+        "water",
+        "flying"
+      ],
+      "evolves_to": [
+        "226"
+      ],
+      "evolves_from": null
+    },
+    "459": {
+      "en": "SNOVER",
+      "ru": "СНОВЕР",
+      "type": [
+        "grass",
+        "ice"
+      ],
+      "evolves_to": [
+        "460"
+      ],
+      "evolves_from": null
+    },
+    "460": {
+      "en": "ABOMASNOW",
+      "ru": "АБОМАСНОУ",
+      "type": [
+        "grass",
+        "ice"
+      ],
+      "evolves_to": null,
+      "evolves_from": [
+        "459"
+      ]
+    },
+    "461": {
+      "en": "WEAVILE",
+      "ru": "ВИВАЙЛ",
+      "type": [
+        "dark",
+        "ice"
+      ],
+      "evolves_to": null,
+      "evolves_from": [
+        "215"
+      ]
+    },
+    "462": {
+      "en": "MAGNEZONE",
+      "ru": "МАГНЕЗОН",
+      "type": [
+        "electric",
+        "steel"
+      ],
+      "evolves_to": null,
+      "evolves_from": [
+        "082"
+      ]
+    },
+    "463": {
+      "en": "LICKILICKY",
+      "ru": "ЛИКИЛИКИ",
+      "type": [
+        "normal"
+      ],
+      "evolves_to": null,
+      "evolves_from": [
+        "108"
+      ]
+    },
+    "464": {
+      "en": "RHYPERIOR",
+      "ru": "РАЙПЕРИОР",
+      "type": [
+        "ground",
+        "rock"
+      ],
+      "evolves_to": null,
+      "evolves_from": [
+        "112"
+      ]
+    },
+    "465": {
+      "en": "TANGROWTH",
+      "ru": "ТАНГРОВ",
+      "type": [
+        "grass"
+      ],
+      "evolves_to": null,
+      "evolves_from": [
+        "114"
+      ]
+    },
+    "466": {
+      "en": "ELECTIVIRE",
+      "ru": "ЭЛЕКТИВВАЙР",
+      "type": [
+        "electric"
+      ],
+      "evolves_to": null,
+      "evolves_from": [
+        "125"
+      ]
+    },
+    "467": {
+      "en": "MAGMORTAR",
+      "ru": "МАГМОРТАР",
+      "type": [
+        "fire"
+      ],
+      "evolves_to": null,
+      "evolves_from": [
+        "126"
+      ]
+    },
+    "468": {
+      "en": "TOGEKISS",
+      "ru": "ТОГЕКИСС",
+      "type": [
+        "fairy",
+        "flying"
+      ],
+      "evolves_to": null,
+      "evolves_from": [
+        "176"
+      ]
+    },
+    "469": {
+      "en": "YANMEGA",
+      "ru": "ЯНМЕГА",
+      "type": [
+        "bug",
+        "flying"
+      ],
+      "evolves_to": null,
+      "evolves_from": [
+        "193"
+      ]
+    },
+    "470": {
+      "en": "LEAFEON",
+      "ru": "ЛИФЕОН",
+      "type": [
+        "grass"
+      ],
+      "evolves_to": null,
+      "evolves_from": [
+        "133"
+      ]
+    },
+    "471": {
+      "en": "GLACEON",
+      "ru": "ГЛЕЙСЕОН",
+      "type": [
+        "ice"
+      ],
+      "evolves_to": null,
+      "evolves_from": [
+        "133"
+      ]
+    },
+    "472": {
+      "en": "GLISCOR",
+      "ru": "ГЛАЙСКОР",
+      "type": [
+        "ground",
+        "flying"
+      ],
+      "evolves_to": null,
+      "evolves_from": [
+        "207"
+      ]
+    },
+    "473": {
+      "en": "MAMOSWINE",
+      "ru": "МАМОСВАЙН",
+      "type": [
+        "ice",
+        "ground"
+      ],
+      "evolves_to": null,
+      "evolves_from": [
+        "221"
+      ]
+    },
+    "474": {
+      "en": "PORYGON-Z",
+      "ru": "ПОРИГОН-Z",
+      "type": [
+        "normal"
+      ],
+      "evolves_to": null,
+      "evolves_from": [
+        "233"
+      ]
+    },
+    "475": {
+      "en": "GALLADE",
+      "ru": "ГАЛЛЕЙД",
+      "type": [
+        "psychic",
+        "fighting"
+      ],
+      "evolves_to": null,
+      "evolves_from": [
+        "281"
+      ]
+    },
+    "476": {
+      "en": "PROBOPASS",
+      "ru": "ПРОБОПАСС",
+      "type": [
+        "rock",
+        "steel"
+      ],
+      "evolves_to": null,
+      "evolves_from": [
+        "299"
+      ]
+    },
+    "477": {
+      "en": "DUSKNOIR",
+      "ru": "ДАСКНУАР",
+      "type": [
+        "ghost"
+      ],
+      "evolves_to": null,
+      "evolves_from": [
+        "356"
+      ]
+    },
+    "478": {
+      "en": "FROSLASS",
+      "ru": "ФРОСЛАСС",
+      "type": [
+        "ice",
+        "ghost"
+      ],
+      "evolves_to": null,
+      "evolves_from": [
+        "361"
+      ]
+    },
+    "479": {
+      "en": "ROTOM",
+      "ru": "РОТОМ",
+      "type": [
+        "electric",
+        "ghost"
+      ],
+      "evolves_to": null,
+      "evolves_from": null
+    },
+    "480": {
+      "en": "UXIE",
+      "ru": "ЮКСИ",
+      "type": [
+        "psychic"
+      ],
+      "evolves_to": null,
+      "evolves_from": null,
+      "is_legendary": true
+    },
+    "481": {
+      "en": "MESPRIT",
+      "ru": "МЕСПРИТ",
+      "type": [
+        "psychic"
+      ],
+      "evolves_to": null,
+      "evolves_from": null,
+      "is_legendary": true
+    },
+    "482": {
+      "en": "AZELF",
+      "ru": "АЗЕЛЬФ",
+      "type": [
+        "psychic"
+      ],
+      "evolves_to": null,
+      "evolves_from": null,
+      "is_legendary": true
+    },
+    "483": {
+      "en": "DIALGA",
+      "ru": "ДИАЛГА",
+      "type": [
+        "steel",
+        "dragon"
+      ],
+      "evolves_to": null,
+      "evolves_from": null,
+      "is_legendary": true
+    },
+    "484": {
+      "en": "PALKIA",
+      "ru": "ПАЛКИЯ",
+      "type": [
+        "water",
+        "dragon"
+      ],
+      "evolves_to": null,
+      "evolves_from": null,
+      "is_legendary": true
+    },
+    "485": {
+      "en": "HEATRAN",
+      "ru": "ХИТРАН",
+      "type": [
+        "fire",
+        "steel"
+      ],
+      "evolves_to": null,
+      "evolves_from": null,
+      "is_legendary": true
+    },
+    "486": {
+      "en": "REGIGIGAS",
+      "ru": "РЕДЖИГИГАС",
+      "type": [
+        "normal"
+      ],
+      "evolves_to": null,
+      "evolves_from": null,
+      "is_legendary": true
+    },
+    "487": {
+      "en": "GIRATINA",
+      "ru": "ГИРАТИНА",
+      "type": [
+        "ghost",
+        "dragon"
+      ],
+      "evolves_to": null,
+      "evolves_from": null,
+      "is_legendary": true
+    },
+    "488": {
+      "en": "CRESSELIA",
+      "ru": "КРЕССЕЛИЯ",
+      "type": [
+        "psychic"
+      ],
+      "evolves_to": null,
+      "evolves_from": null,
+      "is_legendary": true
+    },
+    "489": {
+      "en": "PHIONE",
+      "ru": "ФИОНЕ",
+      "type": [
+        "water"
+      ],
+      "evolves_to": null,
+      "evolves_from": null,
+      "is_legendary": true
+    },
+    "490": {
+      "en": "MANAPHY",
+      "ru": "МАНАФИ",
+      "type": [
+        "water"
+      ],
+      "evolves_to": null,
+      "evolves_from": null,
+      "is_legendary": true
+    },
+    "491": {
+      "en": "DARKRAI",
+      "ru": "ДАРКРАЙ",
+      "type": [
+        "dark"
+      ],
+      "evolves_to": null,
+      "evolves_from": null,
+      "is_legendary": true
+    },
+    "492": {
+      "en": "SHAYMIN",
+      "ru": "ШЕЙМИН",
+      "type": [
+        "grass"
+      ],
+      "evolves_to": null,
+      "evolves_from": null,
+      "is_legendary": true
+    },
+    "493": {
+      "en": "ARCEUS",
+      "ru": "АРКЕУС",
+      "type": [
+        "normal"
+      ],
+      "evolves_to": null,
+      "evolves_from": null,
+      "is_legendary": true
+    },
+    "494": {
+      "en": "VICTINI",
+      "ru": "ВИКТИНИ",
+      "type": [
+        "psychic",
+        "fire"
+      ],
+      "evolves_to": null,
+      "evolves_from": null,
+      "is_legendary": true
+    },
+    "495": {
+      "en": "SNIVY",
+      "ru": "СНАЙВИ",
+      "type": [
+        "grass"
+      ],
+      "evolves_to": [
+        "496"
+      ],
+      "evolves_from": null,
+      "is_starter": true
+    },
+    "496": {
+      "en": "SERVINE",
+      "ru": "СЕРВАЙН",
+      "type": [
+        "grass"
+      ],
+      "evolves_to": [
+        "497"
+      ],
+      "evolves_from": [
+        "495"
+      ]
+    },
+    "497": {
+      "en": "SERPERIOR",
+      "ru": "СЕРПЕРИОР",
+      "type": [
+        "grass"
+      ],
+      "evolves_to": null,
+      "evolves_from": [
+        "496"
+      ]
+    },
+    "498": {
+      "en": "TEPIG",
+      "ru": "ТЕПИГ",
+      "type": [
+        "fire"
+      ],
+      "evolves_to": [
+        "499"
+      ],
+      "evolves_from": null,
+      "is_starter": true
+    },
+    "499": {
+      "en": "PIGNITE",
+      "ru": "ПИГНАЙТ",
+      "type": [
+        "fire",
+        "fighting"
+      ],
+      "evolves_to": [
+        "500"
+      ],
+      "evolves_from": [
+        "498"
+      ]
+    },
+    "500": {
+      "en": "EMBOAR",
+      "ru": "ЭМБОАР",
+      "type": [
+        "fire",
+        "fighting"
+      ],
+      "evolves_to": null,
+      "evolves_from": [
+        "499"
+      ]
+    },
+    "501": {
+      "en": "OSHAWOTT",
+      "ru": "ОШАВОТТ",
+      "type": [
+        "water"
+      ],
+      "evolves_to": [
+        "502"
+      ],
+      "evolves_from": null,
+      "is_starter": true
+    },
+    "502": {
+      "en": "DEWOTT",
+      "ru": "ДЕВОТТ",
+      "type": [
+        "water"
+      ],
+      "evolves_to": [
+        "503"
+      ],
+      "evolves_from": [
+        "501"
+      ]
+    },
+    "503": {
+      "en": "SAMUROTT",
+      "ru": "САМУРОТТ",
+      "type": [
+        "water"
+      ],
+      "evolves_to": null,
+      "evolves_from": [
+        "502"
+      ]
+    },
+    "504": {
+      "en": "PATRAT",
+      "ru": "ПАТРАТ",
+      "type": [
+        "normal"
+      ],
+      "evolves_to": [
+        "505"
+      ],
+      "evolves_from": null
+    },
+    "505": {
+      "en": "WATCHOG",
+      "ru": "ВОТЧОГ",
+      "type": [
+        "normal"
+      ],
+      "evolves_to": null,
+      "evolves_from": [
+        "504"
+      ]
+    },
+    "506": {
+      "en": "LILLIPUP",
+      "ru": "ЛИЛЛИПАП",
+      "type": [
+        "normal"
+      ],
+      "evolves_to": [
+        "507"
+      ],
+      "evolves_from": null
+    },
+    "507": {
+      "en": "HERDIER",
+      "ru": "ХЕРДЬЕР",
+      "type": [
+        "normal"
+      ],
+      "evolves_to": [
+        "508"
+      ],
+      "evolves_from": [
+        "506"
+      ]
+    },
+    "508": {
+      "en": "STOUTLAND",
+      "ru": "СТАУТЛЕНД",
+      "type": [
+        "normal"
+      ],
+      "evolves_to": null,
+      "evolves_from": [
+        "507"
+      ]
+    },
+    "509": {
+      "en": "PURRLOIN",
+      "ru": "ПУРЛОЙН",
+      "type": [
+        "dark"
+      ],
+      "evolves_to": [
+        "510"
+      ],
+      "evolves_from": null
+    },
+    "510": {
+      "en": "LIEPARD",
+      "ru": "ЛАЙПАРД",
+      "type": [
+        "dark"
+      ],
+      "evolves_to": null,
+      "evolves_from": [
+        "509"
+      ]
+    },
+    "511": {
+      "en": "PANSAGE",
+      "ru": "ПАНСЕЙДЖ",
+      "type": [
+        "grass"
+      ],
+      "evolves_to": [
+        "512"
+      ],
+      "evolves_from": null
+    },
+    "512": {
+      "en": "SIMISAGE",
+      "ru": "СИМИСЕЙДЖ",
+      "type": [
+        "grass"
+      ],
+      "evolves_to": null,
+      "evolves_from": [
+        "511"
+      ]
+    },
+    "513": {
+      "en": "PANSEAR",
+      "ru": "ПАНСИР",
+      "type": [
+        "fire"
+      ],
+      "evolves_to": [
+        "514"
+      ],
+      "evolves_from": null
+    },
+    "514": {
+      "en": "SIMISEAR",
+      "ru": "СИМИСИР",
+      "type": [
+        "fire"
+      ],
+      "evolves_to": null,
+      "evolves_from": [
+        "513"
+      ]
+    },
+    "515": {
+      "en": "PANPOUR",
+      "ru": "ПАНПУР",
+      "type": [
+        "water"
+      ],
+      "evolves_to": [
+        "516"
+      ],
+      "evolves_from": null
+    },
+    "516": {
+      "en": "SIMIPOUR",
+      "ru": "СИМИПУР",
+      "type": [
+        "water"
+      ],
+      "evolves_to": null,
+      "evolves_from": [
+        "515"
+      ]
+    },
+    "517": {
+      "en": "MUNNA",
+      "ru": "МУННА",
+      "type": [
+        "psychic"
+      ],
+      "evolves_to": [
+        "518"
+      ],
+      "evolves_from": null
+    },
+    "518": {
+      "en": "MUSHARNA",
+      "ru": "МУШАРНА",
+      "type": [
+        "psychic"
+      ],
+      "evolves_to": null,
+      "evolves_from": [
+        "517"
+      ]
+    },
+    "519": {
+      "en": "PIDOVE",
+      "ru": "ПИДАВ",
+      "type": [
+        "normal",
+        "flying"
+      ],
+      "evolves_to": [
+        "520"
+      ],
+      "evolves_from": null
+    },
+    "520": {
+      "en": "TRANQUILL",
+      "ru": "ТРАНКВИЛЛ",
+      "type": [
+        "normal",
+        "flying"
+      ],
+      "evolves_to": [
+        "521"
+      ],
+      "evolves_from": [
+        "519"
+      ]
+    },
+    "521": {
+      "en": "UNFEZANT",
+      "ru": "АНФЕЗАНТ",
+      "type": [
+        "normal",
+        "flying"
+      ],
+      "evolves_to": null,
+      "evolves_from": [
+        "520"
+      ]
+    },
+    "522": {
+      "en": "BLITZLE",
+      "ru": "БЛИТЗЛ",
+      "type": [
+        "electric"
+      ],
+      "evolves_to": [
+        "523"
+      ],
+      "evolves_from": null
+    },
+    "523": {
+      "en": "ZEBSTRIKA",
+      "ru": "ЗЕБСТРИКА",
+      "type": [
+        "electric"
+      ],
+      "evolves_to": null,
+      "evolves_from": [
+        "522"
+      ]
+    },
+    "524": {
+      "en": "ROGGENROLA",
+      "ru": "РОГГЕНРОЛА",
+      "type": [
+        "rock"
+      ],
+      "evolves_to": [
+        "525"
+      ],
+      "evolves_from": null
+    },
+    "525": {
+      "en": "BOLDORE",
+      "ru": "БОЛДОР",
+      "type": [
+        "rock"
+      ],
+      "evolves_to": [
+        "526"
+      ],
+      "evolves_from": [
+        "524"
+      ]
+    },
+    "526": {
+      "en": "GIGALITH",
+      "ru": "ГИГАЛИТ",
+      "type": [
+        "rock"
+      ],
+      "evolves_to": null,
+      "evolves_from": [
+        "525"
+      ]
+    },
+    "527": {
+      "en": "WOOBAT",
+      "ru": "ВУБАТ",
+      "type": [
+        "psychic",
+        "flying"
+      ],
+      "evolves_to": [
+        "528"
+      ],
+      "evolves_from": null
+    },
+    "528": {
+      "en": "SWOOBAT",
+      "ru": "СВУБАТ",
+      "type": [
+        "psychic",
+        "flying"
+      ],
+      "evolves_to": null,
+      "evolves_from": [
+        "527"
+      ]
+    },
+    "529": {
+      "en": "DRILBUR",
+      "ru": "ДРИЛБУР",
+      "type": [
+        "ground"
+      ],
+      "evolves_to": [
+        "530"
+      ],
+      "evolves_from": null
+    },
+    "530": {
+      "en": "EXCADRILL",
+      "ru": "ЭКСКАДРИЛЛ",
+      "type": [
+        "ground",
+        "steel"
+      ],
+      "evolves_to": null,
+      "evolves_from": [
+        "529"
+      ]
+    },
+    "531": {
+      "en": "AUDINO",
+      "ru": "ОДИНО",
+      "type": [
+        "normal"
+      ],
+      "evolves_to": null,
+      "evolves_from": null
+    },
+    "532": {
+      "en": "TIMBURR",
+      "ru": "ТИМБУР",
+      "type": [
+        "fighting"
+      ],
+      "evolves_to": [
+        "533"
+      ],
+      "evolves_from": null
+    },
+    "533": {
+      "en": "GURDURR",
+      "ru": "ГЕРДУР",
+      "type": [
+        "fighting"
+      ],
+      "evolves_to": [
+        "534"
+      ],
+      "evolves_from": [
+        "532"
+      ]
+    },
+    "534": {
+      "en": "CONKELDURR",
+      "ru": "КОНКЕЛДУР",
+      "type": [
+        "fighting"
+      ],
+      "evolves_to": null,
+      "evolves_from": [
+        "533"
+      ]
+    },
+    "535": {
+      "en": "TYMPOLE",
+      "ru": "ТИМПОУЛ",
+      "type": [
+        "water"
+      ],
+      "evolves_to": [
+        "536"
+      ],
+      "evolves_from": null
+    },
+    "536": {
+      "en": "PALPITOAD",
+      "ru": "ПАЛПИТОУД",
+      "type": [
+        "water",
+        "ground"
+      ],
+      "evolves_to": [
+        "537"
+      ],
+      "evolves_from": [
+        "535"
+      ]
+    },
+    "537": {
+      "en": "SEISMITOAD",
+      "ru": "СЕЙСМИТОУД",
+      "type": [
+        "water",
+        "ground"
+      ],
+      "evolves_to": null,
+      "evolves_from": [
+        "536"
+      ]
+    },
+    "538": {
+      "en": "THROH",
+      "ru": "ТРО",
+      "type": [
+        "fighting"
+      ],
+      "evolves_to": null,
+      "evolves_from": null
+    },
+    "539": {
+      "en": "SAWK",
+      "ru": "СОК",
+      "type": [
+        "fighting"
+      ],
+      "evolves_to": null,
+      "evolves_from": null
+    },
+    "540": {
+      "en": "SEWADDLE",
+      "ru": "СЕВАДЛ",
+      "type": [
+        "bug",
+        "grass"
+      ],
+      "evolves_to": [
+        "541"
+      ],
+      "evolves_from": null
+    },
+    "541": {
+      "en": "SWADLOON",
+      "ru": "СВАДЛУН",
+      "type": [
+        "bug",
+        "grass"
+      ],
+      "evolves_to": [
+        "542"
+      ],
+      "evolves_from": [
+        "540"
+      ]
+    },
+    "542": {
+      "en": "LEAVANNY",
+      "ru": "ЛИВАННИ",
+      "type": [
+        "bug",
+        "grass"
+      ],
+      "evolves_to": null,
+      "evolves_from": [
+        "541"
+      ]
+    },
+    "543": {
+      "en": "VENIPEDE",
+      "ru": "ВЕНИПИД",
+      "type": [
+        "bug",
+        "poison"
+      ],
+      "evolves_to": [
+        "544"
+      ],
+      "evolves_from": null
+    },
+    "544": {
+      "en": "WHIRLIPEDE",
+      "ru": "ВИРЛИПИД",
+      "type": [
+        "bug",
+        "poison"
+      ],
+      "evolves_to": [
+        "545"
+      ],
+      "evolves_from": [
+        "543"
+      ]
+    },
+    "545": {
+      "en": "SCOLIPEDE",
+      "ru": "СКОЛИПИД",
+      "type": [
+        "bug",
+        "poison"
+      ],
+      "evolves_to": null,
+      "evolves_from": [
+        "544"
+      ]
+    },
+    "546": {
+      "en": "COTTONEE",
+      "ru": "КОТТОНИ",
+      "type": [
+        "grass",
+        "fairy"
+      ],
+      "evolves_to": [
+        "547"
+      ],
+      "evolves_from": null
+    },
+    "547": {
+      "en": "WHIMSICOTT",
+      "ru": "ВИМСИКОТТ",
+      "type": [
+        "grass",
+        "fairy"
+      ],
+      "evolves_to": null,
+      "evolves_from": [
+        "546"
+      ]
+    },
+    "548": {
+      "en": "PETILIL",
+      "ru": "ПЕТИЛИЛ",
+      "type": [
+        "grass"
+      ],
+      "evolves_to": [
+        "549"
+      ],
+      "evolves_from": null
+    },
+    "549": {
+      "en": "LILLIGANT",
+      "ru": "ЛИЛЛИГАНТ",
+      "type": [
+        "grass"
+      ],
+      "evolves_to": null,
+      "evolves_from": [
+        "548"
+      ]
+    },
+    "550": {
+      "en": "BASCULIN",
+      "ru": "БАСКУЛИН",
+      "type": [
+        "water"
+      ],
+      "evolves_to": null,
+      "evolves_from": null
+    },
+    "551": {
+      "en": "SANDILE",
+      "ru": "СЭНДАЙЛ",
+      "type": [
+        "ground",
+        "dark"
+      ],
+      "evolves_to": [
+        "552"
+      ],
+      "evolves_from": null
+    },
+    "552": {
+      "en": "KROKOROK",
+      "ru": "КРОКОРОК",
+      "type": [
+        "ground",
+        "dark"
+      ],
+      "evolves_to": [
+        "553"
+      ],
+      "evolves_from": [
+        "551"
+      ]
+    },
+    "553": {
+      "en": "KROOKODILE",
+      "ru": "КРУКОДАЙЛ",
+      "type": [
+        "ground",
+        "dark"
+      ],
+      "evolves_to": null,
+      "evolves_from": [
+        "552"
+      ]
+    },
+    "554": {
+      "en": "DARUMAKA",
+      "ru": "ДАРУМАКА",
+      "type": [
+        "fire"
+      ],
+      "evolves_to": [
+        "555"
+      ],
+      "evolves_from": null
+    },
+    "555": {
+      "en": "DARMANITAN",
+      "ru": "ДАРМАНИТАН",
+      "type": [
+        "fire"
+      ],
+      "evolves_to": null,
+      "evolves_from": [
+        "554"
+      ]
+    },
+    "556": {
+      "en": "MARACTUS",
+      "ru": "МАРАКТУС",
+      "type": [
+        "grass"
+      ],
+      "evolves_to": null,
+      "evolves_from": null
+    },
+    "557": {
+      "en": "DWEBBLE",
+      "ru": "ДВЕББЛ",
+      "type": [
+        "bug",
+        "rock"
+      ],
+      "evolves_to": [
+        "558"
+      ],
+      "evolves_from": null
+    },
+    "558": {
+      "en": "CRUSTLE",
+      "ru": "КРАСТЛ",
+      "type": [
+        "bug",
+        "rock"
+      ],
+      "evolves_to": null,
+      "evolves_from": [
+        "557"
+      ]
+    },
+    "559": {
+      "en": "SCRAGGY",
+      "ru": "СКРАГГИ",
+      "type": [
+        "dark",
+        "fighting"
+      ],
+      "evolves_to": [
+        "560"
+      ],
+      "evolves_from": null
+    },
+    "560": {
+      "en": "SCRAFTY",
+      "ru": "СКРАФТИ",
+      "type": [
+        "dark",
+        "fighting"
+      ],
+      "evolves_to": null,
+      "evolves_from": [
+        "559"
+      ]
+    },
+    "561": {
+      "en": "SIGILYPH",
+      "ru": "СИГИЛИФ",
+      "type": [
+        "psychic",
+        "flying"
+      ],
+      "evolves_to": null,
+      "evolves_from": null
+    },
+    "562": {
+      "en": "YAMASK",
+      "ru": "ЯМАСК",
+      "type": [
+        "ghost"
+      ],
+      "evolves_to": [
+        "563"
+      ],
+      "evolves_from": null
+    },
+    "563": {
+      "en": "COFAGRIGUS",
+      "ru": "КОФАГРИГУС",
+      "type": [
+        "ghost"
+      ],
+      "evolves_to": null,
+      "evolves_from": [
+        "562"
+      ]
+    },
+    "564": {
+      "en": "TIRTOUGA",
+      "ru": "ТИРТУГА",
+      "type": [
+        "water",
+        "rock"
+      ],
+      "evolves_to": [
+        "565"
+      ],
+      "evolves_from": null
+    },
+    "565": {
+      "en": "CARRACOSTA",
+      "ru": "КАРРАКОСТА",
+      "type": [
+        "water",
+        "rock"
+      ],
+      "evolves_to": null,
+      "evolves_from": [
+        "564"
+      ]
+    },
+    "566": {
+      "en": "ARCHEN",
+      "ru": "АРКЕН",
+      "type": [
+        "rock",
+        "flying"
+      ],
+      "evolves_to": [
+        "567"
+      ],
+      "evolves_from": null
+    },
+    "567": {
+      "en": "ARCHEOPS",
+      "ru": "АРКЕОПС",
+      "type": [
+        "rock",
+        "flying"
+      ],
+      "evolves_to": null,
+      "evolves_from": [
+        "566"
+      ]
+    },
+    "568": {
+      "en": "TRUBBISH",
+      "ru": "ТРАББИШ",
+      "type": [
+        "poison"
+      ],
+      "evolves_to": [
+        "569"
+      ],
+      "evolves_from": null
+    },
+    "569": {
+      "en": "GARBODOR",
+      "ru": "ГАРБОДОР",
+      "type": [
+        "poison"
+      ],
+      "evolves_to": null,
+      "evolves_from": [
+        "568"
+      ]
+    },
+    "570": {
+      "en": "ZORUA",
+      "ru": "ЗОРУА",
+      "type": [
+        "dark"
+      ],
+      "evolves_to": [
+        "571"
+      ],
+      "evolves_from": null
+    },
+    "571": {
+      "en": "ZOROARK",
+      "ru": "ЗОРОАРК",
+      "type": [
+        "dark"
+      ],
+      "evolves_to": null,
+      "evolves_from": [
+        "570"
+      ]
+    },
+    "572": {
+      "en": "MINCCINO",
+      "ru": "МИНЧИНО",
+      "type": [
+        "normal"
+      ],
+      "evolves_to": [
+        "573"
+      ],
+      "evolves_from": null
+    },
+    "573": {
+      "en": "CINCCINO",
+      "ru": "ЧИНЧИНО",
+      "type": [
+        "normal"
+      ],
+      "evolves_to": null,
+      "evolves_from": [
+        "572"
+      ]
+    },
+    "574": {
+      "en": "GOTHITA",
+      "ru": "ГОТИТА",
+      "type": [
+        "psychic"
+      ],
+      "evolves_to": [
+        "575"
+      ],
+      "evolves_from": null
+    },
+    "575": {
+      "en": "GOTHORITA",
+      "ru": "ГОТОРИТА",
+      "type": [
+        "psychic"
+      ],
+      "evolves_to": [
+        "576"
+      ],
+      "evolves_from": [
+        "574"
+      ]
+    },
+    "576": {
+      "en": "GOTHITELLE",
+      "ru": "ГОТИТЕЛЬ",
+      "type": [
+        "psychic"
+      ],
+      "evolves_to": null,
+      "evolves_from": [
+        "575"
+      ]
+    },
+    "577": {
+      "en": "SOLOSIS",
+      "ru": "СОЛОСИС",
+      "type": [
+        "psychic"
+      ],
+      "evolves_to": [
+        "578"
+      ],
+      "evolves_from": null
+    },
+    "578": {
+      "en": "DUOSION",
+      "ru": "ДУОЗИОН",
+      "type": [
+        "psychic"
+      ],
+      "evolves_to": [
+        "579"
+      ],
+      "evolves_from": [
+        "577"
+      ]
+    },
+    "579": {
+      "en": "REUNICLUS",
+      "ru": "РЕЮНИКЛУС",
+      "type": [
+        "psychic"
+      ],
+      "evolves_to": null,
+      "evolves_from": [
+        "578"
+      ]
+    },
+    "580": {
+      "en": "DUCKLETT",
+      "ru": "ДАКЛЕТТ",
+      "type": [
+        "water",
+        "flying"
+      ],
+      "evolves_to": [
+        "581"
+      ],
+      "evolves_from": null
+    },
+    "581": {
+      "en": "SWANNA",
+      "ru": "СВОННА",
+      "type": [
+        "water",
+        "flying"
+      ],
+      "evolves_to": null,
+      "evolves_from": [
+        "580"
+      ]
+    },
+    "582": {
+      "en": "VANILLITE",
+      "ru": "ВАНИЛАЙТ",
+      "type": [
+        "ice"
+      ],
+      "evolves_to": [
+        "583"
+      ],
+      "evolves_from": null
+    },
+    "583": {
+      "en": "VANILLISH",
+      "ru": "ВАНИЛИШ",
+      "type": [
+        "ice"
+      ],
+      "evolves_to": [
+        "584"
+      ],
+      "evolves_from": [
+        "582"
+      ]
+    },
+    "584": {
+      "en": "VANILLUXE",
+      "ru": "ВАНИЛЮКС",
+      "type": [
+        "ice"
+      ],
+      "evolves_to": null,
+      "evolves_from": [
+        "583"
+      ]
+    },
+    "585": {
+      "en": "DEERLING",
+      "ru": "ДИРЛИНГ",
+      "type": [
+        "normal",
+        "grass"
+      ],
+      "evolves_to": [
+        "586"
+      ],
+      "evolves_from": null
+    },
+    "586": {
+      "en": "SAWSBUCK",
+      "ru": "СОСБАК",
+      "type": [
+        "normal",
+        "grass"
+      ],
+      "evolves_to": null,
+      "evolves_from": [
+        "585"
+      ]
+    },
+    "587": {
+      "en": "EMOLGA",
+      "ru": "ЭМОЛГА",
+      "type": [
+        "electric",
+        "flying"
+      ],
+      "evolves_to": null,
+      "evolves_from": null
+    },
+    "588": {
+      "en": "KARRABLAST",
+      "ru": "КАРРАБЛАСТ",
+      "type": [
+        "bug"
+      ],
+      "evolves_to": [
+        "589"
+      ],
+      "evolves_from": null
+    },
+    "589": {
+      "en": "ESCAVALIER",
+      "ru": "ЭСКАВАЛЕР",
+      "type": [
+        "bug",
+        "steel"
+      ],
+      "evolves_to": null,
+      "evolves_from": [
+        "588"
+      ]
+    },
+    "590": {
+      "en": "FOONGUS",
+      "ru": "ФУНГУС",
+      "type": [
+        "grass",
+        "poison"
+      ],
+      "evolves_to": [
+        "591"
+      ],
+      "evolves_from": null
+    },
+    "591": {
+      "en": "AMOONGUSS",
+      "ru": "АМУНГУС",
+      "type": [
+        "grass",
+        "poison"
+      ],
+      "evolves_to": null,
+      "evolves_from": [
+        "590"
+      ]
+    },
+    "592": {
+      "en": "FRILLISH",
+      "ru": "ФРИЛЛИШ",
+      "type": [
+        "water",
+        "ghost"
+      ],
+      "evolves_to": [
+        "593"
+      ],
+      "evolves_from": null
+    },
+    "593": {
+      "en": "JELLICENT",
+      "ru": "ДЖЕЛЛИСЕНТ",
+      "type": [
+        "water",
+        "ghost"
+      ],
+      "evolves_to": null,
+      "evolves_from": [
+        "592"
+      ]
+    },
+    "594": {
+      "en": "ALOMOMOLA",
+      "ru": "АЛОМОМОЛА",
+      "type": [
+        "water"
+      ],
+      "evolves_to": null,
+      "evolves_from": null
+    },
+    "595": {
+      "en": "JOLTIK",
+      "ru": "ДЖОЛТИК",
+      "type": [
+        "bug",
+        "electric"
+      ],
+      "evolves_to": [
+        "596"
+      ],
+      "evolves_from": null
+    },
+    "596": {
+      "en": "GALVANTULA",
+      "ru": "ГАЛЬВАНТУЛА",
+      "type": [
+        "bug",
+        "electric"
+      ],
+      "evolves_to": null,
+      "evolves_from": [
+        "595"
+      ]
+    },
+    "597": {
+      "en": "FERROSEED",
+      "ru": "ФЕРРОСИД",
+      "type": [
+        "grass",
+        "steel"
+      ],
+      "evolves_to": [
+        "598"
+      ],
+      "evolves_from": null
+    },
+    "598": {
+      "en": "FERROTHORN",
+      "ru": "ФЕРРОТОРН",
+      "type": [
+        "grass",
+        "steel"
+      ],
+      "evolves_to": null,
+      "evolves_from": [
+        "597"
+      ]
+    },
+    "599": {
+      "en": "KLINK",
+      "ru": "КЛИНК",
+      "type": [
+        "steel"
+      ],
+      "evolves_to": [
+        "600"
+      ],
+      "evolves_from": null
+    },
+    "600": {
+      "en": "KLANG",
+      "ru": "КЛАНГ",
+      "type": [
+        "steel"
+      ],
+      "evolves_to": [
+        "601"
+      ],
+      "evolves_from": [
+        "599"
+      ]
+    },
+    "601": {
+      "en": "KLINKLANG",
+      "ru": "КЛИНКЛАНГ",
+      "type": [
+        "steel"
+      ],
+      "evolves_to": null,
+      "evolves_from": [
+        "600"
+      ]
+    },
+    "602": {
+      "en": "TYNAMO",
+      "ru": "ТИНАММО",
+      "type": [
+        "electric"
+      ],
+      "evolves_to": [
+        "603"
+      ],
+      "evolves_from": null
+    },
+    "603": {
+      "en": "EELEKTRIK",
+      "ru": "ИЛЕКТРИК",
+      "type": [
+        "electric"
+      ],
+      "evolves_to": [
+        "604"
+      ],
+      "evolves_from": [
+        "602"
+      ]
+    },
+    "604": {
+      "en": "EELEKTROSS",
+      "ru": "ИЛЕКТРОСС",
+      "type": [
+        "electric"
+      ],
+      "evolves_to": null,
+      "evolves_from": [
+        "603"
+      ]
+    },
+    "605": {
+      "en": "ELGYEM",
+      "ru": "ЭЛДЖЕМ",
+      "type": [
+        "psychic"
+      ],
+      "evolves_to": [
+        "606"
+      ],
+      "evolves_from": null
+    },
+    "606": {
+      "en": "BEHEEYEM",
+      "ru": "БИХИЕМ",
+      "type": [
+        "psychic"
+      ],
+      "evolves_to": null,
+      "evolves_from": [
+        "605"
+      ]
+    },
+    "607": {
+      "en": "LITWICK",
+      "ru": "ЛИТВИК",
+      "type": [
+        "ghost",
+        "fire"
+      ],
+      "evolves_to": [
+        "608"
+      ],
+      "evolves_from": null
+    },
+    "608": {
+      "en": "LAMPENT",
+      "ru": "ЛАМПЕНТ",
+      "type": [
+        "ghost",
+        "fire"
+      ],
+      "evolves_to": [
+        "609"
+      ],
+      "evolves_from": [
+        "607"
+      ]
+    },
+    "609": {
+      "en": "CHANDELURE",
+      "ru": "ШАНДЕЛЮР",
+      "type": [
+        "ghost",
+        "fire"
+      ],
+      "evolves_to": null,
+      "evolves_from": [
+        "608"
+      ]
+    },
+    "610": {
+      "en": "AXEW",
+      "ru": "АКСЬЮ",
+      "type": [
+        "dragon"
+      ],
+      "evolves_to": [
+        "611"
+      ],
+      "evolves_from": null
+    },
+    "611": {
+      "en": "FRAXURE",
+      "ru": "ФРАКШУР",
+      "type": [
+        "dragon"
+      ],
+      "evolves_to": [
+        "612"
+      ],
+      "evolves_from": [
+        "610"
+      ]
+    },
+    "612": {
+      "en": "HAXORUS",
+      "ru": "ХАКСОРУС",
+      "type": [
+        "dragon"
+      ],
+      "evolves_to": null,
+      "evolves_from": [
+        "611"
+      ]
+    },
+    "613": {
+      "en": "CUBCHOO",
+      "ru": "КАБЧУ",
+      "type": [
+        "ice"
+      ],
+      "evolves_to": [
+        "614"
+      ],
+      "evolves_from": null
+    },
+    "614": {
+      "en": "BEARTIC",
+      "ru": "БИАРТИК",
+      "type": [
+        "ice"
+      ],
+      "evolves_to": null,
+      "evolves_from": [
+        "613"
+      ]
+    },
+    "615": {
+      "en": "CRYOGONAL",
+      "ru": "КРАЙОГОНАЛ",
+      "type": [
+        "ice"
+      ],
+      "evolves_to": null,
+      "evolves_from": null
+    },
+    "616": {
+      "en": "SHELMET",
+      "ru": "ШЕЛМЕТ",
+      "type": [
+        "bug"
+      ],
+      "evolves_to": [
+        "617"
+      ],
+      "evolves_from": null
+    },
+    "617": {
+      "en": "ACCELGOR",
+      "ru": "АКСЕЛЬГОР",
+      "type": [
+        "bug"
+      ],
+      "evolves_to": null,
+      "evolves_from": [
+        "616"
+      ]
+    },
+    "618": {
+      "en": "STUNFISK",
+      "ru": "СТАНФИСК",
+      "type": [
+        "ground",
+        "electric"
+      ],
+      "evolves_to": null,
+      "evolves_from": null
+    },
+    "619": {
+      "en": "MIENFOO",
+      "ru": "МИНФУ",
+      "type": [
+        "fighting"
+      ],
+      "evolves_to": [
+        "620"
+      ],
+      "evolves_from": null
+    },
+    "620": {
+      "en": "MIENSHAO",
+      "ru": "МИНШАО",
+      "type": [
+        "fighting"
+      ],
+      "evolves_to": null,
+      "evolves_from": [
+        "619"
+      ]
+    },
+    "621": {
+      "en": "DRUDDIGON",
+      "ru": "ДРАДДИГОН",
+      "type": [
+        "dragon"
+      ],
+      "evolves_to": null,
+      "evolves_from": null
+    },
+    "622": {
+      "en": "GOLETT",
+      "ru": "ГОЛЕТТ",
+      "type": [
+        "ground",
+        "ghost"
+      ],
+      "evolves_to": [
+        "623"
+      ],
+      "evolves_from": null
+    },
+    "623": {
+      "en": "GOLURK",
+      "ru": "ГОЛУРК",
+      "type": [
+        "ground",
+        "ghost"
+      ],
+      "evolves_to": null,
+      "evolves_from": [
+        "622"
+      ]
+    },
+    "624": {
+      "en": "PAWNIARD",
+      "ru": "ПОНИАРД",
+      "type": [
+        "dark",
+        "steel"
+      ],
+      "evolves_to": [
+        "625"
+      ],
+      "evolves_from": null
+    },
+    "625": {
+      "en": "BISHARP",
+      "ru": "БИШАРП",
+      "type": [
+        "dark",
+        "steel"
+      ],
+      "evolves_to": [
+        "983"
+      ],
+      "evolves_from": [
+        "624"
+      ]
+    },
+    "626": {
+      "en": "BOUFFALANT",
+      "ru": "БУФФАЛАНТ",
+      "type": [
+        "normal"
+      ],
+      "evolves_to": null,
+      "evolves_from": null
+    },
+    "627": {
+      "en": "RUFFLET",
+      "ru": "РАФФЛЕТ",
+      "type": [
+        "normal",
+        "flying"
+      ],
+      "evolves_to": [
+        "628"
+      ],
+      "evolves_from": null
+    },
+    "628": {
+      "en": "BRAVIARY",
+      "ru": "БРЕЙВИАРИ",
+      "type": [
+        "normal",
+        "flying"
+      ],
+      "evolves_to": null,
+      "evolves_from": [
+        "627"
+      ]
+    },
+    "629": {
+      "en": "VULLABY",
+      "ru": "ВАЛЛАБИ",
+      "type": [
+        "dark",
+        "flying"
+      ],
+      "evolves_to": [
+        "630"
+      ],
+      "evolves_from": null
+    },
+    "630": {
+      "en": "MANDIBUZZ",
+      "ru": "МАНДИБАЗЗ",
+      "type": [
+        "dark",
+        "flying"
+      ],
+      "evolves_to": null,
+      "evolves_from": [
+        "629"
+      ]
+    },
+    "631": {
+      "en": "HEATMOR",
+      "ru": "ХИТМОР",
+      "type": [
+        "fire"
+      ],
+      "evolves_to": null,
+      "evolves_from": null
+    },
+    "632": {
+      "en": "DURANT",
+      "ru": "ДЮРАНТ",
+      "type": [
+        "bug",
+        "steel"
+      ],
+      "evolves_to": null,
+      "evolves_from": null
+    },
+    "633": {
+      "en": "DEINO",
+      "ru": "ДЕЙНО",
+      "type": [
+        "dark",
+        "dragon"
+      ],
+      "evolves_to": [
+        "634"
+      ],
+      "evolves_from": null
+    },
+    "634": {
+      "en": "ZWEILOUS",
+      "ru": "ЦВАЙЛОУС",
+      "type": [
+        "dark",
+        "dragon"
+      ],
+      "evolves_to": [
+        "635"
+      ],
+      "evolves_from": [
+        "633"
+      ]
+    },
+    "635": {
+      "en": "HYDREIGON",
+      "ru": "ХАЙДРЕЙГОН",
+      "type": [
+        "dark",
+        "dragon"
+      ],
+      "evolves_to": null,
+      "evolves_from": [
+        "634"
+      ]
+    },
+    "636": {
+      "en": "LARVESTA",
+      "ru": "ЛАРВЕСТА",
+      "type": [
+        "bug",
+        "fire"
+      ],
+      "evolves_to": [
+        "637"
+      ],
+      "evolves_from": null
+    },
+    "637": {
+      "en": "VOLCARONA",
+      "ru": "ВОЛКАРОНА",
+      "type": [
+        "bug",
+        "fire"
+      ],
+      "evolves_to": null,
+      "evolves_from": [
+        "636"
+      ]
+    },
+    "638": {
+      "en": "COBALION",
+      "ru": "КОБАЛИОН",
+      "type": [
+        "steel",
+        "fighting"
+      ],
+      "evolves_to": null,
+      "evolves_from": null,
+      "is_legendary": true
+    },
+    "639": {
+      "en": "TERRAKION",
+      "ru": "ТЕРРАКИОН",
+      "type": [
+        "rock",
+        "fighting"
+      ],
+      "evolves_to": null,
+      "evolves_from": null,
+      "is_legendary": true
+    },
+    "640": {
+      "en": "VIRIZION",
+      "ru": "ВИРИЗИОН",
+      "type": [
+        "grass",
+        "fighting"
+      ],
+      "evolves_to": null,
+      "evolves_from": null,
+      "is_legendary": true
+    },
+    "641": {
+      "en": "TORNADUS",
+      "ru": "ТОРНАДУС",
+      "type": [
+        "flying"
+      ],
+      "evolves_to": null,
+      "evolves_from": null,
+      "is_legendary": true
+    },
+    "642": {
+      "en": "THUNDURUS",
+      "ru": "ТАНДУРУС",
+      "type": [
+        "electric",
+        "flying"
+      ],
+      "evolves_to": null,
+      "evolves_from": null,
+      "is_legendary": true
+    },
+    "643": {
+      "en": "RESHIRAM",
+      "ru": "РЕШИРАМ",
+      "type": [
+        "dragon",
+        "fire"
+      ],
+      "evolves_to": null,
+      "evolves_from": null,
+      "is_legendary": true
+    },
+    "644": {
+      "en": "ZEKROM",
+      "ru": "ЗЕКУРОМ",
+      "type": [
+        "dragon",
+        "electric"
+      ],
+      "evolves_to": null,
+      "evolves_from": null,
+      "is_legendary": true
+    },
+    "645": {
+      "en": "LANDORUS",
+      "ru": "ЛАНДОРУС",
+      "type": [
+        "ground",
+        "flying"
+      ],
+      "evolves_to": null,
+      "evolves_from": null,
+      "is_legendary": true
+    },
+    "646": {
+      "en": "KYUREM",
+      "ru": "КЮРЕМ",
+      "type": [
+        "dragon",
+        "ice"
+      ],
+      "evolves_to": null,
+      "evolves_from": null,
+      "is_legendary": true
+    },
+    "647": {
+      "en": "KELDEO",
+      "ru": "КЕЛДЕО",
+      "type": [
+        "water",
+        "fighting"
+      ],
+      "evolves_to": null,
+      "evolves_from": null,
+      "is_legendary": true
+    },
+    "648": {
+      "en": "MELOETTA",
+      "ru": "МЕЛОЭТТА",
+      "type": [
+        "normal",
+        "psychic"
+      ],
+      "evolves_to": null,
+      "evolves_from": null,
+      "is_legendary": true
+    },
+    "649": {
+      "en": "GENESECT",
+      "ru": "ГЕНЕСЕКТ",
+      "type": [
+        "bug",
+        "steel"
+      ],
+      "evolves_to": null,
+      "evolves_from": null,
+      "is_legendary": true
+    },
+    "650": {
+      "en": "CHESPIN",
+      "ru": "ЧЕСПИН",
+      "type": [
+        "grass"
+      ],
+      "evolves_to": [
+        "651"
+      ],
+      "evolves_from": null,
+      "is_starter": true
+    },
+    "651": {
+      "en": "QUILLADIN",
+      "ru": "КВИЛЛАДИН",
+      "type": [
+        "grass"
+      ],
+      "evolves_to": [
+        "652"
+      ],
+      "evolves_from": [
+        "650"
+      ]
+    },
+    "652": {
+      "en": "CHESNAUGHT",
+      "ru": "ЧЕСНОТ",
+      "type": [
+        "grass",
+        "fighting"
+      ],
+      "evolves_to": null,
+      "evolves_from": [
+        "651"
+      ]
+    },
+    "653": {
+      "en": "FENNEKIN",
+      "ru": "ФЕННЕКИН",
+      "type": [
+        "fire"
+      ],
+      "evolves_to": [
+        "654"
+      ],
+      "evolves_from": null,
+      "is_starter": true
+    },
+    "654": {
+      "en": "BRAIXEN",
+      "ru": "БРАЙКСЕН",
+      "type": [
+        "fire"
+      ],
+      "evolves_to": [
+        "655"
+      ],
+      "evolves_from": [
+        "653"
+      ]
+    },
+    "655": {
+      "en": "DELPHOX",
+      "ru": "ДЕЛЬФОКС",
+      "type": [
+        "fire",
+        "psychic"
+      ],
+      "evolves_to": null,
+      "evolves_from": [
+        "654"
+      ]
+    },
+    "656": {
+      "en": "FROAKIE",
+      "ru": "ФРОКИ",
+      "type": [
+        "water"
+      ],
+      "evolves_to": [
+        "657"
+      ],
+      "evolves_from": null,
+      "is_starter": true
+    },
+    "657": {
+      "en": "FROGADIER",
+      "ru": "ФРОГАДИР",
+      "type": [
+        "water"
+      ],
+      "evolves_to": [
+        "658"
+      ],
+      "evolves_from": [
+        "656"
+      ]
+    },
+    "658": {
+      "en": "GRENINJA",
+      "ru": "ГРЕНИНДЗЯ",
+      "type": [
+        "water",
+        "dark"
+      ],
+      "evolves_to": null,
+      "evolves_from": [
+        "657"
+      ]
+    },
+    "659": {
+      "en": "BUNNELBY",
+      "ru": "БАННЕЛБИ",
+      "type": [
+        "normal"
+      ],
+      "evolves_to": [
+        "660"
+      ],
+      "evolves_from": null
+    },
+    "660": {
+      "en": "DIGGERSBY",
+      "ru": "ДИГГЕРСБИ",
+      "type": [
+        "normal",
+        "ground"
+      ],
+      "evolves_to": null,
+      "evolves_from": [
+        "659"
+      ]
+    },
+    "661": {
+      "en": "FLETCHLING",
+      "ru": "ФЛЕТЧЛИНГ",
+      "type": [
+        "normal",
+        "flying"
+      ],
+      "evolves_to": [
+        "662"
+      ],
+      "evolves_from": null
+    },
+    "662": {
+      "en": "FLETCHINDER",
+      "ru": "ФЛЕТЧИНДЕР",
+      "type": [
+        "fire",
+        "flying"
+      ],
+      "evolves_to": [
+        "663"
+      ],
+      "evolves_from": [
+        "661"
+      ]
+    },
+    "663": {
+      "en": "TALONFLAME",
+      "ru": "ТАЛОНФЛЕЙМ",
+      "type": [
+        "fire",
+        "flying"
+      ],
+      "evolves_to": null,
+      "evolves_from": [
+        "662"
+      ]
+    },
+    "664": {
+      "en": "SCATTERBUG",
+      "ru": "СКАТТЕРБАГ",
+      "type": [
+        "bug"
+      ],
+      "evolves_to": [
+        "665"
+      ],
+      "evolves_from": null
+    },
+    "665": {
+      "en": "SPEWPA",
+      "ru": "СПЬЮПА",
+      "type": [
+        "bug"
+      ],
+      "evolves_to": [
+        "666"
+      ],
+      "evolves_from": [
+        "664"
+      ]
+    },
+    "666": {
+      "en": "VIVILLON",
+      "ru": "ВИВИЙОН",
+      "type": [
+        "bug",
+        "flying"
+      ],
+      "evolves_to": null,
+      "evolves_from": [
+        "665"
+      ]
+    },
+    "667": {
+      "en": "LITLEO",
+      "ru": "ЛИТЛЕО",
+      "type": [
+        "fire",
+        "normal"
+      ],
+      "evolves_to": [
+        "668"
+      ],
+      "evolves_from": null
+    },
+    "668": {
+      "en": "PYROAR",
+      "ru": "ПАЙРОАР",
+      "type": [
+        "fire",
+        "normal"
+      ],
+      "evolves_to": null,
+      "evolves_from": [
+        "667"
+      ]
+    },
+    "669": {
+      "en": "FLABÉBÉ",
+      "ru": "ФЛАБЕБЕ",
+      "type": [
+        "fairy"
+      ],
+      "evolves_to": [
+        "670"
+      ],
+      "evolves_from": null
+    },
+    "670": {
+      "en": "FLOETTE",
+      "ru": "ФЛОЭТТ",
+      "type": [
+        "fairy"
+      ],
+      "evolves_to": [
+        "671"
+      ],
+      "evolves_from": [
+        "669"
+      ]
+    },
+    "671": {
+      "en": "FLORGES",
+      "ru": "ФЛОРГЕС",
+      "type": [
+        "fairy"
+      ],
+      "evolves_to": null,
+      "evolves_from": [
+        "670"
+      ]
+    },
+    "672": {
+      "en": "SKIDDO",
+      "ru": "СКИДДО",
+      "type": [
+        "grass"
+      ],
+      "evolves_to": [
+        "673"
+      ],
+      "evolves_from": null
+    },
+    "673": {
+      "en": "GOGOAT",
+      "ru": "ГОГОАТ",
+      "type": [
+        "grass"
+      ],
+      "evolves_to": null,
+      "evolves_from": [
+        "672"
+      ]
+    },
+    "674": {
+      "en": "PANCHAM",
+      "ru": "ПАНЧАМ",
+      "type": [
+        "fighting"
+      ],
+      "evolves_to": [
+        "675"
+      ],
+      "evolves_from": null
+    },
+    "675": {
+      "en": "PANGORO",
+      "ru": "ПАНГОРО",
+      "type": [
+        "fighting",
+        "dark"
+      ],
+      "evolves_to": null,
+      "evolves_from": [
+        "674"
+      ]
+    },
+    "676": {
+      "en": "FURFROU",
+      "ru": "ФУРФРУ",
+      "type": [
+        "normal"
+      ],
+      "evolves_to": null,
+      "evolves_from": null
+    },
+    "677": {
+      "en": "ESPURR",
+      "ru": "ЭСПУРР",
+      "type": [
+        "psychic"
+      ],
+      "evolves_to": [
+        "678"
+      ],
+      "evolves_from": null
+    },
+    "678": {
+      "en": "MEOWSTIC",
+      "ru": "МЯУСТИК",
+      "type": [
+        "psychic"
+      ],
+      "evolves_to": null,
+      "evolves_from": [
+        "677"
+      ]
+    },
+    "679": {
+      "en": "HONEDGE",
+      "ru": "ХОНЕДЖ",
+      "type": [
+        "steel",
+        "ghost"
+      ],
+      "evolves_to": [
+        "680"
+      ],
+      "evolves_from": null
+    },
+    "680": {
+      "en": "DOUBLADE",
+      "ru": "ДАУБЛЕЙД",
+      "type": [
+        "steel",
+        "ghost"
+      ],
+      "evolves_to": [
+        "681"
+      ],
+      "evolves_from": [
+        "679"
+      ]
+    },
+    "681": {
+      "en": "AEGISLASH",
+      "ru": "ИДЖИСЛЭШ",
+      "type": [
+        "steel",
+        "ghost"
+      ],
+      "evolves_to": null,
+      "evolves_from": [
+        "680"
+      ]
+    },
+    "682": {
+      "en": "SPRITZEE",
+      "ru": "СПРИТЗИ",
+      "type": [
+        "fairy"
+      ],
+      "evolves_to": [
+        "683"
+      ],
+      "evolves_from": null
+    },
+    "683": {
+      "en": "AROMATISSE",
+      "ru": "АРОМАТИСС",
+      "type": [
+        "fairy"
+      ],
+      "evolves_to": null,
+      "evolves_from": [
+        "682"
+      ]
+    },
+    "684": {
+      "en": "SWIRLIX",
+      "ru": "СВИРЛИКС",
+      "type": [
+        "fairy"
+      ],
+      "evolves_to": [
+        "685"
+      ],
+      "evolves_from": null
+    },
+    "685": {
+      "en": "SLURPUFF",
+      "ru": "СЛЁРПАФФ",
+      "type": [
+        "fairy"
+      ],
+      "evolves_to": null,
+      "evolves_from": [
+        "684"
+      ]
+    },
+    "686": {
+      "en": "INKAY",
+      "ru": "ИНКЕЙ",
+      "type": [
+        "dark",
+        "psychic"
+      ],
+      "evolves_to": [
+        "687"
+      ],
+      "evolves_from": null
+    },
+    "687": {
+      "en": "MALAMAR",
+      "ru": "МАЛАМАР",
+      "type": [
+        "dark",
+        "psychic"
+      ],
+      "evolves_to": null,
+      "evolves_from": [
+        "686"
+      ]
+    },
+    "688": {
+      "en": "BINACLE",
+      "ru": "БИНАКЛ",
+      "type": [
+        "rock",
+        "water"
+      ],
+      "evolves_to": [
+        "689"
+      ],
+      "evolves_from": null
+    },
+    "689": {
+      "en": "BARBARACLE",
+      "ru": "БАРБАРАКЛ",
+      "type": [
+        "rock",
+        "water"
+      ],
+      "evolves_to": null,
+      "evolves_from": [
+        "688"
+      ]
+    },
+    "690": {
+      "en": "SKRELP",
+      "ru": "СКРЕЛП",
+      "type": [
+        "poison",
+        "water"
+      ],
+      "evolves_to": [
+        "691"
+      ],
+      "evolves_from": null
+    },
+    "691": {
+      "en": "DRAGALGE",
+      "ru": "ДРАГАЛДЖИ",
+      "type": [
+        "poison",
+        "dragon"
+      ],
+      "evolves_to": null,
+      "evolves_from": [
+        "690"
+      ]
+    },
+    "692": {
+      "en": "CLAUNCHER",
+      "ru": "КЛОНЧЕР",
+      "type": [
+        "water"
+      ],
+      "evolves_to": [
+        "693"
+      ],
+      "evolves_from": null
+    },
+    "693": {
+      "en": "CLAWITZER",
+      "ru": "КЛОВИЦЕР",
+      "type": [
+        "water"
+      ],
+      "evolves_to": null,
+      "evolves_from": [
+        "692"
+      ]
+    },
+    "694": {
+      "en": "HELIOPTILE",
+      "ru": "ГЕЛИОПТАЙЛ",
+      "type": [
+        "electric",
+        "normal"
+      ],
+      "evolves_to": [
+        "695"
+      ],
+      "evolves_from": null
+    },
+    "695": {
+      "en": "HELIOLISK",
+      "ru": "ГЕЛИОЛИСК",
+      "type": [
+        "electric",
+        "normal"
+      ],
+      "evolves_to": null,
+      "evolves_from": [
+        "694"
+      ]
+    },
+    "696": {
+      "en": "TYRUNT",
+      "ru": "ТАЙРАНТ",
+      "type": [
+        "rock",
+        "dragon"
+      ],
+      "evolves_to": [
+        "697"
+      ],
+      "evolves_from": null
+    },
+    "697": {
+      "en": "TYRANTRUM",
+      "ru": "ТАЙРАНТРУМ",
+      "type": [
+        "rock",
+        "dragon"
+      ],
+      "evolves_to": null,
+      "evolves_from": [
+        "696"
+      ]
+    },
+    "698": {
+      "en": "AMAURA",
+      "ru": "АМАУРА",
+      "type": [
+        "rock",
+        "ice"
+      ],
+      "evolves_to": [
+        "699"
+      ],
+      "evolves_from": null
+    },
+    "699": {
+      "en": "AURORUS",
+      "ru": "АУРОРУС",
+      "type": [
+        "rock",
+        "ice"
+      ],
+      "evolves_to": null,
+      "evolves_from": [
+        "698"
+      ]
+    },
+    "700": {
+      "en": "SYLVEON",
+      "ru": "СИЛЬВЕОН",
+      "type": [
+        "fairy"
+      ],
+      "evolves_to": null,
+      "evolves_from": [
+        "133"
+      ]
+    },
+    "701": {
+      "en": "HAWLUCHA",
+      "ru": "ХОЛУЧА",
+      "type": [
+        "fighting",
+        "flying"
+      ],
+      "evolves_to": null,
+      "evolves_from": null
+    },
+    "702": {
+      "en": "DEDENNE",
+      "ru": "ДЕДЕННЕ",
+      "type": [
+        "electric",
+        "fairy"
+      ],
+      "evolves_to": null,
+      "evolves_from": null
+    },
+    "703": {
+      "en": "CARBINK",
+      "ru": "КАРБИНК",
+      "type": [
+        "rock",
+        "fairy"
+      ],
+      "evolves_to": null,
+      "evolves_from": null
+    },
+    "704": {
+      "en": "GOOMY",
+      "ru": "ГУМИ",
+      "type": [
+        "dragon"
+      ],
+      "evolves_to": [
+        "705"
+      ],
+      "evolves_from": null
+    },
+    "705": {
+      "en": "SLIGGOO",
+      "ru": "СЛИГГУ",
+      "type": [
+        "dragon"
+      ],
+      "evolves_to": [
+        "706"
+      ],
+      "evolves_from": [
+        "704"
+      ]
+    },
+    "706": {
+      "en": "GOODRA",
+      "ru": "ГУДРРА",
+      "type": [
+        "dragon"
+      ],
+      "evolves_to": null,
+      "evolves_from": [
+        "705"
+      ]
+    },
+    "707": {
+      "en": "KLEFKI",
+      "ru": "КЛЕФКИ",
+      "type": [
+        "steel",
+        "fairy"
+      ],
+      "evolves_to": null,
+      "evolves_from": null
+    },
+    "708": {
+      "en": "PHANTUMP",
+      "ru": "ФАНТАМП",
+      "type": [
+        "ghost",
+        "grass"
+      ],
+      "evolves_to": [
+        "709"
+      ],
+      "evolves_from": null
+    },
+    "709": {
+      "en": "TREVENANT",
+      "ru": "ТРЕВЕНАНТ",
+      "type": [
+        "ghost",
+        "grass"
+      ],
+      "evolves_to": null,
+      "evolves_from": [
+        "708"
+      ]
+    },
+    "710": {
+      "en": "PUMPKABOO",
+      "ru": "ПАМПКАБУ",
+      "type": [
+        "ghost",
+        "grass"
+      ],
+      "evolves_to": [
+        "711"
+      ],
+      "evolves_from": null
+    },
+    "711": {
+      "en": "GOURGEIST",
+      "ru": "ГОРГЕЙСТ",
+      "type": [
+        "ghost",
+        "grass"
+      ],
+      "evolves_to": null,
+      "evolves_from": [
+        "710"
+      ]
+    },
+    "712": {
+      "en": "BERGMITE",
+      "ru": "БЕРГМАЙТ",
+      "type": [
+        "ice"
+      ],
+      "evolves_to": [
+        "713"
+      ],
+      "evolves_from": null
+    },
+    "713": {
+      "en": "AVALUGG",
+      "ru": "АВАЛАГГ",
+      "type": [
+        "ice"
+      ],
+      "evolves_to": null,
+      "evolves_from": [
+        "712"
+      ]
+    },
+    "714": {
+      "en": "NOIBAT",
+      "ru": "НОЙБАТ",
+      "type": [
+        "flying",
+        "dragon"
+      ],
+      "evolves_to": [
+        "715"
+      ],
+      "evolves_from": null
+    },
+    "715": {
+      "en": "NOIVERN",
+      "ru": "НОЙВЕРН",
+      "type": [
+        "flying",
+        "dragon"
+      ],
+      "evolves_to": null,
+      "evolves_from": [
+        "714"
+      ]
+    },
+    "716": {
+      "en": "XERNEAS",
+      "ru": "ЗЕРНИАС",
+      "type": [
+        "fairy"
+      ],
+      "evolves_to": null,
+      "evolves_from": null,
+      "is_legendary": true
+    },
+    "717": {
+      "en": "YVELTAL",
+      "ru": "ИВЕЛЬТАЛ",
+      "type": [
+        "dark",
+        "flying"
+      ],
+      "evolves_to": null,
+      "evolves_from": null,
+      "is_legendary": true
+    },
+    "718": {
+      "en": "ZYGARDE",
+      "ru": "ЗИГАРД",
+      "type": [
+        "dragon",
+        "ground"
+      ],
+      "evolves_to": null,
+      "evolves_from": null,
+      "is_legendary": true
+    },
+    "719": {
+      "en": "DIANCIE",
+      "ru": "ДИАНСИ",
+      "type": [
+        "rock",
+        "fairy"
+      ],
+      "evolves_to": null,
+      "evolves_from": null,
+      "is_legendary": true
+    },
+    "720": {
+      "en": "HOOPA",
+      "ru": "ХУПА",
+      "type": [
+        "psychic",
+        "ghost"
+      ],
+      "evolves_to": null,
+      "evolves_from": null,
+      "is_legendary": true
+    },
+    "721": {
+      "en": "VOLCANION",
+      "ru": "ВОЛКАНИОН",
+      "type": [
+        "fire",
+        "water"
+      ],
+      "evolves_to": null,
+      "evolves_from": null,
+      "is_legendary": true
+    },
+    "722": {
+      "en": "ROWLET",
+      "ru": "РОУЛЕТ",
+      "type": [
+        "grass",
+        "flying"
+      ],
+      "evolves_to": [
+        "723"
+      ],
+      "evolves_from": null,
+      "is_starter": true
+    },
+    "723": {
+      "en": "DARTRIX",
+      "ru": "ДАРТРИКС",
+      "type": [
+        "grass",
+        "flying"
+      ],
+      "evolves_to": [
+        "724"
+      ],
+      "evolves_from": [
+        "722"
+      ]
+    },
+    "724": {
+      "en": "DECIDUEYE",
+      "ru": "ДЕСИДЖУАЙ",
+      "type": [
+        "grass",
+        "ghost"
+      ],
+      "evolves_to": null,
+      "evolves_from": [
+        "723"
+      ]
+    },
+    "725": {
+      "en": "LITTEN",
+      "ru": "ЛИТТЕН",
+      "type": [
+        "fire"
+      ],
+      "evolves_to": [
+        "726"
+      ],
+      "evolves_from": null,
+      "is_starter": true
+    },
+    "726": {
+      "en": "TORRACAT",
+      "ru": "ТОРРАКЭТ",
+      "type": [
+        "fire"
+      ],
+      "evolves_to": [
+        "727"
+      ],
+      "evolves_from": [
+        "725"
+      ]
+    },
+    "727": {
+      "en": "INCINEROAR",
+      "ru": "ИНСИНЕРОАР",
+      "type": [
+        "fire",
+        "dark"
+      ],
+      "evolves_to": null,
+      "evolves_from": [
+        "726"
+      ]
+    },
+    "728": {
+      "en": "POPPLIO",
+      "ru": "ПОППЛИО",
+      "type": [
+        "water"
+      ],
+      "evolves_to": [
+        "729"
+      ],
+      "evolves_from": null,
+      "is_starter": true
+    },
+    "729": {
+      "en": "BRIONNE",
+      "ru": "БРИОНН",
+      "type": [
+        "water"
+      ],
+      "evolves_to": [
+        "730"
+      ],
+      "evolves_from": [
+        "728"
+      ]
+    },
+    "730": {
+      "en": "PRIMARINA",
+      "ru": "ПРИМАРИНА",
+      "type": [
+        "water",
+        "fairy"
+      ],
+      "evolves_to": null,
+      "evolves_from": [
+        "729"
+      ]
+    },
+    "731": {
+      "en": "PIKIPEK",
+      "ru": "ПИКИПЕК",
+      "type": [
+        "normal",
+        "flying"
+      ],
+      "evolves_to": [
+        "732"
+      ],
+      "evolves_from": null
+    },
+    "732": {
+      "en": "TRUMBEAK",
+      "ru": "ТРАМБИК",
+      "type": [
+        "normal",
+        "flying"
+      ],
+      "evolves_to": [
+        "733"
+      ],
+      "evolves_from": [
+        "731"
+      ]
+    },
+    "733": {
+      "en": "TOUCANNON",
+      "ru": "ТУКАННОН",
+      "type": [
+        "normal",
+        "flying"
+      ],
+      "evolves_to": null,
+      "evolves_from": [
+        "732"
+      ]
+    },
+    "734": {
+      "en": "YUNGOOS",
+      "ru": "ЯНГУС",
+      "type": [
+        "normal"
+      ],
+      "evolves_to": [
+        "735"
+      ],
+      "evolves_from": null
+    },
+    "735": {
+      "en": "GUMSHOOS",
+      "ru": "ГАМШУС",
+      "type": [
+        "normal"
+      ],
+      "evolves_to": null,
+      "evolves_from": [
+        "734"
+      ]
+    },
+    "736": {
+      "en": "GRUBBIN",
+      "ru": "ГРАББИН",
+      "type": [
+        "bug"
+      ],
+      "evolves_to": [
+        "737"
+      ],
+      "evolves_from": null
+    },
+    "737": {
+      "en": "CHARJABUG",
+      "ru": "ЧАРДЖАБАГ",
+      "type": [
+        "bug",
+        "electric"
+      ],
+      "evolves_to": [
+        "738"
+      ],
+      "evolves_from": [
+        "736"
+      ]
+    },
+    "738": {
+      "en": "VIKAVOLT",
+      "ru": "ВИКАВОЛЬТ",
+      "type": [
+        "bug",
+        "electric"
+      ],
+      "evolves_to": null,
+      "evolves_from": [
+        "737"
+      ]
+    },
+    "739": {
+      "en": "CRABRAWLER",
+      "ru": "КРАБРАВЛЕР",
+      "type": [
+        "fighting"
+      ],
+      "evolves_to": [
+        "740"
+      ],
+      "evolves_from": null
+    },
+    "740": {
+      "en": "CRABOMINABLE",
+      "ru": "КРАБОМИНАБЛ",
+      "type": [
+        "fighting",
+        "ice"
+      ],
+      "evolves_to": null,
+      "evolves_from": [
+        "739"
+      ]
+    },
+    "741": {
+      "en": "ORICORIO",
+      "ru": "ОРИКОРИО",
+      "type": [
+        "fire",
+        "flying"
+      ],
+      "evolves_to": null,
+      "evolves_from": null
+    },
+    "742": {
+      "en": "CUTIEFLY",
+      "ru": "КЬЮТИФЛАЙ",
+      "type": [
+        "bug",
+        "fairy"
+      ],
+      "evolves_to": [
+        "743"
+      ],
+      "evolves_from": null
+    },
+    "743": {
+      "en": "RIBOMBEE",
+      "ru": "РИБОМБИ",
+      "type": [
+        "bug",
+        "fairy"
+      ],
+      "evolves_to": null,
+      "evolves_from": [
+        "742"
+      ]
+    },
+    "744": {
+      "en": "ROCKRUFF",
+      "ru": "РОКРАФФ",
+      "type": [
+        "rock"
+      ],
+      "evolves_to": [
+        "745"
+      ],
+      "evolves_from": null
+    },
+    "745": {
+      "en": "LYCANROC",
+      "ru": "ЛАЙКАНРОК",
+      "type": [
+        "rock"
+      ],
+      "evolves_to": null,
+      "evolves_from": [
+        "744"
+      ]
+    },
+    "746": {
+      "en": "WISHIWASHI",
+      "ru": "ВИШИВАШИ",
+      "type": [
+        "water"
+      ],
+      "evolves_to": null,
+      "evolves_from": null
+    },
+    "747": {
+      "en": "MAREANIE",
+      "ru": "МАРИНИ",
+      "type": [
+        "poison",
+        "water"
+      ],
+      "evolves_to": [
+        "748"
+      ],
+      "evolves_from": null
+    },
+    "748": {
+      "en": "TOXAPEX",
+      "ru": "ТОКСАПЕКС",
+      "type": [
+        "poison",
+        "water"
+      ],
+      "evolves_to": null,
+      "evolves_from": [
+        "747"
+      ]
+    },
+    "749": {
+      "en": "MUDBRAY",
+      "ru": "МАДБРЕЙ",
+      "type": [
+        "ground"
+      ],
+      "evolves_to": [
+        "750"
+      ],
+      "evolves_from": null
+    },
+    "750": {
+      "en": "MUDSDALE",
+      "ru": "МАДСДЕЙЛ",
+      "type": [
+        "ground"
+      ],
+      "evolves_to": null,
+      "evolves_from": [
+        "749"
+      ]
+    },
+    "751": {
+      "en": "DEWPIDER",
+      "ru": "ДЬЮПАЙДЕР",
+      "type": [
+        "water",
+        "bug"
+      ],
+      "evolves_to": [
+        "752"
+      ],
+      "evolves_from": null
+    },
+    "752": {
+      "en": "ARAQUANID",
+      "ru": "АРАКВАНИД",
+      "type": [
+        "water",
+        "bug"
+      ],
+      "evolves_to": null,
+      "evolves_from": [
+        "751"
+      ]
+    },
+    "753": {
+      "en": "FANTISANTIS",
+      "ru": "ФОМАНТИС",
+      "type": [
+        "grass"
+      ],
+      "evolves_to": [
+        "754"
+      ],
+      "evolves_from": null
+    },
+    "754": {
+      "en": "LURANTIS",
+      "ru": "ЛУРАНТИС",
+      "type": [
+        "grass"
+      ],
+      "evolves_to": null,
+      "evolves_from": [
+        "753"
+      ]
+    },
+    "755": {
+      "en": "MORELULL",
+      "ru": "МОРЕЛАЛЛ",
+      "type": [
+        "grass",
+        "fairy"
+      ],
+      "evolves_to": [
+        "756"
+      ],
+      "evolves_from": null
+    },
+    "756": {
+      "en": "SHIINOTIC",
+      "ru": "ШИИНОТИК",
+      "type": [
+        "grass",
+        "fairy"
+      ],
+      "evolves_to": null,
+      "evolves_from": [
+        "755"
+      ]
+    },
+    "757": {
+      "en": "SALANDIT",
+      "ru": "САЛАНДИТ",
+      "type": [
+        "poison",
+        "fire"
+      ],
+      "evolves_to": [
+        "758"
+      ],
+      "evolves_from": null
+    },
+    "758": {
+      "en": "SALAZZLE",
+      "ru": "САЛАЗЗЛ",
+      "type": [
+        "poison",
+        "fire"
+      ],
+      "evolves_to": null,
+      "evolves_from": [
+        "757"
+      ]
+    },
+    "759": {
+      "en": "STUFFUL",
+      "ru": "СТАФФУЛ",
+      "type": [
+        "normal",
+        "fighting"
+      ],
+      "evolves_to": [
+        "760"
+      ],
+      "evolves_from": null
+    },
+    "760": {
+      "en": "BEWEAR",
+      "ru": "БИВЕАР",
+      "type": [
+        "normal",
+        "fighting"
+      ],
+      "evolves_to": null,
+      "evolves_from": [
+        "759"
+      ]
+    },
+    "761": {
+      "en": "BOUNSWEET",
+      "ru": "БАУНСВИТ",
+      "type": [
+        "grass"
+      ],
+      "evolves_to": [
+        "762"
+      ],
+      "evolves_from": null
+    },
+    "762": {
+      "en": "STEENEE",
+      "ru": "СТИНИ",
+      "type": [
+        "grass"
+      ],
+      "evolves_to": [
+        "763"
+      ],
+      "evolves_from": [
+        "761"
+      ]
+    },
+    "763": {
+      "en": "TSAREENA",
+      "ru": "ЦАРИНА",
+      "type": [
+        "grass"
+      ],
+      "evolves_to": null,
+      "evolves_from": [
+        "762"
+      ]
+    },
+    "764": {
+      "en": "COMFEY",
+      "ru": "КОМФИ",
+      "type": [
+        "fairy"
+      ],
+      "evolves_to": null,
+      "evolves_from": null
+    },
+    "765": {
+      "en": "ORANGURU",
+      "ru": "ОРАНГУРУ",
+      "type": [
+        "normal",
+        "psychic"
+      ],
+      "evolves_to": null,
+      "evolves_from": null
+    },
+    "766": {
+      "en": "PASSIMIAN",
+      "ru": "ПАССИМИАН",
+      "type": [
+        "fighting"
+      ],
+      "evolves_to": null,
+      "evolves_from": null
+    },
+    "767": {
+      "en": "WIMPOD",
+      "ru": "ВИМПОД",
+      "type": [
+        "bug",
+        "water"
+      ],
+      "evolves_to": [
+        "768"
+      ],
+      "evolves_from": null
+    },
+    "768": {
+      "en": "GOLISOPOD",
+      "ru": "ГОЛИСОПОД",
+      "type": [
+        "bug",
+        "water"
+      ],
+      "evolves_to": null,
+      "evolves_from": [
+        "767"
+      ]
+    },
+    "769": {
+      "en": "SANDYGAST",
+      "ru": "САНДИГАСТ",
+      "type": [
+        "ghost",
+        "ground"
+      ],
+      "evolves_to": [
+        "770"
+      ],
+      "evolves_from": null
+    },
+    "770": {
+      "en": "PALOSSAND",
+      "ru": "ПАЛОССЭНД",
+      "type": [
+        "ghost",
+        "ground"
+      ],
+      "evolves_to": null,
+      "evolves_from": [
+        "769"
+      ]
+    },
+    "771": {
+      "en": "PYUKUMUKU",
+      "ru": "ПЬЮКУМУКУ",
+      "type": [
+        "water"
+      ],
+      "evolves_to": null,
+      "evolves_from": null
+    },
+    "772": {
+      "en": "TYPE: NULL",
+      "ru": "ТАЙП: НАЛЛ",
+      "type": [
+        "normal"
+      ],
+      "evolves_to": [
+        "773"
+      ],
+      "evolves_from": null,
+      "is_legendary": true
+    },
+    "773": {
+      "en": "SILVALLY",
+      "ru": "СИЛВАЛЛИ",
+      "type": [
+        "normal"
+      ],
+      "evolves_to": null,
+      "evolves_from": [
+        "772"
+      ],
+      "is_legendary": true
+    },
+    "774": {
+      "en": "MINIOR",
+      "ru": "МИНИОР",
+      "type": [
+        "rock",
+        "飛行"
+      ],
+      "evolves_to": null,
+      "evolves_from": null
+    },
+    "775": {
+      "en": "KOMALA",
+      "ru": "КОМАЛА",
+      "type": [
+        "normal"
+      ],
+      "evolves_to": null,
+      "evolves_from": null
+    },
+    "776": {
+      "en": "TURTONATOR",
+      "ru": "ТОРТОНАТОР",
+      "type": [
+        "fire",
+        "dragon"
+      ],
+      "evolves_to": null,
+      "evolves_from": null
+    },
+    "777": {
+      "en": "TOGEDEMARU",
+      "ru": "ТОГЕДЕМАРУ",
+      "type": [
+        "electric",
+        "steel"
+      ],
+      "evolves_to": null,
+      "evolves_from": null
+    },
+    "778": {
+      "en": "MIMIKYU",
+      "ru": "МИМИКЬЮ",
+      "type": [
+        "ghost",
+        "fairy"
+      ],
+      "evolves_to": null,
+      "evolves_from": null
+    },
+    "779": {
+      "en": "BRUXISH",
+      "ru": "БРАКСИШ",
+      "type": [
+        "water",
+        "psychic"
+      ],
+      "evolves_to": null,
+      "evolves_from": null
+    },
+    "780": {
+      "en": "DRAMPA",
+      "ru": "ДРАМПА",
+      "type": [
+        "normal",
+        "dragon"
+      ],
+      "evolves_to": null,
+      "evolves_from": null
+    },
+    "781": {
+      "en": "DHELMISE",
+      "ru": "ДЕЛМАЙЗ",
+      "type": [
+        "ghost",
+        "grass"
+      ],
+      "evolves_to": null,
+      "evolves_from": null
+    },
+    "782": {
+      "en": "JANGMO-O",
+      "ru": "ДЖАНГМО-О",
+      "type": [
+        "dragon"
+      ],
+      "evolves_to": [
+        "783"
+      ],
+      "evolves_from": null
+    },
+    "783": {
+      "en": "HAKAMO-O",
+      "ru": "ХАКАМО-О",
+      "type": [
+        "dragon",
+        "fighting"
+      ],
+      "evolves_to": [
+        "784"
+      ],
+      "evolves_from": [
+        "782"
+      ]
+    },
+    "784": {
+      "en": "KOMMO-O",
+      "ru": "КОММО-О",
+      "type": [
+        "dragon",
+        "fighting"
+      ],
+      "evolves_to": null,
+      "evolves_from": [
+        "783"
+      ]
+    },
+    "785": {
+      "en": "TAPU KOKO",
+      "ru": "ТАПУ КОКО",
+      "type": [
+        "electric",
+        "fairy"
+      ],
+      "evolves_to": null,
+      "evolves_from": null,
+      "is_legendary": true
+    },
+    "786": {
+      "en": "TAPU LELE",
+      "ru": "ТАПУ ЛЕЛЕ",
+      "type": [
+        "psychic",
+        "fairy"
+      ],
+      "evolves_to": null,
+      "evolves_from": null,
+      "is_legendary": true
+    },
+    "787": {
+      "en": "TAPU BULU",
+      "ru": "ТАПУ БУЛУ",
+      "type": [
+        "grass",
+        "fairy"
+      ],
+      "evolves_to": null,
+      "evolves_from": null,
+      "is_legendary": true
+    },
+    "788": {
+      "en": "TAPU FINI",
+      "ru": "ТАПУ ФИНИ",
+      "type": [
+        "water",
+        "fairy"
+      ],
+      "evolves_to": null,
+      "evolves_from": null,
+      "is_legendary": true
+    },
+    "789": {
+      "en": "COSMOG",
+      "ru": "КОСМОГ",
+      "type": [
+        "psychic"
+      ],
+      "evolves_to": [
+        "790"
+      ],
+      "evolves_from": null,
+      "is_legendary": true
+    },
+    "790": {
+      "en": "COSMOEM",
+      "ru": "КОСМОЭМ",
+      "type": [
+        "psychic"
+      ],
+      "evolves_to": [
+        "791",
+        "792"
+      ],
+      "evolves_from": [
+        "789"
+      ],
+      "is_legendary": true
+    },
+    "791": {
+      "en": "SOLGALEO",
+      "ru": "СОЛГАЛЕО",
+      "type": [
+        "psychic",
+        "steel"
+      ],
+      "evolves_to": null,
+      "evolves_from": [
+        "790"
+      ],
+      "is_legendary": true
+    },
+    "792": {
+      "en": "LUNALA",
+      "ru": "ЛУНАЛА",
+      "type": [
+        "psychic",
+        "ghost"
+      ],
+      "evolves_to": null,
+      "evolves_from": [
+        "790"
+      ],
+      "is_legendary": true
+    },
+    "793": {
+      "en": "NIHILEGO",
+      "ru": "НИХИЛЕГО",
+      "type": [
+        "rock",
+        "poison"
+      ],
+      "evolves_to": null,
+      "evolves_from": null,
+      "is_legendary": true
+    },
+    "794": {
+      "en": "BUZZWOLE",
+      "ru": "БАЗЗВОЛ",
+      "type": [
+        "bug",
+        "fighting"
+      ],
+      "evolves_to": null,
+      "evolves_from": null,
+      "is_legendary": true
+    },
+    "795": {
+      "en": "PHEROMOSA",
+      "ru": "ФЕРОМОСА",
+      "type": [
+        "bug",
+        "fighting"
+      ],
+      "evolves_to": null,
+      "evolves_from": null,
+      "is_legendary": true
+    },
+    "796": {
+      "en": "XURKITREE",
+      "ru": "ЗУРКИТРИ",
+      "type": [
+        "electric"
+      ],
+      "evolves_to": null,
+      "evolves_from": null,
+      "is_legendary": true
+    },
+    "797": {
+      "en": "CELESTEELA",
+      "ru": "СЕЛЕСТИЛА",
+      "type": [
+        "steel",
+        "flying"
+      ],
+      "evolves_to": null,
+      "evolves_from": null,
+      "is_legendary": true
+    },
+    "798": {
+      "en": "KARTANA",
+      "ru": "КАРТАНА",
+      "type": [
+        "grass",
+        "steel"
+      ],
+      "evolves_to": null,
+      "evolves_from": null,
+      "is_legendary": true
+    },
+    "799": {
+      "en": "GUZZLORD",
+      "ru": "ГАЗЗЛОРД",
+      "type": [
+        "dark",
+        "dragon"
+      ],
+      "evolves_to": null,
+      "evolves_from": null,
+      "is_legendary": true
+    },
+    "800": {
+      "en": "NECROZMA",
+      "ru": "НЕКРОЗМА",
+      "type": [
+        "psychic"
+      ],
+      "evolves_to": null,
+      "evolves_from": null,
+      "is_legendary": true
+    },
+    "801": {
+      "en": "MAGEARNA",
+      "ru": "МАГИРНА",
+      "type": [
+        "steel",
+        "fairy"
+      ],
+      "evolves_to": null,
+      "evolves_from": null,
+      "is_legendary": true
+    },
+    "802": {
+      "en": "MARSHADOW",
+      "ru": "МАРШАДОУ",
+      "type": [
+        "fighting",
+        "ghost"
+      ],
+      "evolves_to": null,
+      "evolves_from": null,
+      "is_legendary": true
+    },
+    "803": {
+      "en": "POIPOLE",
+      "ru": "ПОЙПОЛ",
+      "type": [
+        "poison"
+      ],
+      "evolves_to": [
+        "804"
+      ],
+      "evolves_from": null,
+      "is_legendary": true
+    },
+    "804": {
+      "en": "NAGANADEL",
+      "ru": "НАГАНАДЕЛ",
+      "type": [
+        "poison",
+        "dragon"
+      ],
+      "evolves_to": null,
+      "evolves_from": [
+        "803"
+      ],
+      "is_legendary": true
+    },
+    "805": {
+      "en": "STAKATAKA",
+      "ru": "СТАКАТАКА",
+      "type": [
+        "rock",
+        "steel"
+      ],
+      "evolves_to": null,
+      "evolves_from": null,
+      "is_legendary": true
+    },
+    "806": {
+      "en": "BLACEPHALON",
+      "ru": "БЛАЦЕФАЛОН",
+      "type": [
+        "fire",
+        "ghost"
+      ],
+      "evolves_to": null,
+      "evolves_from": null,
+      "is_legendary": true
+    },
+    "807": {
+      "en": "ZERAORA",
+      "ru": "ЗЕРАОРА",
+      "type": [
+        "electric"
+      ],
+      "evolves_to": null,
+      "evolves_from": null,
+      "is_legendary": true
+    },
+    "808": {
+      "en": "MELTAN",
+      "ru": "МЕЛТАН",
+      "type": [
+        "steel"
+      ],
+      "evolves_to": [
+        "809"
+      ],
+      "evolves_from": null,
+      "is_legendary": true
+    },
+    "809": {
+      "en": "MELMETAL",
+      "ru": "МЕЛМЕТАЛ",
+      "type": [
+        "steel"
+      ],
+      "evolves_to": null,
+      "evolves_from": [
+        "808"
+      ],
+      "is_legendary": true
+    },
+    "810": {
+      "en": "GROOKEY",
+      "ru": "ГРУКИ",
+      "type": [
+        "grass"
+      ],
+      "evolves_to": [
+        "811"
+      ],
+      "evolves_from": null,
+      "is_starter": true
+    },
+    "811": {
+      "en": "THWACKEY",
+      "ru": "ТВАКИ",
+      "type": [
+        "grass"
+      ],
+      "evolves_to": [
+        "812"
+      ],
+      "evolves_from": [
+        "810"
+      ]
+    },
+    "812": {
+      "en": "RILLABOOM",
+      "ru": "РИЛЛАБУМ",
+      "type": [
+        "grass"
+      ],
+      "evolves_to": null,
+      "evolves_from": [
+        "811"
+      ]
+    },
+    "813": {
+      "en": "SCORBUNNY",
+      "ru": "СКОРБАННИ",
+      "type": [
+        "fire"
+      ],
+      "evolves_to": [
+        "814"
+      ],
+      "evolves_from": null,
+      "is_starter": true
+    },
+    "814": {
+      "en": "RABOOT",
+      "ru": "РАБУТ",
+      "type": [
+        "fire"
+      ],
+      "evolves_to": [
+        "815"
+      ],
+      "evolves_from": [
+        "813"
+      ]
+    },
+    "815": {
+      "en": "CINDERACE",
+      "ru": "СИНДЕРЭЙС",
+      "type": [
+        "fire"
+      ],
+      "evolves_to": null,
+      "evolves_from": [
+        "814"
+      ]
+    },
+    "816": {
+      "en": "SOBBLE",
+      "ru": "СОББЛ",
+      "type": [
+        "water"
+      ],
+      "evolves_to": [
+        "817"
+      ],
+      "evolves_from": null,
+      "is_starter": true
+    },
+    "817": {
+      "en": "DRIZZILE",
+      "ru": "ДРИЗЗАЙЛ",
+      "type": [
+        "water"
+      ],
+      "evolves_to": [
+        "818"
+      ],
+      "evolves_from": [
+        "816"
+      ]
+    },
+    "818": {
+      "en": "INTELEON",
+      "ru": "ИНТЕЛЕОН",
+      "type": [
+        "water"
+      ],
+      "evolves_to": null,
+      "evolves_from": [
+        "817"
+      ]
+    },
+    "819": {
+      "en": "SKWOVET",
+      "ru": "СКВОВЕТ",
+      "type": [
+        "normal"
+      ],
+      "evolves_to": [
+        "820"
+      ],
+      "evolves_from": null
+    },
+    "820": {
+      "en": "GREEDENT",
+      "ru": "ГРИДЕНТ",
+      "type": [
+        "normal"
+      ],
+      "evolves_to": null,
+      "evolves_from": [
+        "819"
+      ]
+    },
+    "821": {
+      "en": "ROOKIDEE",
+      "ru": "РУКИДИ",
+      "type": [
+        "flying"
+      ],
+      "evolves_to": [
+        "822"
+      ],
+      "evolves_from": null
+    },
+    "822": {
+      "en": "CORVISQUIRE",
+      "ru": "КОРВИСКВАЙР",
+      "type": [
+        "flying"
+      ],
+      "evolves_to": [
+        "823"
+      ],
+      "evolves_from": [
+        "821"
+      ]
+    },
+    "823": {
+      "en": "CORVIKNIGHT",
+      "ru": "КОРВИНАЙТ",
+      "type": [
+        "flying",
+        "steel"
+      ],
+      "evolves_to": null,
+      "evolves_from": [
+        "822"
+      ]
+    },
+    "824": {
+      "en": "BLIPBUG",
+      "ru": "БЛИПБАГ",
+      "type": [
+        "bug"
+      ],
+      "evolves_to": [
+        "825"
+      ],
+      "evolves_from": null
+    },
+    "825": {
+      "en": "DOTTLER",
+      "ru": "ДОТТЛЕР",
+      "type": [
+        "bug",
+        "psychic"
+      ],
+      "evolves_to": [
+        "826"
+      ],
+      "evolves_from": [
+        "824"
+      ]
+    },
+    "826": {
+      "en": "ORBEETLE",
+      "ru": "ОРБИТЛ",
+      "type": [
+        "bug",
+        "psychic"
+      ],
+      "evolves_to": null,
+      "evolves_from": [
+        "825"
+      ]
+    },
+    "827": {
+      "en": "NICKIT",
+      "ru": "НИККИТ",
+      "type": [
+        "dark"
+      ],
+      "evolves_to": [
+        "828"
+      ],
+      "evolves_from": null
+    },
+    "828": {
+      "en": "THIEVUL",
+      "ru": "ТИВУЛ",
+      "type": [
+        "dark"
+      ],
+      "evolves_to": null,
+      "evolves_from": [
+        "827"
+      ]
+    },
+    "829": {
+      "en": "GOSSIFLEUR",
+      "ru": "ГОССИФЛЁР",
+      "type": [
+        "grass"
+      ],
+      "evolves_to": [
+        "830"
+      ],
+      "evolves_from": null
+    },
+    "830": {
+      "en": "ELDEGOSS",
+      "ru": "ЭЛДЕГОСС",
+      "type": [
+        "grass"
+      ],
+      "evolves_to": null,
+      "evolves_from": [
+        "829"
+      ]
+    },
+    "831": {
+      "en": "WOOLOO",
+      "ru": "ВУЛУ",
+      "type": [
+        "normal"
+      ],
+      "evolves_to": [
+        "832"
+      ],
+      "evolves_from": null
+    },
+    "832": {
+      "en": "DUBWOOL",
+      "ru": "ДАБВУЛ",
+      "type": [
+        "normal"
+      ],
+      "evolves_to": null,
+      "evolves_from": [
+        "831"
+      ]
+    },
+    "833": {
+      "en": "CHEWTLE",
+      "ru": "ЧУРТЛ",
+      "type": [
+        "water"
+      ],
+      "evolves_to": [
+        "834"
+      ],
+      "evolves_from": null
+    },
+    "834": {
+      "en": "DREDNAW",
+      "ru": "ДРЕДНО",
+      "type": [
+        "water",
+        "rock"
+      ],
+      "evolves_to": null,
+      "evolves_from": [
+        "833"
+      ]
+    },
+    "835": {
+      "en": "YAMPER",
+      "ru": "ЯМПЕР",
+      "type": [
+        "electric"
+      ],
+      "evolves_to": [
+        "836"
+      ],
+      "evolves_from": null
+    },
+    "836": {
+      "en": "BOLTUND",
+      "ru": "БОЛТАНД",
+      "type": [
+        "electric"
+      ],
+      "evolves_to": null,
+      "evolves_from": [
+        "835"
+      ]
+    },
+    "837": {
+      "en": "ROLYCOLY",
+      "ru": "РОЛИКОЛИ",
+      "type": [
+        "rock"
+      ],
+      "evolves_to": [
+        "838"
+      ],
+      "evolves_from": null
+    },
+    "838": {
+      "en": "CARKOL",
+      "ru": "КАРКОЛ",
+      "type": [
+        "rock",
+        "fire"
+      ],
+      "evolves_to": [
+        "839"
+      ],
+      "evolves_from": [
+        "837"
+      ]
+    },
+    "839": {
+      "en": "COALOSSAL",
+      "ru": "КОЛОССАЛ",
+      "type": [
+        "rock",
+        "fire"
+      ],
+      "evolves_to": null,
+      "evolves_from": [
+        "838"
+      ]
+    },
+    "840": {
+      "en": "APPLIN",
+      "ru": "АППЛИН",
+      "type": [
+        "grass",
+        "dragon"
+      ],
+      "evolves_to": [
+        "841",
+        "842"
+      ],
+      "evolves_from": null
+    },
+    "841": {
+      "en": "FLAPPLE",
+      "ru": "ФЛЭППЛ",
+      "type": [
+        "grass",
+        "dragon"
+      ],
+      "evolves_to": null,
+      "evolves_from": [
+        "840"
+      ]
+    },
+    "842": {
+      "en": "APPLETUN",
+      "ru": "ЭППЛТУН",
+      "type": [
+        "grass",
+        "dragon"
+      ],
+      "evolves_to": null,
+      "evolves_from": [
+        "840"
+      ]
+    },
+    "843": {
+      "en": "SILICOBRA",
+      "ru": "СИЛИКОБРА",
+      "type": [
+        "ground"
+      ],
+      "evolves_to": [
+        "844"
+      ],
+      "evolves_from": null
+    },
+    "844": {
+      "en": "SANDACONDA",
+      "ru": "САНДАКОНДА",
+      "type": [
+        "ground"
+      ],
+      "evolves_to": null,
+      "evolves_from": [
+        "843"
+      ]
+    },
+    "845": {
+      "en": "CRAMORANT",
+      "ru": "КРАМОРАНТ",
+      "type": [
+        "water",
+        "flying"
+      ],
+      "evolves_to": null,
+      "evolves_from": null
+    },
+    "846": {
+      "en": "ARROKUDA",
+      "ru": "АРРОКУДА",
+      "type": [
+        "water"
+      ],
+      "evolves_to": [
+        "847"
+      ],
+      "evolves_from": null
+    },
+    "847": {
+      "en": "BARRASKEWDA",
+      "ru": "БАРРАСКЬЮДА",
+      "type": [
+        "water"
+      ],
+      "evolves_to": null,
+      "evolves_from": [
+        "846"
+      ]
+    },
+    "848": {
+      "en": "TOXEL",
+      "ru": "ТОКСЕЛЬ",
+      "type": [
+        "electric",
+        "poison"
+      ],
+      "evolves_to": [
+        "849"
+      ],
+      "evolves_from": null
+    },
+    "849": {
+      "en": "TOXTRICITY",
+      "ru": "ТОКСТРИСИТИ",
+      "type": [
+        "electric",
+        "poison"
+      ],
+      "evolves_to": null,
+      "evolves_from": [
+        "848"
+      ]
+    },
+    "850": {
+      "en": "SIZZLIPEDE",
+      "ru": "СИЗЛИПИД",
+      "type": [
+        "fire",
+        "bug"
+      ],
+      "evolves_to": [
+        "851"
+      ],
+      "evolves_from": null
+    },
+    "851": {
+      "en": "CENTISKORCH",
+      "ru": "СЕНТИСКОРЧ",
+      "type": [
+        "fire",
+        "bug"
+      ],
+      "evolves_to": null,
+      "evolves_from": [
+        "850"
+      ]
+    },
+    "852": {
+      "en": "CLOBBOPUS",
+      "ru": "КЛОББОПУС",
+      "type": [
+        "fighting"
+      ],
+      "evolves_to": [
+        "853"
+      ],
+      "evolves_from": null
+    },
+    "853": {
+      "en": "GRAPPLOCT",
+      "ru": "ГРАППЛОКТ",
+      "type": [
+        "fighting"
+      ],
+      "evolves_to": null,
+      "evolves_from": [
+        "852"
+      ]
+    },
+    "854": {
+      "en": "SINISTEA",
+      "ru": "СИНИСТИ",
+      "type": [
+        "ghost"
+      ],
+      "evolves_to": [
+        "855"
+      ],
+      "evolves_from": null
+    },
+    "855": {
+      "en": "POLTEAGEIST",
+      "ru": "ПОЛТИГЕЙСТ",
+      "type": [
+        "ghost"
+      ],
+      "evolves_to": null,
+      "evolves_from": [
+        "854"
+      ]
+    },
+    "856": {
+      "en": "HATENNA",
+      "ru": "ХЭТЕННА",
+      "type": [
+        "psychic"
+      ],
+      "evolves_to": [
+        "857"
+      ],
+      "evolves_from": null
+    },
+    "857": {
+      "en": "HATTREM",
+      "ru": "ХЭТТРЕМ",
+      "type": [
+        "psychic"
+      ],
+      "evolves_to": [
+        "858"
+      ],
+      "evolves_from": [
+        "856"
+      ]
+    },
+    "858": {
+      "en": "HATTERENE",
+      "ru": "ХАТТЕРИН",
+      "type": [
+        "psychic",
+        "fairy"
+      ],
+      "evolves_to": null,
+      "evolves_from": [
+        "857"
+      ]
+    },
+    "859": {
+      "en": "IMPIDIMP",
+      "ru": "ИМПИДИМП",
+      "type": [
+        "dark",
+        "fairy"
+      ],
+      "evolves_to": [
+        "860"
+      ],
+      "evolves_from": null
+    },
+    "860": {
+      "en": "MORGREM",
+      "ru": "МОРГРЕМ",
+      "type": [
+        "dark",
+        "fairy"
+      ],
+      "evolves_to": [
+        "861"
+      ],
+      "evolves_from": [
+        "859"
+      ]
+    },
+    "861": {
+      "en": "GRIMMSNARL",
+      "ru": "ГРИММСНАРЛ",
+      "type": [
+        "dark",
+        "fairy"
+      ],
+      "evolves_to": null,
+      "evolves_from": [
+        "860"
+      ]
+    },
+    "862": {
+      "en": "OBSTAGOON",
+      "ru": "ОБСТАГУН",
+      "type": [
+        "dark",
+        "normal"
+      ],
+      "evolves_to": null,
+      "evolves_from": [
+        "264"
+      ]
+    },
+    "863": {
+      "en": "PERRSERKER",
+      "ru": "ПЕРРСЕРКЕР",
+      "type": [
+        "steel"
+      ],
+      "evolves_to": null,
+      "evolves_from": [
+        "052"
+      ]
+    },
+    "864": {
+      "en": "CURSOLA",
+      "ru": "КУРСОЛА",
+      "type": [
+        "ghost"
+      ],
+      "evolves_to": null,
+      "evolves_from": [
+        "222"
+      ]
+    },
+    "865": {
+      "en": "SIRFETCH'D",
+      "ru": "СИРФЕТЧД",
+      "type": [
+        "fighting"
+      ],
+      "evolves_to": null,
+      "evolves_from": [
+        "083"
+      ]
+    },
+    "866": {
+      "en": "MR. RIME",
+      "ru": "МИСТЕР РАЙМ",
+      "type": [
+        "ice",
+        "psychic"
+      ],
+      "evolves_to": null,
+      "evolves_from": [
+        "122"
+      ]
+    },
+    "867": {
+      "en": "RUNERIGUS",
+      "ru": "РУНЕРИГУС",
+      "type": [
+        "ground",
+        "ghost"
+      ],
+      "evolves_to": null,
+      "evolves_from": [
+        "562"
+      ]
+    },
+    "868": {
+      "en": "MILCERY",
+      "ru": "МИЛСЕРИ",
+      "type": [
+        "fairy"
+      ],
+      "evolves_to": [
+        "869"
+      ],
+      "evolves_from": null
+    },
+    "869": {
+      "en": "ALCREMIE",
+      "ru": "АЛКРИМИ",
+      "type": [
+        "fairy"
+      ],
+      "evolves_to": null,
+      "evolves_from": [
+        "868"
+      ]
+    },
+    "870": {
+      "en": "FALINKS",
+      "ru": "ФАЛИНКС",
+      "type": [
+        "fighting"
+      ],
+      "evolves_to": null,
+      "evolves_from": null
+    },
+    "871": {
+      "en": "PINCURCHIN",
+      "ru": "ПИНКУРЧИН",
+      "type": [
+        "electric"
+      ],
+      "evolves_to": null,
+      "evolves_from": null
+    },
+    "872": {
+      "en": "SNOM",
+      "ru": "СНОМ",
+      "type": [
+        "ice",
+        "bug"
+      ],
+      "evolves_to": [
+        "873"
+      ],
+      "evolves_from": null
+    },
+    "873": {
+      "en": "FROSMOTH",
+      "ru": "ФРОСМОТ",
+      "type": [
+        "ice",
+        "bug"
+      ],
+      "evolves_to": null,
+      "evolves_from": [
+        "872"
+      ]
+    },
+    "874": {
+      "en": "STONJOURNER",
+      "ru": "СТОУНДЖОРНЕР",
+      "type": [
+        "rock"
+      ],
+      "evolves_to": null,
+      "evolves_from": null
+    },
+    "875": {
+      "en": "EISCUE",
+      "ru": "АЙСКЬЮ",
+      "type": [
+        "ice"
+      ],
+      "evolves_to": null,
+      "evolves_from": null
+    },
+    "876": {
+      "en": "INDEEDEE",
+      "ru": "ИНДИДИ",
+      "type": [
+        "normal",
+        "psychic"
+      ],
+      "evolves_to": null,
+      "evolves_from": null
+    },
+    "877": {
+      "en": "MORPEKO",
+      "ru": "МОРПЕКО",
+      "type": [
+        "electric",
+        "dark"
+      ],
+      "evolves_to": null,
+      "evolves_from": null
+    },
+    "878": {
+      "en": "CUFANT",
+      "ru": "КЬЮФАНТ",
+      "type": [
+        "steel"
+      ],
+      "evolves_to": [
+        "879"
+      ],
+      "evolves_from": null
+    },
+    "879": {
+      "en": "COPPERAJAH",
+      "ru": "КОППЕРАДЖА",
+      "type": [
+        "steel"
+      ],
+      "evolves_to": null,
+      "evolves_from": [
+        "878"
+      ]
+    },
+    "880": {
+      "en": "DRACOZOLT",
+      "ru": "ДРАКОЗОЛТ",
+      "type": [
+        "electric",
+        "dragon"
+      ],
+      "evolves_to": null,
+      "evolves_from": null
+    },
+    "881": {
+      "en": "ARCTOZOLT",
+      "ru": "АРКТОЗОЛТ",
+      "type": [
+        "electric",
+        "ice"
+      ],
+      "evolves_to": null,
+      "evolves_from": null
+    },
+    "882": {
+      "en": "DRACOVISH",
+      "ru": "ДРАКОВИШ",
+      "type": [
+        "water",
+        "dragon"
+      ],
+      "evolves_to": null,
+      "evolves_from": null
+    },
+    "883": {
+      "en": "ARCTOVISH",
+      "ru": "АРКТОВИШ",
+      "type": [
+        "water",
+        "ice"
+      ],
+      "evolves_to": null,
+      "evolves_from": null
+    },
+    "884": {
+      "en": "DURALUDON",
+      "ru": "ДЮРАЛУДОН",
+      "type": [
+        "steel",
+        "dragon"
+      ],
+      "evolves_to": [
+        "990"
+      ],
+      "evolves_from": null
+    },
+    "885": {
+      "en": "DREEPY",
+      "ru": "ДРИПИ",
+      "type": [
+        "dragon",
+        "ghost"
+      ],
+      "evolves_to": [
+        "886"
+      ],
+      "evolves_from": null
+    },
+    "886": {
+      "en": "DRAKLOAK",
+      "ru": "ДРАКЛОК",
+      "type": [
+        "dragon",
+        "ghost"
+      ],
+      "evolves_to": [
+        "887"
+      ],
+      "evolves_from": [
+        "885"
+      ]
+    },
+    "887": {
+      "en": "DRAGAPULT",
+      "ru": "ДРАГАПУЛЬТ",
+      "type": [
+        "dragon",
+        "ghost"
+      ],
+      "evolves_to": null,
+      "evolves_from": [
+        "886"
+      ]
+    },
+    "888": {
+      "en": "ZACIAN",
+      "ru": "ЗАШИАН",
+      "type": [
+        "fairy"
+      ],
+      "evolves_to": null,
+      "evolves_from": null,
+      "is_legendary": true
+    },
+    "889": {
+      "en": "ZAMAZENTA",
+      "ru": "ЗАМАЗЕНТА",
+      "type": [
+        "fighting"
+      ],
+      "evolves_to": null,
+      "evolves_from": null,
+      "is_legendary": true
+    },
+    "890": {
+      "en": "ETERNATUS",
+      "ru": "ЭТЕРНАТУС",
+      "type": [
+        "poison",
+        "dragon"
+      ],
+      "evolves_to": null,
+      "evolves_from": null,
+      "is_legendary": true
+    },
+    "891": {
+      "en": "KUBFU",
+      "ru": "КАБФУ",
+      "type": [
+        "fighting"
+      ],
+      "evolves_to": [
+        "892"
+      ],
+      "evolves_from": null,
+      "is_legendary": true
+    },
+    "892": {
+      "en": "URSHIFU",
+      "ru": "УРШИФУ",
+      "type": [
+        "fighting",
+        "dark"
+      ],
+      "evolves_to": null,
+      "evolves_from": [
+        "891"
+      ],
+      "is_legendary": true
+    },
+    "893": {
+      "en": "ZARUDE",
+      "ru": "ЗАРУД",
+      "type": [
+        "dark",
+        "grass"
+      ],
+      "evolves_to": null,
+      "evolves_from": null,
+      "is_legendary": true
+    },
+    "894": {
+      "en": "REGIELEKI",
+      "ru": "РЕДЖИЭЛЕКИ",
+      "type": [
+        "electric"
+      ],
+      "evolves_to": null,
+      "evolves_from": null,
+      "is_legendary": true
+    },
+    "895": {
+      "en": "REGIDRAGO",
+      "ru": "РЕДЖИДРАГО",
+      "type": [
+        "dragon"
+      ],
+      "evolves_to": null,
+      "evolves_from": null,
+      "is_legendary": true
+    },
+    "896": {
+      "en": "GLASTRIER",
+      "ru": "ГЛАСТРИЕР",
+      "type": [
+        "ice"
+      ],
+      "evolves_to": null,
+      "evolves_from": null,
+      "is_legendary": true
+    },
+    "897": {
+      "en": "SPECTRIER",
+      "ru": "СПЕКТРИЕР",
+      "type": [
+        "ghost"
+      ],
+      "evolves_to": null,
+      "evolves_from": null,
+      "is_legendary": true
+    },
+    "898": {
+      "en": "CALYREX",
+      "ru": "КАЛИРЕКС",
+      "type": [
+        "psychic",
+        "grass"
+      ],
+      "evolves_to": null,
+      "evolves_from": null,
+      "is_legendary": true
+    }
+  },
+  "starters": [
+    "001",
+    "004",
+    "007",
+    "152",
+    "155",
+    "158",
+    "252",
+    "255",
+    "258",
+    "387",
+    "390",
+    "393",
+    "495",
+    "498",
+    "501",
+    "650",
+    "653",
+    "656",
+    "722",
+    "725",
+    "728",
+    "810",
+    "813",
+    "816"
+  ],
+  "legendaries": [
+    "144",
+    "145",
+    "146",
+    "150",
+    "151",
+    "243",
+    "244",
+    "245",
+    "249",
+    "250",
+    "251",
+    "377",
+    "378",
+    "379",
+    "380",
+    "381",
+    "382",
+    "383",
+    "384",
+    "385",
+    "386",
+    "480",
+    "481",
+    "482",
+    "483",
+    "484",
+    "485",
+    "486",
+    "487",
+    "488",
+    "489",
+    "490",
+    "491",
+    "492",
+    "493",
+    "494",
+    "638",
+    "639",
+    "640",
+    "641",
+    "642",
+    "643",
+    "644",
+    "645",
+    "646",
+    "647",
+    "648",
+    "649",
+    "716",
+    "717",
+    "718",
+    "719",
+    "720",
+    "721",
+    "785",
+    "786",
+    "787",
+    "788",
+    "789",
+    "790",
+    "791",
+    "792",
+    "793",
+    "794",
+    "795",
+    "796",
+    "797",
+    "798",
+    "799",
+    "800",
+    "801",
+    "802",
+    "803",
+    "804",
+    "805",
+    "806",
+    "807",
+    "808",
+    "809",
+    "888",
+    "889",
+    "890",
+    "891",
+    "892",
+    "893",
+    "894",
+    "895",
+    "896",
+    "897",
+    "898"
+  ]
+}

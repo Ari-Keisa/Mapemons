@@ -1,0 +1,3503 @@
+<!DOCTYPE html>
+<html lang="ru">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mapémon - Регион Канто</title>
+    <link rel="stylesheet" href="../css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        /* ===== БАЗОВЫЕ СТИЛИ ===== */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary: #4ecdc4;
+            --secondary: #666;
+            --accent: #ff6b6b;
+            --bg-dark: #0f0c29;
+            --bg-medium: #302b63;
+            --bg-light: #24243e;
+            --text-light: #ffffff;
+            --text-muted: #a0a0c0;
+            --transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+
+            /* Цвета локаций */
+            --city-color: #ff6b6b;
+            --route-color: #44a08d;
+            --special-color: #9370db;
+            --forest-color: #2d7a2d;
+            --meadow-color: #4caf50;
+            --cave-color: #8b4513;
+            --island-color: #ff8c00;
+            --mountain-color: #5d4037;
+            --canyon-color: #64b5f6;
+            --building-color: #795548;
+            --other-color: #ffd54f;
+            --inactive-color: #666;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, sans-serif;
+            background: linear-gradient(135deg, var(--bg-dark) 0%, var(--bg-medium) 50%, var(--bg-light) 100%);
+            color: var(--text-light);
+            min-height: 100vh;
+            line-height: 1.6;
+            overflow-x: hidden;
+            opacity: 0;
+            animation: fadeIn 1s ease forwards;
+        }
+
+        @keyframes fadeIn {
+            to {
+                opacity: 1;
+            }
+        }
+
+        /* ===== ПАРАЛЛАКС ФОНОВЫЕ ЭЛЕМЕНТЫ ===== */
+        .parallax-bg {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            pointer-events: none;
+        }
+
+        .floating-shape {
+            position: absolute;
+            border-radius: 50%;
+            background: radial-gradient(circle, rgba(78, 205, 196, 0.1) 0%, transparent 70%);
+            filter: blur(40px);
+            animation: floatShape 20s infinite ease-in-out;
+        }
+
+        .shape-1 {
+            width: 400px;
+            height: 400px;
+            top: 10%;
+            left: 5%;
+            animation-delay: 0s;
+        }
+
+        .shape-2 {
+            width: 300px;
+            height: 300px;
+            top: 60%;
+            right: 10%;
+            background: radial-gradient(circle, rgba(255, 107, 107, 0.1) 0%, transparent 70%);
+            animation-delay: -5s;
+            animation-duration: 25s;
+        }
+
+        .shape-3 {
+            width: 500px;
+            height: 500px;
+            bottom: -100px;
+            left: 40%;
+            background: radial-gradient(circle, rgba(160, 160, 192, 0.05) 0%, transparent 70%);
+            animation-delay: -10s;
+            animation-duration: 30s;
+        }
+
+        @keyframes floatShape {
+
+            0%,
+            100% {
+                transform: translate(0, 0) scale(1);
+            }
+
+            25% {
+                transform: translate(30px, -50px) scale(1.1);
+            }
+
+            50% {
+                transform: translate(-20px, 30px) scale(0.9);
+            }
+
+            75% {
+                transform: translate(-30px, -20px) scale(1.05);
+            }
+        }
+
+        /* ===== АНИМАЦИОННЫЕ ПОКЕБОЛЫ ===== */
+        .pokeball-container {
+            position: fixed;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: -1;
+        }
+
+        .pokeball {
+            position: absolute;
+            width: 60px;
+            height: 60px;
+            background: linear-gradient(180deg, #ff0000 0%, #ff0000 45%, #000 45%, #000 55%, #fff 55%);
+            border-radius: 50%;
+            border: 3px solid #000;
+            opacity: 0.1;
+            animation: floatPokeball 25s infinite linear;
+            transform-origin: center;
+        }
+
+        .pokeball::after {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 15px;
+            height: 15px;
+            background: #000;
+            border-radius: 50%;
+            border: 3px solid #fff;
+        }
+
+        .pokeball.master { background: linear-gradient(180deg, #9370db 0%, #9370db 45%, #000 45%, #000 55%, #fff 55%); }
+        .pokeball.master::before { content: 'M'; position: absolute; top: 8px; left: 50%; transform: translateX(-50%); color: white; font-weight: bold; font-size: 14px; font-family: sans-serif; }
+        .pokeball.shiny { background: linear-gradient(180deg, #ffd700 0%, #ffd700 45%, #000 45%, #000 55%, #fff 55%); }
+        .pokeball.premium { background: linear-gradient(180deg, #ffffff 0%, #ffffff 45%, #000 45%, #000 55%, #ffffff 55%); }
+        .pokeball.premium::before { content: 'P'; position: absolute; top: 8px; left: 50%; transform: translateX(-50%); color: #ff0000; font-weight: bold; font-size: 14px; font-family: sans-serif; }
+        .pokeball.black { background: linear-gradient(180deg, #222 0%, #222 45%, #000 45%, #000 55%, #ffffff 55%); }
+        .pokeball.black::before { content: 'T'; position: absolute; top: 8px; left: 50%; transform: translateX(-50%); color: #ffd700; font-weight: bold; font-size: 14px; font-family: sans-serif; }
+
+        @keyframes floatPokeball {
+            0% {
+                transform: translate(0, 0) rotate(0deg);
+                opacity: 0.1;
+            }
+
+            25% {
+                transform: translate(-100px, -50px) rotate(90deg);
+                opacity: 0.15;
+            }
+
+            50% {
+                transform: translate(50px, 100px) rotate(180deg);
+                opacity: 0.1;
+            }
+
+            75% {
+                transform: translate(100px, -30px) rotate(270deg);
+                opacity: 0.15;
+            }
+
+            100% {
+                transform: translate(0, 0) rotate(360deg);
+                opacity: 0.1;
+            }
+        }
+
+        .pokeball:nth-child(1) {
+            top: 20%;
+            left: 10%;
+            animation-delay: 0s;
+            animation-duration: 30s;
+        }
+
+        .pokeball:nth-child(2) {
+            top: 60%;
+            left: 85%;
+            animation-delay: -7s;
+            animation-duration: 35s;
+        }
+
+        .pokeball:nth-child(3) {
+            top: 80%;
+            left: 15%;
+            animation-delay: -14s;
+            animation-duration: 40s;
+        }
+
+        .pokeball:nth-child(4) {
+            top: 30%;
+            left: 90%;
+            animation-delay: -21s;
+            animation-duration: 45s;
+        }
+
+        @keyframes floatPokeball {
+            0% {
+                transform: translate(0, 0) rotate(0deg);
+                opacity: 0.1;
+            }
+
+            25% {
+                transform: translate(-100px, -50px) rotate(90deg);
+                opacity: 0.15;
+            }
+
+            50% {
+                transform: translate(50px, 100px) rotate(180deg);
+                opacity: 0.1;
+            }
+
+            75% {
+                transform: translate(100px, -30px) rotate(270deg);
+                opacity: 0.15;
+            }
+
+            100% {
+                transform: translate(0, 0) rotate(360deg);
+                opacity: 0.1;
+            }
+        }
+
+        /* ===== КОНТЕЙНЕР ===== */
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 20px;
+            position: relative;
+            z-index: 1;
+        }
+
+        /* КНОПКА НАЗАД */
+        .back-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            padding: 12px 25px;
+            background: linear-gradient(90deg, var(--primary), #44a08d);
+            color: white;
+            text-decoration: none;
+            border-radius: 12px;
+            font-weight: 600;
+            transition: var(--transition);
+            margin-bottom: 30px;
+            box-shadow: 0 5px 15px rgba(78, 205, 196, 0.4);
+        }
+
+        .back-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 25px rgba(78, 205, 196, 0.6);
+            background: linear-gradient(90deg, var(--accent), #ff8e53);
+        }
+
+        /* ЗАГОЛОВОК */
+        .region-header {
+            text-align: center;
+            padding: 40px 0;
+            margin-bottom: 30px;
+        }
+
+        .region-header h1 {
+            font-size: 3.5rem;
+            background: linear-gradient(90deg, var(--primary), var(--accent));
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            margin-bottom: 15px;
+            font-weight: 800;
+        }
+
+        .region-header .subtitle {
+            font-size: 1.2rem;
+            color: var(--text-muted);
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        /* ===== ПАНЕЛЬ УПРАВЛЕНИЯ ===== */
+        .control-panel {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+            gap: 20px;
+        }
+
+        .panel-title {
+            font-size: 1.5rem;
+            color: var(--primary);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .filter-buttons {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+
+        .filter-btn {
+            padding: 10px 20px;
+            background: rgba(255, 255, 255, 0.1);
+            border: 2px solid rgba(255, 255, 255, 0.2);
+            border-radius: 50px;
+            color: var(--text-light);
+            cursor: pointer;
+            transition: var(--transition);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-weight: 600;
+        }
+
+        .filter-btn.active {
+            background: var(--accent);
+            border-color: var(--accent);
+            box-shadow: 0 0 15px rgba(255, 107, 107, 0.5);
+        }
+
+        .filter-btn.inactive {
+            opacity: 0.5;
+            background: rgba(255, 255, 255, 0.05);
+        }
+
+        /* ===== ГРАФ ЛОКАЦИЙ ===== */
+        .graph-section {
+            background: rgba(20, 20, 40, 0.8);
+            border-radius: 20px;
+            padding: 20px;
+            margin-bottom: 40px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            min-height: 600px;
+            position: relative;
+        }
+
+        .graph-container {
+            position: relative;
+            width: 100%;
+            height: 600px;
+            overflow: auto;
+            background: rgba(10, 10, 25, 0.9);
+            border-radius: 15px;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            cursor: grab;
+        }
+
+        .graph-container:active {
+            cursor: grabbing;
+        }
+
+        .graph {
+            position: relative;
+            width: 2000px;
+            height: 1500px;
+            transform-origin: 0 0;
+            transition: transform 0.3s ease;
+        }
+
+        /* КОНТЕЙНЕР ГРАФА С КОНТРОЛАМИ */
+        .graph-map-container {
+            position: relative;
+            width: 100%;
+            margin-bottom: 20px;
+        }
+
+        /* КОНТРОЛЫ КАРТЫ */
+        .map-controls {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            z-index: 10;
+        }
+
+        .control-btn {
+            width: 45px;
+            height: 45px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--primary), #44a08d);
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            color: white;
+            font-size: 1.2rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+            backdrop-filter: blur(10px);
+        }
+
+        .control-btn:hover {
+            background: linear-gradient(135deg, var(--accent), #ff8e53);
+            transform: scale(1.1);
+            border-color: rgba(255, 255, 255, 0.5);
+            box-shadow: 0 6px 20px rgba(255, 107, 107, 0.4);
+        }
+
+        /* Кнопка сброса вида */
+        #resetView {
+            background: linear-gradient(135deg, #666, #888);
+        }
+
+        #resetView:hover {
+            background: linear-gradient(135deg, #888, #aaa);
+        }
+
+        /* Стиль для заголовка раздела */
+        .section-title {
+            color: var(--primary);
+            margin-bottom: 25px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 1.8rem;
+            font-weight: 600;
+        }
+
+        /* СТРЕЛКИ */
+        .connection {
+            position: absolute;
+            pointer-events: none;
+            z-index: 1;
+        }
+
+        .connection path {
+            fill: none;
+            stroke: rgba(255, 255, 255, 0.25);
+            stroke-width: 3;
+            stroke-dasharray: none;
+        }
+
+        .connection.highlighted path {
+            stroke: var(--accent);
+            stroke-width: 4;
+            filter: drop-shadow(0 0 8px rgba(255, 107, 107, 0.8));
+            animation: pulseGlow 1.5s infinite alternate;
+        }
+
+        @keyframes pulseGlow {
+            from {
+                stroke-width: 4;
+            }
+
+            to {
+                stroke-width: 5;
+            }
+        }
+
+        .arrowhead {
+            fill: rgba(255, 255, 255, 0.25);
+        }
+
+        .arrowhead.highlighted {
+            fill: var(--accent);
+        }
+
+        /* ЛОКАЦИИ */
+        .location-node {
+            position: absolute;
+            cursor: pointer;
+            z-index: 2;
+            transition: all 0.3s ease;
+            transform-origin: center;
+        }
+
+        .location-node:hover {
+            transform: scale(1.1);
+            z-index: 10;
+        }
+
+        .location-node.clicked {
+            animation: pulse 0.5s ease;
+        }
+
+        @keyframes pulse {
+            0% {
+                transform: scale(1);
+            }
+
+            50% {
+                transform: scale(1.15);
+            }
+
+            100% {
+                transform: scale(1.1);
+            }
+        }
+
+        .location-node.hidden {
+            opacity: 0.3;
+            filter: grayscale(1) brightness(0.7);
+        }
+
+        .location-node.route-active {
+            animation: nodePulse 2s infinite;
+            filter: drop-shadow(0 0 10px currentColor);
+        }
+
+        @keyframes nodePulse {
+
+            0%,
+            100% {
+                transform: scale(1.1);
+                opacity: 1;
+            }
+
+            50% {
+                transform: scale(1.2);
+                opacity: 0.9;
+            }
+        }
+
+        .node-shape {
+            transition: all 0.3s ease;
+            filter: drop-shadow(0 3px 8px rgba(0, 0, 0, 0.4));
+        }
+
+        .node-text {
+            fill: white;
+            font-size: 12px;
+            font-weight: bold;
+            text-anchor: middle;
+            pointer-events: none;
+            user-select: none;
+            text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.8);
+        }
+
+        /* Формы для типов */
+        .node-city {
+            color: var(--city-color);
+        }
+
+        .node-route {
+            color: var(--route-color);
+        }
+
+        .node-special {
+            color: var(--special-color);
+        }
+
+        .node-forest {
+            color: var(--forest-color);
+        }
+
+        .node-meadow {
+            color: var(--meadow-color);
+        }
+
+        .node-cave {
+            color: var(--cave-color);
+        }
+
+        .node-island {
+            color: var(--island-color);
+        }
+
+        .node-mountain {
+            color: var(--mountain-color);
+        }
+
+        .node-canyon {
+            color: var(--canyon-color);
+        }
+
+        .node-building {
+            color: var(--building-color);
+        }
+
+        .node-other {
+            color: var(--other-color);
+        }
+
+        .node-inactive {
+            color: var(--inactive-color);
+        }
+
+        /* ===== ЛЕГЕНДА ===== */
+        .legend-container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 15px;
+            justify-content: center;
+            margin-top: 20px;
+            padding: 15px;
+            background: rgba(30, 30, 60, 0.6);
+            border-radius: 15px;
+        }
+
+        .legend-item {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 8px 15px;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 20px;
+        }
+
+        .legend-icon {
+            width: 16px;
+            height: 16px;
+            border-radius: 50%;
+            border: 2px solid white;
+        }
+
+        .legend-city {
+            background: var(--city-color);
+        }
+
+        .legend-route {
+            background: var(--route-color);
+        }
+
+        .legend-special {
+            background: var(--special-color);
+        }
+
+        .legend-forest {
+            background: var(--forest-color);
+        }
+
+        .legend-meadow {
+            background: var(--meadow-color);
+        }
+
+        .legend-cave {
+            background: var(--cave-color);
+        }
+
+        .legend-island {
+            background: var(--island-color);
+        }
+
+        .legend-mountain {
+            background: var(--mountain-color);
+        }
+
+        .legend-canyon {
+            background: var(--canyon-color);
+        }
+
+        .legend-building {
+            background: var(--building-color);
+        }
+
+        .legend-other {
+            background: var(--other-color);
+        }
+
+        .legend-inactive {
+            background: var(--inactive-color);
+        }
+
+        .legend-text {
+            color: var(--text-muted);
+            font-size: 0.9rem;
+        }
+
+        /* ===== СЕКЦИЯ МАРШРУТА ===== */
+        .route-section,
+        .search-section {
+            background: rgba(20, 20, 40, 0.8);
+            border-radius: 20px;
+            padding: 30px;
+            margin-bottom: 30px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .route-controls {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 25px;
+            margin-bottom: 30px;
+        }
+
+        .route-selector {
+            background: rgba(30, 30, 60, 0.6);
+            padding: 25px;
+            border-radius: 15px;
+        }
+
+        .selector-display {
+            min-height: 60px;
+            padding: 15px;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 10px;
+            margin-bottom: 15px;
+            border: 2px dashed rgba(255, 255, 255, 0.2);
+        }
+
+        .location-preview {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            padding: 8px 15px;
+            background: var(--primary);
+            color: white;
+            border-radius: 10px;
+            font-weight: 600;
+        }
+
+        .selector-btn,
+        .action-btn {
+            padding: 12px 25px;
+            background: linear-gradient(90deg, var(--primary), #44a08d);
+            color: white;
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: var(--transition);
+            font-weight: 600;
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .selector-btn:hover,
+        .action-btn:hover {
+            transform: translateY(-3px);
+            background: linear-gradient(90deg, var(--accent), #ff8e53);
+        }
+
+        .selector-btn.selecting {
+            background: linear-gradient(90deg, var(--accent), #ff8e53);
+            animation: pulseBtn 1s infinite;
+        }
+
+        @keyframes pulseBtn {
+
+            0%,
+            100% {
+                transform: translateY(-3px);
+            }
+
+            50% {
+                transform: translateY(-5px);
+            }
+        }
+
+        .route-result {
+            background: rgba(30, 30, 60, 0.6);
+            padding: 25px;
+            border-radius: 15px;
+            margin-top: 20px;
+        }
+
+        .path-display {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            align-items: center;
+            padding: 20px;
+            background: rgba(0, 0, 0, 0.3);
+            border-radius: 10px;
+            margin: 20px 0;
+            min-height: 70px;
+        }
+
+        .path-step {
+            padding: 10px 20px;
+            background: var(--accent);
+            color: white;
+            border-radius: 25px;
+            font-weight: 600;
+            animation: slideIn 0.5s ease;
+        }
+
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .path-arrow {
+            color: var(--text-muted);
+            font-size: 1.5rem;
+        }
+
+        .route-actions {
+            display: flex;
+            gap: 15px;
+            justify-content: flex-end;
+        }
+
+        /* ПОИСК */
+        .search-box {
+            max-width: 600px;
+            margin: 0 auto;
+            position: relative;
+        }
+
+        .search-input {
+            width: 100%;
+            padding: 15px 25px;
+            background: rgba(30, 30, 60, 0.9);
+            border: 2px solid rgba(255, 255, 255, 0.2);
+            border-radius: 35px;
+            color: white;
+            font-size: 1.1rem;
+            transition: var(--transition);
+        }
+
+        .search-input:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 20px rgba(78, 205, 196, 0.3);
+        }
+
+        .search-btn {
+            position: absolute;
+            right: 8px;
+            top: 50%;
+            transform: translateY(-50%);
+            background: linear-gradient(90deg, var(--primary), #44a08d);
+            border: none;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            color: white;
+            cursor: pointer;
+        }
+
+        .search-btn:hover {
+            background: linear-gradient(90deg, var(--accent), #ff8e53);
+        }
+
+        .search-hint {
+            color: var(--text-muted);
+            margin-top: 15px;
+            text-align: center;
+        }
+
+        .hint-example {
+            background: rgba(255, 255, 255, 0.05);
+            padding: 5px 10px;
+            border-radius: 15px;
+            margin: 0 5px;
+            font-size: 0.9rem;
+        }
+
+        /* МОДАЛЬНОЕ ОКНО */
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.8);
+            z-index: 1000;
+            display: none;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .modal-overlay.active {
+            display: block;
+            opacity: 1;
+        }
+
+        .modal {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%) scale(0.9);
+            background: linear-gradient(135deg, var(--bg-medium), var(--bg-light));
+            border-radius: 20px;
+            padding: 30px;
+            width: 90%;
+            max-width: 800px;
+            max-height: 80vh;
+            overflow-y: auto;
+            z-index: 1001;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
+            border: 2px solid var(--primary);
+            opacity: 0;
+            transition: all 0.3s ease;
+        }
+
+        .modal.active {
+            transform: translate(-50%, -50%) scale(1);
+            opacity: 1;
+        }
+
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 25px;
+            padding-bottom: 15px;
+            border-bottom: 2px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .modal-close {
+            width: 40px;
+            height: 40px;
+            background: linear-gradient(135deg, var(--primary), #44a08d);
+            border: none;
+            border-radius: 50%;
+            color: white;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+
+        .modal-close:hover {
+            transform: rotate(90deg);
+            background: linear-gradient(135deg, var(--accent), #ff8e53);
+        }
+
+        .location-details {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+            margin-top: 20px;
+        }
+
+        .detail-section {
+            background: rgba(30, 30, 60, 0.6);
+            padding: 20px;
+            border-radius: 15px;
+        }
+
+        /* УВЕДОМЛЕНИЯ */
+        .notification {
+            position: fixed;
+            bottom: 20px;
+            right: 80px;
+            background: linear-gradient(90deg, var(--primary), #44a08d);
+            color: white;
+            padding: 15px 25px;
+            border-radius: 10px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+            z-index: 1002;
+            animation: slideInRight 0.5s ease, fadeOut 0.5s ease 2.5s forwards;
+            max-width: 400px;
+        }
+
+        .notification.error {
+            background: linear-gradient(90deg, #ff4757, #ff6b81);
+        }
+
+        .notification.success {
+            background: linear-gradient(90deg, #2ed573, #20bf6b);
+        }
+
+        @keyframes slideInRight {
+            from {
+                transform: translateX(100%);
+                opacity: 0;
+            }
+
+            to {
+                transform: translateX(0);
+                opacity: 1;
+            }
+        }
+
+        @keyframes fadeOut {
+            to {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+        }
+
+        /* АДАПТИВНОСТЬ */
+        @media (max-width: 768px) {
+            .region-header h1 {
+                font-size: 2.5rem;
+            }
+
+            .graph-container {
+                height: 400px;
+            }
+
+            .graph {
+                width: 1500px;
+                height: 1200px;
+            }
+
+            .route-controls {
+                grid-template-columns: 1fr;
+            }
+
+            .route-actions {
+                flex-direction: column;
+            }
+
+            .action-btn {
+                width: 100%;
+            }
+
+            .coordinate-display {
+                bottom: 100px;
+                right: 10px;
+                font-size: 0.9rem;
+                min-width: 150px;
+            }
+
+            .coordinate-toggle {
+                bottom: 160px;
+                right: 10px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .container {
+                padding: 10px;
+            }
+
+            .region-header h1 {
+                font-size: 2rem;
+            }
+
+            .graph-container {
+                height: 300px;
+            }
+
+            .filter-buttons {
+                justify-content: center;
+            }
+
+            .coordinate-display {
+                bottom: 120px;
+                font-size: 0.8rem;
+                min-width: 130px;
+                padding: 10px 15px;
+            }
+
+            .coordinate-toggle {
+                bottom: 180px;
+            }
+        }
+
+        /* ===== REDESIGNED LOCATION MODAL ===== */
+        .loc-modal-badges { display: inline-flex; gap: 6px; margin-left: 10px; font-size: 1.1rem; vertical-align: middle; }
+        .loc-modal-desc { color: var(--text-muted); margin-bottom: 20px; line-height: 1.7; font-size: 0.95rem; padding: 15px; background: rgba(30,30,60,0.5); border-radius: 12px; border-left: 3px solid var(--primary); }
+
+        /* Tabs */
+        .loc-tabs { display: flex; gap: 4px; margin-bottom: 20px; background: rgba(20,20,40,0.6); border-radius: 14px; padding: 4px; }
+        .loc-tab { flex: 1; padding: 12px 8px; border: none; background: transparent; color: var(--text-muted); font-size: 0.95rem; font-weight: 600; border-radius: 11px; cursor: pointer; transition: var(--transition); text-align: center; }
+        .loc-tab:hover { background: rgba(78,205,196,0.1); color: white; }
+        .loc-tab.active { background: linear-gradient(135deg, var(--primary), #44a08d); color: white; box-shadow: 0 4px 15px rgba(78,205,196,0.3); }
+        .loc-tab-panel { display: none; }
+        .loc-tab-panel.active { display: block; animation: fadeInTab 0.3s ease; }
+        @keyframes fadeInTab { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: translateY(0); } }
+
+        /* NPC list */
+        .npc-list { display: flex; flex-direction: column; gap: 8px; }
+        .npc-item { display: flex; align-items: center; justify-content: space-between; padding: 12px 16px; background: rgba(30,30,60,0.5); border-radius: 12px; border-left: 3px solid #9370db; transition: var(--transition); }
+        .npc-item:hover { background: rgba(40,40,80,0.7); transform: translateX(4px); }
+        .npc-item-name { color: white; font-weight: 500; font-size: 0.95rem; }
+        .npc-info-btn { width: 32px; height: 32px; border-radius: 50%; border: none; background: rgba(147,112,219,0.3); color: #c9b1ff; cursor: pointer; transition: var(--transition); display: flex; align-items: center; justify-content: center; font-size: 0.9rem; flex-shrink: 0; }
+        .npc-info-btn:hover { background: rgba(147,112,219,0.6); color: white; transform: scale(1.1); }
+        .npc-desc { display: none; padding: 10px 16px; color: var(--text-muted); font-size: 0.88rem; line-height: 1.6; border-top: 1px solid rgba(255,255,255,0.05); margin-top: 8px; }
+        .npc-desc.show { display: block; animation: fadeInTab 0.3s ease; }
+
+        /* Pokémon list */
+        .poke-list { display: flex; flex-direction: column; gap: 6px; }
+        .poke-item { display: flex; align-items: center; justify-content: space-between; padding: 10px 14px; background: rgba(30,30,60,0.5); border-radius: 10px; border-left: 3px solid var(--primary); transition: var(--transition); font-size: 0.9rem; }
+        .poke-item:hover { background: rgba(40,40,80,0.7); transform: translateX(4px); }
+        .poke-item-info { color: white; flex: 1; }
+        .poke-item-rarity { color: var(--text-muted); font-size: 0.82rem; margin-left: 8px; padding: 2px 8px; background: rgba(255,255,255,0.08); border-radius: 6px; white-space: nowrap; }
+        .poke-info-btn { width: 32px; height: 32px; border-radius: 50%; border: none; background: rgba(78,205,196,0.25); color: var(--primary); cursor: pointer; transition: var(--transition); display: flex; align-items: center; justify-content: center; font-size: 0.85rem; flex-shrink: 0; margin-left: 10px; }
+        .poke-info-btn:hover { background: rgba(78,205,196,0.5); color: white; transform: scale(1.1); }
+
+        /* Items list */
+        .items-list { display: flex; flex-wrap: wrap; gap: 8px; }
+        .item-tag { padding: 8px 14px; background: rgba(255,215,0,0.1); border: 1px solid rgba(255,215,0,0.2); border-radius: 10px; color: #ffd700; font-size: 0.88rem; transition: var(--transition); }
+        .item-tag:hover { background: rgba(255,215,0,0.2); transform: translateY(-2px); }
+
+        /* Empty state */
+        .loc-empty { text-align: center; padding: 30px 20px; color: var(--text-muted); font-size: 0.95rem; }
+        .loc-empty-icon { font-size: 2.5rem; margin-bottom: 10px; opacity: 0.4; }
+        .loc-empty-text { font-style: italic; }
+
+        /* ===== POKÉMON DOSSIER CARD ===== */
+        .dossier-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.85); z-index: 20000; display: flex; align-items: center; justify-content: center; opacity: 0; animation: fadeInDossier 0.3s ease forwards; }
+        @keyframes fadeInDossier { to { opacity: 1; } }
+        .dossier-card { background: linear-gradient(135deg, #1a1a3e 0%, #2d2b55 50%, #1e1e3c 100%); border-radius: 24px; width: 95%; max-width: 900px; max-height: 90vh; overflow-y: auto; padding: 30px; border: 2px solid rgba(78,205,196,0.3); box-shadow: 0 30px 80px rgba(0,0,0,0.6); position: relative; animation: scaleInDossier 0.3s ease; }
+        @keyframes scaleInDossier { from { transform: scale(0.9); opacity: 0; } to { transform: scale(1); opacity: 1; } }
+        .dossier-close { position: absolute; top: 15px; right: 15px; width: 40px; height: 40px; border-radius: 50%; border: none; background: rgba(255,107,107,0.8); color: white; cursor: pointer; font-size: 1.1rem; transition: var(--transition); z-index: 10; display: flex; align-items: center; justify-content: center; }
+        .dossier-close:hover { background: var(--accent); transform: rotate(90deg); }
+
+        .dossier-top { display: grid; grid-template-columns: 200px 1fr; gap: 25px; margin-bottom: 25px; }
+        @media (max-width: 640px) { .dossier-top { grid-template-columns: 1fr; } }
+
+        /* Portrait */
+        .dossier-portrait { position: relative; }
+        .dossier-portrait-frame { width: 200px; height: 200px; border: 3px solid var(--primary); border-radius: 20px; overflow: hidden; background: rgba(20,20,50,0.8); display: flex; align-items: center; justify-content: center; position: relative; animation: framePulse 3s ease-in-out infinite; }
+        @keyframes framePulse { 0%, 100% { border-color: var(--primary); box-shadow: 0 0 15px rgba(78,205,196,0.2); } 50% { border-color: #44a08d; box-shadow: 0 0 25px rgba(78,205,196,0.4); } }
+        .dossier-portrait-frame img { width: 160px; height: 160px; object-fit: contain; image-rendering: pixelated; }
+        .dossier-num { position: absolute; top: -8px; left: -8px; width: 44px; height: 44px; border-radius: 50%; background: linear-gradient(135deg, var(--primary), #44a08d); color: white; font-weight: 700; font-size: 0.8rem; display: flex; align-items: center; justify-content: center; border: 3px solid #1a1a3e; z-index: 2; }
+        .dossier-name-block { text-align: center; margin-top: 10px; padding: 8px 16px; background: linear-gradient(90deg, rgba(78,205,196,0.15), rgba(68,160,141,0.15)); border-radius: 12px; border: 1px solid rgba(78,205,196,0.25); }
+        .dossier-name-block .ru { color: white; font-weight: 700; font-size: 1.05rem; }
+        .dossier-name-block .en { color: var(--text-muted); font-size: 0.85rem; }
+        .dossier-types { display: flex; gap: 8px; justify-content: center; margin-top: 10px; flex-wrap: wrap; }
+        .dossier-type-badge { padding: 5px 12px; border-radius: 8px; font-size: 0.82rem; font-weight: 600; color: white; }
+        .dossier-tier { text-align: center; margin-top: 8px; font-size: 0.9rem; color: #ffd700; }
+
+        /* Pokedex description */
+        .dossier-pokedex { padding: 18px; background: rgba(30,30,60,0.6); border-radius: 14px; color: var(--text-muted); line-height: 1.7; font-size: 0.92rem; border: 1px solid rgba(78,205,196,0.15); }
+        .dossier-pokedex-title { color: var(--primary); font-weight: 600; margin-bottom: 8px; font-size: 0.85rem; }
+
+        /* Stats section */
+        .dossier-info-text { color: var(--text-muted); font-size: 0.88rem; line-height: 1.8; margin-top: 20px; }
+        .dossier-info-text strong { color: white; }
+        .dossier-stats-title { color: var(--primary); font-weight: 600; margin: 15px 0 10px; font-size: 0.92rem; }
+        .stat-row { display: flex; align-items: center; gap: 8px; margin-bottom: 6px; font-size: 0.85rem; }
+        .stat-label { width: 50px; color: var(--text-muted); text-align: right; font-weight: 600; }
+        .stat-val { width: 30px; color: white; font-weight: 700; text-align: right; }
+        .stat-bar-bg { flex: 1; height: 10px; background: rgba(255,255,255,0.08); border-radius: 5px; overflow: hidden; }
+        .stat-bar { height: 100%; border-radius: 5px; transition: width 0.6s ease; }
+        .dossier-power { margin-top: 10px; font-size: 0.92rem; }
+
+        /* Evolution chain */
+        .dossier-section { margin-top: 22px; padding: 18px; background: rgba(30,30,60,0.5); border-radius: 14px; border: 1px solid rgba(255,255,255,0.06); }
+        .dossier-section-title { color: var(--primary); font-weight: 700; font-size: 0.95rem; margin-bottom: 12px; display: flex; align-items: center; gap: 8px; }
+        .evo-chain { display: flex; flex-wrap: wrap; align-items: center; gap: 8px; font-size: 0.88rem; color: white; }
+        .evo-arrow { color: var(--primary); font-weight: 700; }
+        .evo-cond { color: var(--text-muted); font-size: 0.78rem; padding: 2px 6px; background: rgba(78,205,196,0.1); border-radius: 6px; }
+
+        /* Profession affinity */
+        .prof-item { margin-bottom: 12px; }
+        .prof-name { color: white; font-weight: 600; font-size: 0.9rem; margin-bottom: 4px; }
+        .prof-bonus { color: var(--text-muted); font-size: 0.82rem; padding-left: 16px; }
+        .prof-note { color: var(--text-muted); font-size: 0.78rem; font-style: italic; margin-top: 10px; }
+
+        /* Mega/Form button */
+        .form-btn { display: inline-flex; align-items: center; gap: 8px; margin-top: 10px; margin-right: 8px; padding: 10px 18px; background: linear-gradient(135deg, rgba(147,112,219,0.3), rgba(147,112,219,0.15)); border: 1px solid rgba(147,112,219,0.4); border-radius: 12px; color: #c9b1ff; cursor: pointer; font-size: 0.88rem; font-weight: 600; transition: var(--transition); }
+        .form-btn:hover { background: linear-gradient(135deg, rgba(147,112,219,0.5), rgba(147,112,219,0.3)); color: white; transform: translateY(-2px); }
+
+        @keyframes spin {
+            to {
+                transform: rotate(360deg);
+            }
+        }
+
+        /* Settings Gear Button */
+        .route-header-container {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 20px;
+        }
+        
+        .settings-btn {
+            background: none;
+            border: none;
+            color: var(--primary);
+            font-size: 1.5rem;
+            cursor: pointer;
+            transition: var(--transition);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 5px;
+            border-radius: 50%;
+        }
+        
+        .settings-btn:hover {
+            color: var(--accent);
+            transform: rotate(90deg) scale(1.1);
+            background: rgba(255, 255, 255, 0.05);
+        }
+
+        /* Settings Modal Specifics */
+        .settings-grid {
+            display: grid;
+            grid-template-columns: 1fr auto;
+            gap: 15px;
+            align-items: center;
+        }
+        
+        .settings-row {
+            display: contents;
+        }
+        
+        .settings-label {
+            font-size: 1.1rem;
+            color: white;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        /* Toggle Switch */
+        .switch {
+            position: relative;
+            display: inline-block;
+            width: 50px;
+            height: 26px;
+        }
+        
+        .switch input {
+            opacity: 0;
+            width: 0;
+            height: 0;
+        }
+        
+        .slider {
+            position: absolute;
+            cursor: pointer;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: rgba(255, 255, 255, 0.1);
+            transition: .4s;
+            border-radius: 34px;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+        
+        .slider:before {
+            position: absolute;
+            content: "";
+            height: 18px;
+            width: 18px;
+            left: 3px;
+            bottom: 3px;
+            background-color: white;
+            transition: .4s;
+            border-radius: 50%;
+        }
+        
+        input:checked + .slider {
+            background-color: var(--primary);
+            border-color: var(--primary);
+        }
+        
+        input:focus + .slider {
+            box-shadow: 0 0 1px var(--primary);
+        }
+        
+        input:checked + .slider:before {
+            transform: translateX(24px);
+        }
+
+        /* Route Warning Styles */
+        .route-warning {
+            margin-top: 15px;
+            padding: 12px;
+            background: rgba(255, 71, 87, 0.1);
+            border: 1px solid #ff4757;
+            border-radius: 8px;
+            color: #ff4757;
+            font-size: 0.9rem;
+            line-height: 1.4;
+        }
+
+        .route-warning strong {
+            display: block;
+            margin-bottom: 5px;
+            font-size: 1rem;
+        }
+
+        .path-step.missing-item {
+            background: rgba(255, 71, 87, 0.2);
+            border-color: #ff4757;
+            color: #ff4757;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="coordinate-system" id="coordinateSystem">
+        <div class="crosshair" id="crosshair">
+            <div class="crosshair-line crosshair-horizontal"></div>
+            <div class="crosshair-line crosshair-vertical"></div>
+            <div class="crosshair-center"></div>
+        </div>
+    </div>
+
+
+
+    <div class="parallax-bg">
+        <div class="floating-shape shape-1"></div>
+        <div class="floating-shape shape-2"></div>
+    </div>
+
+    <div id="pokeballs" class="pokeball-container"></div>
+
+    <!-- Модальное окно результатов поиска покемонов -->
+    <div id="pokemonResultsContainer" style="
+        display: none;
+        max-width: 800px;
+        margin: 20px auto;
+        background: rgba(20, 20, 40, 0.95);
+        border-radius: 25px;
+        padding: 25px;
+        backdrop-filter: blur(20px);
+        box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
+        position: fixed;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        z-index: 10000;
+        border: 1px solid rgba(78, 205, 196, 0.4);
+        max-height: 80vh;
+        overflow-y: auto;
+        width: 90%;
+    ">
+        <div style="
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            padding-bottom: 15px;
+            border-bottom: 2px solid rgba(78, 205, 196, 0.3);
+            position: sticky;
+            top: 0;
+            background: rgba(20, 20, 40, 0.95);
+            z-index: 10;
+        ">
+            <h3 style="
+                margin: 0;
+                color: var(--primary);
+                font-size: 1.5rem;
+                display: flex;
+                align-items: center;
+                gap: 10px;
+            ">
+                <i class="fas fa-dragon"></i>
+                <span id="pokemonResultTitle">Результаты поиска</span>
+            </h3>
+            <button id="closeResultsBtn" style="
+                background: rgba(255, 107, 107, 0.9);
+                border: none;
+                width: 36px;
+                height: 36px;
+                border-radius: 50%;
+                color: white;
+                cursor: pointer;
+                font-size: 1.2rem;
+                transition: all 0.3s ease;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                flex-shrink: 0;
+            ">
+                <i class="fas fa-times"></i>
+            </button>
+        </div>
+
+        <div id="pokemonResultsContent" style="
+            color: var(--text-light);
+            line-height: 1.6;
+        ">
+        </div>
+    </div>
+
+    <div class="modal-overlay" id="modalOverlay"></div>
+
+    <div class="container">
+        <a href="../index.html" class="back-btn">
+            <i class="fas fa-arrow-left"></i>
+            Вернуться к карте мира
+        </a>
+
+        <div class="region-header">
+            <h1><i class="fas fa-mountain"></i> Регион Канто</h1>
+            <p class="subtitle">Классический регион, где всё начиналось. Дом для первых покемонов и тренеров.</p>
+        </div>
+
+        <div class="control-panel">
+            <h2 class="panel-title">
+                <i class="fas fa-project-diagram"></i> Карта локаций Канто
+            </h2>
+            <div class="filter-buttons" id="filterButtons"></div>
+        </div>
+
+        <section class="graph-section">
+            <h2 class="section-title">
+                <i class="fas fa-project-diagram"></i>
+                Карта локаций Канто
+            </h2>
+
+            <div class="graph-map-container">
+                <div class="graph-container" id="graphContainer">
+                    <div class="graph" id="kantoGraph"></div>
+                </div>
+
+                <div class="map-controls">
+                    <button class="control-btn" id="zoomIn" title="Увеличить">
+                        <i class="fas fa-search-plus"></i>
+                    </button>
+                    <button class="control-btn" id="zoomOut" title="Уменьшить">
+                        <i class="fas fa-search-minus"></i>
+                    </button>
+                    <button class="control-btn" id="resetView" title="Сбросить вид">
+                        <i class="fas fa-expand-arrows-alt"></i>
+                    </button>
+                </div>
+            </div>
+
+            <div class="legend-container">
+                <div class="legend-item">
+                    <div class="legend-icon legend-city"></div>
+                    <span class="legend-text">Города</span>
+                </div>
+                <div class="legend-item">
+                    <div class="legend-icon legend-route"></div>
+                    <span class="legend-text">Маршруты</span>
+                </div>
+                <div class="legend-item">
+                    <div class="legend-icon legend-special"></div>
+                    <span class="legend-text">Особые места</span>
+                </div>
+                <div class="legend-item">
+                    <div class="legend-icon legend-forest"></div>
+                    <span class="legend-text">Леса</span>
+                </div>
+                <div class="legend-item">
+                    <div class="legend-icon legend-meadow"></div>
+                    <span class="legend-text">Луга</span>
+                </div>
+                <div class="legend-item">
+                    <div class="legend-icon legend-cave"></div>
+                    <span class="legend-text">Пещеры</span>
+                </div>
+                <div class="legend-item">
+                    <div class="legend-icon legend-island"></div>
+                    <span class="legend-text">Острова</span>
+                </div>
+                <div class="legend-item">
+                    <div class="legend-icon legend-mountain"></div>
+                    <span class="legend-text">Горы</span>
+                </div>
+                <div class="legend-item">
+                    <div class="legend-icon legend-canyon"></div>
+                    <span class="legend-text">Каньоны</span>
+                </div>
+                <div class="legend-item">
+                    <div class="legend-icon legend-building"></div>
+                    <span class="legend-text">Строения</span>
+                </div>
+                <div class="legend-item">
+                    <div class="legend-icon legend-other"></div>
+                    <span class="legend-text">Прочее</span>
+                </div>
+                <div class="legend-item">
+                    <div class="legend-icon legend-inactive"></div>
+                    <span class="legend-text">Другие регионы</span>
+                </div>
+            </div>
+        </section>
+
+        <section class="route-section">
+            <div class="route-header-container">
+                <h2 style="margin-bottom: 0;"><i class="fas fa-route"></i> Построение маршрута</h2>
+                <button class="settings-btn" id="openSettingsBtn" title="Настройки предметов">
+                    <i class="fas fa-cog"></i>
+                </button>
+            </div>
+            <div class="route-controls">
+                <div class="route-selector">
+                    <h3><i class="fas fa-map-marker-alt"></i> Я тут:</h3>
+                    <div class="selector-display" id="fromDisplay"></div>
+                    <button class="selector-btn" id="selectFromBtn">
+                        <i class="fas fa-crosshairs"></i> Выбрать локацию
+                    </button>
+                </div>
+                <div class="route-selector">
+                    <h3><i class="fas fa-flag-checkered"></i> Мне туда:</h3>
+                    <div class="selector-display" id="toDisplay"></div>
+                    <button class="selector-btn" id="selectToBtn">
+                        <i class="fas fa-crosshairs"></i> Выбрать локацию
+                    </button>
+                </div>
+            </div>
+            <div class="route-result" id="routeResult">
+                <h3><i class="fas fa-directions"></i> Кратчайший путь:</h3>
+                <div class="path-display" id="pathDisplay"></div>
+                <div id="routeWarningContainer"></div>
+                <div class="route-actions">
+                    <button class="action-btn" id="resetRouteBtn">
+                        <i class="fas fa-redo"></i> Сбросить
+                    </button>
+                    <button class="action-btn" id="copyRouteBtn">
+                        <i class="fas fa-copy"></i> Скопировать маршрут
+                    </button>
+                </div>
+            </div>
+        </section>
+
+        <section class="search-section">
+            <h2><i class="fas fa-search"></i> Поиск в Канто</h2>
+            <div class="search-box">
+                <input type="text" id="kantoSearch" class="search-input" placeholder="Введите что вы ищете...">
+                <button class="search-btn" id="kantoSearchBtn">
+                    <i class="fas fa-search"></i>
+                </button>
+            </div>
+            <p class="search-hint">
+                Например:
+                <span class="hint-example">Pikachu</span>
+                <span class="hint-example">#025</span>
+                <span class="hint-example">Фуксия</span>
+                <span class="hint-example">Хилл</span>
+                <span class="hint-example">Маркет</span>
+            </p>
+        </section>
+    </div>
+
+    <script>
+        // ===== ТИПЫ ЛОКАЦИЙ С ЦВЕТАМИ И ИКОНКАМИ =====
+        const locationTypes = {
+            'city': { color: '#ff6b6b', icon: '🏘', name: 'Город' },
+            'route': { color: '#44a08d', icon: '🛣', name: 'Маршрут' },
+            'special': { color: '#9370db', icon: '⭐️', name: 'Особое' },
+            'forest': { color: '#2d7a2d', icon: '🌲', name: 'Лес' },
+            'meadow': { color: '#6daa6d', icon: '🏕', name: 'Луг' },
+            'cave': { color: '#8b4513', icon: '🍘', name: 'Пещера' },
+            'island': { color: '#ff8c00', icon: '🏝', name: 'Остров' },
+            'mountain': { color: '#654321', icon: '🏔', name: 'Горы' },
+            'canyon': { color: '#87cefa', icon: '🏞', name: 'Каньон' },
+            'building': { color: '#a9a9a9', icon: '⛪️', name: 'Строение' },
+            'other': { color: '#ffd700', icon: '🛳', name: 'Прочее' },
+            'inactive': { color: '#7C0B89', icon: '🚫', name: 'Другие' }
+        };
+
+        // ===== МАППИНГ РУССКИХ НАЗВАНИЙ НА ТИПЫ =====
+        const kantoTypeMap = {
+            "🏘Паллет": "city",
+            "🏘Виридиан": "city",
+            "🏘Пьютер": "city",
+            "🏘Церулин": "city",
+            "🏘Целадон": "city",
+            "🏞Плато Индиго": "city",
+            "🏘Лавендер ": "city",
+            "🏘Вермилион": "city",
+            "🌆Саффрон": "city",
+            "🏘Фуксия": "city",
+            "🏝Остров Синабар": "city",
+            "🏝Первый остров": "city",
+            "🏝Второй остров": "city",
+            "🏝Третий остров": "city",
+            "🏝Четвертый остров": "city",
+            "🏝Пятый остров ": "city",
+            "🏝Шестой остров": "city",
+            "🏝Седьмой остров": "city",
+            "🛣Маршрут 1": "route",
+            "🛣Маршрут 2": "route",
+            "🛣Маршрут 22": "route",
+            "🛣Маршрут 23": "route",
+            "🛣Дорога победы Канто 1": "route",
+            "🛣Дорога победы Канто 2": "route",
+            "🛣Маршрут 3": "route",
+            "🛣Маршрут 4": "route",
+            "🛣Маршрут 5": "route",
+            "🛣Маршрут 6": "route",
+            "🛣Маршрут 7": "route",
+            "🛣Маршрут 8": "route",
+            "🛣Маршрут 9": "route",
+            "🛣Маршрут 10": "route",
+            "🛣Маршрут 11": "route",
+            "🛣Маршрут 12": "route",
+            "🛣Маршрут 13": "route",
+            "🛣Маршрут 14": "route",
+            "🛣Маршрут 15": "route",
+            "🛣Маршрут 16": "route",
+            "🛣Маршрут 17": "route",
+            "🛣Маршрут 18": "route",
+            "🌊Маршрут 19": "route",
+            "🌊Маршрут 20": "route",
+            "🌊Маршрут 21": "route",
+            "🛣Маршрут 24": "route",
+            "🛣Маршрут 25": "route",
+            "🛣Маршрут 26": "route",
+            "🛣Маршрут 27": "route",
+            "🛣Маршрут 28": "route",
+            "🌉Связующий мост": "route",
+            "🛣Путь третьего острова": "route",
+            "🛣Воспламеняющаяся дорога": "route",
+            "🛣Водная тропа": "route",
+            "⚡️🏭Электростанция ": "special",
+            "🏝Острова Морской пены": "special",
+            "🏜Зона сафари": "special",
+            "🌋Горящая гора": "special",
+            "🏖Пляж сокровищ": "special",
+            "🍘Пещера Церулина": "special",
+            "🌲🌳Лес Виридиана": "forest",
+            "🌳Ягодный лес": "forest",
+            "🌳Узорчатый лес": "forest",
+            "🏕Луг Пятого Острова": "meadow",
+            "🏕Долина руин": "meadow",
+            "🍘Пещера Диглетов": "cave",
+            "🍘Каменный тоннель": "cave",
+            "🧊Пещера ледопада": "cave",
+            "🗻Потерянная пещера": "cave",
+            "🏜Пещера изменения": "cave",
+            "🍘Пещера серебряной горы": "inactive", // JOHTO "cave" + "inactive"
+            "🏝Острова Морской пены": "island",
+            "🌊Водный лабиринт": "island",
+            "🏝Остров отверженных": "island",
+            "🏝Остров рождения": "island",
+            "🏝Странный остров": "inactive", // Боевой рубеж "island" + "inactive"
+            "🏔Лунная гора": "mountain",
+            "🏔Серебряная гора": "mountain",
+            "⛰Край мыса": "mountain",
+            "🏞Вход в каньон": "canyon",
+            "🏞Каньон Сево": "canyon",
+            "⛪️Особняк покемонов": "building",
+            "🛕Башня покемонов": "building",
+            "🛳SS Anne": "other",
+            "💦Водопад Тодзё": "other",
+            "🛥Порт третьего острова": "other",
+            "🏖Великолепный курорт": "other",
+            "🛕Мемориальный столп": "other",
+            "🕍Башня тренеров": "other",
+            "🛣Зелёная тропинка": "other",
+            "⛩Руины Таноби": "other",
+            "🛖Палата Монеана": "other",
+            "🛖Палата Липту": "other",
+            "🛖Палата Випза": "other",
+            "🛖Палата Дилфорда": "other",
+            "🛖Палата Скуфиба": "other",
+            "🛖Палата Рикси": "other",
+            "🛖Палата Виапоса": "other",
+            "🏞Скала Навел": "other"
+        };
+
+        // ===== МАППИНГ РУССКИХ НАЗВАНИЙ НА ОТОБРАЖАЕМЫЕ ИМЕНА (с эмодзи) =====
+        const kantoDisplayMap = {
+            "Паллет": "🏘 Паллет",
+            "Виридиан": "🏘 Виридиан",
+            "Пьютер": "🏘 Пьютер",
+            "Церулин": "🏘 Церулин",
+            "Целадон": "🏘 Целадон",
+            "Плато Индиго": "🏞 Плато Индиго",
+            "Лавендер": "🏘 Лавендер",
+            "Вермилион": "🏘 Вермилион",
+            "Саффрон": "🌆 Саффрон",
+            "Фуксия": "🏘 Фуксия",
+            "Остров Синабар": "🏝 Остров Синабар",
+            "Странный остров": "🏝 Странный остров",
+            "Первый остров": "🏝 Первый остров",
+            "Второй остров": "🏝 Второй остров",
+            "Третий остров": "🏝 Третий остров",
+            "Четвертый остров": "🏝 Четвертый остров",
+            "Пятый остров": "🏝 Пятый остров",
+            "Шестой остров": "🏝 Шестой остров",
+            "Седьмой остров": "🏝 Седьмой остров",
+            "Маршрут 1": "🛣 Маршрут 1",
+            "Маршрут 2": "🛣 Маршрут 2",
+            "Маршрут 22": "🛣 Маршрут 22",
+            "Маршрут 23": "🛣 Маршрут 23",
+            "Дорога победы Канто 1": "🛣 Дорога победы Канто 1",
+            "Дорога победы Канто 2": "🛣 Дорога победы Канто 2",
+            "Маршрут 3": "🛣 Маршрут 3",
+            "Маршрут 4": "🛣 Маршрут 4",
+            "Маршрут 5": "🛣 Маршрут 5",
+            "Маршрут 6": "🛣 Маршрут 6",
+            "Маршрут 7": "🛣 Маршрут 7",
+            "Маршрут 8": "🛣 Маршрут 8",
+            "Маршрут 9": "🛣 Маршрут 9",
+            "Маршрут 10": "🛣 Маршрут 10",
+            "Маршрут 11": "🛣 Маршрут 11",
+            "Маршрут 12": "🛣 Маршрут 12",
+            "Маршрут 13": "🛣 Маршрут 13",
+            "Маршрут 14": "🛣 Маршрут 14",
+            "Маршрут 15": "🛣 Маршрут 15",
+            "Маршрут 16": "🛣 Маршрут 16",
+            "Маршрут 17": "🛣 Маршрут 17",
+            "Маршрут 18": "🛣 Маршрут 18",
+            "Маршрут 19": "🌊 Маршрут 19",
+            "Маршрут 20": "🌊 Маршрут 20",
+            "Маршрут 21": "🌊 Маршрут 21",
+            "Маршрут 24": "🛣 Маршрут 24",
+            "Маршрут 25": "🛣 Маршрут 25",
+            "Маршрут 26": "🛣 Маршрут 26",
+            "Маршрут 27": "🛣 Маршрут 27",
+            "Маршрут 28": "🛣 Маршрут 28",
+            "Связующий мост": "🌉 Связующий мост",
+            "Путь третьего острова": "🛣 Путь третьего острова",
+            "Воспламеняющаяся дорога": "🛣 Воспламеняющаяся дорога",
+            "Водная тропа": "🛣 Водная тропа",
+            "Электростанция": "⚡️🏭 Электростанция",
+            "Острова Морской пены": "🏝 Острова Морской пены",
+            "Зона сафари": "🏜 Зона сафари",
+            "Горящая гора": "🌋 Горящая гора",
+            "Пляж сокровищ": "🏖 Пляж сокровищ",
+            "Пещера Церулина": "🍘 Пещера Церулина",
+            "Лес Виридиана": "🌲🌳 Лес Виридиана",
+            "Ягодный лес": "🌳 Ягодный лес",
+            "Узорчатый лес": "🌳 Узорчатый лес",
+            "Луг Пятого Острова": "🏕 Луг Пятого Острова",
+            "Долина руин": "🏕 Долина руин",
+            "Пещера Диглетов": "🍘 Пещера Диглетов",
+            "Каменный тоннель": "🍘 Каменный тоннель",
+            "Пещера ледопада": "🧊 Пещера ледопада",
+            "Потерянная пещера": "🗻 Потерянная пещера",
+            "Пещера изменения": "🏜 Пещера изменения",
+            "Пещера серебряной горы": "🍘 Пещера серебряной горы",
+            "Водный лабиринт": "🌊 Водный лабиринт",
+            "Остров отверженных": "🏝 Остров отверженных",
+            "Остров рождения": "🏝 Остров рождения",
+            "Лунная гора": "🏔 Лунная гора",
+            "Серебряная гора": "🏔 Серебряная гора",
+            "Край мыса": "⛰ Край мыса",
+            "Вход в каньон": "🏞 Вход в каньон",
+            "Каньон Сево": "🏞 Каньон Сево",
+            "Особняк покемонов": "⛪️ Особняк покемонов",
+            "Башня покемонов": "🛕 Башня покемонов",
+            "SS Anne": "🛳 SS Anne",
+            "Водопад Тодзё": "💦 Водопад Тодзё",
+            "Порт третьего острова": "🛥 Порт третьего острова",
+            "Великолепный курорт": "🏖 Великолепный курорт",
+            "Мемориальный столп": "🛕 Мемориальный столп",
+            "Башня тренеров": "🕍 Башня тренеров",
+            "Зелёная тропинка": "🛣 Зелёная тропинка",
+            "Руины Таноби": "⛩ Руины Таноби",
+            "Палата Монеана": "🛖 Палата Монеана",
+            "Палата Липту": "🛖 Палата Липту",
+            "Палата Випза": "🛖 Палата Випза",
+            "Палата Дилфорда": "🛖 Палата Дилфорда",
+            "Палата Скуфиба": "🛖 Палата Скуфиба",
+            "Палата Рикси": "🛖 Палата Рикси",
+            "Палата Виапоса": "🛖 Палата Виапоса",
+            "Скала Навел": "🏞 Скала Навел"
+        };
+
+        // ===== ГЛОБАЛЬНЫЕ ПЕРЕМЕННЫЕ =====
+        let kantoLocations = {}; // БУДЕТ ЗАГРУЖЕНО ИЗ ФАЙЛА
+        let layoutData = {};     // БУДЕТ ЗАГРУЖЕНО ИЗ ФАЙЛА
+        let zoomLevel = 1;
+        let isDragging = false;
+        let startPos = { x: 0, y: 0 };
+        
+        // Предметы и ограничения
+        let ownedItems = {
+            "BICYCLE": false,
+            "DIVING_SUIT": false,
+            "ICE_SUIT": false,
+            "RUBBER_SUIT": false,
+            "FIRE_SUIT": false
+        };
+
+        const itemsRestrictions = {
+            "BICYCLE": [
+                "KANTO-ROUTE-16",
+                "KANTO-ROUTE-18",
+                "HOENN-ROUTE-110",
+                "SINNOH-ROUTE-206",
+                "SINNOH-ROUTE-207"
+            ],
+            "ICE_SUIT": [
+                "ICEFALL-CAVE",
+                "SEAFOAM-ISLANDS",
+                "MT-SILVER",
+                "ICE-PATH",
+                "JOHTO-ROUTE-44",
+                "SHOAL-CAVE",
+                "SINNOH-ROUTE-217",
+                "SINNOH-ROUTE-216"
+            ],
+            "DIVING_SUIT": [],
+            "FIRE_SUIT": [
+                "KINDLE-ROAD",
+                "SCORCHED-SLAB",
+                "FIERY-PATH",
+                "HOENN-ROUTE-112",
+                "JAGGED-PASS",
+                "MT-CHIMNEY",
+                "FUEGO-IRONWORKS"
+            ],
+            "RUBBER_SUIT": [
+                "POWER-PLANT",
+                "EMBEDDED-TOWER",
+                "NEW-MAUVILLE"
+            ]
+        };
+        let graphPos = { x: 0, y: 0 };
+        let selectedFrom = null;
+        let selectedTo = null;
+        let isSelectingFrom = false;
+        let isSelectingTo = false;
+        let highlightedPath = [];
+        let activeFilters = {};
+        let isCoordinateSystemActive = false;
+        let lastMousePosition = { x: 0, y: 0 };
+
+        // ===== ДАННЫЕ ПОКЕМОНОВ =====
+        let pokemonDB = null;
+        let pokemonSearchIndex = {};
+        let allLocationData = null;
+        const typeIcons = {
+            "grass": "🌿", "fire": "🔥", "water": "💧", "electric": "⚡️", "poison": "☠️",
+            "ice": "❄️", "fighting": "🥊", "ground": "🏜️", "flying": "🕊️", "psychic": "🔮",
+            "bug": "🐛", "rock": "🗿", "ghost": "👻", "dragon": "🐉", "steel": "⚙️",
+            "dark": "🌑", "fairy": "✨", "normal": "⚪"
+        };
+
+        // ===== ДОПОЛНИТЕЛЬНЫЕ ДАННЫЕ ДЛЯ МОДАЛКИ ЛОКАЦИИ =====
+        let npcsData = null;
+        let pokemonRuData = null;
+        let professionsData = null;
+        let profAffinityData = null;
+        let pokemonFormsData = null;
+        let itemsData = null;
+        let npcByLocation = {};        // location_id -> [{ru_name, description}]
+        let pokemonUpperIndex = {};    // UPPERCASE_EN -> "001"
+        let formsBySpecies = {};       // speciesId -> [form, ...]
+
+        const typeColors = {
+            grass: '#78C850', fire: '#F08030', water: '#6890F0', electric: '#F8D030',
+            poison: '#A040A0', ice: '#98D8D8', fighting: '#C03028', ground: '#E0C068',
+            flying: '#A890F0', psychic: '#F85888', bug: '#A8B820', rock: '#B8A038',
+            ghost: '#705898', dragon: '#7038F8', steel: '#B8B8D0', dark: '#705848',
+            fairy: '#EE99AC', normal: '#A8A878'
+        };
+        const tierMap = {
+            'LC': '👶 LC', 'NFE': '🧬 NFE', 'Iron': '🔩 Iron', 'Bronze': '🥉 Bronze',
+            'Silver': '🥈 Silver', 'Gold': '🥇 Gold', 'Platinum': '💿 Platinum',
+            'Diamond': '💎 Diamond', 'Ascendant': '⚔️ Ascendant', 'Uber': '💀 Uber',
+            'UltraUber': '💀💀💀 UltraUber'
+        };
+        const genderMap = {
+            'FemaleOneEighth': '🚹 87.5% / 🚺 12.5%', 'Female25Percent': '🚹 75% / 🚺 25%',
+            'Female50Percent': '🚹 50% / 🚺 50%', 'Female75Percent': '🚹 25% / 🚺 75%',
+            'AlwaysMale': '🚹 100%', 'AlwaysFemale': '🚺 100%', 'Genderless': '⚪ Бесполый'
+        };
+        const growthMap = {
+            'Fast': 'Быстрая (800,000)', 'Medium': 'Средняя (1,000,000)',
+            'Parabolic': 'Средне-медленная (1,059,860)', 'Slow': 'Медленная (1,250,000)',
+            'Erratic': 'Неровная (600,000)', 'Fluctuating': 'Колеблющаяся (1,640,000)'
+        };
+
+        // ===== 1. ЗАГРУЗКА ДАННЫХ =====
+        document.addEventListener('DOMContentLoaded', async function () {
+            try {
+                // Грузим все файлы параллельно
+                const [locRes, layRes, pokRes, npcsRes, pkRuRes, profRes, profAffRes, pkFormsRes, itemsRes] = await Promise.all([
+                    fetch('../json/locations.json'),
+                    fetch('../json/location_layout.json'),
+                    fetch('../json/pokemon_names.json'),
+                    fetch('../json/npcs.json').catch(() => ({ ok: false })),
+                    fetch('../json/pokemon_ru.json').catch(() => ({ ok: false })),
+                    fetch('../json/professions.json').catch(() => ({ ok: false })),
+                    fetch('../json/profession_affinity.json').catch(() => ({ ok: false })),
+                    fetch('../json/pokemon_forms_ru.json').catch(() => ({ ok: false })),
+                    fetch('../json/items.json').catch(() => ({ ok: false }))
+                ]);
+                const rawLocs = await locRes.json();
+                const rawLay = await layRes.json();
+                const rawPok = await pokRes.json();
+
+                // Дополнительные данные (с fallback)
+                if (npcsRes.ok) npcsData = await npcsRes.json();
+                if (pkRuRes.ok) pokemonRuData = await pkRuRes.json();
+                if (profRes.ok) professionsData = await profRes.json();
+                if (profAffRes.ok) profAffinityData = await profAffRes.json();
+                if (pkFormsRes.ok) pokemonFormsData = await pkFormsRes.json();
+                if (itemsRes.ok) itemsData = await itemsRes.json();
+
+                // Сохраняем все локации для поиска покемонов
+                allLocationData = rawLocs;
+
+                // Загружаем базу покемонов
+                pokemonDB = rawPok.pokemon ? rawPok.pokemon : rawPok;
+
+                // Строим поисковый индекс
+                for (let key in pokemonDB) {
+                    const p = pokemonDB[key];
+                    const id = key.toString();
+                    pokemonSearchIndex[id] = id;
+                    pokemonSearchIndex[parseInt(id).toString()] = id;
+                    if (p.en) {
+                        pokemonSearchIndex[p.en.toLowerCase().trim()] = id;
+                        pokemonUpperIndex[p.en.toUpperCase().trim()] = id;
+                    }
+                    if (p.ru) pokemonSearchIndex[p.ru.toLowerCase().trim()] = id;
+                }
+
+                // Индексируем НПС по location_id
+                if (npcsData) {
+                    for (const npcId in npcsData) {
+                        const npc = npcsData[npcId];
+                        const locId = npc.location_id;
+                        if (!locId) continue;
+                        if (!npcByLocation[locId]) npcByLocation[locId] = [];
+                        // Добавляем только если такого ru_name ещё нет (берём первое)
+                        const existing = npcByLocation[locId].find(n => n.ru_name === npc.ru_name);
+                        if (!existing) {
+                            npcByLocation[locId].push({
+                                ru_name: npc.ru_name || npcId,
+                                description: npc.description || '',
+                                photo_path: npc.photo_path || ''
+                            });
+                        }
+                    }
+                }
+
+                // Индексируем формы покемонов по SpeciesID
+                if (pokemonFormsData) {
+                    const formsArr = Array.isArray(pokemonFormsData) ? pokemonFormsData : Object.values(pokemonFormsData);
+                    for (const form of formsArr) {
+                        const sid = String(form._SpeciesID || form.SpeciesID || '');
+                        if (!sid) continue;
+                        if (!formsBySpecies[sid]) formsBySpecies[sid] = [];
+                        formsBySpecies[sid].push(form);
+                    }
+                }
+
+                // Фильтруем только KANTO для карты
+                for (let key in rawLocs) {
+                    if (rawLocs[key].region === 'KANTO') {
+                        // Добавляем координаты из layout, если есть
+                        const coord = rawLay.nodes ? rawLay.nodes[key] : rawLay[key];
+                        if (coord) {
+                            // Определяем русское имя для поиска в маппинге
+                            const ruName = rawLocs[key].ru_name || rawLocs[key].name;
+                            // Получаем тип из маппинга, если нет – определяем по имени (fallback)
+                            const mappedType = kantoTypeMap[ruName];
+                            // Получаем отображаемое имя с эмодзи
+                            const displayName = kantoDisplayMap[ruName] || ruName;
+
+                            kantoLocations[key] = {
+                                ...rawLocs[key],
+                                x: coord.x,
+                                y: coord.y,
+                                type: mappedType,
+                                displayName: displayName // новое поле для отображения
+                            };
+                        }
+                    }
+                }
+
+                // Нормализуем координаты (сжимаем до размеров графа)
+                normalizeCoordinates();
+
+                createPokeballs();
+                initFilters();
+                initGraph();
+                initEventListeners();
+                initCoordinateSystem();
+
+                // Обработчик закрытия результатов поиска
+                document.getElementById('closeResultsBtn').addEventListener('click', () => {
+                    document.getElementById('pokemonResultsContainer').style.display = 'none';
+                });
+
+                showNotification('Добро пожаловать в регион Канто!', 'info');
+
+            } catch (e) {
+                console.error('CRITICAL ERROR:', e);
+                showNotification('Ошибка загрузки карты: ' + e.message, 'error');
+            }
+        });
+
+        // Помощник: определение типа локации по имени (запасной вариант)
+        function detectType(name) {
+            const n = name.toLowerCase();
+            if (n.includes('city')) return 'city';
+            if (n.includes('town')) return 'city';
+            if (n.includes('route')) return 'route';
+            if (n.includes('special')) return 'special';
+            if (n.includes('forest')) return 'forest';
+            if (n.includes('meadow')) return 'meadow';
+            if (n.includes('cave') || n.includes('tunnel')) return 'cave';
+            if (n.includes('island')) return 'island';
+            if (n.includes('canyon')) return 'canyon';
+            if (n.includes('building')) return 'building';
+            if (n.includes('other')) return 'other';
+            if (n.includes('inactive')) return 'inactive';
+        }
+
+        // Помощник: сжатие координат
+        function normalizeCoordinates() {
+            let minX = Infinity, maxX = -Infinity, minY = Infinity, maxY = -Infinity;
+            const keys = Object.keys(kantoLocations);
+
+            keys.forEach(k => {
+                const loc = kantoLocations[k];
+                if (loc.x < minX) minX = loc.x;
+                if (loc.x > maxX) maxX = loc.x;
+                if (loc.y < minY) minY = loc.y;
+                if (loc.y > maxY) maxY = loc.y;
+            });
+
+            // Масштабируем в пределы 2000x1500 (размер графа)
+            const width = 2000;
+            const height = 1500;
+            const padding = 100;
+
+            keys.forEach(k => {
+                const loc = kantoLocations[k];
+                // Формула нормализации
+                loc.x = padding + ((loc.x - minX) / (maxX - minX)) * (width - padding * 2);
+                loc.y = padding + ((loc.y - minY) / (maxY - minY)) * (height - padding * 2);
+            });
+        }
+
+        // ===== ИНИЦИАЛИЗАЦИЯ КООРДИНАТНОЙ СИСТЕМЫ =====
+        function initCoordinateSystem() {
+            const graphContainer = document.getElementById('graphContainer');
+            const crosshair = document.getElementById('crosshair');
+            const coordSystem = document.getElementById('coordinateSystem');
+            const toggleBtn = document.getElementById('coordinateToggle');
+
+            if (!toggleBtn) return; // Кнопка удалена из HTML
+
+            // Показать/скрыть координатную систему
+            toggleBtn.addEventListener('click', function () {
+                isCoordinateSystemActive = !isCoordinateSystemActive;
+
+                if (isCoordinateSystemActive) {
+                    coordSystem.classList.add('active');
+                    toggleBtn.classList.add('active');
+                    updateCrosshairPosition(lastMousePosition.x, lastMousePosition.y);
+                    updateCoordinates();
+                    showNotification('Координатная система активирована', 'info');
+                } else {
+                    coordSystem.classList.remove('active');
+                    toggleBtn.classList.remove('active');
+                    showNotification('Координатная система выключена', 'info');
+                }
+            });
+
+            // Отслеживание движения мыши по всему документу
+            document.addEventListener('mousemove', function (e) {
+                lastMousePosition = { x: e.clientX, y: e.clientY };
+
+                if (isCoordinateSystemActive) {
+                    updateCrosshairPosition(e.clientX, e.clientY);
+                    updateCoordinates();
+                }
+            });
+
+            // Отслеживание движения мыши в контейнере графа
+            graphContainer.addEventListener('mousemove', function (e) {
+                if (isCoordinateSystemActive) {
+                    e.stopPropagation();
+                }
+            });
+        }
+
+        // ===== ОБНОВЛЕНИЕ ПОЗИЦИИ ПЕРЕКРЕСТЬЯ =====
+        function updateCrosshairPosition(x, y) {
+            const crosshair = document.getElementById('crosshair');
+            crosshair.style.left = `${x}px`;
+            crosshair.style.top = `${y}px`;
+        }
+
+        // ===== ОБНОВЛЕНИЕ КООРДИНАТ =====
+        function updateCoordinates() {
+            if (!isCoordinateSystemActive) return;
+
+            // Получаем позицию мыши относительно графа
+            const graph = document.getElementById('kantoGraph');
+            const container = document.getElementById('graphContainer');
+
+            // Получаем bounding rect графа с учётом трансформаций
+            const graphRect = graph.getBoundingClientRect();
+            const containerRect = container.getBoundingClientRect();
+
+            // Вычисляем координаты мыши относительно графа
+            const mouseX = lastMousePosition.x;
+            const mouseY = lastMousePosition.y;
+
+            // Проверяем, находится ли мышь внутри контейнера графа
+            if (mouseX < containerRect.left || mouseX > containerRect.right ||
+                mouseY < containerRect.top || mouseY > containerRect.bottom) {
+                return;
+            }
+
+            // Вычисляем координаты относительно графа с учётом зума и смещения
+            const relativeX = (mouseX - graphRect.left) / zoomLevel;
+            const relativeY = (mouseY - graphRect.top) / zoomLevel;
+
+            // Обновляем отображение координат
+            document.getElementById('coordX').textContent = Math.round(relativeX);
+            document.getElementById('coordY').textContent = Math.round(relativeY);
+        }
+
+        function createPokeballs() {
+            const container = document.getElementById('pokeballs');
+            if (container) container.innerHTML = '';
+            
+            const zones = [
+                { count: 5, min: 5, max: 30 },
+                { count: 3, min: 40, max: 60 },
+                { count: 7, min: 70, max: 95 }
+            ];
+            
+            let delayCounter = 0;
+            const ballTypes = ['', '', 'master', 'shiny', 'premium', 'black'];
+            
+            zones.forEach(zone => {
+                for (let i = 0; i < zone.count; i++) {
+                    const ball = document.createElement('div');
+                    const randomType = ballTypes[Math.floor(Math.random() * ballTypes.length)];
+                    ball.className = randomType ? `pokeball ${randomType}` : 'pokeball';
+                    ball.style.left = `${Math.random() * 92}%`;
+                    const y = Math.random() * (zone.max - zone.min) + zone.min;
+                    ball.style.top = `${y}%`;
+                    ball.style.animationDelay = `${-delayCounter * 7}s`;
+                    if (container) container.appendChild(ball);
+                    delayCounter++;
+                }
+            });
+        }
+
+        // ===== ФИЛЬТРЫ =====
+        function initFilters() {
+            const filters = [
+                { type: 'city', icon: '🏘', label: 'Города' },
+                { type: 'route', icon: '🛣', label: 'Маршруты' },
+                { type: 'special', icon: '⭐', label: 'Особые' },
+                { type: 'forest', icon: '🌲', label: 'Леса' },
+                { type: 'meadow', icon: '🏕', label: 'Луга' },
+                { type: 'cave', icon: '🍘', label: 'Пещеры' },
+                { type: 'island', icon: '🏝', label: 'Острова' },
+                { type: 'mountain', icon: '🏔', label: 'Горы' },
+                { type: 'canyon', icon: '🏞', label: 'Каньоны' },
+                { type: 'building', icon: '⛪️', label: 'Строения' },
+                { type: 'other', icon: '🛳', label: 'Прочее' },
+                { type: 'inactive', icon: '🚫', label: 'Другие' }
+            ];
+
+            // Инициализируем фильтры как активные
+            filters.forEach(filter => {
+                activeFilters[filter.type] = true;
+            });
+
+            const container = document.getElementById('filterButtons');
+            filters.forEach(filter => {
+                const btn = document.createElement('button');
+                btn.className = 'filter-btn active';
+                btn.dataset.type = filter.type;
+                btn.innerHTML = `${filter.icon} ${filter.label}`;
+                btn.addEventListener('click', () => toggleFilter(filter.type));
+                container.appendChild(btn);
+            });
+        }
+
+        function toggleFilter(type) {
+            activeFilters[type] = !activeFilters[type];
+            const btn = document.querySelector(`[data-type="${type}"]`);
+            if (activeFilters[type]) {
+                btn.classList.remove('inactive');
+                btn.classList.add('active');
+            } else {
+                btn.classList.remove('active');
+                btn.classList.add('inactive');
+            }
+            applyFilters();
+        }
+
+        function applyFilters() {
+            document.querySelectorAll('.location-node').forEach(node => {
+                // Читаем тип из правильного места
+                const type = node.dataset.type;
+
+                if (type && !activeFilters[type]) {
+                    // Если тип выключен - делаем прозрачным
+                    node.classList.add('hidden');
+                } else {
+                    // Иначе - показываем
+                    node.classList.remove('hidden');
+                }
+            });
+        }
+
+        function hideAllFilters() {
+            Object.keys(activeFilters).forEach(type => {
+                activeFilters[type] = false;
+                const btn = document.querySelector(`[data-type="${type}"]`);
+                if (btn) {
+                    btn.classList.remove('active');
+                    btn.classList.add('inactive');
+                }
+            });
+            applyFilters();
+        }
+
+        function showAllFilters() {
+            Object.keys(activeFilters).forEach(type => {
+                activeFilters[type] = true;
+                const btn = document.querySelector(`[data-type="${type}"]`);
+                if (btn) {
+                    btn.classList.remove('inactive');
+                    btn.classList.add('active');
+                }
+            });
+            applyFilters();
+        }
+
+        // ===== ГРАФ =====
+        function initGraph() {
+            const graph = document.getElementById('kantoGraph');
+            graph.innerHTML = ''; // Чистим старое
+
+            // 1. Создаем соединения (Стрелки)
+            Object.keys(kantoLocations).forEach(sourceName => {
+                const source = kantoLocations[sourceName];
+                const connections = source.connections || [];
+
+                connections.forEach(targetName => {
+                    // Рисуем, если цель тоже в Канто
+                    if (kantoLocations[targetName]) {
+                        createConnection(sourceName, targetName, false);
+                    }
+                });
+            });
+
+            // 2. Создаем локации (Точки)
+            Object.entries(kantoLocations).forEach(([name, data]) => {
+                createLocation(name, data);
+            });
+
+            updateGraphTransform();
+        }
+
+        function createConnection(fromName, toName, bidirectional) {
+            const from = kantoLocations[fromName];
+            const to = kantoLocations[toName];
+            if (!from || !to) return;
+
+            const graph = document.getElementById('kantoGraph');
+
+            const svg = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
+            svg.classList.add('connection');
+            svg.id = `conn-${fromName}-${toName}`;
+            svg.setAttribute('width', '2000');
+            svg.setAttribute('height', '1500');
+            svg.setAttribute('viewBox', '0 0 2000 1500');
+
+            // Линия
+            const path = document.createElementNS('http://www.w3.org/2000/svg', 'path');
+            path.setAttribute('d', `M ${from.x} ${from.y} L ${to.x} ${to.y}`);
+
+            // Стрелка
+            const arrow = document.createElementNS('http://www.w3.org/2000/svg', 'polygon');
+            const dx = to.x - from.x;
+            const dy = to.y - from.y;
+            const angle = Math.atan2(dy, dx);
+            const size = 8;
+
+            const points = [
+                [to.x - size * Math.cos(angle) - size * Math.sin(angle),
+                to.y - size * Math.sin(angle) + size * Math.cos(angle)],
+                [to.x, to.y],
+                [to.x - size * Math.cos(angle) + size * Math.sin(angle),
+                to.y - size * Math.sin(angle) - size * Math.cos(angle)]
+            ];
+
+            arrow.setAttribute('points', points.map(p => p.join(',')).join(' '));
+            arrow.classList.add('arrowhead');
+
+            svg.appendChild(path);
+            svg.appendChild(arrow);
+            graph.appendChild(svg);
+        }
+
+        function createLocation(name, data) {
+            const graph = document.getElementById('kantoGraph');
+            const svg = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
+
+            svg.classList.add('location-node', `node-${data.type}`);
+            svg.dataset.location = name;
+            svg.dataset.type = data.type;
+
+            // Вернули 140x100
+            svg.setAttribute('width', '140');
+            svg.setAttribute('height', '100');
+            svg.setAttribute('viewBox', '0 0 140 100');
+            svg.style.left = `${data.x - 70}px`;
+            svg.style.top = `${data.y - 50}px`;
+
+            // Форма
+            const path = document.createElementNS('http://www.w3.org/2000/svg', 'path');
+            const color = locationTypes[data.type]?.color || '#666';
+
+            // Исходная форма облака
+            const d = 'M 20,50 Q 10,30 30,20 Q 50,10 70,20 Q 90,10 110,20 Q 130,30 120,50 Q 130,70 110,80 Q 90,90 70,80 Q 50,90 30,80 Q 10,70 20,50 Z';
+            path.setAttribute('d', d);
+            path.setAttribute('fill', color);
+            path.setAttribute('stroke', 'white');
+            path.setAttribute('stroke-width', '2');
+            path.classList.add('node-shape');
+
+            // Текст – по центру (x=70)
+            const text = document.createElementNS('http://www.w3.org/2000/svg', 'text');
+            text.classList.add('node-text');
+            text.setAttribute('x', '70');
+            text.setAttribute('y', '52');
+            text.setAttribute('text-anchor', 'middle');
+
+            const displayName = data.displayName || data.ru_name || data.name;
+            const words = displayName.split(' ');
+            
+            // Улучшенный перенос по словам
+            if (words.length > 1) {
+                // Если слов несколько, пытаемся разбить пополам или около того
+                const mid = Math.ceil(words.length / 2);
+                const line1 = words.slice(0, mid).join(' ');
+                const line2 = words.slice(mid).join(' ');
+                
+                text.innerHTML = `
+                    <tspan x="70" dy="-0.4em">${line1}</tspan>
+                    <tspan x="70" dy="1.2em">${line2}</tspan>
+                `;
+            } else {
+                text.textContent = displayName;
+            }
+
+            svg.appendChild(path);
+            svg.appendChild(text);
+            graph.appendChild(svg);
+
+            // Клик
+            svg.addEventListener('click', (e) => handleLocationClick(name, data, e));
+        }
+
+        // ===== ОБРАБОТЧИКИ =====
+        function initEventListeners() {
+            // Зум
+            document.getElementById('zoomIn').addEventListener('click', () => zoom(0.1));
+            document.getElementById('zoomOut').addEventListener('click', () => zoom(-0.1));
+
+            // Кнопка сброса вида
+            document.getElementById('resetView').addEventListener('click', function () {
+                // Сброс зума
+                zoomLevel = 1;
+
+                // Сброс позиции
+                graphPos.x = 0;
+                graphPos.y = 0;
+
+                // Обновляем отображение
+                updateGraphTransform();
+
+                // Обновляем координаты
+                updateCoordinates();
+
+                // Показываем уведомление
+                showNotification('Вид карты сброшен', 'info');
+
+                // Анимация кнопки
+                this.style.transform = 'scale(0.9)';
+                setTimeout(() => {
+                    this.style.transform = 'scale(1)';
+                }, 150);
+            });
+
+            // Перетаскивание
+            const container = document.getElementById('graphContainer');
+            container.addEventListener('mousedown', startDrag);
+            container.addEventListener('wheel', handleWheel, { passive: false });
+
+            // При зуме обновляем координаты
+            container.addEventListener('wheel', updateCoordinates);
+
+            // Маршрут
+            document.getElementById('selectFromBtn').addEventListener('click', () => startSelecting('from'));
+            document.getElementById('selectToBtn').addEventListener('click', () => startSelecting('to'));
+            document.getElementById('resetRouteBtn').addEventListener('click', resetRoute);
+            document.getElementById('copyRouteBtn').addEventListener('click', copyRoute);
+            document.getElementById('openSettingsBtn').addEventListener('click', openSettings);
+
+            // Поиск
+            document.getElementById('kantoSearchBtn').addEventListener('click', performSearch);
+            document.getElementById('kantoSearch').addEventListener('keypress', (e) => {
+                if (e.key === 'Enter') performSearch();
+            });
+
+            // Модалка
+            document.getElementById('modalOverlay').addEventListener('click', closeModal);
+
+            // Escape
+            document.addEventListener('keydown', (e) => {
+                if (e.key === 'Escape') {
+                    const pokemonResults = document.getElementById('pokemonResultsContainer');
+                    if (pokemonResults && pokemonResults.style.display !== 'none') {
+                        pokemonResults.style.display = 'none';
+                    } else if (isSelectingFrom || isSelectingTo) cancelSelecting();
+                    else if (document.getElementById('locationModal')) closeModal();
+                    else if (isCoordinateSystemActive) {
+                        // Выключаем координатную систему по Escape
+                        document.getElementById('coordinateToggle').click();
+                    }
+                }
+            });
+        }
+
+        function startDrag(e) {
+            if (e.button !== 0) return;
+            isDragging = true;
+            startPos = { x: e.clientX - graphPos.x, y: e.clientY - graphPos.y };
+            document.addEventListener('mousemove', drag);
+            document.addEventListener('mouseup', stopDrag);
+        }
+
+        function drag(e) {
+            if (!isDragging) return;
+            graphPos.x = e.clientX - startPos.x;
+            graphPos.y = e.clientY - startPos.y;
+            updateGraphTransform();
+            updateCoordinates();
+        }
+
+        function stopDrag() {
+            isDragging = false;
+            document.removeEventListener('mousemove', drag);
+            document.removeEventListener('mouseup', stopDrag);
+        }
+
+        function handleWheel(e) {
+            e.preventDefault();
+            const delta = e.deltaY > 0 ? -0.05 : 0.05;
+            // Зум в точку курсора
+            zoom(delta, e.clientX, e.clientY);
+        }
+
+        function zoom(delta, centerX, centerY) {
+            const oldZoom = zoomLevel;
+            const newZoom = Math.max(0.3, Math.min(2, oldZoom + delta));
+            if (oldZoom === newZoom) return;
+
+            // Если координаты не переданы (например, клик по кнопкам +-), зумим в центр экрана
+            if (centerX === undefined || centerY === undefined) {
+                centerX = window.innerWidth / 2;
+                centerY = window.innerHeight / 2;
+            }
+
+            // Находим точку в пространстве графа, которая сейчас под курсором
+            const gx = (centerX - graphPos.x) / oldZoom;
+            const gy = (centerY - graphPos.y) / oldZoom;
+
+            zoomLevel = newZoom;
+
+            // Сдвигаем graphPos так, чтобы та же точка (gx, gy) осталась под курсором (centerX, centerY)
+            graphPos.x = centerX - gx * zoomLevel;
+            graphPos.y = centerY - gy * zoomLevel;
+
+            updateGraphTransform();
+            updateCoordinates();
+        }
+
+        function updateGraphTransform() {
+            const graph = document.getElementById('kantoGraph');
+            graph.style.transform = `translate(${graphPos.x}px, ${graphPos.y}px) scale(${zoomLevel})`;
+        }
+
+        // ===== КЛИК ПО ЛОКАЦИИ =====
+        function openSettings() {
+            const modal = document.createElement('div');
+            modal.className = 'modal';
+            modal.id = 'settingsModal';
+            modal.style.maxWidth = '500px';
+
+            const items = [
+                { id: 'BICYCLE', icon: '🚲', name: 'Велосипед' },
+                { id: 'DIVING_SUIT', icon: '🌊', name: 'Водолазный Костюм 🦺' },
+                { id: 'ICE_SUIT', icon: '❄️', name: 'Хладостойкий Костюм 🦺' },
+                { id: 'RUBBER_SUIT', icon: '⚡', name: 'Резиновый Костюм 🦺' },
+                { id: 'FIRE_SUIT', icon: '🧯', name: 'Огнеупорный Костюм 🦺' }
+            ];
+
+            const rowsHtml = items.map(it => `
+                <div class="settings-row">
+                    <div class="settings-label">${it.icon} ${it.name}</div>
+                    <label class="switch">
+                        <input type="checkbox" id="toggle-${it.id}" ${ownedItems[it.id] ? 'checked' : ''} onchange="toggleItem('${it.id}', this.checked)">
+                        <span class="slider"></span>
+                    </label>
+                </div>
+            `).join('');
+
+            modal.innerHTML = `
+                <div class="modal-header">
+                    <h3><i class="fas fa-cog"></i> Настройки предметов</h3>
+                    <button class="modal-close"><i class="fas fa-times"></i></button>
+                </div>
+                <div class="modal-content">
+                    <p style="color: var(--text-muted); margin-bottom: 20px; font-size: 0.9rem;">
+                        Включите предметы, которые у вас есть, чтобы учитывать их при построении маршрута.
+                    </p>
+                    <div class="settings-grid">
+                        ${rowsHtml}
+                    </div>
+                </div>
+            `;
+
+            document.body.appendChild(modal);
+            document.getElementById('modalOverlay').classList.add('active');
+            setTimeout(() => modal.classList.add('active'), 10);
+            
+            modal.querySelector('.modal-close').addEventListener('click', () => {
+                modal.classList.remove('active');
+                setTimeout(() => {
+                    modal.remove();
+                    document.getElementById('modalOverlay').classList.remove('active');
+                }, 300);
+            });
+        }
+
+        function toggleItem(id, isOwned) {
+            ownedItems[id] = isOwned;
+            if (selectedFrom && selectedTo) calculateRoute();
+        }
+
+        function handleLocationClick(name, data, e) {
+            e.stopPropagation();
+
+            if (isSelectingFrom || isSelectingTo) {
+                const type = isSelectingFrom ? 'from' : 'to';
+                selectLocation(type, name);
+                return;
+            }
+
+            // Показ информации
+            showLocationInfo(name, data);
+
+            // Анимация
+            const node = e.currentTarget;
+            node.classList.remove('clicked');
+            void node.offsetWidth;
+            node.classList.add('clicked');
+        }
+
+        function showLocationInfo(name, data) {
+            const modal = document.createElement('div');
+            modal.className = 'modal';
+            modal.id = 'locationModal';
+            const info = kantoLocations[name] || {};
+
+            // Badges (Pokecenter / Mart)
+            let badges = '';
+            if (info.has_pokecenter) badges += '<span title="Покецентр">❤️‍🩹</span>';
+            if (info.has_pokemart) badges += '<span title="Покемарт">🛒</span>';
+            const badgesHtml = badges ? `<span class="loc-modal-badges">${badges}</span>` : '';
+
+            // --- NPC tab content ---
+            const npcs = npcByLocation[name] || [];
+            let npcHtml = '';
+            if (npcs.length > 0) {
+                npcHtml = '<div class="npc-list">' + npcs.map((npc, i) => `
+                    <div>
+                        <div class="npc-item">
+                            <span class="npc-item-name">👤 ${npc.ru_name}</span>
+                            <button class="npc-info-btn" onclick="toggleNpcDesc(${i})" title="Подробнее">ℹ️</button>
+                        </div>
+                        <div class="npc-desc" id="npcDesc${i}">${npc.description || 'Описание отсутствует.'}</div>
+                    </div>
+                `).join('') + '</div>';
+            } else {
+                npcHtml = '<div class="loc-empty"><div class="loc-empty-icon">🚫</div><div class="loc-empty-text">В этой локации нет NPC</div></div>';
+            }
+
+            // --- Pokémon tab content ---
+            const encounters = info.encounters || [];
+            let pokeHtml = '';
+            if (encounters.length > 0) {
+                // Sorting: Common (no rarity) first, then by rarity 1, 2, 3...
+                const sorted = [...encounters].sort((a, b) => {
+                    const rA = a.rarity || 0;
+                    const rB = b.rarity || 0;
+                    if (rA === rB) return 0;
+                    if (rA === 0) return -1;
+                    if (rB === 0) return 1;
+                    return rA - rB;
+                });
+                pokeHtml = '<div class="poke-list">' + sorted.map(enc => {
+                    const capsSpecies = enc.species;
+                    // Try pokemonUpperIndex first, then try direct match in pokemonRuData keys
+                    let pkId = pokemonUpperIndex[capsSpecies];
+                    let pk = pkId ? pokemonDB[pkId] : null;
+                    // Fallback: look in pokemonRuData by key (для NIDORAN_F/M etc.)
+                    let ruEntry = null;
+                    if (pokemonRuData && pokemonRuData[capsSpecies]) {
+                        ruEntry = pokemonRuData[capsSpecies];
+                        if (!pkId && ruEntry.NationalId) {
+                            pkId = String(ruEntry.NationalId).padStart(3, '0');
+                            pk = pokemonDB[pkId] || null;
+                        }
+                    }
+                    const numStr = pkId || (ruEntry && ruEntry.NationalId ? String(ruEntry.NationalId) : '???');
+                    const ruName = pk ? pk.ru : (ruEntry ? ruEntry.Name : capsSpecies);
+                    const enName = pk ? pk.en : (ruEntry ? ruEntry.Name : capsSpecies);
+                    const lvl = enc.min_level === enc.max_level ? `Ур. ${enc.min_level}` : `Ур. ${enc.min_level} - ${enc.max_level}`;
+                    
+                    // Rarity Label Logic
+                    let rarityLabel = '';
+                    if (!enc.rarity) {
+                        rarityLabel = 'О';
+                    } else {
+                        rarityLabel = 'Р' + enc.rarity;
+                    }
+                    
+                    const dossierKey = pkId || (capsSpecies); // fallback to species name for dossier
+                    return `
+                    <div class="poke-item">
+                        <div class="poke-item-info">
+                            <strong>#${String(numStr).replace(/^0+/, '') || numStr}</strong> ${ruName} / ${enName}
+                            <span style="color:var(--text-muted);font-size:0.82rem;"> (${lvl})</span>
+                        </div>
+                        <span class="poke-item-rarity">${rarityLabel}</span>
+                        <button class="poke-info-btn" onclick="openPokemonDossier('${dossierKey}')" title="Досье">📋</button>
+                    </div>`;
+                }).join('') + '</div>';
+            } else {
+                pokeHtml = '<div class="loc-empty"><div class="loc-empty-icon">🚫</div><div class="loc-empty-text">Дикие покемоны здесь не встречаются</div></div>';
+            }
+
+            // --- Items tab content ---
+            const locItems = (itemsData && itemsData.KANTO && itemsData.KANTO[name]) || [];
+            let itemsHtml = '';
+            if (locItems.length > 0) {
+                itemsHtml = '<div class="items-list">' + locItems.map(it => `<div class="item-tag">${it}</div>`).join('') + '</div>';
+            } else {
+                itemsHtml = '<div class="loc-empty"><div class="loc-empty-icon">🚫</div><div class="loc-empty-text">Предметы в этой локации не найдены</div></div>';
+            }
+
+            // Count badges for tabs
+            const npcCount = npcs.length;
+            const pokeCount = encounters.length;
+            const itemCount = locItems.length;
+
+            modal.innerHTML = `
+                <div class="modal-header">
+                    <div>
+                        <h3>${data.displayName || data.ru_name || data.name}${badgesHtml}</h3>
+                        <small>${getTypeText(data.type)}</small>
+                    </div>
+                    <button class="modal-close">
+                        <i class="fas fa-times"></i>
+                    </button>
+                </div>
+                <div class="modal-content">
+                    <div class="loc-modal-desc">${info.description || 'Описание отсутствует.'}</div>
+
+                    <div class="loc-tabs">
+                        <button class="loc-tab active" onclick="switchLocTab(this, 'npcPanel')">👥 НПС${npcCount ? ` (${npcCount})` : ''}</button>
+                        <button class="loc-tab" onclick="switchLocTab(this, 'pokePanel')">🐾 Покемоны${pokeCount ? ` (${pokeCount})` : ''}</button>
+                        <button class="loc-tab" onclick="switchLocTab(this, 'itemsPanel')">🎒 Предметы${itemCount ? ` (${itemCount})` : ''}</button>
+                    </div>
+
+                    <div class="loc-tab-panel active" id="npcPanel">${npcHtml}</div>
+                    <div class="loc-tab-panel" id="pokePanel">${pokeHtml}</div>
+                    <div class="loc-tab-panel" id="itemsPanel">${itemsHtml}</div>
+                </div>
+            `;
+
+            document.body.appendChild(modal);
+            document.getElementById('modalOverlay').classList.add('active');
+            setTimeout(() => modal.classList.add('active'), 10);
+            modal.querySelector('.modal-close').addEventListener('click', closeModal);
+        }
+
+        function switchLocTab(btn, panelId) {
+            const modal = btn.closest('.modal');
+            modal.querySelectorAll('.loc-tab').forEach(t => t.classList.remove('active'));
+            modal.querySelectorAll('.loc-tab-panel').forEach(p => p.classList.remove('active'));
+            btn.classList.add('active');
+            document.getElementById(panelId).classList.add('active');
+        }
+
+        function toggleNpcDesc(idx) {
+            const el = document.getElementById('npcDesc' + idx);
+            if (el) el.classList.toggle('show');
+        }
+
+        // ===== ДОСЬЕ ПОКЕМОНА =====
+        function openPokemonDossier(pkId) {
+            const pk = pokemonDB[pkId];
+
+            // Lookup full data from pokemon_ru.json (it's a dict with UPPERCASE keys like "PIKACHU")
+            let ruData = null;
+            let speciesKey = '';
+            if (pokemonRuData) {
+                // First try by en name from pokemonDB
+                if (pk && pk.en) {
+                    speciesKey = pk.en.toUpperCase();
+                    ruData = pokemonRuData[speciesKey];
+                }
+                // If not found, try pkId directly as key (for NIDORAN_F etc.)
+                if (!ruData) {
+                    ruData = pokemonRuData[pkId];
+                    if (ruData) speciesKey = pkId;
+                }
+                // Try NationalId match
+                if (!ruData && pk) {
+                    const numId = parseInt(pkId);
+                    for (const k in pokemonRuData) {
+                        if (pokemonRuData[k].NationalId === numId) {
+                            ruData = pokemonRuData[k];
+                            speciesKey = k;
+                            break;
+                        }
+                    }
+                }
+            }
+
+            if (!pk && !ruData) return;
+
+            const natId = ruData ? ruData.NationalId : parseInt(pkId);
+            const numStr = natId || pkId.replace(/^0+/, '') || pkId;
+            const ruName = (pk && pk.ru) || (ruData && ruData.Name) || pkId;
+            const enName = (pk && pk.en) || (ruData && ruData.Name) || pkId;
+
+            // Sprite path — user wants images/pokemons/{id}.jpg
+            const spritePath = `../images/pokemons/${natId}.jpg`;
+
+            // Types — pokemon_ru has comma-separated string like "GRASS,POISON"
+            let types = [];
+            if (pk && pk.type && Array.isArray(pk.type)) {
+                types = pk.type;
+            } else if (ruData && ruData.Types) {
+                types = typeof ruData.Types === 'string' ? ruData.Types.split(',') : ruData.Types;
+            }
+            const typesHtml = types.map(t => {
+                const tLow = t.toLowerCase().trim();
+                const color = typeColors[tLow] || '#888';
+                const icon = typeIcons[tLow] || '';
+                return `<span class="dossier-type-badge" style="background:${color}">${icon} ${t.charAt(0).toUpperCase() + t.slice(1).toLowerCase()}</span>`;
+            }).join('');
+
+            // Tier
+            const format = ruData ? ruData.Format : '';
+            const tierDisplay = format ? (tierMap[format] || format) : '';
+
+            // Pokedex description
+            const pokedex = (ruData && ruData.Pokedex) || '';
+
+            // Abilities — array of strings
+            const abilitiesArr = (ruData && ruData.Abilities) ? (Array.isArray(ruData.Abilities) ? ruData.Abilities : [ruData.Abilities]) : [];
+            const abilities = abilitiesArr.join(', ');
+            // HiddenAbilities — may be string or array
+            const hiddenArr = (ruData && ruData.HiddenAbilities) ? (Array.isArray(ruData.HiddenAbilities) ? ruData.HiddenAbilities : [ruData.HiddenAbilities]) : [];
+            const hiddenAbilities = hiddenArr.join(', ');
+
+            // Gender
+            const genderRatio = (ruData && ruData.GenderRatio) ? (genderMap[ruData.GenderRatio] || ruData.GenderRatio) : '';
+
+            // Growth rate
+            const growth = (ruData && ruData.GrowthRate) ? (growthMap[ruData.GrowthRate] || ruData.GrowthRate) : '';
+
+            // Catch rate
+            const catchRate = (ruData && ruData.CatchRate != null) ? ruData.CatchRate : '';
+
+            // Height / Weight — already in meters/kg in the JSON
+            const height = (ruData && ruData.Height != null) ? ruData.Height : '';
+            const weight = (ruData && ruData.Weight != null) ? ruData.Weight : '';
+
+            // Base stats — array [HP, Atk, Def, Spd, SpAtk, SpDef]
+            const bsArr = (ruData && ruData.BaseStats) ? ruData.BaseStats : null;
+            let statsHtml = '';
+            if (bsArr && Array.isArray(bsArr) && bsArr.length >= 6) {
+                const statLabels = ['HP', 'Атк', 'Защ', 'Скор', 'СА', 'СЗ'];
+                const statColorsArr = ['#ff5555', '#ff8844', '#ffcc33', '#ff66aa', '#6699ff', '#77dd77'];
+                const total = bsArr.reduce((a, b) => a + b, 0);
+                statsHtml = `<div class="dossier-stats-title">📊 Базовые статы (Сумма: ${total}):</div>`;
+                for (let i = 0; i < 6; i++) {
+                    const val = bsArr[i] || 0;
+                    const pct = Math.min(100, (val / 255) * 100);
+                    statsHtml += `<div class="stat-row">
+                        <span class="stat-label">${statLabels[i]}</span>
+                        <span class="stat-val">${val}</span>
+                        <div class="stat-bar-bg"><div class="stat-bar" style="width:${pct}%;background:${statColorsArr[i]}"></div></div>
+                    </div>`;
+                }
+            }
+
+            // Power category
+            const power = (ruData && ruData.PowerCategory != null) ? ruData.PowerCategory : '';
+            let powerStars = '';
+            if (power !== '') {
+                const n = parseInt(power) || 0;
+                powerStars = '⭐️'.repeat(Math.min(n, 10)) + ` (${n})`;
+            }
+
+            // Evolution chain — strings like "IVYSAUR,Level,16" or "RAICHU,Item,THUNDERSTONE"
+            let evoHtml = '';
+            if (ruData && ruData.Evolution && ruData.Evolution.length > 0) {
+                const evoItems = ruData.Evolution.map(evStr => {
+                    const parts = evStr.split(',');
+                    const evoSpecies = parts[0] || '???';
+                    const evoMethod = parts[1] || '';
+                    const evoParam = parts[2] || '';
+                    // Resolve evo species name
+                    const evoRu = pokemonRuData && pokemonRuData[evoSpecies] ? pokemonRuData[evoSpecies].Name : evoSpecies;
+                    const evoPk = pokemonSearchIndex[evoSpecies.toLowerCase()] ? pokemonDB[pokemonSearchIndex[evoSpecies.toLowerCase()]] : null;
+                    const evoDisplayName = (evoPk && evoPk.ru) ? evoPk.ru : evoRu;
+
+                    let condText = '';
+                    if (evoMethod === 'Level') condText = `Ур. ${evoParam}`;
+                    else if (evoMethod === 'Item') condText = evoParam;
+                    else if (evoMethod === 'Trade') condText = 'Обмен' + (evoParam ? ` (${evoParam})` : '');
+                    else if (evoMethod === 'Happiness') condText = 'Дружба' + (evoParam ? ` (${evoParam})` : '');
+                    else condText = evoMethod + (evoParam ? ` ${evoParam}` : '');
+
+                    return `<span class="evo-arrow">→</span> <span class="evo-cond">${condText}</span> <span>${evoDisplayName}</span>`;
+                });
+                evoHtml = `<div class="dossier-section">
+                    <div class="dossier-section-title">🔄 Цепочка эволюций</div>
+                    <div class="evo-chain"><span>${ruName}</span> ${evoItems.join(' ')}</div>
+                </div>`;
+            } else if (pk && (pk.evolves_to || pk.evolves_from)) {
+                // Fallback: build from pokemon_names.json
+                let chain = [];
+                let cur = pkId;
+                while (pokemonDB[cur] && pokemonDB[cur].evolves_from && pokemonDB[cur].evolves_from.length > 0) {
+                    cur = pokemonDB[cur].evolves_from[0];
+                }
+                function walkDown(id) {
+                    const p = pokemonDB[id];
+                    if (!p) return;
+                    chain.push(p.ru || p.en || id);
+                    if (p.evolves_to && p.evolves_to.length > 0) {
+                        for (const eid of p.evolves_to) walkDown(eid);
+                    }
+                }
+                walkDown(cur);
+                if (chain.length > 1) {
+                    evoHtml = `<div class="dossier-section">
+                        <div class="dossier-section-title">🔄 Цепочка эволюций</div>
+                        <div class="evo-chain">${chain.map((c, i) => i > 0 ? `<span class="evo-arrow">→</span> <span>${c}</span>` : `<span>${c}</span>`).join(' ')}</div>
+                    </div>`;
+                }
+            }
+
+            // Profession affinity — actual structure: conditions.types = ["FIRE"], bonuses = [{profession, value}]
+            let profHtml = '';
+            if (profAffinityData && professionsData) {
+                const matchedProfs = {};
+                for (const affKey in profAffinityData) {
+                    const aff = profAffinityData[affKey];
+                    if (!aff.bonuses || !aff.conditions) continue;
+                    let matched = false;
+                    // Check type conditions
+                    if (aff.conditions.types) {
+                        for (const ct of aff.conditions.types) {
+                            if (types.some(t => t.toUpperCase().trim() === ct.toUpperCase())) {
+                                matched = true;
+                                break;
+                            }
+                        }
+                    }
+                    // Check species conditions
+                    if (aff.conditions.species) {
+                        for (const cs of aff.conditions.species) {
+                            if (cs.toUpperCase() === speciesKey.toUpperCase() || cs.toUpperCase() === enName.toUpperCase()) {
+                                matched = true;
+                                break;
+                            }
+                        }
+                    }
+                    // Check ability conditions
+                    if (aff.conditions.abilities) {
+                        const allAbs = [...abilitiesArr, ...hiddenArr];
+                        for (const ca of aff.conditions.abilities) {
+                            if (allAbs.some(a => a.toUpperCase() === ca.toUpperCase())) {
+                                matched = true;
+                                break;
+                            }
+                        }
+                    }
+                    if (matched) {
+                        for (const bonus of aff.bonuses) {
+                            const profId = bonus.profession;
+                            const prof = professionsData[profId];
+                            const profName = prof ? prof.ru_name : profId;
+                            const pct = bonus.value ? Math.round((bonus.value - 1) * 100) : 0;
+                            if (!matchedProfs[profName]) matchedProfs[profName] = [];
+                            matchedProfs[profName].push(`${aff.ru_name || affKey}: +${pct}%`);
+                        }
+                    }
+                }
+                const profEntries = Object.entries(matchedProfs);
+                if (profEntries.length > 0) {
+                    profHtml = `<div class="dossier-section">
+                        <div class="dossier-section-title">🧑‍🔧 Профессии и Сродство</div>
+                        ${profEntries.map(([name, bonuses]) => `
+                            <div class="prof-item">
+                                <div class="prof-name">${name}</div>
+                                ${bonuses.map(b => `<div class="prof-bonus">• ${b}</div>`).join('')}
+                            </div>
+                        `).join('')}
+                        <div class="prof-note">💡 Бонусы к профессиям зависят от типа, вида, способностей и формы покемона.</div>
+                    </div>`;
+                }
+            }
+
+            // Mega/Form buttons
+            let formsHtml = '';
+            const specId = natId || parseInt(pkId);
+            const forms = formsBySpecies[String(specId)] || [];
+            if (forms.length > 0) {
+                formsHtml = '<div style="margin-top:15px;">' + forms.map((f, i) => {
+                    const fName = f.FormName || f._FormName || `Форма ${i + 1}`;
+                    const isMega = fName.toLowerCase().includes('mega');
+                    const label = isMega ? `🔄 Открыть ${fName}` : `🔄 ${fName}`;
+                    return `<button class="form-btn" onclick="showFormDossier(${specId}, ${i})">${label}</button>`;
+                }).join('') + '</div>';
+            }
+
+            // Build full dossier HTML
+            const overlay = document.createElement('div');
+            overlay.className = 'dossier-overlay';
+            overlay.id = 'dossierOverlay';
+            overlay.innerHTML = `
+                <div class="dossier-card">
+                    <button class="dossier-close" onclick="closeDossier()"><i class="fas fa-times"></i></button>
+                    <div class="dossier-top">
+                        <div class="dossier-portrait">
+                            <div class="dossier-portrait-frame">
+                                <div class="dossier-num">#${numStr}</div>
+                                <img src="${spritePath}" alt="${enName}" onerror="this.src='../images/pokemons/0.jpg'">
+                            </div>
+                            <div class="dossier-name-block">
+                                <div class="ru">${ruName}</div>
+                                <div class="en">${enName}</div>
+                            </div>
+                            <div class="dossier-types">${typesHtml}</div>
+                            ${tierDisplay ? `<div class="dossier-tier">🏆 Тир: ${tierDisplay}</div>` : ''}
+                        </div>
+                        <div>
+                            ${pokedex ? `<div class="dossier-pokedex"><div class="dossier-pokedex-title">📖 Покедекс</div>${pokedex}</div>` : ''}
+                            ${profHtml}
+                        </div>
+                    </div>
+
+                    <div class="dossier-info-text">
+                        ${abilities ? `<div>✨ <strong>Способности:</strong> ${abilities}</div>` : ''}
+                        ${hiddenAbilities ? `<div>🔮 <strong>Скрытые:</strong> ${hiddenAbilities}</div>` : ''}
+                        ${genderRatio ? `<div>👥 <strong>Соотношение полов:</strong> ${genderRatio}</div>` : ''}
+                        ${growth ? `<div>⭐️ <strong>Группа опыта:</strong> ${growth}</div>` : ''}
+                        ${catchRate !== '' ? `<div>🎯 <strong>Рейтинг поимки:</strong> ${catchRate}</div>` : ''}
+                        ${height || weight ? `<div>${height ? `📏 <strong>Рост:</strong> ${height} м` : ''}${height && weight ? ' | ' : ''}${weight ? `⚖️ <strong>Вес:</strong> ${weight} кг` : ''}</div>` : ''}
+                    </div>
+
+                    ${statsHtml}
+                    ${powerStars ? `<div class="dossier-power">💪 <strong>Сила:</strong> ${powerStars}</div>` : ''}
+                    ${evoHtml}
+                    ${formsHtml}
+                </div>
+            `;
+            document.body.appendChild(overlay);
+            overlay.addEventListener('click', (e) => { if (e.target === overlay) closeDossier(); });
+        }
+
+        function closeDossier() {
+            const el = document.getElementById('dossierOverlay');
+            if (el) el.remove();
+        }
+
+        function showFormDossier(speciesId, formIndex) {
+            const forms = formsBySpecies[String(speciesId)] || [];
+            const form = forms[formIndex];
+            if (!form) return;
+
+            const fName = form.FormName || form._FormName || 'Форма';
+            const types = form.Types || [];
+            const typesHtml = types.map(t => {
+                const color = typeColors[t.toLowerCase()] || '#888';
+                const icon = typeIcons[t.toLowerCase()] || '';
+                return `<span class="dossier-type-badge" style="background:${color}">${icon} ${t.charAt(0).toUpperCase() + t.slice(1)}</span>`;
+            }).join('');
+            const format = form.Format || '';
+            const tierDisplay = format ? (tierMap[format] || format) : '';
+            const pokedex = form.Pokedex || '';
+            const abilities = form.Abilities ? form.Abilities.join(', ') : '';
+            const weight = form.Weight != null ? (form.Weight / 10).toFixed(1) : '';
+            const bs = form.BaseStats || null;
+            let statsHtml = '';
+            if (bs) {
+                const statNames = { HP: 'HP', Atk: 'Атк', Def: 'Защ', SpAtk: 'СА', SpDef: 'СЗ', Spd: 'Скор' };
+                const statColors = { HP: '#ff5555', Atk: '#ff8844', Def: '#ffcc33', SpAtk: '#6699ff', SpDef: '#77dd77', Spd: '#ff66aa' };
+                const total = Object.values(bs).reduce((a, b) => a + b, 0);
+                statsHtml = `<div class="dossier-stats-title">📊 Базовые статы (Сумма: ${total}):</div>`;
+                for (const [key, label] of Object.entries(statNames)) {
+                    const val = bs[key] || 0;
+                    const pct = Math.min(100, (val / 255) * 100);
+                    statsHtml += `<div class="stat-row">
+                        <span class="stat-label">${label}</span>
+                        <span class="stat-val">${val}</span>
+                        <div class="stat-bar-bg"><div class="stat-bar" style="width:${pct}%;background:${statColors[key] || '#4ecdc4'}"></div></div>
+                    </div>`;
+                }
+            }
+
+            // Replace dossier content
+            const overlay = document.getElementById('dossierOverlay');
+            if (!overlay) return;
+            overlay.querySelector('.dossier-card').innerHTML = `
+                <button class="dossier-close" onclick="closeDossier()"><i class="fas fa-times"></i></button>
+                <h3 style="color:var(--primary);margin-bottom:15px;">🔄 ${fName}</h3>
+                <div class="dossier-types" style="margin-bottom:15px;">${typesHtml}</div>
+                ${tierDisplay ? `<div class="dossier-tier" style="margin-bottom:15px;">🏆 Тир: ${tierDisplay}</div>` : ''}
+                ${pokedex ? `<div class="dossier-pokedex" style="margin-bottom:15px;"><div class="dossier-pokedex-title">📖 Покедекс</div>${pokedex}</div>` : ''}
+                <div class="dossier-info-text">
+                    ${abilities ? `<div>✨ <strong>Способности:</strong> ${abilities}</div>` : ''}
+                    ${weight ? `<div>⚖️ <strong>Вес:</strong> ${weight} кг</div>` : ''}
+                </div>
+                ${statsHtml}
+                ${form.MegaStone ? `<div style="margin-top:12px;color:#c9b1ff;">💎 Мега-камень: <strong>${form.MegaStone}</strong></div>` : ''}
+                <button class="form-btn" onclick="closeDossier();openPokemonDossier('${String(speciesId).padStart(3,'0')}')">← Назад к основной форме</button>
+            `;
+        }
+
+        function getTypeText(type) {
+            const types = {
+                'city': 'Город', 'route': 'Маршрут', 'special': 'Особое место',
+                'forest': 'Лес', 'meadow': 'Луг', 'cave': 'Пещера',
+                'island': 'Остров', 'mountain': 'Гора', 'canyon': 'Каньон',
+                'building': 'Строение', 'other': 'Прочее', 'inactive': 'Другой регион'
+            };
+            return types[type] || 'Локация';
+        }
+
+
+        // ===== МАРШРУТ =====
+        function startSelecting(type) {
+            cancelSelecting();
+            if (type === 'from') {
+                isSelectingFrom = true;
+                document.getElementById('selectFromBtn').classList.add('selecting');
+                showNotification('Кликните на локацию для выбора отправной точки', 'info');
+            } else {
+                isSelectingTo = true;
+                document.getElementById('selectToBtn').classList.add('selecting');
+                showNotification('Кликните на локацию для выбора пункта назначения', 'info');
+            }
+        }
+
+        function cancelSelecting() {
+            isSelectingFrom = isSelectingTo = false;
+            document.getElementById('selectFromBtn').classList.remove('selecting');
+            document.getElementById('selectToBtn').classList.remove('selecting');
+        }
+
+        function selectLocation(type, name) {
+            const loc = kantoLocations[name];
+            if (!loc) return;
+
+            const display = document.getElementById(`${type}Display`);
+            display.innerHTML = `<div class="location-preview">${loc.displayName || loc.ru_name || loc.name}</div>`;
+
+            if (type === 'from') {
+                selectedFrom = name;
+                isSelectingFrom = false;
+                document.getElementById('selectFromBtn').classList.remove('selecting');
+            } else {
+                selectedTo = name;
+                isSelectingTo = false;
+                document.getElementById('selectToBtn').classList.remove('selecting');
+            }
+
+            if (selectedFrom && selectedTo) calculateRoute();
+        }
+
+        function calculateRoute() {
+            if (!selectedFrom || !selectedTo) return;
+
+            // Сначала пробуем найти путь с учетом текущих предметов
+            let path = findPath(selectedFrom, selectedTo, false);
+            let isFallback = false;
+
+            if (!path || !path.length) {
+                // Если не нашли, пробуем найти самый короткий путь вообще (наплевав на предметы)
+                path = findPath(selectedFrom, selectedTo, true);
+                if (path && path.length) {
+                    isFallback = true;
+                }
+            }
+
+            if (path && path.length) {
+                displayRoute(path, isFallback);
+                highlightRoute(path);
+                hideAllFilters();
+                if (isFallback) {
+                    showNotification('Внимание! Требуются предметы', 'warning');
+                } else {
+                    showNotification('Маршрут построен!', 'success');
+                }
+            } else {
+                showNotification('Маршрут не найден', 'error');
+            }
+        }
+
+        function findPath(start, end, ignoreRestrictions = false) {
+            const queue = [[start]];
+            const visited = new Set([start]);
+
+            while (queue.length) {
+                const path = queue.shift();
+                const node = path[path.length - 1];
+
+                if (node === end) return path;
+
+                const connections = kantoLocations[node].connections || [];
+
+                for (const neighbor of connections) {
+                    if (kantoLocations[neighbor] && !visited.has(neighbor)) {
+                        // ПРОВЕРКА ОГРАНИЧЕНИЙ ПРЕДМЕТОВ
+                        let canEnter = true;
+                        if (!ignoreRestrictions) {
+                            for (const item in itemsRestrictions) {
+                                if (itemsRestrictions[item].includes(neighbor)) {
+                                    if (!ownedItems[item]) {
+                                        canEnter = false;
+                                        break;
+                                    }
+                                }
+                            }
+                        }
+
+                        if (canEnter) {
+                            visited.add(neighbor);
+                            queue.push([...path, neighbor]);
+                        }
+                    }
+                }
+            }
+            return null;
+        }
+
+        function displayRoute(path, isFallback = false) {
+            const display = document.getElementById('pathDisplay');
+            const warningContainer = document.getElementById('routeWarningContainer');
+            display.innerHTML = '';
+            warningContainer.innerHTML = '';
+
+            const itemNamesRu = {
+                "BICYCLE": "Велосипед",
+                "DIVING_SUIT": "Водолазный Костюм",
+                "ICE_SUIT": "Хладостойкий Костюм",
+                "RUBBER_SUIT": "Резиновый Костюм",
+                "FIRE_SUIT": "Огнеупорный Костюм"
+            };
+
+            const neededItems = new Set();
+
+            path.forEach((loc, i) => {
+                const step = document.createElement('div');
+                step.className = 'path-step';
+                
+                // Проверяем, нужен ли предмет для этого шага (если мы в режиме fallback)
+                let stepMissingItem = false;
+                if (isFallback) {
+                    for (const item in itemsRestrictions) {
+                        if (itemsRestrictions[item].includes(loc) && !ownedItems[item]) {
+                            stepMissingItem = true;
+                            neededItems.add(itemNamesRu[item] || item);
+                        }
+                    }
+                }
+
+                if (stepMissingItem) {
+                    step.classList.add('missing-item');
+                }
+
+                step.textContent = kantoLocations[loc].displayName || kantoLocations[loc].ru_name || kantoLocations[loc].name;
+                display.appendChild(step);
+
+                if (i < path.length - 1) {
+                    const arrow = document.createElement('div');
+                    arrow.className = 'path-arrow';
+                    arrow.innerHTML = '→';
+                    display.appendChild(arrow);
+                }
+            });
+
+            if (isFallback && neededItems.size > 0) {
+                const itemsList = Array.from(neededItems).join(', ');
+                warningContainer.innerHTML = `
+                    <div class="route-warning">
+                        <strong>⚠️ Внимание!</strong>
+                        Чтоб добраться до выбранной вами локации, вам обязательно понадобится: <b>${itemsList}</b>.
+                    </div>
+                `;
+            }
+
+            document.getElementById('routeResult').classList.add('active');
+            highlightedPath = path;
+        }
+
+        function highlightRoute(path) {
+            // Сброс всех подсветок
+            document.querySelectorAll('.connection, .location-node').forEach(el => {
+                el.classList.remove('highlighted', 'route-active');
+            });
+
+            // Скрываем все локации, кроме тех, что в маршруте (через dimmed)
+            document.querySelectorAll('.location-node').forEach(node => {
+                const locName = node.dataset.location;
+                if (!path.includes(locName)) {
+                    node.classList.add('hidden'); // Используем hidden (полупрозрачность) из CSS
+                } else {
+                    node.classList.remove('hidden');
+                }
+            });
+
+            // Подсветка пути и локаций маршрута
+            for (let i = 0; i < path.length; i++) {
+                const node = document.querySelector(`[data-location="${path[i]}"]`);
+                if (node) node.classList.add('route-active');
+
+                if (i < path.length - 1) {
+                    let conn = document.getElementById(`conn-${path[i]}-${path[i + 1]}`);
+                    if (!conn) conn = document.getElementById(`conn-${path[i + 1]}-${path[i]}`); // Пробуем обратный
+                    if (conn) conn.classList.add('highlighted');
+                }
+            }
+        }
+
+        function resetRoute() {
+            selectedFrom = selectedTo = null;
+            highlightedPath = [];
+
+            document.getElementById('fromDisplay').innerHTML = '';
+            document.getElementById('toDisplay').innerHTML = '';
+            document.getElementById('pathDisplay').innerHTML = '';
+            document.getElementById('routeWarningContainer').innerHTML = '';
+            document.getElementById('routeResult').classList.remove('active');
+
+            document.querySelectorAll('.connection, .location-node').forEach(el => {
+                el.classList.remove('highlighted', 'route-active', 'hidden');
+            });
+
+            showAllFilters();
+            showNotification('Маршрут сброшен', 'info');
+        }
+
+        function copyRoute() {
+            if (!highlightedPath.length) return;
+            const text = highlightedPath.map(l => kantoLocations[l].displayName || kantoLocations[l].ru_name || kantoLocations[l].name).join(' → ');
+            navigator.clipboard.writeText(text)
+                .then(() => showNotification('Маршрут скопирован!', 'success'))
+                .catch(() => showNotification('Ошибка копирования', 'error'));
+        }
+
+        // ===== ПОИСК ПОКЕМОНОВ =====
+        function findInWildKanto(capsName) {
+            const found = [];
+            if (!allLocationData) return found;
+            for (const id in allLocationData) {
+                const loc = allLocationData[id];
+                if (loc.region !== 'KANTO') continue; // Только Канто!
+                const enc = loc.encounters?.find(e => e.species === capsName);
+                if (enc) found.push({ ...loc, info: enc });
+            }
+            return found;
+        }
+
+        let highlightTimeout = null;
+
+        function performSearch() {
+            const rawQuery = document.getElementById('kantoSearch').value.trim();
+            if (!rawQuery) return;
+            const query = rawQuery.toLowerCase();
+
+            // Сбрасываем предыдущую подсветку
+            if (highlightTimeout) {
+                clearTimeout(highlightTimeout);
+                highlightTimeout = null;
+            }
+            document.querySelectorAll('.location-node').forEach(n => {
+                n.classList.remove('hidden', 'route-active');
+            });
+
+            // Логика Хилл/Маркет
+            if (query === 'хилл' || query === 'hill' || query === 'center') {
+                highlightByProp('has_pokecenter');
+                return;
+            }
+            if (query === 'маркет' || query === 'market') {
+                highlightByProp('has_pokemart');
+                return;
+            }
+
+            // Поиск по локациям
+            const foundLocation = Object.keys(kantoLocations).find(loc => {
+                const l = kantoLocations[loc];
+                return loc.toLowerCase().includes(query) ||
+                    (l.name && l.name.toLowerCase().includes(query)) ||
+                    (l.ru_name && l.ru_name.toLowerCase().includes(query));
+            });
+
+            if (foundLocation) {
+                // Подсветка найденного
+                document.querySelectorAll('.location-node').forEach(n => n.classList.add('hidden'));
+                const node = document.querySelector(`[data-location="${foundLocation}"]`);
+                if (node) {
+                    node.classList.remove('hidden');
+                    node.classList.add('route-active');
+                    highlightTimeout = setTimeout(() => {
+                        node.classList.remove('route-active');
+                        document.querySelectorAll('.location-node').forEach(n => n.classList.remove('hidden'));
+                    }, 30000);
+                }
+                return;
+            }
+
+            // Поиск покемонов (если локация не найдена)
+            const container = document.getElementById('pokemonResultsContainer');
+            const content = document.getElementById('pokemonResultsContent');
+            const title = document.getElementById('pokemonResultTitle');
+
+            container.style.display = 'block';
+            content.innerHTML = '<div style="width:50px;height:50px;border:5px solid rgba(78,205,196,0.2);border-top-color:var(--primary);border-radius:50%;animation:spin 1s linear infinite;margin:30px auto;"></div>';
+            title.innerHTML = 'Ищем...';
+
+            if (!pokemonDB) {
+                content.innerHTML = '<div style="text-align:center;padding:30px;color:#ff6b6b;">База ещё загружается...</div>';
+                return;
+            }
+
+            const cleanQuery = rawQuery.toLowerCase().replace('#', '');
+            let foundID = pokemonSearchIndex[cleanQuery];
+
+            // Если не нашли напрямую, пробуем найти по ID (если ввели число)
+            if (!foundID && !isNaN(cleanQuery)) {
+                // Пытаемся дополнить нулями (например "25" -> "025")
+                const paddedID = cleanQuery.padStart(3, '0');
+                foundID = pokemonSearchIndex[paddedID] || pokemonSearchIndex[parseInt(cleanQuery).toString()];
+            }
+
+            if (!foundID) {
+                title.innerHTML = '<i class="fas fa-search"></i> Результаты поиска';
+                content.innerHTML = `<div style="text-align:center;padding:30px;color:#ff6b6b;">Не найдено: "<b>${rawQuery}</b>"</div>`;
+                return;
+            }
+
+            const pokemon = pokemonDB[foundID];
+            const searchNameCaps = pokemon.en.toUpperCase().trim();
+            let habitats = findInWildKanto(searchNameCaps);
+            let message = "";
+            let isParentSearch = false;
+
+            if (habitats.length === 0) {
+                let parentFound = false;
+                if (pokemon.evolves_from && pokemon.evolves_from.length > 0) {
+                    const parentId = pokemon.evolves_from[0];
+                    const parent = pokemonDB[parentId];
+                    if (parent) {
+                        const parentLocs = findInWildKanto(parent.en.toUpperCase().trim());
+                        if (parentLocs.length > 0) {
+                            habitats = parentLocs;
+                            isParentSearch = true;
+                            message = `Покемон <b>${pokemon.en}</b> (<i>${pokemon.ru}</i>) не встречается в Канто, но вы можете поймать <b>${parent.en}</b> (<i>${parent.ru}</i>) и эволюционировать.`;
+                            parentFound = true;
+                        }
+                    }
+                }
+                if (!parentFound) {
+                    if (pokemon.is_starter) {
+                        message = `Покемон <b>${pokemon.en}</b> (<i>${pokemon.ru}</i>) является стартовым и в дикой природе не встречается.`;
+                    } else {
+                        const isLegend = pokemon.is_legendary || (pokemon.rarity && pokemon.rarity >= 8);
+                        message = isLegend
+                            ? `Покемон <b>${pokemon.en}</b> (<i>${pokemon.ru}</i>) является легендарным и не имеет конкретного места обитания в Канто.`
+                            : `Покемон <b>${pokemon.en}</b> (<i>${pokemon.ru}</i>) не встречается в дикой природе Канто.`;
+                    }
+                }
+            }
+
+            renderPokemonOutput(foundID, pokemon, habitats, message, isParentSearch);
+        }
+
+        function highlightByProp(prop) {
+            document.querySelectorAll('.location-node').forEach(n => n.classList.add('hidden'));
+            Object.keys(kantoLocations).forEach(key => {
+                if (kantoLocations[key][prop]) {
+                    const node = document.querySelector(`[data-location="${key}"]`);
+                    if (node) {
+                        node.classList.remove('hidden');
+                        node.classList.add('route-active');
+                    }
+                }
+            });
+            highlightTimeout = setTimeout(() => {
+                document.querySelectorAll('.location-node').forEach(n => {
+                    n.classList.remove('hidden', 'route-active');
+                });
+            }, 60000);
+        }
+
+        function renderPokemonOutput(id, p, list, msg, isParent) {
+            const title = document.getElementById('pokemonResultTitle');
+            const content = document.getElementById('pokemonResultsContent');
+
+            title.innerHTML = `<i class="fas fa-search"></i> ${p.ru} / ${p.en}`;
+            const types = p.type ? p.type.map(t => `<span style="background:rgba(255,255,255,0.1);padding:4px 8px;border-radius:5px;margin-right:5px;font-size:0.8rem;">${typeIcons[t] || ''} ${t.toUpperCase()}</span>`).join('') : '';
+
+            // Find correct key for dossier (PIKACHU, NIDORAN_F, etc.)
+            let dossierKey = p.en.toUpperCase();
+            if (pokemonRuData && !pokemonRuData[dossierKey]) {
+                const numericNatId = parseInt(id);
+                for (let k in pokemonRuData) {
+                    if (pokemonRuData[k].NationalId === numericNatId) { dossierKey = k; break; }
+                }
+            }
+
+            let html = `
+                <div style="padding:10px;">
+                    <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:15px;">
+                        <div style="display:flex; align-items:flex-start; gap:12px;">
+                            <div>
+                                <h2 style="color:var(--primary);margin:0;line-height:1.1;">#${id} ${p.ru}</h2>
+                                <span style="color:var(--text-muted);display:block;margin-top:2px;">${p.en}</span>
+                            </div>
+                            <button class="poke-info-btn" onclick="openPokemonDossier('${dossierKey}')" title="Открыть досье" style="width:38px; height:38px; border-radius:50%; border:none; background:rgba(78,205,196,0.25); color:var(--primary); cursor:pointer; transition:var(--transition); display:flex; align-items:center; justify-content:center; font-size:1.1rem; flex-shrink:0; pointer-events: auto !important;">
+                                <i class="fas fa-book-open"></i>
+                            </button>
+                        </div>
+                        <div style="margin-top:4px;">${types}</div>
+                    </div>`;
+
+            if (msg) {
+                let color = 'var(--primary)';
+                let bg = 'rgba(255,255,255,0.05)';
+                if (msg.includes('эволюционировать')) { color = 'var(--accent)'; bg = 'rgba(255,107,107,0.1)'; }
+                if (msg.includes('стартовым')) { color = '#FFD700'; bg = 'rgba(255,215,0,0.1)'; }
+                html += `<div style="padding:15px;border-left:5px solid ${color};background:${bg};border-radius:10px;margin-bottom:20px;line-height:1.5;">${msg}</div>`;
+            } else {
+                html += `<div style="margin-bottom:15px;color:var(--text-muted);">📍 Обитает в Канто:</div>`;
+            }
+
+            if (list.length > 0) {
+                html += `
+                <div style="margin-bottom:15px;padding:15px;background:rgba(40,40,80,0.4);border-radius:10px;">
+                    <h5 style="margin:0 0 10px 0;color:var(--primary);"><i class="fas fa-map-marker-alt"></i> Канто</h5>
+                    <div style="display:grid;gap:8px;">
+                        ${list.map(l => `
+                        <div style="padding:10px;background:rgba(255,255,255,0.05);border-radius:8px;border-left:3px solid ${isParent ? 'var(--accent)' : 'var(--primary)'};display:flex;justify-content:space-between;">
+                            <div>
+                                <strong style="color:white;">${l.ru_name}</strong>
+                                <div style="font-size:0.85rem;color:var(--text-muted);">
+                                    Ур. ${l.info.min_level}-${l.info.max_level} • Шанс: ${l.info.rarity}% ${l.info.conditions ? '⏰' : ''}
+                                </div>
+                            </div>
+                        </div>`).join('')}
+                    </div>
+                </div>`;
+            }
+            html += `</div>`;
+            content.innerHTML = html;
+        }
+
+        // ===== УТИЛИТЫ =====
+        function showNotification(msg, type = 'info') {
+            const notif = document.createElement('div');
+            notif.className = `notification ${type}`;
+            notif.innerHTML = `<i class="fas fa-info-circle"></i> ${msg}`;
+            document.body.appendChild(notif);
+            setTimeout(() => notif.remove(), 3000);
+        }
+
+        function closeModal() {
+            const modal = document.getElementById('locationModal');
+            const overlay = document.getElementById('modalOverlay');
+            if (modal) {
+                modal.classList.remove('active');
+                setTimeout(() => {
+                    modal.remove();
+                    overlay.classList.remove('active');
+                }, 300);
+            }
+        }
+    </script>
+</body>
+
+</html>
