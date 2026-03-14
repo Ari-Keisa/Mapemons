@@ -237,15 +237,19 @@ function findHabitatForDossier(enName) {
  */
 function renderAbilityItem(abilityKey, index) {
     const data = window.abilitiesData ? window.abilitiesData[abilityKey] : null;
-    const ruName = data ? data.ru : abilityKey;
-    const desc = data ? data.desc : null;
-    const displayName = data ? `${ruName} (${abilityKey})` : abilityKey;
+    const ruName = data ? (data.RuName || data.ru) : abilityKey;
+    const desc = data ? (data.Description || data.desc) : null;
+    const displayName = `${ruName} (${abilityKey.toUpperCase()})`;
 
-    if (!desc) return `<span style="color:#ddd;">${displayName}</span>`;
+    if (!desc || desc === 'undefined') {
+        return `<div class="ability-item no-desc">
+            ${displayName}
+        </div>`;
+    }
 
-    return `<span class="ability-item" onclick="toggleAbilityDesc('ab${index}')" id="abBtn${index}">
+    return `<div class="ability-item" onclick="toggleAbilityDesc('ab${index}')" id="abBtn${index}">
         <span class="ability-toggle">▶</span> ${displayName}
-    </span>
+    </div>
     <div class="ability-desc" id="ab${index}">${desc}</div>`;
 }
 
@@ -297,8 +301,8 @@ function openPokemonDossier(pkId) {
 
     const natId = ruData ? ruData.NationalId : parseInt(pkId);
     const numStr = (natId || pkId).toString().replace(/^0+/, '');
-    const ruName = (pk && pk.ru) || (ruData && ruData.Name) || pkId;
-    const enName = (pk && pk.en) || (ruData && ruData.Name) || pkId;
+    const ruName = (ruData && ruData.Name) || (pk && pk.ru) || pkId;
+    const enName = speciesKey || (pk && pk.en) || pkId;
 
     // Sprite path
     const isInPages = window.location.pathname.includes('/pages/');
@@ -336,7 +340,7 @@ function openPokemonDossier(pkId) {
     }
     let hiddenHtml = '';
     if (hiddenArr.length) {
-        hiddenHtml = `<div>🔮 <strong>Скрытые:</strong><br>${hiddenArr.map(a => renderAbilityItem(a, abilityIndex++)).join('')}</div>`;
+        hiddenHtml = `<div style="margin-top:5px;">🔮 <strong>Скрытые:</strong><br>${hiddenArr.map(a => renderAbilityItem(a, abilityIndex++)).join('')}</div>`;
     }
 
     // --- INFO PANEL (right of portrait) ---
@@ -611,17 +615,35 @@ function showFormDossier(speciesId, formIndex) {
 
     overlay.querySelector('.dossier-card').innerHTML = `
         <button class="dossier-close" onclick="closeDossier()"><i class="fas fa-times"></i></button>
-        <h3 style="color:#4ecdc4;margin-bottom:15px;">🔄 ${fName}</h3>
-        <div class="dossier-types" style="margin-bottom:15px;justify-content:flex-start;">${typesHtml}</div>
-        ${tierDisplay ? `<div class="dossier-tier" style="margin-bottom:15px;text-align:left;">🏆 Тир: ${tierDisplay}</div>` : ''}
-        ${pokedex ? `<div class="dossier-pokedex" style="margin-bottom:15px;"><div class="dossier-pokedex-title">📖 Покедекс</div>${pokedex}</div>` : ''}
-        <div class="dossier-info-text">
-            ${abilities ? `<div>✨ <strong>Способности:</strong> ${abilities}</div>` : ''}
-            ${weight ? `<div>⚖️ <strong>Вес:</strong> ${weight} кг</div>` : ''}
+        <div class="dossier-top">
+            <div class="dossier-portrait">
+                <div class="dossier-portrait-frame">
+                    <div class="dossier-num">#${speciesId}</div>
+                    <img src="${(window.location.pathname.includes('/pages/') ? '../' : '')}images/pokemons/${speciesId}.jpg" alt="${fName}" onerror="this.src='${(window.location.pathname.includes('/pages/') ? '../' : '')}images/pokemons/0.jpg'">
+                </div>
+                <div class="dossier-name-block">
+                    <div class="ru">${fName}</div>
+                    <div class="en">Форма покемона</div>
+                </div>
+                <div class="dossier-types">${typesHtml}</div>
+                ${tierDisplay ? `<div class="dossier-tier">🏆 Тир: ${tierDisplay}</div>` : ''}
+            </div>
+            <div class="dossier-info-text">
+                ${abilities ? `<div>✨ <strong>Способности:</strong><br>${abilities}</div>` : ''}
+                ${weight ? `<div>⚖️ <strong>Вес:</strong> ${weight} кг</div>` : ''}
+                ${form.MegaStone ? `<div style="color:#c9b1ff;">💎 Мега-камень: <strong>${form.MegaStone}</strong></div>` : ''}
+            </div>
         </div>
-        ${statsHtml}
-        ${form.MegaStone ? `<div style="margin-top:12px;color:#c9b1ff;">💎 Мега-камень: <strong>${form.MegaStone}</strong></div>` : ''}
-        <button class="form-btn" onclick="openPokemonDossier('${String(speciesId).padStart(3,'0')}')">← Назад к основной форме</button>
+        
+        <div class="dossier-stats-section">
+            ${statsHtml}
+        </div>
+
+        ${pokedex ? `<div class="dossier-pokedex"><div class="dossier-pokedex-title">📖 Покедекс</div>${pokedex}</div>` : ''}
+        
+        <div style="margin-top:25px;">
+            <button class="form-btn" onclick="openPokemonDossier('${String(speciesId).padStart(3,'0')}')">← Назад к основной форме</button>
+        </div>
     `;
 }
 
