@@ -4,7 +4,7 @@
 // ==========================================
 
 // 1. ЛОВЕЦ ОШИБОК
-window.onerror = function(msg, url, line) {
+window.onerror = function (msg, url, line) {
     const box = document.getElementById('pokemonResultsContent');
     const cont = document.getElementById('pokemonResultsContainer');
     if (box && cont) {
@@ -17,7 +17,7 @@ window.onerror = function(msg, url, line) {
     }
 };
 
-document.addEventListener('DOMContentLoaded', function() {
+document.addEventListener('DOMContentLoaded', function () {
     // === ЭЛЕМЕНТЫ ===
     const els = {
         btn: document.getElementById('searchButton'),
@@ -43,7 +43,7 @@ document.addEventListener('DOMContentLoaded', function() {
     if (!els.input) {
         // Если поиска нет, пробуем хотя бы обновить статистику, если она есть
         if (els.statPoks) initStatsOnly();
-        return; 
+        return;
     }
 
     // === ТЕКСТЫ ПОДСКАЗОК ===
@@ -61,13 +61,14 @@ document.addEventListener('DOMContentLoaded', function() {
     window.professionsData = null;
     window.profAffinityData = null;
     window.formsBySpecies = {};
-    let searchIndex = {}; 
+    window.pokemonNamesUpper = null;
+    let searchIndex = {};
 
-    const typeIcons = { 
-        "grass": "🌿", "fire": "🔥", "water": "💧", "electric": "⚡️", "poison": "☠️", 
-        "ice": "❄️", "fighting": "🥊", "ground": "🏜️", "flying": "🕊️", "psychic": "🔮", 
-        "bug": "🐛", "rock": "🗿", "ghost": "👻", "dragon": "🐉", "steel": "⚙️", 
-        "dark": "🌑", "fairy": "✨", "normal": "⚪" 
+    const typeIcons = {
+        "grass": "🌿", "fire": "🔥", "water": "💧", "electric": "⚡️", "poison": "☠️",
+        "ice": "❄️", "fighting": "🥊", "ground": "🏜️", "flying": "🕊️", "psychic": "🔮",
+        "bug": "🐛", "rock": "🗿", "ghost": "👻", "dragon": "🐉", "steel": "⚙️",
+        "dark": "🌑", "fairy": "✨", "normal": "⚪"
     };
     const regionNames = { 'KANTO': 'Канто', 'JOHTO': 'Джото', 'HOENN': 'Хоэнн', 'SINNOH': 'Синно', 'UNOVA': 'Юнова' };
 
@@ -76,30 +77,35 @@ document.addEventListener('DOMContentLoaded', function() {
         try {
             // Важно: Пути к JSON. Если скрипт в папке js/, нам нужно выйти назад (../) или использовать абсолютный путь.
             // Используем относительный путь от HTML файла (обычно работает просто 'json/...')
-            const [pRes, lRes, ruRes, prRes, affRes, fRes] = await Promise.all([
+            const [pRes, lRes, ruRes, prRes, affRes, fRes, uRes] = await Promise.all([
                 fetch('json/pokemon_names.json'),
                 fetch('json/locations.json'),
                 fetch('json/pokemon_ru.json'),
                 fetch('json/professions.json'),
                 fetch('json/profession_affinity.json'),
-                fetch('json/pokemon_forms_ru.json')
+                fetch('json/pokemon_forms_ru.json'),
+                fetch('json/pokemon_names_upper.json').catch(() => ({ ok: false }))
             ]);
 
             if (!pRes.ok) throw new Error(`pokemon_names.json не найден`);
             if (!lRes.ok) throw new Error(`locations.json не найден`);
-            
+
             window.pokemonDB = (await pRes.json()).pokemon || (await pRes.json());
             window.locationData = await lRes.json();
             window.pokemonRuData = await ruRes.json();
             window.professionsData = await prRes.json();
             window.profAffinityData = await affRes.json();
             const formsRaw = await fRes.json();
-            
+            if (uRes && uRes.ok) {
+                const rawUpper = await uRes.json();
+                window.pokemonNamesUpper = rawUpper.pokemon || rawUpper;
+            }
+
             // Группируем формы
             if (Array.isArray(formsRaw)) {
-                for(let f of formsRaw) {
+                for (let f of formsRaw) {
                     const id = String(f.NationalId);
-                    if(!window.formsBySpecies[id]) window.formsBySpecies[id] = [];
+                    if (!window.formsBySpecies[id]) window.formsBySpecies[id] = [];
                     window.formsBySpecies[id].push(f);
                 }
             }
@@ -107,30 +113,30 @@ document.addEventListener('DOMContentLoaded', function() {
             // Строим индекс
             for (let key in pokemonDB) {
                 const p = pokemonDB[key];
-                const id = key.toString(); 
-                searchIndex[id] = id; 
-                searchIndex[parseInt(id).toString()] = id; 
+                const id = key.toString();
+                searchIndex[id] = id;
+                searchIndex[parseInt(id).toString()] = id;
                 if (p.en) searchIndex[p.en.toLowerCase().trim()] = id;
                 if (p.ru) searchIndex[p.ru.toLowerCase().trim()] = id;
             }
 
             console.log('База готова!');
-            
+
             // !!! ЗАПУСК ПОДСЧЕТА !!!
             setTimeout(() => {
                 updateStats();
-            }, 1000); 
-            
+            }, 1000);
+
             buildServiceLists();
 
             if (els.hint) els.hint.textContent = hintTexts['pokemon'];
 
         } catch (e) {
             console.error(e);
-            throw e; 
+            throw e;
         }
     }
-    
+
     // Специальная функция загрузки только для статистики (если нет поиска)
     async function initStatsOnly() {
         try {
@@ -142,7 +148,7 @@ document.addEventListener('DOMContentLoaded', function() {
             locationData = await lRes.json();
             pokemonDB = rawP.pokemon ? rawP.pokemon : rawP;
             updateStats();
-        } catch(e) { console.error(e); }
+        } catch (e) { console.error(e); }
     }
 
     loadData();
@@ -171,7 +177,7 @@ document.addEventListener('DOMContentLoaded', function() {
             if (progress < 1) {
                 window.requestAnimationFrame(step);
             } else {
-                obj.innerHTML = end; 
+                obj.innerHTML = end;
             }
         };
         window.requestAnimationFrame(step);
@@ -233,7 +239,7 @@ document.addEventListener('DOMContentLoaded', function() {
                     message = `Покемон <b>${pokemon.en}</b> (<i>${pokemon.ru}</i>) является стартовым и в дикой природе не встречается.`;
                 } else {
                     const isLegend = pokemon.is_legendary || (pokemon.rarity && pokemon.rarity >= 8);
-                    message = isLegend 
+                    message = isLegend
                         ? `Покемон <b>${pokemon.en}</b> (<i>${pokemon.ru}</i>) является легендарным, но не имеет конкретного места обитания.`
                         : `Покемон <b>${pokemon.en}</b> (<i>${pokemon.ru}</i>) в дикой природе не встречается.`;
                 }
@@ -261,7 +267,7 @@ document.addEventListener('DOMContentLoaded', function() {
         let dossierKey = p.en.toUpperCase();
         if (pokemonRuData && !pokemonRuData[dossierKey]) {
             const numericId = parseInt(id);
-            for(let k in pokemonRuData) { if(pokemonRuData[k].NationalId === numericId) { dossierKey = k; break; } }
+            for (let k in pokemonRuData) { if (pokemonRuData[k].NationalId === numericId) { dossierKey = k; break; } }
         }
 
         let html = `
@@ -291,19 +297,19 @@ document.addEventListener('DOMContentLoaded', function() {
 
         if (list.length > 0) {
             const byReg = {};
-            list.forEach(l => { if(!byReg[l.region]) byReg[l.region] = []; byReg[l.region].push(l); });
+            list.forEach(l => { if (!byReg[l.region]) byReg[l.region] = []; byReg[l.region].push(l); });
             for (const reg in byReg) {
                 html += `
                 <div class="region-section" style="margin-bottom:15px; padding:15px; background:rgba(40,40,80,0.4); border-radius:10px;">
                     <h5 style="margin:0 0 10px 0; color:var(--primary);"><i class="fas fa-map-marker-alt"></i> ${regionNames[reg] || reg}</h5>
                     <div style="display:grid; gap:8px;">
                         ${byReg[reg].map(l => {
-                            // Find correct key for dossier
-                            let dossierKey = p.en.toUpperCase();
-                            if (pokemonRuData && !pokemonRuData[dossierKey]) {
-                                for(let k in pokemonRuData) { if(pokemonRuData[k].NationalId === parseInt(id)) { dossierKey = k; break; } }
-                            }
-                            return `
+                    // Find correct key for dossier
+                    let dossierKey = p.en.toUpperCase();
+                    if (pokemonRuData && !pokemonRuData[dossierKey]) {
+                        for (let k in pokemonRuData) { if (pokemonRuData[k].NationalId === parseInt(id)) { dossierKey = k; break; } }
+                    }
+                    return `
                         <div style="padding:10px; background:rgba(255,255,255,0.05); border-radius:8px; border-left:3px solid ${isParent ? 'var(--accent)' : 'var(--primary)'}; display:flex; justify-content:space-between; align-items:center;">
                             <div>
                                 <strong style="color:white;">${l.ru_name}</strong>
@@ -312,7 +318,7 @@ document.addEventListener('DOMContentLoaded', function() {
                                 </div>
                             </div>
                         </div>`;
-                        }).join('')}
+                }).join('')}
                     </div>
                 </div>`;
             }
@@ -333,16 +339,16 @@ document.addEventListener('DOMContentLoaded', function() {
             if (l.has_pokecenter) (c[l.region] = c[l.region] || []).push(l.ru_name);
             if (l.has_pokemart) (m[l.region] = m[l.region] || []).push(l.ru_name);
         }
-        const render = (d) => { let h = ''; for (const r in d) h += `<div class="region-locations"><h4>${regionNames[r]||r}</h4><div class="locations-grid">${d[r].map(x=>`<div class="location-item">${x}</div>`).join('')}</div></div>`; return h; };
-        if(els.centers) els.centers.innerHTML = render(c);
-        if(els.marts) els.marts.innerHTML = render(m);
+        const render = (d) => { let h = ''; for (const r in d) h += `<div class="region-locations"><h4>${regionNames[r] || r}</h4><div class="locations-grid">${d[r].map(x => `<div class="location-item">${x}</div>`).join('')}</div></div>`; return h; };
+        if (els.centers) els.centers.innerHTML = render(c);
+        if (els.marts) els.marts.innerHTML = render(m);
     }
 
     // === СОБЫТИЯ ===
     els.btn.addEventListener('click', startSearch);
-    els.input.addEventListener('keypress', (e) => { if(e.key === 'Enter') startSearch(); });
-    els.close.addEventListener('click', () => { 
-        els.container.style.display = 'none'; 
+    els.input.addEventListener('keypress', (e) => { if (e.key === 'Enter') startSearch(); });
+    els.close.addEventListener('click', () => {
+        els.container.style.display = 'none';
         if (els.overlay) els.overlay.classList.remove('active');
     });
 
@@ -352,19 +358,19 @@ document.addEventListener('DOMContentLoaded', function() {
             els.overlay.classList.remove('active');
         });
     }
-    
+
     els.opts.forEach(opt => {
-        opt.addEventListener('click', function() {
+        opt.addEventListener('click', function () {
             els.opts.forEach(o => o.classList.remove('active'));
             this.classList.add('active');
             const t = this.dataset.type;
-            
+
             if (t === 'pokemon' || t === 'item') els.box.classList.remove('hidden');
             else els.box.classList.add('hidden');
-            
+
             els.centers.classList.toggle('active', t === 'pokecenter');
             els.marts.classList.toggle('active', t === 'pokemart');
-            
+
             if (els.hint) els.hint.textContent = hintTexts[t] || '';
         });
     });

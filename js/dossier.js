@@ -97,7 +97,7 @@ async function loadAbilitiesData() {
         const isInPages = window.location.pathname.includes('/pages/');
         const resp = await fetch((isInPages ? '../' : '') + 'json/abilities.json');
         if (resp.ok) window.abilitiesData = await resp.json();
-    } catch(e) { console.warn('abilities.json not loaded', e); }
+    } catch (e) { console.warn('abilities.json not loaded', e); }
 }
 
 // Auto-load abilities
@@ -142,7 +142,7 @@ function buildFullEvoTree(speciesKey) {
     // Find root of chain by traversing evolves_from in pokemonDB
     let rootKey = speciesKey;
     const visited = new Set();
-    
+
     // Try to find root via pokemonDB
     if (typeof pokemonDB !== 'undefined') {
         let currentId = null;
@@ -182,12 +182,18 @@ function buildFullEvoTree(speciesKey) {
             const evoMethod = parts[1] || '';
             const evoParam = parts[2] || '';
 
-            // Get Russian names
-            const fromRu = getRuName(key);
-            const toRu = getRuName(evoSpecies);
+            // Get Russian names and IDs for clicking
+            const fromData = getEvoSpeciesData(key);
+            const toData = getEvoSpeciesData(evoSpecies);
             const cond = translateEvoCondition(evoMethod, evoParam);
 
-            allPaths.push({ from: fromRu, to: toRu, cond: cond });
+            allPaths.push({
+                from: fromData.name,
+                fromKey: fromData.id,
+                to: toData.name,
+                toKey: toData.id,
+                cond: cond
+            });
             traverse(evoSpecies.toUpperCase());
         }
     }
@@ -197,23 +203,36 @@ function buildFullEvoTree(speciesKey) {
 }
 
 /**
- * Get Russian name for a species key
+ * Get name and ID for a species key (for evolution chain)
  */
-function getRuName(key) {
+function getEvoSpeciesData(key) {
     const upper = key.toUpperCase();
+    let name = key;
+    let id = key;
+
     // Try pokemonDB first
     if (typeof pokemonDB !== 'undefined') {
-        for (const id in pokemonDB) {
-            if (pokemonDB[id].en && pokemonDB[id].en.toUpperCase() === upper) {
-                return pokemonDB[id].ru || pokemonDB[id].en || key;
+        for (const pid in pokemonDB) {
+            if (pokemonDB[pid].en && pokemonDB[pid].en.toUpperCase() === upper) {
+                name = pokemonDB[pid].ru || pokemonDB[pid].en || key;
+                id = pid;
+                return { name, id };
             }
         }
     }
     // Try pokemonRuData
     if (typeof pokemonRuData !== 'undefined' && pokemonRuData[upper]) {
-        return pokemonRuData[upper].Name || key;
+        name = pokemonRuData[upper].Name || key;
+        id = upper;
     }
-    return key;
+    return { name, id };
+}
+
+/**
+ * Get Russian name for a species key
+ */
+function getRuName(key) {
+    return getEvoSpeciesData(key).name;
 }
 
 /**
@@ -301,12 +320,22 @@ function openPokemonDossier(pkId) {
 
     const natId = ruData ? ruData.NationalId : parseInt(pkId);
     const numStr = (natId || pkId).toString().replace(/^0+/, '');
-    const ruName = (ruData && ruData.Name) || (pk && pk.ru) || pkId;
+
+    let ruName = (pk && pk.ru) || null;
+    if (!ruName && window.pokemonNamesUpper) {
+        const paddedId = natId ? natId.toString().padStart(3, '0') : pkId.toString().padStart(3, '0');
+        if (window.pokemonNamesUpper[paddedId] && window.pokemonNamesUpper[paddedId].ru) {
+            ruName = window.pokemonNamesUpper[paddedId].ru;
+        }
+    }
+    if (!ruName) {
+        ruName = (ruData && (ruData.RuName || ruData.Name)) || pkId;
+    }
     const enName = speciesKey || (pk && pk.en) || pkId;
 
     // Sprite path
     const isInPages = window.location.pathname.includes('/pages/');
-    const spritePath = (isInPages ? '../' : '') + `images/pokemons/${natId}.jpg`;
+    const spritePath = (isInPages ? '../' : '') + `home/${natId}.png`;
 
     // Types
     let types = [];
@@ -387,13 +416,18 @@ function openPokemonDossier(pkId) {
     if (evoPaths.length > 0) {
         evoHtml = `<div class="dossier-section">
             <div class="dossier-section-title">🔄 Цепочка эволюций</div>
-            ${evoPaths.map(p => `<div class="evo-row">
-                <span class="evo-species">${p.from}</span>
-                <span class="evo-arrow">→</span>
-                <span class="evo-cond">${p.cond}</span>
-                <span class="evo-arrow">→</span>
-                <span class="evo-species">${p.to}</span>
-            </div>`).join('')}
+            ${evoPaths.map(p => {
+            const fromPadded = p.fromKey && !isNaN(p.fromKey) ? p.fromKey.toString().padStart(3, '0') : p.fromKey;
+            const toPadded = p.toKey && !isNaN(p.toKey) ? p.toKey.toString().padStart(3, '0') : p.toKey;
+
+            return `<div class="evo-row">
+                    <span class="evo-species" onclick="openPokemonDossier('${p.fromKey}')">${p.from}</span>
+                    <span class="evo-arrow">→</span>
+                    <span class="evo-cond">${p.cond}</span>
+                    <span class="evo-arrow">→</span>
+                    <span class="evo-species" onclick="openPokemonDossier('${p.toKey}')">${p.to}</span>
+                </div>`;
+        }).join('')}
         </div>`;
     }
 
@@ -531,7 +565,7 @@ function openPokemonDossier(pkId) {
                 <div class="dossier-portrait">
                     <div class="dossier-portrait-frame">
                         <div class="dossier-num">#${numStr}</div>
-                        <img src="${spritePath}" alt="${enName}" onerror="this.src='${isInPages ? '../' : ''}images/pokemons/0.jpg'">
+                        <img src="${spritePath}" alt="${enName}" onerror="this.src='${isInPages ? '../' : ''}home/0.png'">
                     </div>
                     <div class="dossier-name-block">
                         <div class="ru">${ruName}</div>
@@ -592,14 +626,14 @@ function showFormDossier(speciesId, formIndex) {
         const icon = typeIcons[t.toLowerCase()] || '';
         return `<span class="dossier-type-badge" style="background:${color}">${icon} ${t.charAt(0).toUpperCase() + t.slice(1)}</span>`;
     }).join('');
-    
+
     const format = form.Format || '';
     const tierDisplay = format ? (tierMap[format] || format) : '';
     const pokedex = form.Pokedex || '';
     const abilities = form.Abilities ? form.Abilities.join(', ') : '';
     const weight = form.Weight != null ? (form.Weight / 10).toFixed(1) : '';
     const bs = form.BaseStats || null;
-    
+
     let statsHtml = '';
     if (bs) {
         const statNames = { HP: 'HP', Atk: 'Атк', Def: 'Защ', SpAtk: 'СА', SpDef: 'СЗ', Spd: 'Скор' };
@@ -619,7 +653,7 @@ function showFormDossier(speciesId, formIndex) {
             <div class="dossier-portrait">
                 <div class="dossier-portrait-frame">
                     <div class="dossier-num">#${speciesId}</div>
-                    <img src="${(window.location.pathname.includes('/pages/') ? '../' : '')}images/pokemons/${speciesId}.jpg" alt="${fName}" onerror="this.src='${(window.location.pathname.includes('/pages/') ? '../' : '')}images/pokemons/0.jpg'">
+                    <img src="${(window.location.pathname.includes('/pages/') ? '../' : '')}home/${speciesId}.png" alt="${fName}" onerror="this.src='${(window.location.pathname.includes('/pages/') ? '../' : '')}home/0.png'">
                 </div>
                 <div class="dossier-name-block">
                     <div class="ru">${fName}</div>
@@ -642,7 +676,7 @@ function showFormDossier(speciesId, formIndex) {
         ${pokedex ? `<div class="dossier-pokedex"><div class="dossier-pokedex-title">📖 Покедекс</div>${pokedex}</div>` : ''}
         
         <div style="margin-top:25px;">
-            <button class="form-btn" onclick="openPokemonDossier('${String(speciesId).padStart(3,'0')}')">← Назад к основной форме</button>
+            <button class="form-btn" onclick="openPokemonDossier('${String(speciesId).padStart(3, '0')}')">← Назад к основной форме</button>
         </div>
     `;
 }
