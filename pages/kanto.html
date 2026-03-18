@@ -2024,7 +2024,7 @@
         document.addEventListener('DOMContentLoaded', async function () {
             try {
                 // Грузим все файлы параллельно
-                const [locRes, layRes, pokRes, npcsRes, pkRuRes, profRes, profAffRes, pkFormsRes, itemsRes] = await Promise.all([
+                const [locRes, layRes, pokRes, npcsRes, pkRuRes, profRes, profAffRes, pkFormsRes, itemsRes, pkUpperRes] = await Promise.all([
                     fetch('../json/locations.json'),
                     fetch('../json/location_layout.json'),
                     fetch('../json/pokemon_names.json'),
