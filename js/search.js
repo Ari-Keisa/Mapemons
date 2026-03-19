@@ -55,6 +55,8 @@ document.addEventListener('DOMContentLoaded', function () {
     };
 
     // === ДАННЫЕ (Экспортируем в глобальную область для dossier.js) ===
+    let pokemonDB = null;
+    let locationData = null;
     window.pokemonDB = null;
     window.locationData = null;
     window.pokemonRuData = null;
@@ -90,8 +92,10 @@ document.addEventListener('DOMContentLoaded', function () {
             if (!pRes.ok) throw new Error(`pokemon_names.json не найден`);
             if (!lRes.ok) throw new Error(`locations.json не найден`);
 
-            window.pokemonDB = (await pRes.json()).pokemon || (await pRes.json());
-            window.locationData = await lRes.json();
+            pokemonDB = (await pRes.json()).pokemon || (await pRes.json());
+            locationData = await lRes.json();
+            window.pokemonDB = pokemonDB;
+            window.locationData = locationData;
             window.pokemonRuData = await ruRes.json();
             window.professionsData = await prRes.json();
             window.profAffinityData = await affRes.json();
@@ -123,9 +127,7 @@ document.addEventListener('DOMContentLoaded', function () {
             console.log('База готова!');
 
             // !!! ЗАПУСК ПОДСЧЕТА !!!
-            setTimeout(() => {
-                updateStats();
-            }, 1000);
+            updateStats();
 
             buildServiceLists();
 
