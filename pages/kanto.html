@@ -1334,9 +1334,88 @@
             transition: var(--transition);
         }
 
+        .item-tag.clickable {
+            cursor: pointer;
+        }
+
         .item-tag:hover {
             background: rgba(255, 215, 0, 0.2);
             transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(255, 215, 0, 0.1);
+        }
+
+        /* Item Info Modal */
+        .item-modal-content {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            padding: 10px 0;
+        }
+
+        .item-modal-header {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            padding-bottom: 15px;
+        }
+
+        .item-modal-sticker {
+            font-size: 3rem;
+            background: rgba(255, 255, 255, 0.05);
+            width: 80px;
+            height: 80px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 20px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .item-modal-title-group {
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+        }
+
+        .item-modal-ru-name {
+            font-size: 1.4rem;
+            font-weight: 700;
+            color: #ffd700;
+        }
+
+        .item-modal-en-name {
+            font-size: 0.9rem;
+            color: var(--text-muted);
+            font-style: italic;
+        }
+
+        .item-modal-desc {
+            font-size: 1.05rem;
+            line-height: 1.6;
+            color: rgba(255, 255, 255, 0.9);
+            background: rgba(0, 0, 0, 0.2);
+            padding: 15px;
+            border-radius: 12px;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        .item-modal-footer {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 10px;
+            font-size: 0.95rem;
+        }
+
+        .item-modal-price {
+            color: #4ecdc4;
+            font-weight: 600;
+        }
+
+        .item-modal-id {
+            color: var(--text-muted);
+            font-size: 0.8rem;
         }
 
         /* Empty state */
@@ -2019,12 +2098,14 @@
         let npcByLocation = {};        // location_id -> [{ru_name, description}]
         let pokemonUpperIndex = {};    // UPPERCASE_EN -> "001"
         window.formsBySpecies = {};       // speciesId -> [form, ...]
+        let itemMap = {};                 // Location -> [ItemStrings]
+        let itemRuToKey = {};             // "StickerName" -> "ITEM_KEY"
 
         // ===== 1. ЗАГРУЗКА ДАННЫХ =====
         document.addEventListener('DOMContentLoaded', async function () {
             try {
                 // Грузим все файлы параллельно
-                const [locRes, layRes, pokRes, npcsRes, pkRuRes, profRes, profAffRes, pkFormsRes, itemsRes, pkUpperRes] = await Promise.all([
+                const [locRes, layRes, pokRes, npcsRes, pkRuRes, profRes, profAffRes, pkFormsRes, itemsRes, itemMapRes, pkUpperRes] = await Promise.all([
                     fetch('../json/locations.json'),
                     fetch('../json/location_layout.json'),
                     fetch('../json/pokemon_names.json'),
@@ -2034,6 +2115,7 @@
                     fetch('../json/profession_affinity.json').catch(() => ({ ok: false })),
                     fetch('../json/pokemon_forms_ru.json').catch(() => ({ ok: false })),
                     fetch('../json/items.json').catch(() => ({ ok: false })),
+                    fetch('../json/item.json').catch(() => ({ ok: false })),
                     fetch('../json/pokemon_names_upper.json').catch(() => ({ ok: false }))
                 ]);
                 const rawLocs = await locRes.json();
@@ -2047,9 +2129,20 @@
                 if (profAffRes.ok) profAffinityData = await profAffRes.json();
                 if (pkFormsRes.ok) pokemonFormsData = await pkFormsRes.json();
                 if (itemsRes.ok) itemsData = await itemsRes.json();
+                if (itemMapRes && itemMapRes.ok) itemMap = await itemMapRes.json();
                 if (pkUpperRes && pkUpperRes.ok) {
                     const rawUpper = await pkUpperRes.json();
                     window.pokemonNamesUpper = rawUpper.pokemon || rawUpper;
+                }
+
+                // Строим реверсивный индекс предметов (Sticker + RuName -> Key)
+                itemRuToKey = {};
+                if (itemsData) {
+                    for (const key in itemsData) {
+                        const it = itemsData[key];
+                        const fullRu = (it.Sticker || "") + (it.RuName || "");
+                        if (fullRu) itemRuToKey[fullRu] = key;
+                    }
                 }
 
                 // Сохраняем все локации для поиска покемонов
@@ -2839,10 +2932,16 @@
             }
 
             // --- Items tab content ---
-            const locItems = (itemsData && itemsData.KANTO && itemsData.KANTO[name]) || [];
+            const locItems = (itemMap && itemMap.KANTO && itemMap.KANTO[name]) || [];
             let itemsHtml = '';
             if (locItems.length > 0) {
-                itemsHtml = '<div class="items-list">' + locItems.map(it => `<div class="item-tag">${it}</div>`).join('') + '</div>';
+                itemsHtml = '<div class="items-list">' + locItems.map(it => {
+                    const itemKey = itemRuToKey[it];
+                    if (itemKey) {
+                        return `<div class="item-tag clickable" onclick="openItemInfo('${itemKey}')" title="Подробнее">${it}</div>`;
+                    }
+                    return `<div class="item-tag">${it}</div>`;
+                }).join('') + '</div>';
             } else {
                 itemsHtml = '<div class="loc-empty"><div class="loc-empty-icon">🚫</div><div class="loc-empty-text">Предметы в этой локации не найдены</div></div>';
             }
@@ -2881,6 +2980,70 @@
             document.getElementById('modalOverlay').classList.add('active');
             setTimeout(() => modal.classList.add('active'), 10);
             modal.querySelector('.modal-close').addEventListener('click', closeModal);
+        }
+
+        function openItemInfo(key) {
+            const item = itemsData[key];
+            if (!item) return;
+
+            const modal = document.createElement('div');
+            modal.className = 'modal';
+            modal.id = 'itemInfoModal';
+
+            const priceHtml = item.Price > 0 
+                ? `<span class="item-modal-price">💰 Цена: ${item.Price.toLocaleString()} ₽</span>` 
+                : '<span class="item-modal-price">💎 Редкий предмет</span>';
+
+            modal.innerHTML = `
+                <div class="modal-header">
+                    <div>
+                        <h3>${item.RuName || item.Name}</h3>
+                        <small>${item.Name}</small>
+                    </div>
+                    <button class="modal-close">
+                        <i class="fas fa-times"></i>
+                    </button>
+                </div>
+                <div class="modal-content">
+                    <div class="item-modal-content">
+                        <div class="item-modal-header">
+                            <div class="item-modal-sticker">${item.Sticker || '📦'}</div>
+                            <div class="item-modal-title-group">
+                                <div class="item-modal-ru-name">${item.RuName || item.Name}</div>
+                                <div class="item-modal-en-name">${item.Name}</div>
+                            </div>
+                        </div>
+                        <div class="item-modal-desc">${item.Description || 'Описание отсутствует.'}</div>
+                        <div class="item-modal-footer">
+                            ${priceHtml}
+                            <span class="item-modal-id">ID: ${item.num_id || '???'}</span>
+                        </div>
+                    </div>
+                </div>
+            `;
+
+            document.body.appendChild(modal);
+            document.getElementById('modalOverlay').classList.add('active');
+            setTimeout(() => modal.classList.add('active'), 10);
+            
+            const closeBtn = modal.querySelector('.modal-close');
+            const closeItemModal = () => {
+                modal.classList.remove('active');
+                setTimeout(() => {
+                    modal.remove();
+                    document.getElementById('modalOverlay').classList.remove('active');
+                }, 300);
+            };
+            
+            closeBtn.addEventListener('click', closeItemModal);
+            
+            // Close on click outside
+            document.getElementById('modalOverlay').addEventListener('click', function overlayClick(e) {
+                if (e.target === this) {
+                    closeItemModal();
+                    this.removeEventListener('click', overlayClick);
+                }
+            }, { once: true });
         }
 
         function switchLocTab(btn, panelId) {
