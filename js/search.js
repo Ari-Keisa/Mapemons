@@ -321,12 +321,12 @@ document.addEventListener('DOMContentLoaded', function () {
             ancestorHabitats.forEach((ah, idx) => {
                 const ancName = ah.pokemon.ru || ah.pokemon.en;
                 html += `
-                <div style="margin-bottom:10px;">
-                    <button onclick="document.getElementById('searchAnc${idx}').style.display = document.getElementById('searchAnc${idx}').style.display === 'none' ? 'block' : 'none'" style="width:100%; text-align:left; padding:12px; background:rgba(255,107,107,0.15); border:1px solid rgba(255,107,107,0.3); border-radius:8px; color:white; cursor:pointer; font-size:0.9rem; display:flex; justify-content:space-between; align-items:center;">
-                        <span>🗺 Посмотреть место жительства <b>${ancName}</b> (${ah.pokemon.en})</span>
+                <div style="margin-bottom:12px;">
+                    <button onclick="document.getElementById('searchAnc${idx}').style.display = document.getElementById('searchAnc${idx}').style.display === 'none' ? 'block' : 'none'" style="width:100%; text-align:left; padding:12px 15px; background:rgba(255, 107, 107, 0.05); border:2px solid rgba(255, 107, 107, 0.6); border-radius:10px; color:white; cursor:pointer; font-size:14px; font-weight:bold; display:flex; justify-content:space-between; align-items:center; transition: all 0.3s ease; box-shadow: 0 0 15px rgba(255, 107, 107, 0.2);">
+                        <span><i class="fas fa-paw"></i> Посмотреть место жительства <b>${ancName}</b></span>
                         <i class="fas fa-chevron-down"></i>
                     </button>
-                    <div id="searchAnc${idx}" style="display:none; padding-top:10px;">
+                    <div id="searchAnc${idx}" style="display:none; margin-top:10px; animation: fadeIn 0.3s ease;">
                         ${renderHabitats(ah.locations, 'var(--accent)')}
                     </div>
                 </div>`;
