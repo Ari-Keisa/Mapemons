@@ -443,18 +443,20 @@ function openPokemonDossier(pkId) {
     if (evoPaths.length > 0) {
         evoHtml = `<div class="dossier-section">
             <div class="dossier-section-title">🔄 Цепочка эволюций</div>
-            ${evoPaths.map(p => {
+            <div class="dossier-section-content">
+                ${evoPaths.map(p => {
             const fromPadded = p.fromKey && !isNaN(p.fromKey) ? p.fromKey.toString().padStart(3, '0') : p.fromKey;
             const toPadded = p.toKey && !isNaN(p.toKey) ? p.toKey.toString().padStart(3, '0') : p.toKey;
 
             return `<div class="evo-row">
-                    <span class="evo-species" onclick="openPokemonDossier('${p.fromKey}')">${p.from}</span>
-                    <span class="evo-arrow">→</span>
-                    <span class="evo-cond">${p.cond}</span>
-                    <span class="evo-arrow">→</span>
-                    <span class="evo-species" onclick="openPokemonDossier('${p.toKey}')">${p.to}</span>
-                </div>`;
+                        <span class="evo-species" onclick="openPokemonDossier('${p.fromKey}')">${p.from}</span>
+                        <span class="evo-arrow">→</span>
+                        <span class="evo-cond">${p.cond}</span>
+                        <span class="evo-arrow">→</span>
+                        <span class="evo-species" onclick="openPokemonDossier('${p.toKey}')">${p.to}</span>
+                    </div>`;
         }).join('')}
+            </div>
         </div>`;
     }
 
@@ -467,23 +469,25 @@ function openPokemonDossier(pkId) {
         habitats.forEach(l => { if (!byReg[l.region]) byReg[l.region] = []; byReg[l.region].push(l); });
         habitatHtml = `<div class="dossier-section">
             <div class="dossier-section-title">📍 Среда обитания</div>
-            ${Object.entries(byReg).map(([reg, locs]) => `
-                <div class="habitat-region" style="margin-top:10px; padding:15px; background:rgba(40,40,80,0.4); border-radius:10px; border: 1px solid rgba(255,255,255,0.05);">
-                    <div style="color:var(--primary); font-size:0.9rem; margin-bottom:10px; font-weight:bold; display:flex; align-items:center; gap:8px;">
-                        <i class="fas fa-map-marker-alt" style="font-size:0.8rem;"></i> ${regionNames[reg] || reg}
-                    </div>
-                    <div style="display:grid; gap:8px;">
-                        ${locs.map(l => `
-                            <div class="habitat-loc" style="padding:10px; background:rgba(255,255,255,0.05); border-radius:8px; border-left:3px solid var(--primary); font-size:0.85rem; display:flex; justify-content:space-between; align-items:center;">
-                                <div>
-                                    <div style="color:white; font-weight:bold;">${l.ru_name || l.name}</div>
-                                    <div style="color:var(--text-muted); font-size:0.8rem;">
-                                        Ур. ${l.info.min_level}-${l.info.max_level} • ${l.info.rarity === 0 ? 'О' : (l.info.rarity === 1 ? 'Р!' : 'Р' + l.info.rarity)} ${l.info.conditions ? '⏰' : ''}
+            <div class="dossier-section-content">
+                ${Object.entries(byReg).map(([reg, locs]) => `
+                    <div class="habitat-region" style="margin-top:10px; padding:15px; background:rgba(40,40,80,0.4); border-radius:10px; border: 1px solid rgba(255,255,255,0.05);">
+                        <div style="color:var(--primary); font-size:0.9rem; margin-bottom:10px; font-weight:bold; display:flex; align-items:center; gap:8px;">
+                            <i class="fas fa-map-marker-alt" style="font-size:0.8rem;"></i> ${regionNames[reg] || reg}
+                        </div>
+                        <div style="display:grid; gap:8px;">
+                            ${locs.map(l => `
+                                <div class="habitat-loc" style="padding:10px; background:rgba(255,255,255,0.05); border-radius:8px; border-left:3px solid var(--primary); font-size:0.85rem; display:flex; justify-content:space-between; align-items:center;">
+                                    <div>
+                                        <div style="color:white; font-weight:bold;">${l.ru_name || l.name}</div>
+                                        <div style="color:var(--text-muted); font-size:0.8rem;">
+                                            Ур. ${l.info.min_level}-${l.info.max_level} • ${l.info.rarity === 0 ? 'О' : (l.info.rarity === 1 ? 'Р!' : 'Р' + l.info.rarity)} ${l.info.conditions ? '⏰' : ''}
+                                        </div>
                                     </div>
-                                </div>
-                            </div>`).join('')}
-                    </div>
-                </div>`).join('')}
+                                </div>`).join('')}
+                        </div>
+                    </div>`).join('')}
+            </div>
         </div>`;
     } else {
         // Check for ancestors
@@ -516,9 +520,10 @@ function openPokemonDossier(pkId) {
 
         ancestorsHtml = `<div class="dossier-section">
             <div class="dossier-section-title">📍 Среда обитания</div>
-            <div style="padding:15px; border-left:5px solid ${color}; background:${bg}; border-radius:10px; margin-bottom:20px; line-height:1.5; font-size:14px;">
-                ${message}
-            </div>`;
+            <div class="dossier-section-content">
+                <div style="padding:15px; border-left:5px solid ${color}; background:${bg}; border-radius:10px; margin-bottom:20px; line-height:1.5; font-size:14px;">
+                    ${message}
+                </div>`;
 
         if (ancestors.length > 0) {
             ancestors.forEach((anc, idx) => {
@@ -563,7 +568,7 @@ function openPokemonDossier(pkId) {
                 }
             });
         }
-        ancestorsHtml += `</div>`;
+        ancestorsHtml += `</div></div>`;
         habitatHtml = ancestorsHtml;
     }
 
