@@ -382,6 +382,10 @@ function openPokemonDossier(pkId) {
         ${height || weight ? `<div>${height ? `📏 <strong>Рост:</strong> ${height} м` : ''}${height && weight ? ' | ' : ''}${weight ? `⚖️ <strong>Вес:</strong> ${weight} кг` : ''}</div>` : ''}
     </div>`;
 
+    // --- NAVIGATION ---
+    const prevId = (natId && natId > 1) ? (natId - 1).toString().padStart(3, '0') : null;
+    const nextId = (natId && natId < 1025) ? (natId + 1).toString().padStart(3, '0') : null;
+
     // --- STATS (full width) ---
     const bsArr = (ruData && ruData.BaseStats) ? ruData.BaseStats : null;
     let statsHtml = '';
@@ -560,7 +564,11 @@ function openPokemonDossier(pkId) {
 
     overlay.innerHTML = `
         <div class="dossier-card">
-            <button class="dossier-close" onclick="closeDossier()"><i class="fas fa-times"></i></button>
+            <div class="dossier-controls">
+                ${prevId ? `<button class="dossier-nav-btn dossier-prev" onclick="openPokemonDossier('${prevId}')" title="Предыдущий (#${natId - 1})"><i class="fas fa-chevron-left"></i></button>` : ''}
+                <button class="dossier-close" onclick="closeDossier()"><i class="fas fa-times"></i></button>
+                ${nextId ? `<button class="dossier-nav-btn dossier-next" onclick="openPokemonDossier('${nextId}')" title="Следующий (#${natId + 1})"><i class="fas fa-chevron-right"></i></button>` : ''}
+            </div>
             <div class="dossier-top">
                 <div class="dossier-portrait">
                     <div class="dossier-portrait-frame">
@@ -647,8 +655,15 @@ function showFormDossier(speciesId, formIndex) {
         }
     }
 
+    const prevId = (speciesId > 1) ? (speciesId - 1).toString().padStart(3, '0') : null;
+    const nextId = (speciesId < 1025) ? (speciesId + 1).toString().padStart(3, '0') : null;
+
     overlay.querySelector('.dossier-card').innerHTML = `
-        <button class="dossier-close" onclick="closeDossier()"><i class="fas fa-times"></i></button>
+        <div class="dossier-controls">
+            ${prevId ? `<button class="dossier-nav-btn dossier-prev" onclick="openPokemonDossier('${prevId}')" title="Предыдущий (#${speciesId - 1})"><i class="fas fa-chevron-left"></i></button>` : ''}
+            <button class="dossier-close" onclick="closeDossier()"><i class="fas fa-times"></i></button>
+            ${nextId ? `<button class="dossier-nav-btn dossier-next" onclick="openPokemonDossier('${nextId}')" title="Следующий (#${speciesId + 1})"><i class="fas fa-chevron-right"></i></button>` : ''}
+        </div>
         <div class="dossier-top">
             <div class="dossier-portrait">
                 <div class="dossier-portrait-frame">
