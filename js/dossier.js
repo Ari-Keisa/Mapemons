@@ -478,7 +478,7 @@ function openPokemonDossier(pkId) {
                                 <div>
                                     <div style="color:white; font-weight:bold;">${l.ru_name || l.name}</div>
                                     <div style="color:var(--text-muted); font-size:0.8rem;">
-                                        Ур. ${l.info.min_level}-${l.info.max_level} • Шанс: ${l.info.rarity}% ${l.info.conditions ? '⏰' : ''}
+                                        Ур. ${l.info.min_level}-${l.info.max_level} • ${l.info.rarity === 0 ? 'О' : (l.info.rarity === 1 ? 'Р!' : 'Р' + l.info.rarity)} ${l.info.conditions ? '⏰' : ''}
                                     </div>
                                 </div>
                             </div>`).join('')}
@@ -547,7 +547,7 @@ function openPokemonDossier(pkId) {
                                                 <div>
                                                     <div style="color:white; font-weight:bold;">${l.ru_name || l.name}</div>
                                                     <div style="color:var(--text-muted); font-size:0.8rem;">
-                                                        Ур. ${l.info.min_level}-${l.info.max_level} • Шанс: ${l.info.rarity}% ${l.info.conditions ? '⏰' : ''}
+                                                        Ур. ${l.info.min_level}-${l.info.max_level} • ${l.info.rarity === 0 ? 'О' : (l.info.rarity === 1 ? 'Р!' : 'Р' + l.info.rarity)} ${l.info.conditions ? '⏰' : ''}
                                                     </div>
                                                 </div>
                                             </div>`).join('')}

@@ -2817,6 +2817,8 @@
                     let rarityLabel = '';
                     if (!enc.rarity) {
                         rarityLabel = 'О';
+                    } else if (enc.rarity === 1) {
+                        rarityLabel = 'Р!';
                     } else {
                         rarityLabel = 'Р' + enc.rarity;
                     }

@@ -351,7 +351,7 @@ document.addEventListener('DOMContentLoaded', function () {
                             <div>
                                 <strong style="color:white;">${l.ru_name}</strong>
                                 <div style="font-size:0.85rem; color:var(--text-muted);">
-                                    Ур. ${l.info.min_level}-${l.info.max_level} • Шанс: ${l.info.rarity}% ${l.info.conditions ? '⏰' : ''}
+                                    Ур. ${l.info.min_level}-${l.info.max_level} • ${l.info.rarity === 0 ? 'О' : (l.info.rarity === 1 ? 'Р!' : 'Р' + l.info.rarity)} ${l.info.conditions ? '⏰' : ''}
                                 </div>
                             </div>
                         </div>`).join('')}
