@@ -307,7 +307,15 @@ function toggleAbilityDesc(id) {
 /**
  * Opens the Pokémon dossier modal
  */
-function openPokemonDossier(pkId, isShiny = false) {
+function openPokemonDossier(pkId, isShiny = false, formIndex = null) {
+    if (!pkId) return;
+
+    // Поддержка "ID_FORM" формата
+    if (typeof pkId === 'string' && pkId.includes('_')) {
+        const parts = pkId.split('_');
+        pkId = parts[0];
+        formIndex = parts[1] === 'null' ? null : parseInt(parts[1], 10);
+    }
     if (typeof pokemonDB === 'undefined' || typeof pokemonRuData === 'undefined') {
         console.error('Core data (pokemonDB/pokemonRuData) not loaded');
         return;
@@ -341,8 +349,8 @@ function openPokemonDossier(pkId, isShiny = false) {
 
     if (!pk && !ruData) return;
 
-    const natId = ruData ? ruData.NationalId : parseInt(pkId);
-    const numStr = (natId || pkId).toString().replace(/^0+/, '');
+    let natId = ruData ? ruData.NationalId : parseInt(pkId);
+    let numStr = (natId || pkId).toString().replace(/^0+/, '');
 
     let ruName = (pk && pk.ru) || null;
     if (!ruName && window.pokemonNamesUpper) {
@@ -354,11 +362,47 @@ function openPokemonDossier(pkId, isShiny = false) {
     if (!ruName) {
         ruName = (ruData && (ruData.RuName || ruData.Name)) || pkId;
     }
-    const enName = speciesKey || (pk && pk.en) || pkId;
+    let enName = speciesKey || (pk && pk.en) || pkId;
+
+    // --- FORM OVERRIDES ---
+    let forms = [];
+    if (typeof formsBySpecies !== 'undefined') {
+        forms = formsBySpecies[String(natId)] || [];
+    }
+
+    let activeForm = null;
+    if (formIndex !== null && forms[formIndex]) {
+        activeForm = forms[formIndex];
+        
+        ruData = ruData ? { ...ruData } : {};
+        if (activeForm.BaseStats) ruData.BaseStats = activeForm.BaseStats;
+        if (activeForm.Types) ruData.Types = activeForm.Types.split(',').map(t => t.trim().toLowerCase());
+        if (activeForm.Weight) ruData.Weight = activeForm.Weight;
+        if (activeForm.Abilities) ruData.Abilities = activeForm.Abilities;
+        if (activeForm.FormName) ruName = activeForm.FormName;
+
+        if (activeForm.Types && pk) {
+            pk = { ...pk };
+            pk.type = activeForm.Types.split(',').map(t => t.toLowerCase().trim());
+        }
+    }
 
     // Sprite path
     const isInPages = window.location.pathname.includes('/pages/');
-    const spritePath = (isInPages ? '../' : '') + `home/${isShiny ? 'shiny/' : ''}${natId}.png`;
+    let spritePath = '';
+    if (activeForm) {
+        spritePath = isShiny ? activeForm.ShinySpritePath : activeForm.SpritePath;
+        if (spritePath) {
+            if (isInPages && spritePath.startsWith('shared/assets/')) {
+                spritePath = '../' + spritePath.replace('shared/assets/', '');
+            } else if (!isInPages && spritePath.startsWith('shared/assets/')) {
+                spritePath = spritePath.replace('shared/assets/', '');
+            }
+        }
+    }
+    if (!spritePath) {
+        spritePath = (isInPages ? '../' : '') + `home/${isShiny ? 'shiny/' : ''}${natId}.png`;
+    }
 
     // Types
     let types = [];
@@ -637,16 +681,23 @@ function openPokemonDossier(pkId, isShiny = false) {
 
     // --- FORMS ---
     let formsHtml = '';
-    if (typeof formsBySpecies !== 'undefined') {
-        const specId = natId || parseInt(pkId);
-        const forms = formsBySpecies[String(specId)] || [];
-        if (forms.length > 0) {
-            formsHtml = '<div style="margin-top:15px;">' + forms.map((f, i) => {
-                const fName = f.FormName || f._FormName || `Форма ${i + 1}`;
-                const isMega = fName.toLowerCase().includes('mega');
-                return `<button class="form-btn" onclick="showFormDossier(${specId}, ${i})">🔄 ${isMega ? 'Открыть ' : ''}${fName}</button>`;
-            }).join('') + '</div>';
-        }
+    if (forms.length > 0) {
+        let optionsHtml = `<button class="form-option-btn ${formIndex === null ? 'active' : ''}" onclick="openPokemonDossier('${pkId}', ${isShiny}, null)">Основная форма</button>`;
+        forms.forEach((f, i) => {
+            const fName = f.FormName || f._FormName || `Форма ${i + 1}`;
+            optionsHtml += `<button class="form-option-btn ${formIndex === i ? 'active' : ''}" onclick="openPokemonDossier('${pkId}', ${isShiny}, ${i})">${fName}</button>`;
+        });
+        
+        formsHtml = `
+            <div class="form-selector-container" tabindex="0">
+                <button class="form-toggle-btn">
+                    <i class="fas fa-magic"></i> ФОРМЫ
+                </button>
+                <div class="form-dropdown-menu">
+                    ${optionsHtml}
+                </div>
+            </div>
+        `;
     }
 
     // ===== RENDER =====
@@ -666,11 +717,12 @@ function openPokemonDossier(pkId, isShiny = false) {
                 <button class="dossier-close" onclick="closeDossier()"><i class="fas fa-times"></i></button>
                 ${nextId ? `<button class="dossier-nav-btn dossier-next" onclick="openPokemonDossier('${nextId}', ${isShiny})" title="Следующий (#${natId + 1})"><i class="fas fa-chevron-right"></i></button>` : ''}
             </div>
-            <div class="shiny-toggle-container" style="position: absolute; top: 70px; right: 15px; z-index: 100;">
+            <div class="shiny-toggle-container" style="position: absolute; top: 70px; right: 15px; z-index: 100; display: flex; flex-direction: column; gap: 10px;">
                 ${isShiny ? 
-                    `<button class="shiny-toggle is-shiny" onclick="openPokemonDossier('${pkId}', false)"><i class="fas fa-star"></i> ОБЫЧНЫЙ</button>` : 
-                    `<button class="shiny-toggle is-normal" onclick="openPokemonDossier('${pkId}', true)"><i class="fas fa-star"></i> ШАЙНИ</button>`
+                    `<button class="shiny-toggle is-shiny" onclick="openPokemonDossier('${pkId}', false, ${formIndex})"><i class="fas fa-star"></i> ОБЫЧНЫЙ</button>` : 
+                    `<button class="shiny-toggle is-normal" onclick="openPokemonDossier('${pkId}', true, ${formIndex})"><i class="fas fa-star"></i> ШАЙНИ</button>`
                 }
+                ${formsHtml}
             </div>
             <div class="dossier-top">
                 <div class="dossier-portrait">
@@ -699,7 +751,6 @@ function openPokemonDossier(pkId, isShiny = false) {
             </div>
 
             ${profHtml}
-            ${formsHtml}
         </div>
     `;
 
@@ -737,81 +788,8 @@ function toggleAncestorHabitat(id) {
  * Handles toggling to a specific Pokémon form (Mega, etc.)
  */
 function showFormDossier(speciesId, formIndex) {
-    if (typeof formsBySpecies === 'undefined') return;
-    const forms = formsBySpecies[String(speciesId)] || [];
-    const form = forms[formIndex];
-    if (!form) return;
-
-    const overlay = document.getElementById('dossierOverlay');
-    if (!overlay) return;
-
-    const fName = form.FormName || form._FormName || 'Форма';
-    const types = form.Types || [];
-    const typesHtml = types.map(t => {
-        const color = typeColors[t.toLowerCase()] || '#888';
-        const icon = typeIcons[t.toLowerCase()] || '';
-        return `<span class="dossier-type-badge" style="background:${color}">${icon} ${t.charAt(0).toUpperCase() + t.slice(1)}</span>`;
-    }).join('');
-
-    const format = form.Format || '';
-    const tierDisplay = format ? (tierMap[format] || format) : '';
-    const pokedex = form.Pokedex || '';
-    const abilities = form.Abilities ? form.Abilities.join(', ') : '';
-    const weight = form.Weight != null ? (form.Weight / 10).toFixed(1) : '';
-    const bs = form.BaseStats || null;
-
-    let statsHtml = '';
-    if (bs) {
-        const statNames = { HP: 'HP', Atk: 'Атк', Def: 'Защ', SpAtk: 'СА', SpDef: 'СЗ', Spd: 'Скор' };
-        const statCols = { HP: '#ff5555', Atk: '#ff8844', Def: '#ffcc33', SpAtk: '#6699ff', SpDef: '#77dd77', Spd: '#ff66aa' };
-        const total = Object.values(bs).reduce((a, b) => a + b, 0);
-        statsHtml = `<div class="dossier-stats-title">📊 Базовые статы (Сумма: ${total}):</div>`;
-        for (const [key, label] of Object.entries(statNames)) {
-            const val = bs[key] || 0;
-            const pct = Math.min(100, (val / 255) * 100);
-            statsHtml += `<div class="stat-row"><span class="stat-label">${label}</span><span class="stat-val">${val}</span><div class="stat-bar-bg"><div class="stat-bar" style="width:${pct}%;background:${statCols[key] || '#4ecdc4'}"></div></div></div>`;
-        }
-    }
-
-    const prevId = (speciesId > 1) ? (speciesId - 1).toString().padStart(3, '0') : null;
-    const nextId = (speciesId < 1025) ? (speciesId + 1).toString().padStart(3, '0') : null;
-
-    overlay.querySelector('.dossier-card').innerHTML = `
-        <div class="dossier-controls">
-            ${prevId ? `<button class="dossier-nav-btn dossier-prev" onclick="openPokemonDossier('${prevId}')" title="Предыдущий (#${speciesId - 1})"><i class="fas fa-chevron-left"></i></button>` : ''}
-            <button class="dossier-close" onclick="closeDossier()"><i class="fas fa-times"></i></button>
-            ${nextId ? `<button class="dossier-nav-btn dossier-next" onclick="openPokemonDossier('${nextId}')" title="Следующий (#${speciesId + 1})"><i class="fas fa-chevron-right"></i></button>` : ''}
-        </div>
-        <div class="dossier-top">
-            <div class="dossier-portrait">
-                <div class="dossier-portrait-frame">
-                    <div class="dossier-num">#${speciesId}</div>
-                    <img src="${(window.location.pathname.includes('/pages/') ? '../' : '')}home/${speciesId}.png" alt="${fName}" onerror="this.src='${(window.location.pathname.includes('/pages/') ? '../' : '')}home/0.png'">
-                </div>
-                <div class="dossier-name-block">
-                    <div class="ru">${fName}</div>
-                    <div class="en">Форма покемона</div>
-                </div>
-                <div class="dossier-types">${typesHtml}</div>
-                ${tierDisplay ? `<div class="dossier-tier">🏆 Тир: ${tierDisplay}</div>` : ''}
-            </div>
-            <div class="dossier-info-text">
-                ${abilities ? `<div>✨ <strong>Способности:</strong><br>${abilities}</div>` : ''}
-                ${weight ? `<div>⚖️ <strong>Вес:</strong> ${weight} кг</div>` : ''}
-                ${form.MegaStone ? `<div style="color:#c9b1ff;">💎 Мега-камень: <strong>${form.MegaStone}</strong></div>` : ''}
-            </div>
-        </div>
-        
-        <div class="dossier-stats-section">
-            ${statsHtml}
-        </div>
-
-        ${pokedex ? `<div class="dossier-pokedex"><div class="dossier-pokedex-title">📖 Покедекс</div>${pokedex}</div>` : ''}
-        
-        <div style="margin-top:25px;">
-            <button class="form-btn" onclick="openPokemonDossier('${String(speciesId).padStart(3, '0')}')">← Назад к основной форме</button>
-        </div>
-    `;
+    // Deprecated. Now using openPokemonDossier directly.
+    openPokemonDossier(String(speciesId), false, formIndex);
 }
 
 function getTypeText(type) {
