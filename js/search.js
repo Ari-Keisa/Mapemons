@@ -207,7 +207,8 @@ document.addEventListener('DOMContentLoaded', function () {
             return;
         }
 
-        const cleanQuery = rawQuery.toLowerCase().replace('#', '');
+        const isShinySearch = rawQuery.includes('⭐️');
+        const cleanQuery = rawQuery.toLowerCase().replace('#', '').replace(/⭐️/g, '').trim();
         const foundID = searchIndex[cleanQuery];
 
         if (!foundID) {
@@ -244,7 +245,7 @@ document.addEventListener('DOMContentLoaded', function () {
                 }
             }
         }
-        renderOutput(foundID, pokemon, habitats, message, ancestorHabitats);
+        renderOutput(foundID, pokemon, habitats, message, ancestorHabitats, isShinySearch);
     }
 
     function findInWild(capsName) {
@@ -277,8 +278,8 @@ document.addEventListener('DOMContentLoaded', function () {
     }
 
     // === 4. ОТРИСОВКА ===
-    function renderOutput(id, p, list, msg, ancestorHabitats) {
-        els.title.innerHTML = `<i class="fas fa-search"></i> ${p.ru} / ${p.en}`;
+    function renderOutput(id, p, list, msg, ancestorHabitats, isShiny = false) {
+        els.title.innerHTML = `<i class="fas fa-search"></i> ${isShiny ? '⭐️' : ''}${p.ru}${isShiny ? '⭐️' : ''} / ${p.en}`;
         const types = p.type ? p.type.map(t => `<span class="type-badge" style="background:rgba(255,255,255,0.1); padding:4px 8px; border-radius:5px; margin-right:5px; font-size:0.8rem;">${typeIcons[t] || ''} ${t.toUpperCase()}</span>`).join('') : '';
 
         // Find correct key for dossier
@@ -296,7 +297,7 @@ document.addEventListener('DOMContentLoaded', function () {
                             <h2 style="color:var(--primary); margin:0; line-height:1.1;">#${id} ${p.ru}</h2>
                             <span style="color:var(--text-muted); display:block; margin-top:2px;">${p.en}</span>
                         </div>
-                        <button class="poke-info-btn" onclick="openPokemonDossier('${dossierKey}')" title="Открыть досье" style="width:38px; height:38px; border-radius:50%; border:none; background:rgba(78,205,196,0.25); color:var(--primary); cursor:pointer; transition:var(--transition); display:flex; align-items:center; justify-content:center; font-size:1.1rem; flex-shrink:0; pointer-events: auto !important;">
+                        <button class="poke-info-btn" onclick="openPokemonDossier('${dossierKey}', ${isShiny})" title="Открыть досье" style="width:38px; height:38px; border-radius:50%; border:none; background:rgba(78,205,196,0.25); color:var(--primary); cursor:pointer; transition:var(--transition); display:flex; align-items:center; justify-content:center; font-size:1.1rem; flex-shrink:0; pointer-events: auto !important;">
                             <i class="fas fa-book-open"></i>
                         </button>
                     </div>

@@ -307,7 +307,7 @@ function toggleAbilityDesc(id) {
 /**
  * Opens the Pokémon dossier modal
  */
-function openPokemonDossier(pkId) {
+function openPokemonDossier(pkId, isShiny = false) {
     if (typeof pokemonDB === 'undefined' || typeof pokemonRuData === 'undefined') {
         console.error('Core data (pokemonDB/pokemonRuData) not loaded');
         return;
@@ -358,7 +358,7 @@ function openPokemonDossier(pkId) {
 
     // Sprite path
     const isInPages = window.location.pathname.includes('/pages/');
-    const spritePath = (isInPages ? '../' : '') + `home/${natId}.png`;
+    const spritePath = (isInPages ? '../' : '') + `home/${isShiny ? 'shiny/' : ''}${natId}.png`;
 
     // Types
     let types = [];
@@ -605,7 +605,8 @@ function openPokemonDossier(pkId) {
             if (matched) {
                 for (const b of aff.bonuses) {
                     if (finalProfs[b.profession]) {
-                        const pct = b.value ? Math.round((b.value - 1) * 100) : 0;
+                        let pct = b.value ? Math.round((b.value - 1) * 100) : 0;
+                        if (isShiny) pct += 10;
                         finalProfs[b.profession].bonuses.push(`${aff.ru_name || affKey}: +${pct}%`);
                     }
                 }
@@ -661,9 +662,15 @@ function openPokemonDossier(pkId) {
     overlay.innerHTML = `
         <div class="dossier-card">
             <div class="dossier-controls">
-                ${prevId ? `<button class="dossier-nav-btn dossier-prev" onclick="openPokemonDossier('${prevId}')" title="Предыдущий (#${natId - 1})"><i class="fas fa-chevron-left"></i></button>` : ''}
+                ${prevId ? `<button class="dossier-nav-btn dossier-prev" onclick="openPokemonDossier('${prevId}', ${isShiny})" title="Предыдущий (#${natId - 1})"><i class="fas fa-chevron-left"></i></button>` : ''}
                 <button class="dossier-close" onclick="closeDossier()"><i class="fas fa-times"></i></button>
-                ${nextId ? `<button class="dossier-nav-btn dossier-next" onclick="openPokemonDossier('${nextId}')" title="Следующий (#${natId + 1})"><i class="fas fa-chevron-right"></i></button>` : ''}
+                ${nextId ? `<button class="dossier-nav-btn dossier-next" onclick="openPokemonDossier('${nextId}', ${isShiny})" title="Следующий (#${natId + 1})"><i class="fas fa-chevron-right"></i></button>` : ''}
+            </div>
+            <div class="shiny-toggle-container" style="position: absolute; top: 70px; right: 15px; z-index: 100;">
+                ${isShiny ? 
+                    `<button class="shiny-toggle is-shiny" onclick="openPokemonDossier('${pkId}', false)"><i class="fas fa-star"></i> ОБЫЧНЫЙ</button>` : 
+                    `<button class="shiny-toggle is-normal" onclick="openPokemonDossier('${pkId}', true)"><i class="fas fa-star"></i> ШАЙНИ</button>`
+                }
             </div>
             <div class="dossier-top">
                 <div class="dossier-portrait">
@@ -672,8 +679,8 @@ function openPokemonDossier(pkId) {
                         <img src="${spritePath}" alt="${enName}" onerror="this.src='${isInPages ? '../' : ''}home/0.png'">
                     </div>
                     <div class="dossier-name-block">
-                        <div class="ru">${ruName}</div>
-                        <div class="en">${enName}</div>
+                        <div class="ru">${isShiny ? `⭐️${ruName}⭐️` : ruName}</div>
+                        <div class="en">${isShiny ? `⭐️${enName}⭐️` : enName}</div>
                     </div>
                     <div class="dossier-types">${typesHtml}</div>
                     ${tierDisplay ? `<div class="dossier-tier">🏆 Тир: ${tierDisplay}</div>` : ''}
