@@ -217,24 +217,21 @@ document.addEventListener('DOMContentLoaded', function () {
         const searchNameCaps = pokemon.en.toUpperCase().trim();
         let habitats = findInWild(searchNameCaps);
         let message = "";
-        let isParentSearch = false;
+        let ancestorHabitats = [];
 
         if (habitats.length === 0) {
-            let parentFound = false;
-            if (pokemon.evolves_from && pokemon.evolves_from.length > 0) {
-                const parentId = pokemon.evolves_from[0];
-                const parent = pokemonDB[parentId];
-                if (parent) {
-                    const parentLocs = findInWild(parent.en.toUpperCase().trim());
-                    if (parentLocs.length > 0) {
-                        habitats = parentLocs;
-                        isParentSearch = true;
-                        message = `Покемон <b>${pokemon.en}</b> (<i>${pokemon.ru}</i>) не встречается в дикой природе, но вы можете поймать <b>${parent.en}</b> (<i>${parent.ru}</i>) и эволюционировать в <b>${pokemon.en}</b> (<i>${pokemon.ru}</i>).`;
-                        parentFound = true;
+            const ancestors = getAllAncestors(foundID);
+            if (ancestors.length > 0) {
+                const ancestorNames = ancestors.map(a => `<b>${a.en}</b> (<i>${a.ru || a.en}</i>)`).join(' или ');
+                message = `Покемон <b>${pokemon.en}</b> (<i>${pokemon.ru}</i>) не встречается в дикой природе, но вы можете эволюционировать его из: ${ancestorNames}.`;
+                
+                ancestors.forEach(anc => {
+                    const ancLocs = findInWild(anc.en.toUpperCase().trim());
+                    if (ancLocs.length > 0) {
+                        ancestorHabitats.push({ pokemon: anc, locations: ancLocs });
                     }
-                }
-            }
-            if (!parentFound) {
+                });
+            } else {
                 if (pokemon.is_starter) {
                     message = `Покемон <b>${pokemon.en}</b> (<i>${pokemon.ru}</i>) является стартовым и в дикой природе не встречается.`;
                 } else {
@@ -245,7 +242,7 @@ document.addEventListener('DOMContentLoaded', function () {
                 }
             }
         }
-        renderOutput(foundID, pokemon, habitats, message, isParentSearch);
+        renderOutput(foundID, pokemon, habitats, message, ancestorHabitats);
     }
 
     function findInWild(capsName) {
@@ -258,8 +255,27 @@ document.addEventListener('DOMContentLoaded', function () {
         return found;
     }
 
+    function getAllAncestors(pkId) {
+        const ancestors = [];
+        let currentId = pkId;
+        const visited = new Set();
+        while (currentId && !visited.has(currentId)) {
+            visited.add(currentId);
+            const pk = pokemonDB[currentId];
+            if (pk && pk.evolves_from && pk.evolves_from.length > 0) {
+                const parentId = pk.evolves_from[0];
+                const parent = pokemonDB[parentId];
+                if (parent) {
+                    ancestors.push({ id: parentId, ...parent });
+                    currentId = parentId;
+                } else break;
+            } else break;
+        }
+        return ancestors;
+    }
+
     // === 4. ОТРИСОВКА ===
-    function renderOutput(id, p, list, msg, isParent) {
+    function renderOutput(id, p, list, msg, ancestorHabitats) {
         els.title.innerHTML = `<i class="fas fa-search"></i> ${p.ru} / ${p.en}`;
         const types = p.type ? p.type.map(t => `<span class="type-badge" style="background:rgba(255,255,255,0.1); padding:4px 8px; border-radius:5px; margin-right:5px; font-size:0.8rem;">${typeIcons[t] || ''} ${t.toUpperCase()}</span>`).join('') : '';
 
@@ -295,36 +311,54 @@ document.addEventListener('DOMContentLoaded', function () {
             html += `<div style="margin-bottom:15px; color:var(--text-muted);">📍 Обитает в регионах:</div>`;
         }
 
+        // Render main habitats if any
         if (list.length > 0) {
-            const byReg = {};
-            list.forEach(l => { if (!byReg[l.region]) byReg[l.region] = []; byReg[l.region].push(l); });
-            for (const reg in byReg) {
+            html += renderHabitats(list, 'var(--primary)');
+        }
+
+        // Render ancestor habitats with toggles
+        if (ancestorHabitats && ancestorHabitats.length > 0) {
+            ancestorHabitats.forEach((ah, idx) => {
+                const ancName = ah.pokemon.ru || ah.pokemon.en;
                 html += `
-                <div class="region-section" style="margin-bottom:15px; padding:15px; background:rgba(40,40,80,0.4); border-radius:10px;">
-                    <h5 style="margin:0 0 10px 0; color:var(--primary);"><i class="fas fa-map-marker-alt"></i> ${regionNames[reg] || reg}</h5>
-                    <div style="display:grid; gap:8px;">
-                        ${byReg[reg].map(l => {
-                    // Find correct key for dossier
-                    let dossierKey = p.en.toUpperCase();
-                    if (pokemonRuData && !pokemonRuData[dossierKey]) {
-                        for (let k in pokemonRuData) { if (pokemonRuData[k].NationalId === parseInt(id)) { dossierKey = k; break; } }
-                    }
-                    return `
-                        <div style="padding:10px; background:rgba(255,255,255,0.05); border-radius:8px; border-left:3px solid ${isParent ? 'var(--accent)' : 'var(--primary)'}; display:flex; justify-content:space-between; align-items:center;">
+                <div style="margin-bottom:10px;">
+                    <button onclick="document.getElementById('searchAnc${idx}').style.display = document.getElementById('searchAnc${idx}').style.display === 'none' ? 'block' : 'none'" style="width:100%; text-align:left; padding:12px; background:rgba(255,107,107,0.15); border:1px solid rgba(255,107,107,0.3); border-radius:8px; color:white; cursor:pointer; font-size:0.9rem; display:flex; justify-content:space-between; align-items:center;">
+                        <span>🗺 Посмотреть место жительства <b>${ancName}</b> (${ah.pokemon.en})</span>
+                        <i class="fas fa-chevron-down"></i>
+                    </button>
+                    <div id="searchAnc${idx}" style="display:none; padding-top:10px;">
+                        ${renderHabitats(ah.locations, 'var(--accent)')}
+                    </div>
+                </div>`;
+            });
+        }
+
+        html += `</div>`;
+        els.content.innerHTML = html;
+    }
+
+    function renderHabitats(list, accentColor) {
+        const byReg = {};
+        list.forEach(l => { if (!byReg[l.region]) byReg[l.region] = []; byReg[l.region].push(l); });
+        let h = '';
+        for (const reg in byReg) {
+            h += `
+            <div class="region-section" style="margin-bottom:15px; padding:15px; background:rgba(40,40,80,0.4); border-radius:10px;">
+                <h5 style="margin:0 0 10px 0; color:var(--primary);"><i class="fas fa-map-marker-alt"></i> ${regionNames[reg] || reg}</h5>
+                <div style="display:grid; gap:8px;">
+                    ${byReg[reg].map(l => `
+                        <div style="padding:10px; background:rgba(255,255,255,0.05); border-radius:8px; border-left:3px solid ${accentColor}; display:flex; justify-content:space-between; align-items:center;">
                             <div>
                                 <strong style="color:white;">${l.ru_name}</strong>
                                 <div style="font-size:0.85rem; color:var(--text-muted);">
                                     Ур. ${l.info.min_level}-${l.info.max_level} • Шанс: ${l.info.rarity}% ${l.info.conditions ? '⏰' : ''}
                                 </div>
                             </div>
-                        </div>`;
-                }).join('')}
-                    </div>
-                </div>`;
-            }
+                        </div>`).join('')}
+                </div>
+            </div>`;
         }
-        html += `</div>`;
-        els.content.innerHTML = html;
+        return h;
     }
 
     function renderError(msg) {

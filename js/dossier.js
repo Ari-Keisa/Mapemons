@@ -236,6 +236,29 @@ function getRuName(key) {
 }
 
 /**
+ * Get all ancestors (pre-evolutions) of a pokemon
+ */
+function getAllAncestors(pkId) {
+    const ancestors = [];
+    let currentId = pkId;
+    const visited = new Set();
+    
+    while (currentId && !visited.has(currentId)) {
+        visited.add(currentId);
+        const pk = pokemonDB[currentId];
+        if (pk && pk.evolves_from && pk.evolves_from.length > 0) {
+            const parentId = pk.evolves_from[0];
+            const parent = pokemonDB[parentId];
+            if (parent) {
+                ancestors.push({ id: parentId, ...parent });
+                currentId = parentId;
+            } else break;
+        } else break;
+    }
+    return ancestors;
+}
+
+/**
  * Find where a pokemon lives (habitat)
  */
 function findHabitatForDossier(enName) {
@@ -438,6 +461,7 @@ function openPokemonDossier(pkId) {
     // --- HABITAT ---
     let habitatHtml = '';
     const habitats = findHabitatForDossier(enName);
+    
     if (habitats.length > 0) {
         const byReg = {};
         habitats.forEach(l => { if (!byReg[l.region]) byReg[l.region] = []; byReg[l.region].push(l); });
@@ -452,33 +476,56 @@ function openPokemonDossier(pkId) {
             </div>`).join('')}
         </div>`;
     } else {
-        // Check parent pokemon
-        let parentHabitat = '';
-        if (pk && pk.evolves_from && pk.evolves_from.length > 0) {
-            const parentId = pk.evolves_from[0];
-            const parent = pokemonDB[parentId];
-            if (parent) {
-                const parentLocs = findHabitatForDossier(parent.en);
-                if (parentLocs.length > 0) {
+        // Check for ancestors
+        const ancestors = getAllAncestors(pkId);
+        let ancestorsHtml = '';
+
+        if (ancestors.length > 0) {
+            ancestorsHtml = `<div class="dossier-section">
+                <div class="dossier-section-title">📍 Среда обитания</div>
+                <div style="color:#ff6b6b; font-size:0.82rem; margin-bottom:12px; font-style:italic;">
+                    Не встречается в дикой природе. Вы можете эволюционировать его из предыдущих форм:
+                </div>`;
+
+            ancestors.forEach((anc, idx) => {
+                const ancHabitats = findHabitatForDossier(anc.en);
+                const ancRuName = anc.ru || anc.en;
+                
+                if (ancHabitats.length > 0) {
                     const byReg = {};
-                    parentLocs.forEach(l => { if (!byReg[l.region]) byReg[l.region] = []; byReg[l.region].push(l); });
-                    parentHabitat = `<div class="dossier-section">
-                        <div class="dossier-section-title">📍 Среда обитания</div>
-                        <div style="color:#ff6b6b; font-size:0.82rem; margin-bottom:8px; font-style:italic;">
-                            Не встречается в дикой природе. Поймайте ${parent.ru || parent.en} и эволюционируйте.
+                    ancHabitats.forEach(l => { if (!byReg[l.region]) byReg[l.region] = []; byReg[l.region].push(l); });
+                    
+                    ancestorsHtml += `
+                    <div class="ancestor-habitat-box" style="margin-bottom:10px;">
+                        <button class="anc-toggle-btn" onclick="toggleAncestorHabitat('anc${idx}')" style="width:100%; text-align:left; padding:10px; background:rgba(78,205,196,0.15); border:1px solid rgba(78,205,196,0.3); border-radius:8px; color:white; cursor:pointer; font-size:14px; display:flex; justify-content:space-between; align-items:center;">
+                            <span>🗺 Посмотреть места обитания <b>${ancRuName}</b> (${anc.en})</span>
+                            <i class="fas fa-chevron-down" id="ancIcon${idx}"></i>
+                        </button>
+                        <div id="anc${idx}" class="anc-habitat-list" style="display:none; padding:10px; background:rgba(0,0,0,0.2); border-radius:0 0 8px 8px; border:1px solid rgba(78,205,196,0.1); border-top:none;">
+                            ${Object.entries(byReg).map(([reg, locs]) => `
+                                <div class="habitat-region">
+                                    <div class="habitat-region-name" style="font-size:13px; margin:5px 0;">${regionNames[reg] || reg}</div>
+                                    ${locs.map(l => `
+                                        <div class="habitat-loc" style="padding:6px 10px; font-size:13px;">
+                                            <strong>${l.ru_name}</strong>
+                                            <div class="habitat-loc-detail">Ур. ${l.info.min_level}-${l.info.max_level} • Шанс: ${l.info.rarity}%</div>
+                                        </div>
+                                    `).join('')}
+                                </div>
+                            `).join('')}
                         </div>
-                        ${Object.entries(byReg).map(([reg, locs]) => `<div class="habitat-region">
-                            <div class="habitat-region-name">${regionNames[reg] || reg}</div>
-                            ${locs.map(l => `<div class="habitat-loc">
-                                <strong>${l.ru_name}</strong>
-                                <div class="habitat-loc-detail">Ур. ${l.info.min_level}-${l.info.max_level} • Шанс: ${l.info.rarity}%</div>
-                            </div>`).join('')}
-                        </div>`).join('')}
+                    </div>`;
+                } else {
+                    ancestorsHtml += `
+                    <div style="padding:10px; background:rgba(255,255,255,0.05); border-radius:8px; margin-bottom:10px; font-size:13px; color:var(--text-muted);">
+                        🛑 <b>${ancRuName}</b> также не встречается в дикой природе.
                     </div>`;
                 }
-            }
+            });
+            ancestorsHtml += `</div>`;
         }
-        habitatHtml = parentHabitat || `<div class="dossier-section">
+
+        habitatHtml = ancestorsHtml || `<div class="dossier-section">
             <div class="dossier-section-title">📍 Среда обитания</div>
             <div class="habitat-empty">В дикой природе не встречается</div>
         </div>`;
@@ -613,6 +660,21 @@ function openPokemonDossier(pkId) {
 function closeDossier() {
     const el = document.getElementById('dossierOverlay');
     if (el) el.remove();
+}
+
+/**
+ * Toggle ancestor habitat dropdown
+ */
+function toggleAncestorHabitat(id) {
+    const el = document.getElementById(id);
+    const icon = document.getElementById(id.replace('anc', 'ancIcon'));
+    if (el) {
+        const isHidden = el.style.display === 'none';
+        el.style.display = isHidden ? 'block' : 'none';
+        if (icon) {
+            icon.style.transform = isHidden ? 'rotate(180deg)' : 'rotate(0deg)';
+        }
+    }
 }
 
 /**
