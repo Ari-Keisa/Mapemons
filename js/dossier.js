@@ -575,53 +575,61 @@ function openPokemonDossier(pkId) {
     // --- PROFESSIONS ---
     let profHtml = '';
     if (typeof profAffinityData !== 'undefined' && typeof professionsData !== 'undefined') {
-        const matchedProfs = {};
-        const capsSpeciesKey = speciesKey.toUpperCase();
-        const capsEnName = enName.toUpperCase();
-        const upperTypes = types.map(t => t.toUpperCase().trim());
+        // NEW: Get all professions from AptitudePool
+        const pool = (ruData && ruData.AptitudePool) || [];
+        const finalProfs = {};
+        const capsSpeciesKey = (speciesKey || "").toUpperCase();
+        const capsEnName = (enName || "").toUpperCase();
+        const upperTypes = (types || []).map(t => t.toUpperCase().trim());
 
+        // 1. Initialize from pool
+        pool.forEach(profId => {
+            const p = professionsData[profId];
+            if (p) finalProfs[profId] = { name: p.ru_name, bonuses: [] };
+        });
+
+        // 2. Find all matching affinities and map bonuses to pool
         for (const affKey in profAffinityData) {
             const aff = profAffinityData[affKey];
             if (!aff.bonuses || !aff.conditions) continue;
+            
             let matched = false;
-            if (aff.conditions.types) {
-                for (const ct of aff.conditions.types) {
-                    if (upperTypes.includes(ct.toUpperCase())) { matched = true; break; }
-                }
-            }
-            if (!matched && aff.conditions.species) {
-                for (const cs of aff.conditions.species) {
-                    const c = cs.toUpperCase();
-                    if (c === capsSpeciesKey || c === capsEnName) { matched = true; break; }
-                }
-            }
+            if (aff.conditions.types && upperTypes.some(t => aff.conditions.types.includes(t))) matched = true;
+            if (!matched && aff.conditions.species && (aff.conditions.species.includes(capsSpeciesKey) || aff.conditions.species.includes(capsEnName))) matched = true;
             if (!matched && aff.conditions.abilities) {
                 const allAbs = [...abilitiesArr, ...hiddenArr].map(a => a.toUpperCase());
-                for (const ca of aff.conditions.abilities) {
-                    if (allAbs.includes(ca.toUpperCase())) { matched = true; break; }
-                }
+                if (aff.conditions.abilities.some(a => allAbs.includes(a.toUpperCase()))) matched = true;
             }
+            if (!matched && aff.conditions.shapes && (ruData.Shape || pk.Shape) && aff.conditions.shapes.includes((ruData.Shape || pk.Shape).toUpperCase())) matched = true;
+
             if (matched) {
-                for (const bonus of aff.bonuses) {
-                    const profId = bonus.profession;
-                    const prof = professionsData[profId];
-                    const profName = prof ? prof.ru_name : profId;
-                    const pct = bonus.value ? Math.round((bonus.value - 1) * 100) : 0;
-                    if (!matchedProfs[profName]) matchedProfs[profName] = [];
-                    matchedProfs[profName].push(`${aff.ru_name || affKey}: +${pct}%`);
+                for (const b of aff.bonuses) {
+                    if (finalProfs[b.profession]) {
+                        const pct = b.value ? Math.round((b.value - 1) * 100) : 0;
+                        finalProfs[b.profession].bonuses.push(`${aff.ru_name || affKey}: +${pct}%`);
+                    }
                 }
             }
         }
 
-        const profEntries = Object.entries(matchedProfs);
-        if (profEntries.length > 0) {
+        const entries = Object.values(finalProfs);
+        if (entries.length > 0) {
             profHtml = `<div class="dossier-section dossier-prof-section">
                 <div class="dossier-section-title">🧑‍🔧 Профессии и Сродство</div>
-                ${profEntries.map(([name, bonuses]) => `<div class="prof-item">
-                    <div class="prof-name">${name}</div>
-                    ${bonuses.map(b => `<div class="prof-bonus">• ${b}</div>`).join('')}
-                </div>`).join('')}
-                <div class="prof-note">💡 Бонусы к профессиям зависят от типа, вида, способностей и формы покемона.</div>
+                <div class="dossier-section-content">
+                    ${entries.map(p => `
+                        <div class="prof-item ${!p.bonuses.length ? 'no-bonus' : ''}">
+                            <div class="prof-name">
+                                <span>${p.name}</span>
+                                ${!p.bonuses.length ? '<span class="prof-no-bonus-tag">(Бонусов нет)</span>' : ''}
+                            </div>
+                            ${p.bonuses.map(b => `<div class="prof-bonus">• ${b}</div>`).join('')}
+                        </div>
+                    `).join('')}
+                    <div class="prof-note">
+                        💡 Бонусы к профессиям зависят от типа, вида, способностей и формы покемона.
+                    </div>
+                </div>
             </div>`;
         }
     }
