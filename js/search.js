@@ -276,7 +276,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
     // === 4. ОТРИСОВКА ===
     function renderOutput(id, p, list, msg, ancestorHabitats) {
-        els.title.innerHTML = `<i class="fas fa-search"></i> ${p.ru} / ${p.en}`;
+        els.title.innerHTML = `${p.ru} / ${p.en}`;
         const types = p.type ? p.type.map(t => `<span class="type-badge" style="background:rgba(255,255,255,0.1); padding:4px 8px; border-radius:5px; margin-right:5px; font-size:0.8rem;">${typeIcons[t] || ''} ${t.toUpperCase()}</span>`).join('') : '';
 
         // Find correct key for dossier
