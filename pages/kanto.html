@@ -2952,6 +2952,25 @@
             const pokeCount = encounters.length;
             const itemCount = locItems.length;
 
+            let defaultTab = 'npcPanel';
+            if (data.type === 'city' || data.type === 'town') {
+                defaultTab = 'npcPanel';
+            } else {
+                defaultTab = 'pokePanel';
+            }
+
+            if (defaultTab === 'npcPanel' && npcCount === 0) {
+                if (pokeCount > 0) defaultTab = 'pokePanel';
+                else if (itemCount > 0) defaultTab = 'itemsPanel';
+            } else if (defaultTab === 'pokePanel' && pokeCount === 0) {
+                if (npcCount > 0) defaultTab = 'npcPanel';
+                else if (itemCount > 0) defaultTab = 'itemsPanel';
+            }
+
+            const isNpcActive = defaultTab === 'npcPanel' ? 'active' : '';
+            const isPokeActive = defaultTab === 'pokePanel' ? 'active' : '';
+            const isItemsActive = defaultTab === 'itemsPanel' ? 'active' : '';
+
             modal.innerHTML = `
                 <div class="modal-header">
                     <div>
@@ -2966,14 +2985,14 @@
                     <div class="loc-modal-desc">${info.description || 'Описание отсутствует.'}</div>
 
                     <div class="loc-tabs">
-                        <button class="loc-tab active" onclick="switchLocTab(this, 'npcPanel')">👥 НПС${npcCount ? ` (${npcCount})` : ''}</button>
-                        <button class="loc-tab" onclick="switchLocTab(this, 'pokePanel')">🐾 Покемоны${pokeCount ? ` (${pokeCount})` : ''}</button>
-                        <button class="loc-tab" onclick="switchLocTab(this, 'itemsPanel')">🎒 Предметы${itemCount ? ` (${itemCount})` : ''}</button>
+                        <button class="loc-tab ${isNpcActive}" onclick="switchLocTab(this, 'npcPanel')">👥 НПС${npcCount ? ` (${npcCount})` : ''}</button>
+                        <button class="loc-tab ${isPokeActive}" onclick="switchLocTab(this, 'pokePanel')">🐾 Покемоны${pokeCount ? ` (${pokeCount})` : ''}</button>
+                        <button class="loc-tab ${isItemsActive}" onclick="switchLocTab(this, 'itemsPanel')">🎒 Предметы${itemCount ? ` (${itemCount})` : ''}</button>
                     </div>
 
-                    <div class="loc-tab-panel active" id="npcPanel">${npcHtml}</div>
-                    <div class="loc-tab-panel" id="pokePanel">${pokeHtml}</div>
-                    <div class="loc-tab-panel" id="itemsPanel">${itemsHtml}</div>
+                    <div class="loc-tab-panel ${isNpcActive}" id="npcPanel">${npcHtml}</div>
+                    <div class="loc-tab-panel ${isPokeActive}" id="pokePanel">${pokeHtml}</div>
+                    <div class="loc-tab-panel ${isItemsActive}" id="itemsPanel">${itemsHtml}</div>
                 </div>
             `;
 
