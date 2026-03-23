@@ -1661,7 +1661,7 @@
             </div>
 
             <p class="search-hint" id="searchHint">Например: Pikachu, Charizard, #025</p>
-            <p class="search-hint" style="font-size: 0.8rem; opacity: 0.7; margin-top: 5px;">Если вы хотите найти сразу шайни - в запросе должен присутствовать "⭐️"</p>
+            <p class="search-hint" id="shinyHint" style="font-size: 0.8rem; opacity: 0.7; margin-top: 5px;">Если вы хотите найти сразу шайни - в запросе должен присутствовать "⭐️"</p>
 
             <div class="locations-list" id="pokecenterList">
             </div>
@@ -1824,6 +1824,7 @@
             const pokecenterList = document.getElementById('pokecenterList');
             const pokemartList = document.getElementById('pokemartList');
             const searchHint = document.getElementById('searchHint');
+            const shinyHint = document.getElementById('shinyHint');
 
             // Подсказки для разных типов поиска
             const searchHints = {
@@ -1846,6 +1847,11 @@
                         // Обновляем подсказку
                         if (searchHint) {
                             searchHint.textContent = searchHints[type];
+                        }
+                        
+                        // Показываем подсказку про шайни только для покемонов
+                        if (shinyHint) {
+                            shinyHint.style.display = type === 'pokemon' ? 'block' : 'none';
                         }
 
                         // Управляем видимостью элементов
