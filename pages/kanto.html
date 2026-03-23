@@ -2143,6 +2143,7 @@
                         const it = itemsData[key];
                         const fullRu = (it.Sticker || "") + (it.RuName || "");
                         if (fullRu) itemRuToKey[fullRu] = key;
+                        if (it.RuName) itemRuToKey[it.RuName] = key;
                     }
                 }
 
@@ -2937,7 +2938,11 @@
             let itemsHtml = '';
             if (locItems.length > 0) {
                 itemsHtml = '<div class="items-list">' + locItems.map(it => {
-                    const itemKey = itemRuToKey[it];
+                    let itemKey = itemRuToKey[it];
+                    if (!itemKey) {
+                        const cleanIt = it.replace(/^[^А-Яа-яA-Za-z0-9]+/i, '').trim();
+                        itemKey = itemRuToKey[cleanIt];
+                    }
                     if (itemKey) {
                         return `<div class="item-tag clickable" onclick="openItemInfo('${itemKey}')" title="Подробнее">${it}</div>`;
                     }
