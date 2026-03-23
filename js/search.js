@@ -105,12 +105,22 @@ document.addEventListener('DOMContentLoaded', function () {
                 window.pokemonNamesUpper = rawUpper.pokemon || rawUpper;
             }
 
-            // Группируем формы
-            if (Array.isArray(formsRaw)) {
+            // Группируем формы по _SpeciesID (JSON — объект {"VENUSAUR-1": {...}, ...})
+            if (formsRaw && typeof formsRaw === 'object' && !Array.isArray(formsRaw)) {
+                for (const formKey in formsRaw) {
+                    const f = formsRaw[formKey];
+                    const speciesId = f._SpeciesID || f.SpeciesID;
+                    if (!speciesId) continue;
+                    f._FormKey = formKey; // сохраняем ключ формы
+                    if (!window.formsBySpecies[speciesId]) window.formsBySpecies[speciesId] = [];
+                    window.formsBySpecies[speciesId].push(f);
+                }
+            } else if (Array.isArray(formsRaw)) {
                 for (let f of formsRaw) {
-                    const id = String(f.NationalId);
-                    if (!window.formsBySpecies[id]) window.formsBySpecies[id] = [];
-                    window.formsBySpecies[id].push(f);
+                    const speciesId = f._SpeciesID || f.SpeciesID;
+                    if (!speciesId) continue;
+                    if (!window.formsBySpecies[speciesId]) window.formsBySpecies[speciesId] = [];
+                    window.formsBySpecies[speciesId].push(f);
                 }
             }
 
@@ -124,7 +134,35 @@ document.addEventListener('DOMContentLoaded', function () {
                 if (p.ru) searchIndex[p.ru.toLowerCase().trim()] = id;
             }
 
-            console.log('База готова!');
+            // Добавляем формы в поисковый индекс
+            for (const speciesId in window.formsBySpecies) {
+                // Находим ID покемона в pokemonDB по speciesId (EN name)
+                let baseId = null;
+                for (let key in pokemonDB) {
+                    if (pokemonDB[key].en && pokemonDB[key].en.toUpperCase() === speciesId.toUpperCase()) {
+                        baseId = key;
+                        break;
+                    }
+                }
+                if (!baseId) continue;
+
+                const forms = window.formsBySpecies[speciesId];
+                forms.forEach((f, idx) => {
+                    const formName = f.FormName || '';
+                    if (formName) {
+                        // Формат: "ID_formIndex" для открытия дозье с нужной формой
+                        const formSearchId = baseId + '_' + idx;
+                        searchIndex[formName.toLowerCase().trim()] = formSearchId;
+                        // Также добавляем комбинацию "BaseName FormName"
+                        const baseName = pokemonDB[baseId].en || '';
+                        const baseRu = pokemonDB[baseId].ru || '';
+                        if (baseName) searchIndex[(baseName + ' ' + formName).toLowerCase().trim()] = formSearchId;
+                        if (baseRu && formName) searchIndex[(baseRu + ' ' + formName).toLowerCase().trim()] = formSearchId;
+                    }
+                });
+            }
+
+            console.log('База готова! Формы:', Object.keys(window.formsBySpecies).length);
 
             // !!! ЗАПУСК ПОДСЧЕТА !!!
             updateStats();
@@ -216,14 +254,27 @@ document.addEventListener('DOMContentLoaded', function () {
             return;
         }
 
-        const pokemon = pokemonDB[foundID];
+        // Поддержка форм: foundID может быть "baseId_formIndex"
+        let actualId = foundID;
+        let formIndex = null;
+        if (typeof foundID === 'string' && foundID.includes('_')) {
+            const parts = foundID.split('_');
+            actualId = parts[0];
+            formIndex = parseInt(parts[1], 10);
+        }
+
+        const pokemon = pokemonDB[actualId];
+        if (!pokemon) {
+            renderError(`Информация о "<b>${rawQuery}</b>" не найдена.`);
+            return;
+        }
         const searchNameCaps = pokemon.en.toUpperCase().trim();
         let habitats = findInWild(searchNameCaps);
         let message = "";
         let ancestorHabitats = [];
 
         if (habitats.length === 0) {
-            const ancestors = getAllAncestors(foundID);
+            const ancestors = getAllAncestors(actualId);
             if (ancestors.length > 0) {
                 const ancestorNames = ancestors.map(a => `<b>${a.en}</b> (<i>${a.ru || a.en}</i>)`).join(' или ');
                 message = `Покемон <b>${pokemon.en}</b> (<i>${pokemon.ru}</i>) не встречается в дикой природе, но вы можете эволюционировать его из: ${ancestorNames}.`;
@@ -245,7 +296,7 @@ document.addEventListener('DOMContentLoaded', function () {
                 }
             }
         }
-        renderOutput(foundID, pokemon, habitats, message, ancestorHabitats, isShinySearch);
+        renderOutput(actualId, pokemon, habitats, message, ancestorHabitats, isShinySearch, formIndex);
     }
 
     function findInWild(capsName) {
@@ -278,8 +329,9 @@ document.addEventListener('DOMContentLoaded', function () {
     }
 
     // === 4. ОТРИСОВКА ===
-    function renderOutput(id, p, list, msg, ancestorHabitats, isShiny = false) {
-        els.title.innerHTML = `<i class="fas fa-search"></i> ${isShiny ? '⭐️' : ''}${p.ru}${isShiny ? '⭐️' : ''} / ${p.en}`;
+    function renderOutput(id, p, list, msg, ancestorHabitats, isShiny = false, formIndex = null) {
+        const formLabel = formIndex !== null ? ` (${window.formsBySpecies?.[p.en?.toUpperCase()]?.[formIndex]?.FormName || 'Форма'})` : '';
+        els.title.innerHTML = `<i class="fas fa-search"></i> ${isShiny ? '⭐️' : ''}${p.ru}${formLabel}${isShiny ? '⭐️' : ''} / ${p.en}`;
         const types = p.type ? p.type.map(t => `<span class="type-badge" style="background:rgba(255,255,255,0.1); padding:4px 8px; border-radius:5px; margin-right:5px; font-size:0.8rem;">${typeIcons[t] || ''} ${t.toUpperCase()}</span>`).join('') : '';
 
         // Find correct key for dossier
@@ -294,10 +346,10 @@ document.addEventListener('DOMContentLoaded', function () {
                 <div style="display:flex; justify-content:space-between; align-items:flex-start; margin-bottom:15px;">
                     <div style="display:flex; align-items:flex-start; gap:12px;">
                         <div>
-                            <h2 style="color:var(--primary); margin:0; line-height:1.1;">#${id} ${p.ru}</h2>
+                            <h2 style="color:var(--primary); margin:0; line-height:1.1;">#${id} ${p.ru}${formLabel}</h2>
                             <span style="color:var(--text-muted); display:block; margin-top:2px;">${p.en}</span>
                         </div>
-                        <button class="poke-info-btn" onclick="openPokemonDossier('${dossierKey}', ${isShiny})" title="Открыть досье" style="width:38px; height:38px; border-radius:50%; border:none; background:rgba(78,205,196,0.25); color:var(--primary); cursor:pointer; transition:var(--transition); display:flex; align-items:center; justify-content:center; font-size:1.1rem; flex-shrink:0; pointer-events: auto !important;">
+                        <button class="poke-info-btn" onclick="openPokemonDossier('${dossierKey}', ${isShiny}, ${formIndex})" title="Открыть досье" style="width:38px; height:38px; border-radius:50%; border:none; background:rgba(78,205,196,0.25); color:var(--primary); cursor:pointer; transition:var(--transition); display:flex; align-items:center; justify-content:center; font-size:1.1rem; flex-shrink:0; pointer-events: auto !important;">
                             <i class="fas fa-book-open"></i>
                         </button>
                     </div>

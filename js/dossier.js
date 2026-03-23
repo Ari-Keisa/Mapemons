@@ -321,7 +321,7 @@ function openPokemonDossier(pkId, isShiny = false, formIndex = null) {
         return;
     }
 
-    const pk = pokemonDB[pkId];
+    let pk = pokemonDB[pkId];
     let ruData = null;
     let speciesKey = '';
 
@@ -367,10 +367,13 @@ function openPokemonDossier(pkId, isShiny = false, formIndex = null) {
     // --- FORM OVERRIDES ---
     let forms = [];
     if (typeof formsBySpecies !== 'undefined') {
-        forms = formsBySpecies[String(natId)] || [];
+        // Ищем формы по speciesKey (EN name, напр. "VENUSAUR")
+        forms = formsBySpecies[speciesKey] || formsBySpecies[enName.toUpperCase()] || [];
     }
 
     let activeForm = null;
+    // Делаем pk мутабельным для формы
+    let pkMut = pk ? { ...pk } : null;
     if (formIndex !== null && forms[formIndex]) {
         activeForm = forms[formIndex];
         
@@ -378,14 +381,24 @@ function openPokemonDossier(pkId, isShiny = false, formIndex = null) {
         if (activeForm.BaseStats) ruData.BaseStats = activeForm.BaseStats;
         if (activeForm.Types) ruData.Types = activeForm.Types.split(',').map(t => t.trim().toLowerCase());
         if (activeForm.Weight) ruData.Weight = activeForm.Weight;
+        if (activeForm.Height) ruData.Height = activeForm.Height;
         if (activeForm.Abilities) ruData.Abilities = activeForm.Abilities;
-        if (activeForm.FormName) ruName = activeForm.FormName;
+        if (activeForm.HiddenAbilities) ruData.HiddenAbilities = activeForm.HiddenAbilities;
+        if (activeForm.Format) ruData.Format = activeForm.Format;
+        if (activeForm.Pokedex) ruData.Pokedex = activeForm.Pokedex;
+        if (activeForm.PowerCategory != null) ruData.PowerCategory = activeForm.PowerCategory;
+        if (activeForm.FormName) {
+            // Используем FormName для дополнения русского имени
+            const baseName = ruName;
+            ruName = activeForm.FormName;
+        }
 
-        if (activeForm.Types && pk) {
-            pk = { ...pk };
-            pk.type = activeForm.Types.split(',').map(t => t.toLowerCase().trim());
+        if (activeForm.Types && pkMut) {
+            pkMut.type = activeForm.Types.split(',').map(t => t.toLowerCase().trim());
         }
     }
+    // Используем pkMut вместо pk далее
+    pk = pkMut;
 
     // Sprite path
     const isInPages = window.location.pathname.includes('/pages/');

@@ -2196,6 +2196,30 @@
                     }
                 }
 
+                // Добавляем формы в поисковый индекс Канто
+                for (const speciesId in formsBySpecies) {
+                    let baseId = null;
+                    for (let key in pokemonDB) {
+                        if (pokemonDB[key].en && pokemonDB[key].en.toUpperCase() === speciesId.toUpperCase()) {
+                            baseId = key;
+                            break;
+                        }
+                    }
+                    if (!baseId) continue;
+                    const forms = formsBySpecies[speciesId];
+                    forms.forEach((f, idx) => {
+                        const formName = f.FormName || '';
+                        if (formName) {
+                            const formSearchId = baseId + '_' + idx;
+                            pokemonSearchIndex[formName.toLowerCase().trim()] = formSearchId;
+                            const baseName = pokemonDB[baseId].en || '';
+                            const baseRu = pokemonDB[baseId].ru || '';
+                            if (baseName) pokemonSearchIndex[(baseName + ' ' + formName).toLowerCase().trim()] = formSearchId;
+                            if (baseRu && formName) pokemonSearchIndex[(baseRu + ' ' + formName).toLowerCase().trim()] = formSearchId;
+                        }
+                    });
+                }
+
                 // Фильтруем только KANTO для карты
                 for (let key in rawLocs) {
                     if (rawLocs[key].region === 'KANTO') {
@@ -3398,14 +3422,27 @@
                 return;
             }
 
-            const pokemon = pokemonDB[foundID];
+            // Поддержка форм: foundID может быть "baseId_formIndex"
+            let actualId = foundID;
+            let formIndex = null;
+            if (typeof foundID === 'string' && foundID.includes('_')) {
+                const parts = foundID.split('_');
+                actualId = parts[0];
+                formIndex = parseInt(parts[1], 10);
+            }
+
+            const pokemon = pokemonDB[actualId];
+            if (!pokemon) {
+                content.innerHTML = `<div style="text-align:center;padding:30px;color:#ff6b6b;">Не найдено: "<b>${rawQuery}</b>"</div>`;
+                return;
+            }
             const searchNameCaps = pokemon.en.toUpperCase().trim();
             const habitats = findInWildKanto(searchNameCaps);
             let message = "";
             let ancestorHabitats = [];
 
             if (habitats.length === 0) {
-                const ancestors = getAllAncestors(foundID);
+                const ancestors = getAllAncestors(actualId);
                 if (ancestors.length > 0) {
                     message = `Покемон <b>${pokemon.en}</b> (<i>${pokemon.ru}</i>) не встречается в Канто. Вы можете эволюционировать его из предыдущих форм:`;
                     ancestors.forEach(anc => {
@@ -3426,7 +3463,7 @@
                 }
             }
 
-            renderPokemonOutput(foundID, pokemon, habitats, message, ancestorHabitats, isShinySearch);
+            renderPokemonOutput(actualId, pokemon, habitats, message, ancestorHabitats, isShinySearch, formIndex);
         }
 
         function highlightByProp(prop) {
@@ -3447,11 +3484,12 @@
             }, 60000);
         }
 
-        function renderPokemonOutput(id, p, list, msg, ancestorHabitats, isShinySearch = false) {
+        function renderPokemonOutput(id, p, list, msg, ancestorHabitats, isShinySearch = false, formIndex = null) {
             const title = document.getElementById('pokemonResultTitle');
             const content = document.getElementById('pokemonResultsContent');
 
-            title.innerHTML = `<i class="fas fa-search"></i> ${isShinySearch ? '⭐️' : ''}${p.ru}${isShinySearch ? '⭐️' : ''} / ${p.en}`;
+            const formLabel = formIndex !== null ? ` (${formsBySpecies?.[p.en?.toUpperCase()]?.[formIndex]?.FormName || 'Форма'})` : '';
+            title.innerHTML = `<i class="fas fa-search"></i> ${isShinySearch ? '⭐️' : ''}${p.ru}${formLabel}${isShinySearch ? '⭐️' : ''} / ${p.en}`;
             const types = p.type ? p.type.map(t => `<span style="background:rgba(255,255,255,0.1);padding:4px 8px;border-radius:5px;margin-right:5px;font-size:0.8rem;">${typeIcons[t] || ''} ${t.toUpperCase()}</span>`).join('') : '';
 
             // Find correct key for dossier
@@ -3468,10 +3506,10 @@
                     <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:15px;">
                         <div style="display:flex; align-items:flex-start; gap:12px;">
                             <div>
-                                <h2 style="color:var(--primary);margin:0;line-height:1.1;">#${id} ${isShinySearch ? `⭐️${p.ru}⭐️` : p.ru}</h2>
+                                <h2 style="color:var(--primary);margin:0;line-height:1.1;">#${id} ${isShinySearch ? `⭐️${p.ru}⭐️` : p.ru}${formLabel}</h2>
                                 <span style="color:var(--text-muted);display:block;margin-top:2px;">${p.en}</span>
                             </div>
-                            <button class="poke-info-btn" onclick="openPokemonDossier('${dossierKey}', ${isShinySearch})" title="Открыть досье" style="width:38px; height:38px; border-radius:50%; border:none; background:rgba(78,205,196,0.25); color:var(--primary); cursor:pointer; transition:var(--transition); display:flex; align-items:center; justify-content:center; font-size:1.1rem; flex-shrink:0;">
+                            <button class="poke-info-btn" onclick="openPokemonDossier('${dossierKey}', ${isShinySearch}, ${formIndex})" title="Открыть досье" style="width:38px; height:38px; border-radius:50%; border:none; background:rgba(78,205,196,0.25); color:var(--primary); cursor:pointer; transition:var(--transition); display:flex; align-items:center; justify-content:center; font-size:1.1rem; flex-shrink:0;">
                                 <i class="fas fa-book-open"></i>
                             </button>
                         </div>
