@@ -5,6 +5,9 @@
 
 // 1. ЛОВЕЦ ОШИБОК
 window.onerror = function (msg, url, line) {
+    // Игнорируем ошибки от встроенных скриптов (например, ложные ошибки от Telegram WebView)
+    if (msg === 'Script error.' && line === 0) return true;
+
     const box = document.getElementById('pokemonResultsContent');
     const cont = document.getElementById('pokemonResultsContainer');
     if (box && cont) {
@@ -15,6 +18,7 @@ window.onerror = function (msg, url, line) {
             <small>Скорее всего, пропущена запятая в JSON файле (строка ${line})</small>
         </div>`;
     }
+    return false;
 };
 
 document.addEventListener('DOMContentLoaded', function () {
