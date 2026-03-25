@@ -671,6 +671,15 @@ function openPokemonDossier(pkId, isShiny = false, formIndex = null) {
         }
 
         const entries = Object.values(finalProfs);
+        
+        if (isShiny) {
+            entries.forEach(p => {
+                if (p.bonuses.length === 0) {
+                    p.bonuses.push('Шайни: +10%');
+                }
+            });
+        }
+
         if (entries.length > 0) {
             profHtml = `<div class="dossier-section dossier-prof-section">
                 <div class="dossier-section-title">🧑‍🔧 Профессии и Сродство</div>
