@@ -11,11 +11,11 @@ const typeIcons = {
 };
 
 const typeColors = {
-    "normal": "#A8A878", "fire": "#F08030", "water": "#6890F0", "electric": "#F8D030",
-    "grass": "#78C850", "ice": "#98D8D8", "fighting": "#C03028", "poison": "#A040A0",
-    "ground": "#E0C068", "flying": "#A890F0", "psychic": "#F85888", "bug": "#A8B820",
-    "rock": "#B8A038", "ghost": "#705898", "dragon": "#7038F8", "steel": "#B8B8D0",
-    "dark": "#705848", "fairy": "#EE99AC"
+    "normal": "#ffffffff", "fire": "#eb6657ff", "water": "#5d85e2ff", "electric": "#F8D030",
+    "grass": "#78C850", "ice": "#70aaaaff", "fighting": "#C03028", "poison": "#b64db6ff",
+    "ground": "#6d5c2bff", "flying": "#c8b6ffff", "psychic": "#f14e7fff", "bug": "#909d17ff",
+    "rock": "#443c17ff", "ghost": "#cab3f0ab", "dragon": "#27a573ff", "steel": "#545465ff",
+    "dark": "#000000ff", "fairy": "#f9f290ff"
 };
 
 const tierMap = {
@@ -242,7 +242,7 @@ function getAllAncestors(pkId) {
     const ancestors = [];
     let currentId = pkId;
     const visited = new Set();
-    
+
     while (currentId && !visited.has(currentId)) {
         visited.add(currentId);
         const pk = pokemonDB[currentId];
@@ -376,7 +376,7 @@ function openPokemonDossier(pkId, isShiny = false, formIndex = null) {
     let pkMut = pk ? { ...pk } : null;
     if (formIndex !== null && forms[formIndex]) {
         activeForm = forms[formIndex];
-        
+
         ruData = ruData ? { ...ruData } : {};
         if (activeForm.BaseStats) ruData.BaseStats = activeForm.BaseStats;
         if (activeForm.Types) ruData.Types = activeForm.Types.split(',').map(t => t.trim().toLowerCase());
@@ -520,7 +520,7 @@ function openPokemonDossier(pkId, isShiny = false, formIndex = null) {
     // --- HABITAT ---
     let habitatHtml = '';
     const habitats = findHabitatForDossier(enName);
-    
+
     if (habitats.length > 0) {
         const byReg = {};
         habitats.forEach(l => { if (!byReg[l.region]) byReg[l.region] = []; byReg[l.region].push(l); });
@@ -586,11 +586,11 @@ function openPokemonDossier(pkId, isShiny = false, formIndex = null) {
             ancestors.forEach((anc, idx) => {
                 const ancHabitats = findHabitatForDossier(anc.en);
                 const ancRuName = anc.ru || anc.en;
-                
+
                 if (ancHabitats.length > 0) {
                     const byReg = {};
                     ancHabitats.forEach(l => { if (!byReg[l.region]) byReg[l.region] = []; byReg[l.region].push(l); });
-                    
+
                     ancestorsHtml += `
                     <div class="ancestor-habitat-box" style="margin-bottom:12px;">
                         <button class="anc-toggle-btn" onclick="toggleAncestorHabitat('anc${idx}')" style="width:100%; text-align:left; padding:12px 15px; background:rgba(255, 107, 107, 0.05); border:2px solid rgba(255, 107, 107, 0.6); border-radius:10px; color:white; cursor:pointer; font-size:14px; font-weight:bold; display:flex; justify-content:space-between; align-items:center; transition: all 0.3s ease; box-shadow: 0 0 15px rgba(255, 107, 107, 0.2);">
@@ -649,7 +649,7 @@ function openPokemonDossier(pkId, isShiny = false, formIndex = null) {
         for (const affKey in profAffinityData) {
             const aff = profAffinityData[affKey];
             if (!aff.bonuses || !aff.conditions) continue;
-            
+
             let matched = false;
             if (aff.conditions.types && upperTypes.some(t => aff.conditions.types.includes(t))) matched = true;
             if (!matched && aff.conditions.species && (aff.conditions.species.includes(capsSpeciesKey) || aff.conditions.species.includes(capsEnName))) matched = true;
@@ -671,7 +671,7 @@ function openPokemonDossier(pkId, isShiny = false, formIndex = null) {
         }
 
         const entries = Object.values(finalProfs);
-        
+
         if (isShiny) {
             entries.forEach(p => {
                 if (p.bonuses.length === 0) {
@@ -709,7 +709,7 @@ function openPokemonDossier(pkId, isShiny = false, formIndex = null) {
             const fName = f.FormName || f._FormName || `Форма ${i + 1}`;
             optionsHtml += `<button class="form-option-btn ${formIndex === i ? 'active' : ''}" onclick="openPokemonDossier('${pkId}', ${isShiny}, ${i})">${fName}</button>`;
         });
-        
+
         formsHtml = `
             <div class="form-selector-container" tabindex="0">
                 <button class="form-toggle-btn">
@@ -740,10 +740,10 @@ function openPokemonDossier(pkId, isShiny = false, formIndex = null) {
                 ${nextId ? `<button class="dossier-nav-btn dossier-next" onclick="openPokemonDossier('${nextId}', ${isShiny})" title="Следующий (#${natId + 1})"><i class="fas fa-chevron-right"></i></button>` : ''}
             </div>
             <div class="shiny-toggle-container" style="position: absolute; top: 70px; right: 15px; z-index: 100; display: flex; flex-direction: column; gap: 10px;">
-                ${isShiny ? 
-                    `<button class="shiny-toggle is-shiny" onclick="openPokemonDossier('${pkId}', false, ${formIndex})"><i class="fas fa-star"></i> ОБЫЧНЫЙ</button>` : 
-                    `<button class="shiny-toggle is-normal" onclick="openPokemonDossier('${pkId}', true, ${formIndex})"><i class="fas fa-star"></i> ШАЙНИ</button>`
-                }
+                ${isShiny ?
+            `<button class="shiny-toggle is-shiny" onclick="openPokemonDossier('${pkId}', false, ${formIndex})"><i class="fas fa-star"></i> ОБЫЧНЫЙ</button>` :
+            `<button class="shiny-toggle is-normal" onclick="openPokemonDossier('${pkId}', true, ${formIndex})"><i class="fas fa-star"></i> ШАЙНИ</button>`
+        }
                 ${formsHtml}
             </div>
             <div class="dossier-top">
