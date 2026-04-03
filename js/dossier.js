@@ -313,6 +313,97 @@ function toggleAbilityDesc(id) {
 }
 
 /**
+ * Translates English form names to Russian and formats them properly.
+ */
+function translateFormName(enFormName, baseRuName, baseEnName) {
+    if (!enFormName) return { ru: baseRuName, en: baseEnName };
+
+    // Standardize base English name
+    const enBase = baseEnName.charAt(0).toUpperCase() + baseEnName.slice(1).toLowerCase();
+    
+    let ru = enFormName;
+    let en = enFormName;
+
+    // Translation maps
+    const prefixes = {
+        'Mega': 'Мега',
+        'Primal': 'Первобытный',
+        'Alolan': 'Алола',
+        'Galarian': 'Галар',
+        'Hisuian': 'Хисуи',
+        'Paldean': 'Палдея',
+        'Partner': 'Партнёр',
+        'Origin': 'Оригинальная',
+        'Therian': 'Териан',
+        'Incarnate': 'Воплощённая',
+        'Gigantamax': 'Гигантамакс',
+        'White': 'Белый',
+        'Black': 'Чёрный',
+        'Dusk': 'Сумеречный',
+        'Dawn': 'Рассветный',
+        'Zen': 'Дзен'
+    };
+
+    const forms = {
+        'Forme': 'форма',
+        'Form': 'форма',
+        'Style': 'стиль',
+        'Mode': 'режим'
+    };
+
+    let matched = false;
+
+    // Case 1: FormName already contains species, e.g., "Mega Venusaur"
+    const lowerForm = enFormName.toLowerCase();
+    const lowerBase = baseEnName.toLowerCase();
+    
+    if (lowerForm.includes(lowerBase)) {
+        for (const [enPref, ruPref] of Object.entries(prefixes)) {
+            if (enFormName.startsWith(enPref)) {
+                ru = ruPref + '-' + baseRuName;
+                matched = true;
+                break;
+            }
+        }
+    } 
+    // Case 2: FormName is just the form, e.g., "Alolan"
+    else {
+        for (const [enPref, ruPref] of Object.entries(prefixes)) {
+            if (enFormName === enPref) {
+                ru = baseRuName + ' (' + ruPref + ')';
+                en = enPref + ' ' + enBase;
+                matched = true;
+                break;
+            }
+        }
+        
+        // Handle "Forme" suffixes
+        if (!matched) {
+            for (const [enForm, ruForm] of Object.entries(forms)) {
+                if (enFormName.endsWith(enForm)) {
+                    const prefix = enFormName.replace(enForm, '').trim();
+                    const ruPref = prefixes[prefix] || prefix;
+                    ru = ruPref + ' ' + ruForm + ' ' + baseRuName;
+                    en = enFormName + ' ' + enBase;
+                    matched = true;
+                    break;
+                }
+            }
+        }
+    }
+
+    // Fallback if no specific pattern matched but we have FormName
+    if (!matched) {
+        ru = baseRuName + ' (' + enFormName + ')';
+        if (!lowerForm.includes(lowerBase)) {
+            en = enFormName + ' ' + enBase;
+        }
+    }
+
+    return { ru, en };
+}
+
+/**
  * Opens the Pokémon dossier modal
  */
 function openPokemonDossier(pkId, isShiny = false, formIndex = null) {
@@ -396,9 +487,9 @@ function openPokemonDossier(pkId, isShiny = false, formIndex = null) {
         if (activeForm.Pokedex) ruData.Pokedex = activeForm.Pokedex;
         if (activeForm.PowerCategory != null) ruData.PowerCategory = activeForm.PowerCategory;
         if (activeForm.FormName) {
-            // Используем FormName для дополнения русского имени
-            const baseName = ruName;
-            ruName = activeForm.FormName;
+            const translated = translateFormName(activeForm.FormName, ruName, enName);
+            ruName = translated.ru;
+            enName = translated.en;
         }
 
         if (activeForm.Types && pkMut) {
