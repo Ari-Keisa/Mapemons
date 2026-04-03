@@ -1499,6 +1499,12 @@
             background: rgba(255, 255, 255, 0.05);
         }
 
+        .highlight-btn:hover {
+            color: var(--accent);
+            transform: scale(1.1);
+            background: rgba(255, 255, 255, 0.05);
+        }
+
         /* Settings Modal Specifics */
         .settings-grid {
             display: grid;
@@ -1784,9 +1790,14 @@
         <section class="route-section">
             <div class="route-header-container">
                 <h2 style="margin-bottom: 0;"><i class="fas fa-route"></i> Построение маршрута</h2>
-                <button class="settings-btn" id="openSettingsBtn" title="Настройки предметов">
-                    <i class="fas fa-cog"></i>
-                </button>
+                <div style="display: flex; gap: 10px; align-items: center;">
+                    <button class="settings-btn highlight-btn" id="highlightItemLocationsBtn" title="Показать локации с предметами">
+                        <i class="fas fa-eye"></i>
+                    </button>
+                    <button class="settings-btn" id="openSettingsBtn" title="Настройки предметов">
+                        <i class="fas fa-cog"></i>
+                    </button>
+                </div>
             </div>
             <div class="route-controls">
                 <div class="route-selector">
@@ -2746,6 +2757,7 @@
             document.getElementById('resetRouteBtn').addEventListener('click', resetRoute);
             document.getElementById('copyRouteBtn').addEventListener('click', copyRoute);
             document.getElementById('openSettingsBtn').addEventListener('click', openSettings);
+            document.getElementById('highlightItemLocationsBtn').addEventListener('click', highlightItemLocations);
 
             // Поиск
             document.getElementById('kantoSearchBtn').addEventListener('click', performSearch);
@@ -3611,6 +3623,51 @@
                     n.classList.remove('hidden', 'route-active');
                 });
             }, 60000);
+        }
+
+        function highlightItemLocations() {
+            // Сбрасываем предыдущую подсветку
+            if (highlightTimeout) {
+                clearTimeout(highlightTimeout);
+                highlightTimeout = null;
+            }
+            document.querySelectorAll('.location-node').forEach(n => {
+                n.classList.remove('hidden', 'route-active');
+            });
+
+            const targetLocations = new Set();
+            for (const item in itemsRestrictions) {
+                const locations = itemsRestrictions[item];
+                if (locations && Array.isArray(locations)) {
+                    locations.forEach(locId => {
+                        if (kantoLocations[locId]) {
+                            targetLocations.add(locId);
+                        }
+                    });
+                }
+            }
+
+            if (targetLocations.size === 0) {
+                showNotification('Локаций с ограничениями по предметам не найдено', 'info');
+                return;
+            }
+
+            document.querySelectorAll('.location-node').forEach(n => n.classList.add('hidden'));
+            targetLocations.forEach(locId => {
+                const node = document.querySelector(`[data-location="${locId}"]`);
+                if (node) {
+                    node.classList.remove('hidden');
+                    node.classList.add('route-active');
+                }
+            });
+
+            highlightTimeout = setTimeout(() => {
+                document.querySelectorAll('.location-node').forEach(n => {
+                    n.classList.remove('hidden', 'route-active');
+                });
+            }, 30000);
+
+            showNotification('Подсвечено локаций с предметами: ' + targetLocations.size, 'info');
         }
 
         // Подсветка локаций по редкости встречи
