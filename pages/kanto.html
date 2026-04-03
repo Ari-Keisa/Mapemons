@@ -3692,7 +3692,8 @@
                 if (foundArray.length === 0) {
                     content.innerHTML = `<div style="text-align:center;padding:20px;">Нет известных локаций в Канто.</div>`;
                 } else {
-                    let html = '<div class="habitat-list" style="margin-top: 15px;">';
+                    let descHtml = itemObj && itemObj.Description ? `<div style="padding:15px; background:rgba(0,0,0,0.2); border-radius:10px; margin-top:15px; color:#ddd; font-style: italic; line-height: 1.4;">${itemObj.Description}</div>` : '';
+                    let html = descHtml + '<div class="habitat-list" style="margin-top: 15px;">';
                     foundArray.forEach(loc => {
                         const bg = loc.type;
                         const color = locationTypes[bg] ? locationTypes[bg].color : '#44a08d';
