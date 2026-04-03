@@ -341,14 +341,21 @@ function translateFormName(enFormName, baseRuName, baseEnName) {
         'Black': 'Чёрный',
         'Dusk': 'Сумеречный',
         'Dawn': 'Рассветный',
-        'Zen': 'Дзен'
+        'Zen': 'Дзен',
+        'Red': 'Красный',
+        'Blue': 'Синий',
+        'Yellow': 'Жёлтый',
+        'Orange': 'Оранжевый',
+        'White': 'Белый',
+        'Eternal': 'Вечный'
     };
 
     const forms = {
         'Forme': 'форма',
         'Form': 'форма',
         'Style': 'стиль',
-        'Mode': 'режим'
+        'Mode': 'режим',
+        'Flower': 'цветок'
     };
 
     let matched = false;
@@ -528,7 +535,8 @@ function openPokemonDossier(pkId, isShiny = false, formIndex = null) {
         const color = typeColors[tLow] || '#888';
         const icon = typeIcons[tLow] || '';
         const nameRu = typeNamesRu[tLow] || (t.charAt(0).toUpperCase() + t.slice(1).toLowerCase());
-        const textColor = tLow === 'normal' ? '#000' : '#fff';
+        const lightBackgroundTypes = ['normal', 'electric', 'fairy'];
+        const textColor = lightBackgroundTypes.includes(tLow) ? '#000' : '#fff';
         return `<span class="dossier-type-badge" style="background:${color}; color:${textColor}">${icon} ${nameRu}</span>`;
     }).join('');
 
