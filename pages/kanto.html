@@ -3062,6 +3062,19 @@
                     const enName = pk ? pk.en : (ruEntry ? ruEntry.Name : capsSpecies);
                     const lvl = enc.min_level === enc.max_level ? `Ур. ${enc.min_level}` : `Ур. ${enc.min_level} - ${enc.max_level}`;
 
+                    // Conditions & Catchability Logic
+                    let conditionLabel = '';
+                    if (enc.can_catch === false) {
+                        conditionLabel += '❌ ';
+                    }
+                    if (enc.conditions) {
+                        if (enc.conditions.time === "Morning") conditionLabel += '☀️ Утро / День ';
+                        else if (enc.conditions.time === "Evening") conditionLabel += '🌇 Вечер ';
+                        else if (enc.conditions.time === "Night") conditionLabel += '🌙 Ночь ';
+                        
+                        if (enc.conditions.method === "fish") conditionLabel += '🎣 Рыбалка ';
+                    }
+
                     // Rarity Label Logic
                     let rarityLabel = '';
                     if (!enc.rarity) {
@@ -3079,7 +3092,10 @@
                             <strong>#${String(numStr).replace(/^0+/, '') || numStr}</strong> ${ruName} / ${enName}
                             <span style="color:var(--text-muted);font-size:0.82rem;"> (${lvl})</span>
                         </div>
-                        <span class="poke-item-rarity">${rarityLabel}</span>
+                        <div style="display: flex; align-items: center;">
+                            ${conditionLabel ? `<span style="font-size: 0.85rem; opacity: 0.9; margin-right: 8px;" title="${enc.can_catch === false ? 'Нельзя поймать' : 'Условия'}">${conditionLabel.trim()}</span>` : ''}
+                            <span class="poke-item-rarity">${rarityLabel}</span>
+                        </div>
                         <button class="poke-info-btn" onclick="openPokemonDossier('${dossierKey}')" title="Досье">📋</button>
                     </div>`;
                 }).join('') + '</div>';
