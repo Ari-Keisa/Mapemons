@@ -1122,6 +1122,40 @@
             vertical-align: middle;
         }
 
+        /* Requirements Box */
+        .loc-requirements-box {
+            background: rgba(255, 107, 107, 0.1);
+            border: 1px solid rgba(255, 107, 107, 0.3);
+            border-radius: 12px;
+            padding: 15px;
+            margin: 15px 0;
+            animation: fadeIn 0.5s ease;
+        }
+
+        .req-title {
+            color: var(--accent);
+            font-weight: 800;
+            font-size: 0.85rem;
+            margin-bottom: 10px;
+            letter-spacing: 0.5px;
+        }
+
+        .req-items-list {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+        }
+
+        .req-item-tag {
+            background: var(--accent);
+            color: white;
+            padding: 5px 12px;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            font-weight: 600;
+            box-shadow: 0 4px 10px rgba(255, 107, 107, 0.3);
+        }
+
         .loc-modal-desc {
             color: var(--text-muted);
             margin-bottom: 20px;
@@ -2879,6 +2913,37 @@
             modal.className = 'modal';
             modal.id = 'locationModal';
             const info = kantoLocations[name] || {};
+            
+            // --- Requirements check ---
+            const itemNamesRu = {
+                "BICYCLE": "Велосипед",
+                "DIVING_SUIT": "Водолазный Костюм",
+                "ICE_SUIT": "Хладостойкий Костюм",
+                "RUBBER_SUIT": "Резиновый Костюм",
+                "FIRE_SUIT": "Огнеупорный Костюм"
+            };
+
+            const requiredItems = [];
+            for (const item in itemsRestrictions) {
+                if (itemsRestrictions[item].includes(name)) {
+                    requiredItems.push({
+                        id: item,
+                        name: itemNamesRu[item] || item
+                    });
+                }
+            }
+
+            let requirementsHtml = '';
+            if (requiredItems.length > 0) {
+                requirementsHtml = `
+                    <div class="loc-requirements-box">
+                        <div class="req-title">⚠️ ДЛЯ ЭТОЙ ЛОКАЦИИ НЕОБХОДИМО ИМЕТЬ:</div>
+                        <div class="req-items-list">
+                            ${requiredItems.map(it => `<span class="req-item-tag">${it.name}</span>`).join('')}
+                        </div>
+                    </div>
+                `;
+            }
 
             // Badges (Pokecenter / Mart)
             let badges = '';
@@ -3015,6 +3080,7 @@
                 </div>
                 <div class="modal-content">
                     <div class="loc-modal-desc">${info.description || 'Описание отсутствует.'}</div>
+                    ${requirementsHtml}
 
                     <div class="loc-tabs">
                         <button class="loc-tab ${isNpcActive}" onclick="switchLocTab(this, 'npcPanel')">👥 НПС${npcCount ? ` (${npcCount})` : ''}</button>
