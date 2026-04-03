@@ -185,6 +185,12 @@ document.addEventListener('DOMContentLoaded', function () {
                         searchIndex[enClean] = formSearchId;
                         searchIndex[ruClean] = formSearchId;
 
+                        // 2.1. Варианты без пробелов (напр. "MegaVenusaur", "МегаВенузавр")
+                        const enSpaceless = enClean.replace(/\s+/g, '');
+                        const ruSpaceless = ruClean.replace(/\s+/g, '');
+                        if (enSpaceless !== enClean) searchIndex[enSpaceless] = formSearchId;
+                        if (ruSpaceless !== ruClean) searchIndex[ruSpaceless] = formSearchId;
+
                         // 3. Обратные варианты (напр. "Алола Раттата", "Венузавр Мега")
                         // Для EN
                         if (enClean.includes(' ')) {
@@ -206,6 +212,12 @@ document.addEventListener('DOMContentLoaded', function () {
                         if (formName.toLowerCase().startsWith('mega ')) {
                             searchIndex[(baseEn + ' mega').toLowerCase()] = formSearchId;
                             searchIndex[(baseRu + ' мега').toLowerCase()] = formSearchId;
+                            
+                            // Варианты с дефисом после Мега
+                            const enMegaHyphen = enClean.replace('mega ', 'mega-');
+                            const ruMegaHyphen = ruClean.replace('мега ', 'мега-');
+                            searchIndex[enMegaHyphen] = formSearchId;
+                            searchIndex[ruMegaHyphen] = formSearchId;
                         }
 
                         // 5. Raw formName для совместимости

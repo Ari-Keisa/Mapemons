@@ -2259,11 +2259,61 @@
                         const formName = f.FormName || '';
                         if (formName) {
                             const formSearchId = baseId + '_' + idx;
-                            pokemonSearchIndex[formName.toLowerCase().trim()] = formSearchId;
-                            const baseName = pokemonDB[baseId].en || '';
                             const baseRu = pokemonDB[baseId].ru || '';
-                            if (baseName) pokemonSearchIndex[(baseName + ' ' + formName).toLowerCase().trim()] = formSearchId;
-                            if (baseRu && formName) pokemonSearchIndex[(baseRu + ' ' + formName).toLowerCase().trim()] = formSearchId;
+                            const baseEn = pokemonDB[baseId].en || '';
+                            
+                            // Используем глобальную функцию из dossier.js
+                            let translated = { ru: baseRu + ' (' + formName + ')', en: formName };
+                            if (typeof translateFormName === 'function') {
+                                translated = translateFormName(formName, baseRu, baseEn);
+                            }
+
+                            // 1. Основные имена (EN/RU)
+                            const enLow = translated.en.toLowerCase().trim();
+                            const ruLow = translated.ru.toLowerCase().trim();
+                            pokemonSearchIndex[enLow] = formSearchId;
+                            pokemonSearchIndex[ruLow] = formSearchId;
+
+                            // 2. Варианты без дефисов и скобок (напр. "Раттата Алола" вместо "Раттата (Алола)")
+                            const enClean = enLow.replace(/[()\-]/g, ' ').replace(/\s+/g, ' ').trim();
+                            const ruClean = ruLow.replace(/[()\-]/g, ' ').replace(/\s+/g, ' ').trim();
+                            pokemonSearchIndex[enClean] = formSearchId;
+                            pokemonSearchIndex[ruClean] = formSearchId;
+
+                            // 2.1. Варианты без пробелов (напр. "MegaVenusaur", "МегаВенузавр")
+                            const enSpaceless = enClean.replace(/\s+/g, '');
+                            const ruSpaceless = ruClean.replace(/\s+/g, '');
+                            if (enSpaceless !== enClean) pokemonSearchIndex[enSpaceless] = formSearchId;
+                            if (ruSpaceless !== ruClean) pokemonSearchIndex[ruSpaceless] = formSearchId;
+
+                            // 3. Обратные варианты (напр. "Алола Раттата", "Венузавр Мега")
+                            if (enClean.includes(' ')) {
+                                const p = enClean.split(' ');
+                                if (p.length === 2) pokemonSearchIndex[p[1] + ' ' + p[0]] = formSearchId;
+                            }
+                            if (ruClean.includes(' ')) {
+                                const p = ruClean.split(' ');
+                                if (p.length === 2) pokemonSearchIndex[p[1] + ' ' + p[0]] = formSearchId;
+                                if (p.length === 3) {
+                                    pokemonSearchIndex[p[1] + ' ' + p[2] + ' ' + p[0]] = formSearchId;
+                                    pokemonSearchIndex[p[1] + ' ' + p[0] + ' ' + p[2]] = formSearchId;
+                                }
+                            }
+
+                            // 4. Специфично для Megas
+                            if (formName.toLowerCase().startsWith('mega ')) {
+                                pokemonSearchIndex[(baseEn + ' mega').toLowerCase()] = formSearchId;
+                                pokemonSearchIndex[(baseRu + ' мега').toLowerCase()] = formSearchId;
+
+                                // Варианты с дефисом после Мега
+                                const enMegaHyphen = enClean.replace('mega ', 'mega-');
+                                const ruMegaHyphen = ruClean.replace('мега ', 'мега-');
+                                pokemonSearchIndex[enMegaHyphen] = formSearchId;
+                                pokemonSearchIndex[ruMegaHyphen] = formSearchId;
+                            }
+
+                            // 5. Raw formName для совместимости
+                            pokemonSearchIndex[formName.toLowerCase().trim()] = formSearchId;
                         }
                     });
                 }
