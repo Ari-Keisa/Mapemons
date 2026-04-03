@@ -162,14 +162,54 @@ document.addEventListener('DOMContentLoaded', function () {
                 forms.forEach((f, idx) => {
                     const formName = f.FormName || '';
                     if (formName) {
-                        // Формат: "ID_formIndex" для открытия дозье с нужной формой
                         const formSearchId = baseId + '_' + idx;
-                        searchIndex[formName.toLowerCase().trim()] = formSearchId;
-                        // Также добавляем комбинацию "BaseName FormName"
-                        const baseName = pokemonDB[baseId].en || '';
                         const baseRu = pokemonDB[baseId].ru || '';
-                        if (baseName) searchIndex[(baseName + ' ' + formName).toLowerCase().trim()] = formSearchId;
-                        if (baseRu && formName) searchIndex[(baseRu + ' ' + formName).toLowerCase().trim()] = formSearchId;
+                        const baseEn = pokemonDB[baseId].en || '';
+                        
+                        // Используем глобальную функцию из dossier.js если она доступна
+                        // Она вернет объект {ru: "Мега-Венузавр", en: "Mega Venusaur"}
+                        let translated = { ru: baseRu + ' (' + formName + ')', en: formName };
+                        if (typeof translateFormName === 'function') {
+                            translated = translateFormName(formName, baseRu, baseEn);
+                        }
+
+                        // 1. Основные имена (EN/RU)
+                        const enLow = translated.en.toLowerCase().trim();
+                        const ruLow = translated.ru.toLowerCase().trim();
+                        searchIndex[enLow] = formSearchId;
+                        searchIndex[ruLow] = formSearchId;
+
+                        // 2. Варианты без дефисов и скобок (напр. "Раттата Алола" вместо "Раттата (Алола)")
+                        const enClean = enLow.replace(/[()\-]/g, ' ').replace(/\s+/g, ' ').trim();
+                        const ruClean = ruLow.replace(/[()\-]/g, ' ').replace(/\s+/g, ' ').trim();
+                        searchIndex[enClean] = formSearchId;
+                        searchIndex[ruClean] = formSearchId;
+
+                        // 3. Обратные варианты (напр. "Алола Раттата", "Венузавр Мега")
+                        // Для EN
+                        if (enClean.includes(' ')) {
+                            const p = enClean.split(' ');
+                            if (p.length === 2) searchIndex[p[1] + ' ' + p[0]] = formSearchId;
+                        }
+                        // Для RU
+                        if (ruClean.includes(' ')) {
+                            const p = ruClean.split(' ');
+                            if (p.length === 2) searchIndex[p[1] + ' ' + p[0]] = formSearchId;
+                            // Если три слова (Мега Венузавр X), пробуем варианты
+                            if (p.length === 3) {
+                                searchIndex[p[1] + ' ' + p[2] + ' ' + p[0]] = formSearchId; // Венузавр X Мега
+                                searchIndex[p[1] + ' ' + p[0] + ' ' + p[2]] = formSearchId; // Венузавр Мега X
+                            }
+                        }
+
+                        // 4. Специфично для Megas (обратная совместимость и доп. варианты)
+                        if (formName.toLowerCase().startsWith('mega ')) {
+                            searchIndex[(baseEn + ' mega').toLowerCase()] = formSearchId;
+                            searchIndex[(baseRu + ' мега').toLowerCase()] = formSearchId;
+                        }
+
+                        // 5. Raw formName для совместимости
+                        searchIndex[formName.toLowerCase().trim()] = formSearchId;
                     }
                 });
             }

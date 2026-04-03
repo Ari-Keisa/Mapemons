@@ -367,7 +367,8 @@ function translateFormName(enFormName, baseRuName, baseEnName) {
     if (lowerForm.includes(lowerBase)) {
         for (const [enPref, ruPref] of Object.entries(prefixes)) {
             if (enFormName.startsWith(enPref)) {
-                ru = ruPref + '-' + baseRuName;
+                // Заменяем префикс и имя вида, сохраняя остальное (например, " X")
+                ru = enFormName.replace(enPref, ruPref + '-').replace(new RegExp(baseEnName, 'i'), baseRuName);
                 matched = true;
                 break;
             }
