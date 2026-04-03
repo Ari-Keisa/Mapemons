@@ -10,6 +10,14 @@ const typeIcons = {
     "dark": "🌑", "fairy": "✨", "normal": "⚪"
 };
 
+const typeNamesRu = {
+    "normal": "Нормальный", "fire": "Огненный", "water": "Водный", "grass": "Травяной",
+    "electric": "Электрический", "ice": "Ледяной", "fighting": "Боевой", "poison": "Ядовитый",
+    "ground": "Земляной", "flying": "Летающий", "psychic": "Психический", "bug": "Насекомый",
+    "rock": "Каменный", "ghost": "Призрачный", "dragon": "Драконий", "steel": "Стальной",
+    "dark": "Тёмный", "fairy": "Волшебный"
+};
+
 const typeColors = {
     "normal": "#ffffffff", "fire": "#eb6657ff", "water": "#5d85e2ff", "electric": "#F8D030",
     "grass": "#78C850", "ice": "#70aaaaff", "fighting": "#C03028", "poison": "#b64db6ff",
@@ -428,7 +436,9 @@ function openPokemonDossier(pkId, isShiny = false, formIndex = null) {
         const tLow = t.toLowerCase().trim();
         const color = typeColors[tLow] || '#888';
         const icon = typeIcons[tLow] || '';
-        return `<span class="dossier-type-badge" style="background:${color}">${icon} ${t.charAt(0).toUpperCase() + t.slice(1).toLowerCase()}</span>`;
+        const nameRu = typeNamesRu[tLow] || (t.charAt(0).toUpperCase() + t.slice(1).toLowerCase());
+        const textColor = tLow === 'normal' ? '#000' : '#fff';
+        return `<span class="dossier-type-badge" style="background:${color}; color:${textColor}">${icon} ${nameRu}</span>`;
     }).join('');
 
     // Basic info

@@ -76,6 +76,14 @@ document.addEventListener('DOMContentLoaded', function () {
         "bug": "🐛", "rock": "🗿", "ghost": "👻", "dragon": "🐉", "steel": "⚙️",
         "dark": "🌑", "fairy": "✨", "normal": "⚪"
     };
+
+    const typeNamesRu = {
+        "normal": "Нормальный", "fire": "Огненный", "water": "Водный", "grass": "Травяной",
+        "electric": "Электрический", "ice": "Ледяной", "fighting": "Боевой", "poison": "Ядовитый",
+        "ground": "Земляной", "flying": "Летающий", "psychic": "Психический", "bug": "Насекомый",
+        "rock": "Каменный", "ghost": "Призрачный", "dragon": "Драконий", "steel": "Стальной",
+        "dark": "Тёмный", "fairy": "Волшебный"
+    };
     const regionNames = { 'KANTO': 'Канто', 'JOHTO': 'Джото', 'HOENN': 'Хоэнн', 'SINNOH': 'Синно', 'UNOVA': 'Юнова' };
 
     // === 2. ЗАГРУЗКА ===
@@ -336,7 +344,12 @@ document.addEventListener('DOMContentLoaded', function () {
     function renderOutput(id, p, list, msg, ancestorHabitats, isShiny = false, formIndex = null) {
         const formLabel = formIndex !== null ? ` (${window.formsBySpecies?.[p.en?.toUpperCase()]?.[formIndex]?.FormName || 'Форма'})` : '';
         els.title.innerHTML = `<i class="fas fa-search"></i> ${isShiny ? '⭐️' : ''}${p.ru}${formLabel}${isShiny ? '⭐️' : ''} / ${p.en}`;
-        const types = p.type ? p.type.map(t => `<span class="type-badge" style="background:rgba(255,255,255,0.1); padding:4px 8px; border-radius:5px; margin-right:5px; font-size:0.8rem;">${typeIcons[t] || ''} ${t.toUpperCase()}</span>`).join('') : '';
+        const types = p.type ? p.type.map(t => {
+            const tLow = t.toLowerCase().trim();
+            const nameRu = typeNamesRu[tLow] || t.toUpperCase();
+            const textColor = tLow === 'normal' ? '#000' : '#fff';
+            return `<span class="type-badge" style="background:rgba(255,255,255,0.1); padding:4px 8px; border-radius:5px; margin-right:5px; font-size:0.8rem; color:${textColor}">${typeIcons[tLow] || ''} ${nameRu}</span>`;
+        }).join('') : '';
 
         // Find correct key for dossier
         let dossierKey = p.en.toUpperCase();

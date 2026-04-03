@@ -1800,6 +1800,9 @@
                 <span class="hint-example">Фуксия</span>
                 <span class="hint-example">Хилл</span>
                 <span class="hint-example">Маркет</span>
+                <span class="hint-example">Р7</span>
+                <span class="hint-example">Тёмный</span>
+                <span class="hint-example">Uber</span>
             </p>
             <p class="search-hint" style="font-size: 0.8rem; opacity: 0.7; margin-top: 5px;">Если вы хотите найти сразу шайни - в запросе должен присутствовать "⭐️"</p>
         </section>
@@ -3368,6 +3371,66 @@
                 return;
             }
 
+            // ===== ПОИСК ПО РЕДКОСТИ (о / р0 / р1 ... р10 / обычный / редкость x) =====
+            {
+                const rarityMap = {
+                    'о': 0, 'o': 0, 'обычный': 0, 'ordinary': 0, 'common': 0,
+                    'р0': 0, 'р!': 1,
+                    'р1': 1, 'р2': 2, 'р3': 3, 'р4': 4, 'р5': 5,
+                    'р6': 6, 'р7': 7, 'р8': 8, 'р9': 9, 'р10': 10,
+                    'p0': 0, 'p1': 1, 'p2': 2, 'p3': 3, 'p4': 4, 'p5': 5,
+                    'p6': 6, 'p7': 7, 'p8': 8, 'p9': 9, 'p10': 10
+                };
+                // Also handle "редкость 7" style
+                let rarityTarget = rarityMap[query];
+                if (rarityTarget === undefined) {
+                    const mR = query.match(/^(?:редкость|rarity)\s*(\d+)$/);
+                    if (mR) rarityTarget = parseInt(mR[1]);
+                }
+                if (rarityTarget !== undefined) {
+                    highlightByRarity(rarityTarget);
+                    return;
+                }
+            }
+
+            // ===== ПОИСК ПО ТИПУ ПОКЕМОНА =====
+            {
+                const typeRuMap = {
+                    'нормальный': 'normal', 'normal': 'normal',
+                    'огненный': 'fire', 'fire': 'fire',
+                    'водный': 'water', 'water': 'water',
+                    'травяной': 'grass', 'grass': 'grass',
+                    'электрический': 'electric', 'electric': 'electric',
+                    'ледяной': 'ice', 'ice': 'ice',
+                    'боевой': 'fighting', 'fighting': 'fighting',
+                    'ядовитый': 'poison', 'poison': 'poison',
+                    'земляной': 'ground', 'ground': 'ground',
+                    'летающий': 'flying', 'flying': 'flying',
+                    'психический': 'psychic', 'psychic': 'psychic',
+                    'насекомый': 'bug', 'bug': 'bug',
+                    'каменный': 'rock', 'rock': 'rock',
+                    'призрачный': 'ghost', 'ghost': 'ghost',
+                    'драконий': 'dragon', 'dragon': 'dragon',
+                    'стальной': 'steel', 'steel': 'steel',
+                    'тёмный': 'dark', 'темный': 'dark', 'dark': 'dark',
+                    'волшебный': 'fairy', 'fairy': 'fairy'
+                };
+                const typeKey = typeRuMap[query];
+                if (typeKey) {
+                    highlightByType(typeKey);
+                    return;
+                }
+            }
+
+            // ===== ПОИСК ПО ТИРУ =====
+            {
+                const validTiers = ['lc','nfe','iron','bronze','silver','gold','platinum','diamond','ascendant','uber','ultrauber'];
+                if (validTiers.includes(query.toLowerCase())) {
+                    highlightByTier(query);
+                    return;
+                }
+            }
+
             // Поиск по локациям
             const foundLocation = Object.keys(kantoLocations).find(loc => {
                 const l = kantoLocations[loc];
@@ -3484,13 +3547,144 @@
             }, 60000);
         }
 
+        // Подсветка локаций по редкости встречи
+        function highlightByRarity(rarityNum) {
+            let found = false;
+            document.querySelectorAll('.location-node').forEach(n => n.classList.add('hidden'));
+            Object.keys(kantoLocations).forEach(key => {
+                const loc = kantoLocations[key];
+                const hasRarity = (loc.encounters || []).some(e => e.rarity === rarityNum);
+                if (hasRarity) {
+                    found = true;
+                    const node = document.querySelector(`[data-location="${key}"]`);
+                    if (node) {
+                        node.classList.remove('hidden');
+                        node.classList.add('route-active');
+                    }
+                }
+            });
+            if (!found) {
+                document.querySelectorAll('.location-node').forEach(n => n.classList.remove('hidden', 'route-active'));
+                showNotification(`Локаций с редкостью ${rarityNum === 0 ? 'О (Обычный)' : 'Р' + rarityNum} не найдено`, 'error');
+                return;
+            }
+            const label = rarityNum === 0 ? 'О (Обычный)' : (rarityNum === 1 ? 'Р!' : 'Р' + rarityNum);
+            showNotification(`Подсвечены локации с редкостью ${label}`, 'success');
+            highlightTimeout = setTimeout(() => {
+                document.querySelectorAll('.location-node').forEach(n => n.classList.remove('hidden', 'route-active'));
+            }, 60000);
+        }
+
+        // Подсветка локаций по типу покемона
+        function highlightByType(typeKey) {
+            if (!pokemonDB || !allLocationData) {
+                showNotification('База ещё загружается...', 'error'); return;
+            }
+            // Индекс: CAPSNAME -> type array
+            const typeCache = {};
+            for (const id in pokemonDB) {
+                const p = pokemonDB[id];
+                if (p.en) typeCache[p.en.toUpperCase()] = p.type || [];
+            }
+            let found = false;
+            document.querySelectorAll('.location-node').forEach(n => n.classList.add('hidden'));
+            Object.keys(kantoLocations).forEach(key => {
+                const loc = kantoLocations[key];
+                const hasType = (loc.encounters || []).some(e => {
+                    const types = typeCache[e.species] || [];
+                    return types.includes(typeKey);
+                });
+                if (hasType) {
+                    found = true;
+                    const node = document.querySelector(`[data-location="${key}"]`);
+                    if (node) {
+                        node.classList.remove('hidden');
+                        node.classList.add('route-active');
+                    }
+                }
+            });
+            if (!found) {
+                document.querySelectorAll('.location-node').forEach(n => n.classList.remove('hidden', 'route-active'));
+                showNotification(`Локаций с типом "${typeKey}" не найдено`, 'error');
+                return;
+            }
+            const typeNamesRu = {
+                normal:'Нормальный', fire:'Огненный', water:'Водный', grass:'Травяной',
+                electric:'Электрический', ice:'Ледяной', fighting:'Боевой', poison:'Ядовитый',
+                ground:'Земляной', flying:'Летающий', psychic:'Психический', bug:'Насекомый',
+                rock:'Каменный', ghost:'Призрачный', dragon:'Драконий', steel:'Стальной',
+                dark:'Тёмный', fairy:'Волшебный'
+            };
+            showNotification(`Подсвечены локации с типом ${typeNamesRu[typeKey] || typeKey}`, 'success');
+            highlightTimeout = setTimeout(() => {
+                document.querySelectorAll('.location-node').forEach(n => n.classList.remove('hidden', 'route-active'));
+            }, 60000);
+        }
+
+        // Подсветка локаций по тиру покемона
+        function highlightByTier(tierQuery) {
+            if (!pokemonDB || !pokemonRuData || !allLocationData) {
+                showNotification('База ещё загружается...', 'error'); return;
+            }
+            const tierUpper = tierQuery.toUpperCase();
+            // Индекс: CAPSNAME -> tier (Format field)
+            const tierCache = {};
+            for (const id in pokemonDB) {
+                const p = pokemonDB[id];
+                if (!p.en) continue;
+                const key = p.en.toUpperCase();
+                const ruEntry = pokemonRuData[key];
+                if (ruEntry && ruEntry.Format) tierCache[key] = ruEntry.Format.toUpperCase();
+            }
+            let found = false;
+            document.querySelectorAll('.location-node').forEach(n => n.classList.add('hidden'));
+            Object.keys(kantoLocations).forEach(key => {
+                const loc = kantoLocations[key];
+                const hasTier = (loc.encounters || []).some(e => tierCache[e.species] === tierUpper);
+                if (hasTier) {
+                    found = true;
+                    const node = document.querySelector(`[data-location="${key}"]`);
+                    if (node) {
+                        node.classList.remove('hidden');
+                        node.classList.add('route-active');
+                    }
+                }
+            });
+            if (!found) {
+                document.querySelectorAll('.location-node').forEach(n => n.classList.remove('hidden', 'route-active'));
+                showNotification(`Локаций с тиром "${tierQuery}" не найдено`, 'error');
+                return;
+            }
+            showNotification(`Подсвечены локации с тиром ${tierQuery.toUpperCase()}`, 'success');
+            highlightTimeout = setTimeout(() => {
+                document.querySelectorAll('.location-node').forEach(n => n.classList.remove('hidden', 'route-active'));
+            }, 60000);
+        }
+
         function renderPokemonOutput(id, p, list, msg, ancestorHabitats, isShinySearch = false, formIndex = null) {
             const title = document.getElementById('pokemonResultTitle');
             const content = document.getElementById('pokemonResultsContent');
 
             const formLabel = formIndex !== null ? ` (${formsBySpecies?.[p.en?.toUpperCase()]?.[formIndex]?.FormName || 'Форма'})` : '';
             title.innerHTML = `<i class="fas fa-search"></i> ${isShinySearch ? '⭐️' : ''}${p.ru}${formLabel}${isShinySearch ? '⭐️' : ''} / ${p.en}`;
-            const types = p.type ? p.type.map(t => `<span style="background:rgba(255,255,255,0.1);padding:4px 8px;border-radius:5px;margin-right:5px;font-size:0.8rem;">${typeIcons[t] || ''} ${t.toUpperCase()}</span>`).join('') : '';
+            const _typeNamesRu = {
+                normal:'Нормальный', fire:'Огненный', water:'Водный', grass:'Травяной',
+                electric:'Электрический', ice:'Ледяной', fighting:'Боевой', poison:'Ядовитый',
+                ground:'Земляной', flying:'Летающий', psychic:'Психический', bug:'Насекомый',
+                rock:'Каменный', ghost:'Призрачный', dragon:'Драконий', steel:'Стальной',
+                dark:'Тёмный', fairy:'Волшебный'
+            };
+            const _typeIconsLocal = {
+                grass:'🌿', fire:'🔥', water:'💧', electric:'⚡️', poison:'☠️',
+                ice:'❄️', fighting:'🥊', ground:'🏜️', flying:'🕊️', psychic:'🔮',
+                bug:'🐛', rock:'🗿', ghost:'👻', dragon:'🐉', steel:'⚙️',
+                dark:'🌑', fairy:'✨', normal:'⚪'
+            };
+            const types = p.type ? p.type.map(t => {
+                const tLow = t.toLowerCase().trim();
+                const textColor = tLow === 'normal' ? '#000' : '#fff';
+                return `<span style="background:rgba(255,255,255,0.1);padding:4px 8px;border-radius:5px;margin-right:5px;font-size:0.8rem;color:${textColor}">${_typeIconsLocal[tLow] || ''} ${_typeNamesRu[tLow] || t.toUpperCase()}</span>`;
+            }).join('') : '';
 
             // Find correct key for dossier
             let dossierKey = p.en.toUpperCase();
@@ -3535,7 +3729,7 @@
                             <div>
                                 <strong style="color:white;">${l.ru_name || l.name}</strong>
                                 <div style="font-size:0.85rem; color:var(--text-muted);">
-                                    Ур. ${l.info.min_level}-${l.info.max_level} • Шанс: ${l.info.rarity}% ${l.info.conditions ? '⏰' : ''}
+                                    Ур. ${l.info.min_level}-${l.info.max_level} • ${l.info.rarity === 0 ? 'О (Обычный)' : l.info.rarity === 1 ? 'Р!' : 'Р' + l.info.rarity} ${l.info.conditions ? '⏰' : ''}
                                 </div>
                             </div>
                         </div>`).join('')}
@@ -3561,7 +3755,7 @@
                                         <div>
                                             <strong style="color:white;">${l.ru_name || l.name}</strong>
                                             <div style="font-size:0.85rem; color:var(--text-muted);">
-                                                Ур. ${l.info.min_level}-${l.info.max_level} • Шанс: ${l.info.rarity}% ${l.info.conditions ? '⏰' : ''}
+                                                Ур. ${l.info.min_level}-${l.info.max_level} • ${l.info.rarity === 0 ? 'О (Обычный)' : l.info.rarity === 1 ? 'Р!' : 'Р' + l.info.rarity} ${l.info.conditions ? '⏰' : ''}
                                             </div>
                                         </div>
                                     </div>`).join('')}
