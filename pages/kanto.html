@@ -2149,6 +2149,7 @@
         window.formsBySpecies = {};       // speciesId -> [form, ...]
         let itemMap = {};                 // Location -> [ItemStrings]
         let itemRuToKey = {};             // "StickerName" -> "ITEM_KEY"
+        let itemSearchIndex = {};         // "lowercasename" -> "ITEM_KEY"
 
         // ===== 1. ЗАГРУЗКА ДАННЫХ =====
         document.addEventListener('DOMContentLoaded', async function () {
@@ -2184,14 +2185,25 @@
                     window.pokemonNamesUpper = rawUpper.pokemon || rawUpper;
                 }
 
-                // Строим реверсивный индекс предметов (Sticker + RuName -> Key)
+                // Строим реверсивный индекс предметов
                 itemRuToKey = {};
+                itemSearchIndex = {};
                 if (itemsData) {
                     for (const key in itemsData) {
                         const it = itemsData[key];
                         const fullRu = (it.Sticker || "") + (it.RuName || "");
                         if (fullRu) itemRuToKey[fullRu] = key;
-                        if (it.RuName) itemRuToKey[it.RuName] = key;
+                        if (it.RuName) {
+                            itemRuToKey[it.RuName] = key;
+                            const rLow = it.RuName.toLowerCase().trim();
+                            itemSearchIndex[rLow] = key;
+                            itemSearchIndex[rLow.replace(/\s+/g, '')] = key;
+                        }
+                        if (it.Name) {
+                            const nLow = it.Name.toLowerCase().trim();
+                            itemSearchIndex[nLow] = key;
+                            itemSearchIndex[nLow.replace(/\s+/g, '')] = key;
+                        }
                     }
                 }
 
@@ -3495,6 +3507,8 @@
             const rawQuery = document.getElementById('kantoSearch').value.trim();
             if (!rawQuery) return;
             const query = rawQuery.toLowerCase();
+            const isShinySearch = rawQuery.includes('⭐️');
+            const cleanQuery = rawQuery.toLowerCase().replace('#', '').replace(/⭐️/g, '').trim();
 
             // Сбрасываем предыдущую подсветку
             if (highlightTimeout) {
@@ -3598,6 +3612,107 @@
                 return;
             }
 
+            // ===== ПОИСК ПО ПРЕДМЕТАМ (если локация не найдена) =====
+            const cleanQueryForItems = cleanQuery.replace(/\s+/g, '');
+            let foundItemId = itemSearchIndex[cleanQuery] || itemSearchIndex[cleanQueryForItems];
+            let itemObj = itemsData && foundItemId ? itemsData[foundItemId] : null;
+
+            let targetSearchStrings = [];
+            if (itemObj) {
+                if (itemObj.RuName) targetSearchStrings.push(itemObj.RuName.toLowerCase());
+                if (itemObj.Name) targetSearchStrings.push(itemObj.Name.toLowerCase());
+            }
+
+            let foundItemLocs = new Set();
+            if (itemMap && itemMap.KANTO) {
+                for (let locId in itemMap.KANTO) {
+                    const itemsInLoc = itemMap.KANTO[locId];
+                    if (!Array.isArray(itemsInLoc)) continue;
+
+                    for (let rawStr of itemsInLoc) {
+                        const rawLower = rawStr.toLowerCase();
+                        const cleanRawLoc = rawLower.replace(/[^\p{L}\d\s]/gu, '').trim();
+                        
+                        let isMatch = false;
+                        if (targetSearchStrings.length > 0) {
+                            isMatch = targetSearchStrings.some(ts => {
+                                const tsClean = ts.replace(/[^\p{L}\d\s]/gu, '').trim();
+                                if (!tsClean) return false;
+                                return cleanRawLoc === tsClean || cleanRawLoc.includes(tsClean);
+                            });
+                        } else {
+                            // Only query, no exact item in DB. Check exact or includes if very long keyword
+                            const qClean = cleanQuery.replace(/[^\p{L}\d\s]/gu, '').trim();
+                            if (qClean && qClean.length > 2) {
+                                if (cleanRawLoc === qClean || (qClean.length > 4 && cleanRawLoc.includes(qClean))) {
+                                    isMatch = true;
+                                }
+                            }
+                        }
+                        
+                        if (isMatch) {
+                            foundItemLocs.add(locId);
+                            break;
+                        }
+                    }
+                }
+            }
+
+            if (foundItemLocs.size > 0) {
+                document.querySelectorAll('.location-node').forEach(n => n.classList.add('hidden'));
+                const foundArray = [];
+                foundItemLocs.forEach(locId => {
+                    const node = document.querySelector(`[data-location="${locId}"]`);
+                    if (node) {
+                        node.classList.remove('hidden');
+                        node.classList.add('route-active');
+                    }
+                    if(kantoLocations[locId]) {
+                        foundArray.push({...kantoLocations[locId], locId});
+                    }
+                });
+
+                highlightTimeout = setTimeout(() => {
+                    document.querySelectorAll('.location-node').forEach(n => {
+                        n.classList.remove('hidden', 'route-active');
+                    });
+                }, 40000);
+
+                const itemName = itemObj ? itemObj.RuName || itemObj.Name : rawQuery;
+                showNotification(`Предмет "${itemName}" найден в ${foundItemLocs.size} локациях`, 'success');
+                
+                // Показываем выпадающий список
+                const container = document.getElementById('pokemonResultsContainer');
+                const content = document.getElementById('pokemonResultsContent');
+                const title = document.getElementById('pokemonResultTitle');
+                
+                container.style.display = 'block';
+                title.innerHTML = `<i class="fas fa-box"></i> Где найти: ${itemName}`;
+                
+                if (foundArray.length === 0) {
+                    content.innerHTML = `<div style="text-align:center;padding:20px;">Нет известных локаций в Канто.</div>`;
+                } else {
+                    let html = '<div class="habitat-list" style="margin-top: 15px;">';
+                    foundArray.forEach(loc => {
+                        const bg = loc.type;
+                        const color = locationTypes[bg] ? locationTypes[bg].color : '#44a08d';
+                        const cleanLocName = (loc.ru_name || loc.name || '').replace(/^[^\p{L}\d]+/gu, '').trim();
+                        html += `
+                            <div class="habitat-item" onclick="openLocationModal('${loc.locId}')" style="border-left: 4px solid ${color}; cursor: pointer; margin-bottom: 10px; padding: 10px; background: rgba(0,0,0,0.1); border-radius: 4px; display: flex; align-items: center; gap: 10px; transition: background 0.3s;">
+                                <div style="font-size: 1.5rem;">${locationTypes[bg]?.icon || '📍'}</div>
+                                <div class="habitat-loc-name" style="font-weight: 500; font-size: 1.1rem; color: #fff;">
+                                    ${cleanLocName}
+                                </div>
+                            </div>
+                        `;
+                    });
+                    html += '</div>';
+                    content.innerHTML = html;
+                }
+                
+                return;
+            }
+
             // Поиск покемонов (если локация не найдена)
             const container = document.getElementById('pokemonResultsContainer');
             const content = document.getElementById('pokemonResultsContent');
@@ -3612,8 +3727,7 @@
                 return;
             }
 
-            const isShinySearch = rawQuery.includes('⭐️');
-            const cleanQuery = rawQuery.toLowerCase().replace('#', '').replace(/⭐️/g, '').trim();
+            const isShinySearchBool = rawQuery.includes('⭐️');
             let foundID = pokemonSearchIndex[cleanQuery];
 
             // Если не нашли напрямую, пробуем найти по ID (если ввели число)
@@ -3670,7 +3784,7 @@
                 }
             }
 
-            renderPokemonOutput(actualId, pokemon, habitats, message, ancestorHabitats, isShinySearch, formIndex);
+            renderPokemonOutput(actualId, pokemon, habitats, message, ancestorHabitats, isShinySearchBool, formIndex);
         }
 
         function highlightByProp(prop) {

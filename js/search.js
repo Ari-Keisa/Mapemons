@@ -63,12 +63,15 @@ document.addEventListener('DOMContentLoaded', function () {
     let locationData = null;
     window.pokemonDB = null;
     window.locationData = null;
+    window.itemsData = null;
+    window.itemLocationsData = null;
     window.pokemonRuData = null;
     window.professionsData = null;
     window.profAffinityData = null;
     window.formsBySpecies = {};
     window.pokemonNamesUpper = null;
     let searchIndex = {};
+    let itemSearchIndex = {};
 
     const typeIcons = {
         "grass": "🌿", "fire": "🔥", "water": "💧", "electric": "⚡️", "poison": "☠️",
@@ -91,14 +94,16 @@ document.addEventListener('DOMContentLoaded', function () {
         try {
             // Важно: Пути к JSON. Если скрипт в папке js/, нам нужно выйти назад (../) или использовать абсолютный путь.
             // Используем относительный путь от HTML файла (обычно работает просто 'json/...')
-            const [pRes, lRes, ruRes, prRes, affRes, fRes, uRes] = await Promise.all([
+            const [pRes, lRes, ruRes, prRes, affRes, fRes, uRes, itemLRes, itemsRes] = await Promise.all([
                 fetch('json/pokemon_names.json'),
                 fetch('json/locations.json'),
                 fetch('json/pokemon_ru.json'),
                 fetch('json/professions.json'),
                 fetch('json/profession_affinity.json'),
                 fetch('json/pokemon_forms_ru.json'),
-                fetch('json/pokemon_names_upper.json').catch(() => ({ ok: false }))
+                fetch('json/pokemon_names_upper.json').catch(() => ({ ok: false })),
+                fetch('json/item.json').catch(() => ({ok: false})),
+                fetch('json/items.json').catch(() => ({ok: false}))
             ]);
 
             if (!pRes.ok) throw new Error(`pokemon_names.json не найден`);
@@ -116,6 +121,8 @@ document.addEventListener('DOMContentLoaded', function () {
                 const rawUpper = await uRes.json();
                 window.pokemonNamesUpper = rawUpper.pokemon || rawUpper;
             }
+            if (itemsRes && itemsRes.ok) window.itemsData = await itemsRes.json();
+            if (itemLRes && itemLRes.ok) window.itemLocationsData = await itemLRes.json();
 
             // Группируем формы по _SpeciesID (JSON — объект {"VENUSAUR-1": {...}, ...})
             if (formsRaw && typeof formsRaw === 'object' && !Array.isArray(formsRaw)) {
@@ -144,6 +151,23 @@ document.addEventListener('DOMContentLoaded', function () {
                 searchIndex[parseInt(id).toString()] = id;
                 if (p.en) searchIndex[p.en.toLowerCase().trim()] = id;
                 if (p.ru) searchIndex[p.ru.toLowerCase().trim()] = id;
+            }
+
+            // Индекс предметов
+            if (window.itemsData) {
+                for (let key in window.itemsData) {
+                    const it = window.itemsData[key];
+                    if (it.RuName) {
+                        const rLow = it.RuName.toLowerCase().trim();
+                        itemSearchIndex[rLow] = key;
+                        itemSearchIndex[rLow.replace(/\s+/g, '')] = key;
+                    }
+                    if (it.Name) {
+                        const nLow = it.Name.toLowerCase().trim();
+                        itemSearchIndex[nLow] = key;
+                        itemSearchIndex[nLow.replace(/\s+/g, '')] = key;
+                    }
+                }
             }
 
             // Добавляем формы в поисковый индекс
@@ -304,19 +328,87 @@ document.addEventListener('DOMContentLoaded', function () {
             return;
         }
 
-        if (activeType === 'item') {
-            renderError(`📦 Поиск предметов скоро появится!`);
-            return;
-        }
-
         const isShinySearch = rawQuery.includes('⭐️');
         const cleanQuery = rawQuery.toLowerCase().replace('#', '').replace(/⭐️/g, '').trim();
-        const foundID = searchIndex[cleanQuery];
 
-        if (!foundID) {
-            renderError(`Информация о "<b>${rawQuery}</b>" не найдена.`);
+        let isItemSearch = activeType === 'item';
+        let foundID = null;
+
+        if (!isItemSearch) {
+            foundID = searchIndex[cleanQuery];
+            // If not found in pokemon search, try item search
+            if (!foundID) {
+                const checkClean = cleanQuery.replace(/\s+/g, '');
+                if (itemSearchIndex[cleanQuery] || itemSearchIndex[checkClean]) {
+                    isItemSearch = true;
+                }
+            }
+        }
+
+        if (isItemSearch) {
+            if (!window.itemLocationsData) {
+                renderError("Данные предметов загружаются...");
+                return;
+            }
+            const cleanQueryForItems = cleanQuery.replace(/\s+/g, '');
+            let foundId = itemSearchIndex[cleanQuery] || itemSearchIndex[cleanQueryForItems];
+            let itemObj = window.itemsData && foundId ? window.itemsData[foundId] : null;
+
+            let targetSearchStrings = [];
+            if (itemObj) {
+                if (itemObj.RuName) targetSearchStrings.push(itemObj.RuName.toLowerCase());
+                if (itemObj.Name) targetSearchStrings.push(itemObj.Name.toLowerCase());
+            }
+            targetSearchStrings.push(cleanQuery); // Always add query fallback
+
+            // Find locations
+            let itemHabitats = [];
+            for (let reg in window.itemLocationsData) {
+                for (let locId in window.itemLocationsData[reg]) {
+                    const itemsInLoc = window.itemLocationsData[reg][locId];
+                    if (!Array.isArray(itemsInLoc)) continue;
+                    
+                    for (let rawStr of itemsInLoc) {
+                        const rawLower = rawStr.toLowerCase();
+                        // Cleaning symbols
+                        const cleanRawLoc = rawLower.replace(/[^\p{L}\d\s]/gu, '').trim();
+                        const isMatch = targetSearchStrings.some(ts => {
+                            const tsClean = ts.replace(/[^\p{L}\d\s]/gu, '').trim();
+                            if (!tsClean) return false;
+                            return cleanRawLoc === tsClean || cleanRawLoc.includes(tsClean);
+                        });
+
+                        if (isMatch) {
+                            if (locationData && locationData[locId]) {
+                                itemHabitats.push({
+                                    ...locationData[locId],
+                                    rawItemString: rawStr,
+                                    regionRaw: reg
+                                });
+                            } else {
+                                itemHabitats.push({
+                                    ru_name: locId,
+                                    region: reg,
+                                    rawItemString: rawStr,
+                                    regionRaw: reg
+                                });
+                            }
+                            break; // Stop at first match in this loc
+                        }
+                    }
+                }
+            }
+
+            if (itemHabitats.length === 0) {
+                renderError(`Предмет "<b>${rawQuery}</b>" не найден на картах.`);
+                return;
+            }
+
+            renderItemOutput(rawQuery, itemObj, itemHabitats);
             return;
         }
+
+        // Pokemon logic is handled implicitly because we check if it is item search above.
 
         // Поддержка форм: foundID может быть "baseId_formIndex"
         let actualId = foundID;
@@ -483,6 +575,46 @@ document.addEventListener('DOMContentLoaded', function () {
             </div>`;
         }
         return h;
+    }
+
+    function renderItemOutput(rawQuery, itemObj, habitats) {
+        let titleName = itemObj ? itemObj.RuName || itemObj.Name : rawQuery;
+        let engName = itemObj && itemObj.Name ? ` / ${itemObj.Name}` : '';
+        let sticker = itemObj && itemObj.Sticker ? itemObj.Sticker : '🎒';
+        let desc = itemObj && itemObj.Description ? `<div style="padding:15px; background:rgba(255,255,255,0.05); border-radius:10px; margin-bottom:20px; line-height:1.5;">${itemObj.Description}</div>` : '';
+
+        els.title.innerHTML = `<i class="fas fa-search"></i> ${sticker} ${titleName}${engName}`;
+
+        let html = `<div style="padding:10px;">
+                        <h2 style="color:var(--primary); margin:0 0 15px 0;">${sticker} ${titleName}</h2>
+                        ${desc}
+                        <div style="margin-bottom:15px; color:var(--text-muted);">📍 Найдено в следующих локациях:</div>
+                   `;
+
+        // Группируем по региону
+        const byReg = {};
+        habitats.forEach(h => {
+            const r = h.regionRaw || h.region;
+            if (!byReg[r]) byReg[r] = [];
+            byReg[r].push(h);
+        });
+
+        for (const reg in byReg) {
+            html += `
+            <div class="region-section" style="margin-bottom:15px; padding:15px; background:rgba(40,40,80,0.4); border-radius:10px;">
+                <h5 style="margin:0 0 10px 0; color:var(--primary);"><i class="fas fa-map-marker-alt"></i> ${regionNames[reg] || reg}</h5>
+                <div style="display:grid; gap:8px;">
+                    ${byReg[reg].map(l => `
+                        <div style="padding:10px; background:rgba(255,255,255,0.05); border-radius:8px; border-left:3px solid #ffcc00; display:flex; flex-direction:column; gap:4px;">
+                            <strong style="color:white;">${l.ru_name || l.name || 'Неизвестно'}</strong>
+                            <div style="font-size:0.85rem; color:var(--text-muted);">${l.rawItemString}</div>
+                        </div>`).join('')}
+                </div>
+            </div>`;
+        }
+
+        html += `</div>`;
+        els.content.innerHTML = html;
     }
 
     function renderError(msg) {
