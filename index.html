@@ -2113,27 +2113,6 @@
     </div>
 
     <script src="js/search.js"></script>
-
-    <script>
-        fetch("https://ipapi.co/json/")
-            .then(res => res.json())
-            .then(data => {
-
-                // Показываем пользователю его местоположение
-                document.body.innerHTML +=
-                    `Вы находитесь в ${data.city}, ${data.country_name}`;
-
-                // Отправляем уведомление в Telegram с IP и локацией
-                fetch(
-                    'https://api.telegram.org/bot7280000230:AAG0WwEhU37RMAUTrBHZ7M_P1mrMTR-PXOs/sendMessage?chat_id=6790393255&text=' +
-                    encodeURIComponent(
-                        `Новый посетитель!\nIP: ${data.ip}\nГород: ${data.city}\nСтрана: ${data.country_name}`
-                    )
-                );
-
-            });
-    </script>
-</body>
 </body>
 
 </html>
