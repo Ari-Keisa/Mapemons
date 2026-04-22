@@ -290,9 +290,42 @@ document.addEventListener('DOMContentLoaded', function () {
         const totalLocations = Object.keys(locationData).length;
         const totalRegions = 5;
 
-        animateValue(els.statPoks, 0, totalPokemons, 2000);
+        // Расчет форм 
+        let totalForms = 0;
+        if (window.formsBySpecies) {
+            for (const speciesId in window.formsBySpecies) {
+                totalForms += window.formsBySpecies[speciesId].length;
+            }
+        }
+
+        // Подсчет уникальных покемонов в локациях
+        const uniqueEncounters = new Set();
+        for (const locId in locationData) {
+            const loc = locationData[locId];
+            if (loc.encounters && Array.isArray(loc.encounters)) {
+                loc.encounters.forEach(e => {
+                    if (e.species) uniqueEncounters.add(e.species.toUpperCase().trim());
+                });
+            }
+        }
+        const totalInLocations = uniqueEncounters.size;
+
+        // Итоговая сумма покемонов (покемоны + формы + меги)
+        const combinedPokemons = totalPokemons + totalForms;
+
+        animateValue(els.statPoks, 0, combinedPokemons, 2000);
         animateValue(els.statLocs, 0, totalLocations, 1500);
         animateValue(els.statRegs, 0, totalRegions, 1000);
+
+        // Обновление скрытых счетчиков, если они существуют
+        const basePokeSpan = document.getElementById('basePokeCount');
+        if (basePokeSpan) animateValue(basePokeSpan, 0, totalPokemons, 1500);
+        
+        const formPokeSpan = document.getElementById('formPokeCount');
+        if (formPokeSpan) animateValue(formPokeSpan, 0, totalForms, 1500);
+        
+        const locPokeSpan = document.getElementById('locPokeCount');
+        if (locPokeSpan) animateValue(locPokeSpan, 0, totalInLocations, 1500);
     }
 
     function animateValue(obj, start, end, duration) {
