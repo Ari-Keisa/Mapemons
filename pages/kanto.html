@@ -3091,8 +3091,6 @@
                     let rarityLabel = '';
                     if (!enc.rarity) {
                         rarityLabel = 'О';
-                    } else if (enc.rarity === 1) {
-                        rarityLabel = 'Р!';
                     } else {
                         rarityLabel = 'Р' + enc.rarity;
                     }
@@ -3872,7 +3870,7 @@
                 showNotification(`Локаций с редкостью ${rarityNum === 0 ? 'О (Обычный)' : 'Р' + rarityNum} не найдено`, 'error');
                 return;
             }
-            const label = rarityNum === 0 ? 'О (Обычный)' : (rarityNum === 1 ? 'Р!' : 'Р' + rarityNum);
+            const label = rarityNum === 0 ? 'О (Обычный)' : 'Р' + rarityNum;
             showNotification(`Подсвечены локации с редкостью ${label}`, 'success');
             highlightTimeout = setTimeout(() => {
                 document.querySelectorAll('.location-node').forEach(n => n.classList.remove('hidden', 'route-active'));
@@ -4033,7 +4031,7 @@
                             <div>
                                 <strong style="color:white;">${l.ru_name || l.name}</strong>
                                 <div style="font-size:0.85rem; color:var(--text-muted);">
-                                    Ур. ${l.info.min_level}-${l.info.max_level} • ${l.info.rarity === 0 ? 'О (Обычный)' : l.info.rarity === 1 ? 'Р!' : 'Р' + l.info.rarity} ${l.info.conditions ? '⏰' : ''}
+                                    Ур. ${l.info.min_level}-${l.info.max_level} • ${l.info.rarity === 0 ? 'О (Обычный)' : 'Р' + l.info.rarity} ${l.info.conditions ? '⏰' : ''}
                                 </div>
                             </div>
                         </div>`).join('')}
@@ -4059,7 +4057,7 @@
                                         <div>
                                             <strong style="color:white;">${l.ru_name || l.name}</strong>
                                             <div style="font-size:0.85rem; color:var(--text-muted);">
-                                                Ур. ${l.info.min_level}-${l.info.max_level} • ${l.info.rarity === 0 ? 'О (Обычный)' : l.info.rarity === 1 ? 'Р!' : 'Р' + l.info.rarity} ${l.info.conditions ? '⏰' : ''}
+                                                Ур. ${l.info.min_level}-${l.info.max_level} • ${l.info.rarity === 0 ? 'О (Обычный)' : 'Р' + l.info.rarity} ${l.info.conditions ? '⏰' : ''}
                                             </div>
                                         </div>
                                     </div>`).join('')}
