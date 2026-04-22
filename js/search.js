@@ -326,6 +326,50 @@ document.addEventListener('DOMContentLoaded', function () {
         
         const locPokeSpan = document.getElementById('locPokeCount');
         if (locPokeSpan) animateValue(locPokeSpan, 0, totalInLocations, 1500);
+
+        // Обновление статистики по отдельным регионам
+        const regionStats = {};
+        for (const locId in locationData) {
+            const loc = locationData[locId];
+            const reg = loc.region ? loc.region.toUpperCase() : null;
+            if (!reg) continue;
+
+            if (!regionStats[reg]) {
+                regionStats[reg] = { locs: 0, pokes: new Set() };
+            }
+
+            regionStats[reg].locs++;
+
+            if (loc.encounters && Array.isArray(loc.encounters)) {
+                loc.encounters.forEach(e => {
+                    if (e.species) regionStats[reg].pokes.add(e.species.toUpperCase().trim());
+                });
+            }
+        }
+
+        const pluralPlc = ['локация', 'локации', 'локаций'];
+        const pluralPok = ['покемон', 'покемона', 'покемонов'];
+        function getPl(n, w) { return w[(n % 100 > 4 && n % 100 < 20) ? 2 : [2, 0, 1, 1, 1, 2][Math.min(n % 10, 5)]]; }
+
+        const regsLayout = {
+            'KANTO': 'kanto',
+            'JOHTO': 'johto',
+            'HOENN': 'hoenn',
+            'SINNOH': 'sinnoh',
+            'UNOVA': 'unova'
+        };
+
+        for (const [R, pref] of Object.entries(regsLayout)) {
+            const s = regionStats[R];
+            const lCount = s ? s.locs : 0;
+            const pCount = s ? s.pokes.size : 0;
+
+            const elLoc = document.getElementById(pref + '-loc-stat');
+            if (elLoc) elLoc.innerText = lCount + ' ' + getPl(lCount, pluralPlc);
+
+            const elPok = document.getElementById(pref + '-poke-stat');
+            if (elPok) elPok.innerText = pCount + ' ' + getPl(pCount, pluralPok);
+        }
     }
 
     function animateValue(obj, start, end, duration) {
