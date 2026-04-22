@@ -119,6 +119,16 @@
 }
 
 /* Shiny Toggle Button */
+.shiny-toggle-container {
+    position: absolute;
+    top: 70px;
+    right: 15px;
+    z-index: 100;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
 .shiny-toggle {
     display: inline-flex;
     align-items: center;
@@ -865,4 +875,183 @@
 @keyframes scanline {
     0% { transform: translateY(0); }
     100% { transform: translateY(10px); }
+}
+
+/* ===== DOSSIER RESPONSIVE ===== */
+
+/* --- Tablet / narrow desktop (≤768px) --- */
+@media (max-width: 768px) {
+    .dossier-card {
+        padding: 22px;
+        border-radius: 18px;
+    }
+
+    .dossier-controls {
+        top: 10px;
+        right: 10px;
+    }
+
+    .dossier-portrait-frame {
+        width: min(200px, 48vw);
+        height: min(200px, 48vw);
+    }
+
+    .dossier-portrait-frame img {
+        width: min(160px, 38vw);
+        height: min(160px, 38vw);
+    }
+}
+
+/* --- Mobile (≤600px) --- */
+@media (max-width: 600px) {
+    .dossier-card {
+        padding: 16px;
+        border-radius: 16px;
+        width: 98%;
+    }
+
+    /* Stack portrait + info vertically and center */
+    .dossier-top {
+        grid-template-columns: 1fr;
+        justify-items: center;
+    }
+
+    .dossier-portrait {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .dossier-portrait-frame {
+        width: min(160px, 55vw);
+        height: min(160px, 55vw);
+    }
+
+    .dossier-portrait-frame img {
+        width: min(130px, 45vw);
+        height: min(130px, 45vw);
+    }
+
+    /* Controls row — wrap and shrink so they don't cover the title */
+    .dossier-controls {
+        position: relative;
+        top: auto;
+        right: auto;
+        width: 100%;
+        display: flex;
+        justify-content: flex-end;
+        gap: 6px;
+        margin-bottom: 10px;
+        flex-wrap: wrap;
+    }
+
+    .dossier-nav-btn {
+        width: 34px;
+        height: 38px;
+    }
+
+    .dossier-close {
+        width: 38px;
+        height: 38px;
+        font-size: 1rem;
+    }
+
+    /* Shiny toggle + forms selector: wrap in a row that can break */
+    .shiny-toggle {
+        width: auto;
+        flex: 1 1 120px;
+        min-width: 110px;
+        font-size: 0.78rem;
+        padding: 7px 10px;
+    }
+
+    .form-selector-container {
+        width: auto;
+        flex: 1 1 120px;
+        min-width: 110px;
+    }
+
+    .form-toggle-btn {
+        font-size: 0.78rem;
+        padding: 7px 10px;
+    }
+
+    /* Ensure the action bar (shiny + forms) wraps */
+    .dossier-action-bar,
+    .dossier-top > .dossier-info-text > div[style*="display: flex"],
+    .dossier-info-text .dossier-types ~ div {
+        flex-wrap: wrap;
+        gap: 8px;
+    }
+
+    /* Shiny/Forms container: switch from absolute to static so it flows in the document */
+    .shiny-toggle-container {
+        position: static;
+        width: 100%;
+        flex-direction: row;
+        flex-wrap: wrap;
+        justify-content: center;
+        margin-bottom: 12px;
+    }
+
+    /* Forms dropdown: don't go off screen */
+    .form-dropdown-menu {
+        right: auto;
+        left: 0;
+        max-width: calc(100vw - 32px);
+    }
+
+    /* Section padding */
+    .dossier-section {
+        padding: 14px;
+    }
+
+    .dossier-pokedex {
+        padding: 14px;
+    }
+
+    /* Stat bars */
+    .stat-row {
+        font-size: 0.8rem;
+    }
+}
+
+/* --- Small phones (≤400px) --- */
+@media (max-width: 400px) {
+    .dossier-card {
+        padding: 12px;
+        width: 99%;
+    }
+
+    .dossier-portrait-frame {
+        width: min(130px, 60vw);
+        height: min(130px, 60vw);
+    }
+
+    .dossier-portrait-frame img {
+        width: min(100px, 48vw);
+        height: min(100px, 48vw);
+    }
+
+    .dossier-name-block .ru {
+        font-size: 1.15rem;
+    }
+
+    .dossier-name-block .en {
+        font-size: 0.85rem;
+    }
+
+    .shiny-toggle,
+    .form-toggle-btn {
+        font-size: 0.72rem;
+        padding: 6px 8px;
+    }
+
+    .dossier-section-title {
+        font-size: 0.95rem;
+    }
+
+    .dossier-bottom-grid {
+        grid-template-columns: 1fr;
+    }
 }

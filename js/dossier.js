@@ -849,7 +849,7 @@ function openPokemonDossier(pkId, isShiny = false, formIndex = null) {
                 <button class="dossier-close" onclick="closeDossier()"><i class="fas fa-times"></i></button>
                 ${nextId ? `<button class="dossier-nav-btn dossier-next" onclick="openPokemonDossier('${nextId}', ${isShiny})" title="Следующий (#${natId + 1})"><i class="fas fa-chevron-right"></i></button>` : ''}
             </div>
-            <div class="shiny-toggle-container" style="position: absolute; top: 70px; right: 15px; z-index: 100; display: flex; flex-direction: column; gap: 10px;">
+            <div class="shiny-toggle-container">
                 ${isShiny ?
             `<button class="shiny-toggle is-shiny" onclick="openPokemonDossier('${pkId}', false, ${formIndex})"><i class="fas fa-star"></i> ОБЫЧНЫЙ</button>` :
             `<button class="shiny-toggle is-normal" onclick="openPokemonDossier('${pkId}', true, ${formIndex})"><i class="fas fa-star"></i> ШАЙНИ</button>`

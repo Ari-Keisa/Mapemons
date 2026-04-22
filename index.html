@@ -1397,12 +1397,27 @@
                 font-size: 2.3rem;
             }
 
+            .header {
+                padding: 30px 0 20px;
+            }
+
+            .tagline {
+                font-size: 1rem;
+            }
+
             .section-title {
                 font-size: 1.6rem;
             }
 
+            .map-section,
+            .regions-section,
+            .search-section {
+                padding: 18px;
+                border-radius: 18px;
+            }
+
             .region-card {
-                padding: 20px;
+                padding: 18px;
             }
 
             .region-header {
@@ -1419,13 +1434,30 @@
                 font-size: 1.2rem;
             }
 
+            /* Region stats in a column, prevent overflow */
+            .region-stats {
+                flex-wrap: wrap;
+                gap: 10px;
+            }
+
             .search-options {
                 gap: 8px;
+                justify-content: center;
             }
 
             .search-option {
-                padding: 8px 15px;
-                font-size: 0.85rem;
+                padding: 8px 12px;
+                font-size: 0.82rem;
+            }
+
+            .search-box {
+                max-width: 100%;
+            }
+
+            /* Search input: ensure button doesn't clip text */
+            .search-input {
+                padding-right: 65px;
+                font-size: 1rem;
             }
 
             #pokemonResultsContainer {
@@ -1447,6 +1479,52 @@
 
             .pokemon-world-map {
                 height: 300px;
+            }
+
+            /* Legend items wrap tightly on small phones */
+            .legend {
+                gap: 10px;
+            }
+
+            .legend-item {
+                padding: 8px 14px;
+                font-size: 0.85rem;
+            }
+
+            /* Locations grid: single column on phone */
+            .locations-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        /* ===== Very small devices (≤360px) ===== */
+        @media (max-width: 360px) {
+            .logo h1 {
+                font-size: 1.9rem;
+            }
+
+            .stats {
+                padding: 15px 12px;
+            }
+
+            .stat-number {
+                font-size: 1.7rem;
+            }
+
+            .search-option {
+                padding: 7px 10px;
+                font-size: 0.78rem;
+            }
+
+            .map-section,
+            .regions-section,
+            .search-section {
+                padding: 12px;
+            }
+
+            .region-btn {
+                padding: 12px;
+                font-size: 0.9rem;
             }
         }
 
