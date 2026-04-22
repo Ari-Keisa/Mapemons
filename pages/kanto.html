@@ -1548,7 +1548,7 @@
         }
 
         .item-modal-sticker {
-            font-size: 3rem;
+            font-size: min(3rem, 12vw);
             background: rgba(255, 255, 255, 0.05);
             width: 80px;
             height: 80px;
@@ -1557,6 +1557,8 @@
             justify-content: center;
             border-radius: 20px;
             border: 1px solid rgba(255, 255, 255, 0.1);
+            overflow: hidden;
+            flex-shrink: 0;
         }
 
         .item-modal-title-group {
@@ -1942,8 +1944,8 @@
 
         <section class="route-section">
             <div class="route-header-container">
-                <h2 style="margin-bottom: 0;"><i class="fas fa-route"></i> Построение маршрута</h2>
-                <div style="display: flex; gap: 10px; align-items: center;">
+                <h2 class="section-title" style="margin-bottom: 0;"><i class="fas fa-route"></i> Построение маршрута</h2>
+                <div style="display: flex; gap: 10px; align-items: center; margin-left: auto;">
                     <button class="settings-btn highlight-btn" id="highlightItemLocationsBtn" title="Показать локации с предметами">
                         <i class="fas fa-eye"></i>
                     </button>
@@ -1984,7 +1986,7 @@
         </section>
 
         <section class="search-section">
-            <h2><i class="fas fa-search"></i> Поиск в Канто</h2>
+            <h2 class="section-title"><i class="fas fa-search"></i> Поиск в Канто</h2>
             <div class="search-box">
                 <input type="text" id="kantoSearch" class="search-input" placeholder="Введите что вы ищете...">
                 <button class="search-btn" id="kantoSearchBtn">

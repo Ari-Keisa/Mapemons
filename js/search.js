@@ -580,8 +580,9 @@ document.addEventListener('DOMContentLoaded', function () {
         }
 
         let html = `
-            <div style="padding:10px;">
-                <div style="display:flex; justify-content:space-between; align-items:flex-start; margin-bottom:15px;">
+        <div style="padding:10px;">
+            <div style="margin-bottom:15px;">
+                <div style="display:flex; justify-content:space-between; align-items:flex-start;">
                     <div style="display:flex; align-items:flex-start; gap:12px;">
                         <div>
                             <h2 style="color:var(--primary); margin:0; line-height:1.1;">#${id} ${p.ru}${formLabel}</h2>
@@ -591,8 +592,9 @@ document.addEventListener('DOMContentLoaded', function () {
                             <i class="fas fa-book-open"></i>
                         </button>
                     </div>
-                    <div style="margin-top:4px;">${types}</div>
-                </div>`;
+                </div>
+                <div style="margin-top:10px;">${types}</div>
+            </div>`;
 
         if (msg) {
             let color = 'var(--primary)';
@@ -663,7 +665,10 @@ document.addEventListener('DOMContentLoaded', function () {
         els.title.innerHTML = `<i class="fas fa-search"></i> ${sticker} ${titleName}${engName}`;
 
         let html = `<div style="padding:10px;">
-                        <h2 style="color:var(--primary); margin:0 0 15px 0;">${sticker} ${titleName}</h2>
+                        <h2 style="color:var(--primary); margin:0 0 15px 0; display:flex; align-items:center; gap:10px;">
+                            <span class="item-result-sticker" style="display:inline-flex; min-width:1.5em; justify-content:center;">${sticker}</span>
+                            <span>${titleName}</span>
+                        </h2>
                         ${desc}
                         <div style="margin-bottom:15px; color:var(--text-muted);">📍 Найдено в следующих локациях:</div>
                    `;

@@ -40,8 +40,10 @@
         }
 
         .toolbar h1 { margin: 0; font-size: 1.2rem; color: var(--primary); }
-        .status-counter { font-size: 1.1rem; font-weight: bold; color: #ff4757; flex-grow: 1; }
+        .status-counter { font-size: 1.1rem; font-weight: bold; color: #ff4757; }
         .status-counter.clear { color: #2ed573; }
+
+
 
         .btn-export {
             background: linear-gradient(90deg, #ff6b6b, #ff8e53);
@@ -108,6 +110,30 @@
         
         .node-shape { filter: drop-shadow(0 3px 8px rgba(0, 0, 0, 0.4)); pointer-events: none; }
         .node-text { pointer-events: none; user-select: none; text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.8); }
+
+        @media (max-width: 600px) {
+            .toolbar {
+                height: auto;
+                flex-direction: column;
+                padding: 10px;
+                gap: 5px;
+                align-items: stretch;
+                text-align: center;
+            }
+            .toolbar h1 {
+                font-size: 1rem;
+            }
+            .workspace-wrapper {
+                top: 140px; /* Approximate height of stacked toolbar */
+            }
+            .btn-export {
+                width: 100%;
+                padding: 8px;
+            }
+            #intersectionsCount {
+                font-size: 0.9rem;
+            }
+        }
 
         /* МОДАЛКА ЭКСПОРТА */
         .modal { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.8); z-index: 2000; display: none; align-items: center; justify-content: center; }
