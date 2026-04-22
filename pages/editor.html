@@ -57,6 +57,7 @@
             background: radial-gradient(circle at center, #1a1a2e 0%, #0f0c29 100%);
             overflow: hidden; /* Камера управляется скриптом */
             cursor: grab;
+            touch-action: none; /* Отключаем стандартные жесты браузера */
         }
         .workspace-wrapper:active { cursor: grabbing; }
 
@@ -460,29 +461,91 @@
 
                 // Обработчик перетаскивания точки
                 const pathElement = node.querySelector('.node-shape');
-                pathElement.addEventListener('mousedown', (e) => {
+                // Общая функция начала перетаскивания
+                function startNodeDrag(clientX, clientY) {
                     isDraggingNode = true;
                     draggedNode = node;
-                    isPanning = false; // На всякий случай сбрасываем панорамирование
+                    isPanning = false;
                     
-                    // Вычисляем смещение курсора относительно центра облачка в локальных координатах
                     const canvasRect = canvas.getBoundingClientRect();
-                    const localMouseX = (e.clientX - canvasRect.left) / zoomLevel;
-                    const localMouseY = (e.clientY - canvasRect.top) / zoomLevel;
+                    const localMouseX = (clientX - canvasRect.left) / zoomLevel;
+                    const localMouseY = (clientY - canvasRect.top) / zoomLevel;
                     
                     nodeDragOffset.x = localMouseX - loc.x;
                     nodeDragOffset.y = localMouseY - loc.y;
-                    
-                    e.stopPropagation(); // Чтобы не срабатывал панорамный mousedown на фоне
+                }
+
+                pathElement.addEventListener('mousedown', (e) => {
+                    startNodeDrag(e.clientX, e.clientY);
+                    e.stopPropagation();
                 });
+
+                // Тач-версия: начало перетаскивания узла
+                pathElement.addEventListener('touchstart', (e) => {
+                    if (e.touches.length === 1) {
+                        const t = e.touches[0];
+                        startNodeDrag(t.clientX, t.clientY);
+                        e.stopPropagation();
+                    }
+                }, { passive: true });
                 
                 nodesLayer.appendChild(node);
             });
         }
 
         // 4. УПРАВЛЕНИЕ КАМЕРОЙ И ПЕРЕТАСКИВАНИЕМ
+        // Общая функция обновления позиции перетаскиваемого узла
+        function moveNodeTo(clientX, clientY) {
+            if (!isDraggingNode || !draggedNode) return;
+            const canvasRect = canvas.getBoundingClientRect();
+            let newX = (clientX - canvasRect.left) / zoomLevel - nodeDragOffset.x;
+            let newY = (clientY - canvasRect.top) / zoomLevel - nodeDragOffset.y;
+
+            newX = Math.max(-10000, Math.min(newX, 50000));
+            newY = Math.max(-10000, Math.min(newY, 50000));
+
+            draggedNode.style.left = newX + 'px';
+            draggedNode.style.top = newY + 'px';
+
+            const id = draggedNode.dataset.id;
+            currentLocations[id].x = newX;
+            currentLocations[id].y = newY;
+
+            lineElements.forEach(line => {
+                if (line.dataset.from === id || line.dataset.to === id) {
+                    updateSingleLine(line, currentLocations[line.dataset.from], currentLocations[line.dataset.to]);
+                }
+            });
+        }
+
+        function finishDrag() {
+            isPanning = false;
+            if (isDraggingNode) {
+                isDraggingNode = false;
+                draggedNode = null;
+                updateIntersections();
+            }
+        }
+
+        // === ПИНЧ-ЗУМ: данные ===
+        let pinchStartDist = 0;
+        let pinchStartZoom = 1;
+
+        function getPinchDistance(touches) {
+            const dx = touches[0].clientX - touches[1].clientX;
+            const dy = touches[0].clientY - touches[1].clientY;
+            return Math.sqrt(dx * dx + dy * dy);
+        }
+
+        function getPinchCenter(touches) {
+            return {
+                x: (touches[0].clientX + touches[1].clientX) / 2,
+                y: (touches[0].clientY + touches[1].clientY) / 2
+            };
+        }
+
         function setupCamera() {
-            // Камера: нажали на фон
+            // === МЫШЬ: нажали на фон ===
             wrapper.addEventListener('mousedown', (e) => {
                 if (isDraggingNode) return;
                 isPanning = true;
@@ -490,53 +553,18 @@
                 panStart.y = e.clientY - panY;
             });
 
-            // Камера: отпустили кнопку мыши
-            window.addEventListener('mouseup', () => {
-                isPanning = false;
-                if (isDraggingNode) {
-                    isDraggingNode = false;
-                    draggedNode = null;
-                    updateIntersections(); // Проверяем красные нити после того как отпустили
-                }
-            });
+            window.addEventListener('mouseup', finishDrag);
 
-            // Движение мыши
             window.addEventListener('mousemove', (e) => {
-                // Если двигаем камеру
                 if (isPanning) {
                     panX = e.clientX - panStart.x;
                     panY = e.clientY - panStart.y;
                     updateCanvasTransform();
                 }
-                
-                // Если двигаем точку
-                if (isDraggingNode && draggedNode) {
-                    const canvasRect = canvas.getBoundingClientRect();
-                    // Высчитываем реальные координаты внутри канваса
-                    let newX = (e.clientX - canvasRect.left) / zoomLevel - nodeDragOffset.x;
-                    let newY = (e.clientY - canvasRect.top) / zoomLevel - nodeDragOffset.y;
-
-                    // Ограничения карты (с большим запасом для всех регионов)
-                    newX = Math.max(-10000, Math.min(newX, 50000));
-                    newY = Math.max(-10000, Math.min(newY, 50000));
-
-                    draggedNode.style.left = newX + 'px';
-                    draggedNode.style.top = newY + 'px';
-
-                    const id = draggedNode.dataset.id;
-                    currentLocations[id].x = newX;
-                    currentLocations[id].y = newY;
-
-                    // Обновляем линии, прикрепленные к этой точке
-                    lineElements.forEach(line => {
-                        if (line.dataset.from === id || line.dataset.to === id) {
-                            updateSingleLine(line, currentLocations[line.dataset.from], currentLocations[line.dataset.to]);
-                        }
-                    });
-                }
+                moveNodeTo(e.clientX, e.clientY);
             });
 
-            // Зум колесиком (в точку мыши)
+            // Зум колесиком
             wrapper.addEventListener('wheel', (e) => {
                 e.preventDefault();
                 const delta = e.deltaY > 0 ? -0.1 : 0.1;
@@ -546,12 +574,78 @@
                 const mouseX = e.clientX - wrapper.getBoundingClientRect().left;
                 const mouseY = e.clientY - wrapper.getBoundingClientRect().top;
 
-                // Математика зума в точку
                 panX = mouseX - (mouseX - panX) * (zoomLevel / oldZoom);
                 panY = mouseY - (mouseY - panY) * (zoomLevel / oldZoom);
 
                 updateCanvasTransform();
             }, { passive: false });
+
+            // === ТАЧСКРИН ===
+            // Начало касания
+            wrapper.addEventListener('touchstart', (e) => {
+                if (e.touches.length === 1 && !isDraggingNode) {
+                    // Один палец — панорамирование
+                    isPanning = true;
+                    panStart.x = e.touches[0].clientX - panX;
+                    panStart.y = e.touches[0].clientY - panY;
+                } else if (e.touches.length === 2) {
+                    // Два пальца — начинаем пинч-зум
+                    isPanning = false;
+                    isDraggingNode = false;
+                    draggedNode = null;
+                    pinchStartDist = getPinchDistance(e.touches);
+                    pinchStartZoom = zoomLevel;
+                }
+            }, { passive: true });
+
+            // Движение пальцев
+            wrapper.addEventListener('touchmove', (e) => {
+                e.preventDefault(); // Блокируем скролл страницы
+
+                if (e.touches.length === 2) {
+                    // Пинч-зум
+                    const newDist = getPinchDistance(e.touches);
+                    const oldZoom = zoomLevel;
+                    zoomLevel = Math.max(0.2, Math.min(2.5, pinchStartZoom * (newDist / pinchStartDist)));
+
+                    const center = getPinchCenter(e.touches);
+                    const cx = center.x - wrapper.getBoundingClientRect().left;
+                    const cy = center.y - wrapper.getBoundingClientRect().top;
+
+                    panX = cx - (cx - panX) * (zoomLevel / oldZoom);
+                    panY = cy - (cy - panY) * (zoomLevel / oldZoom);
+
+                    updateCanvasTransform();
+                    return;
+                }
+
+                if (e.touches.length === 1) {
+                    const t = e.touches[0];
+                    if (isDraggingNode && draggedNode) {
+                        // Перетаскиваем узел
+                        moveNodeTo(t.clientX, t.clientY);
+                    } else if (isPanning) {
+                        // Панорамирование
+                        panX = t.clientX - panStart.x;
+                        panY = t.clientY - panStart.y;
+                        updateCanvasTransform();
+                    }
+                }
+            }, { passive: false });
+
+            // Конец касания
+            wrapper.addEventListener('touchend', (e) => {
+                if (e.touches.length === 0) {
+                    finishDrag();
+                } else if (e.touches.length === 1) {
+                    // Вернулись к одному пальцу после пинча → перезапускаем панорамирование
+                    isPanning = true;
+                    panStart.x = e.touches[0].clientX - panX;
+                    panStart.y = e.touches[0].clientY - panY;
+                }
+            }, { passive: true });
+
+            wrapper.addEventListener('touchcancel', finishDrag, { passive: true });
         }
 
         function updateCanvasTransform() {
