@@ -277,6 +277,10 @@
             animation: linePulse 3s infinite;
         }
 
+        .header.hide-after::after {
+            display: none;
+        }
+
         @keyframes linePulse {
 
             0%,
@@ -1398,6 +1402,12 @@
         }
 
         @media (max-width: 480px) {
+            .stat-content {
+                overflow: visible !important;
+                padding: 12px 20px !important;
+                width: auto;
+            }
+
             .logo h1 {
                 font-size: 2.3rem;
             }
@@ -1516,11 +1526,7 @@
                 font-size: 1.7rem;
             }
 
-            .stat-content {
-                overflow: visible !important;
-                padding: 12px 20px !important;
-                width: auto;
-            }
+
 
             .stat-label {
                 font-size: 0.8rem !important;
@@ -1665,12 +1671,15 @@
                 function togglePokeStats() {
                     const dropdown = document.getElementById('pokeStatsDropdown');
                     const arrow = document.getElementById('pokeStatsArrow');
+                    const header = document.querySelector('.header');
                     if (dropdown.classList.contains('show')) {
                         dropdown.classList.remove('show');
                         arrow.style.transform = 'rotate(0deg)';
+                        if (window.innerWidth <= 768) header.classList.remove('hide-after');
                     } else {
                         dropdown.classList.add('show');
                         arrow.style.transform = 'rotate(180deg)';
+                        if (window.innerWidth <= 768) header.classList.add('hide-after');
                     }
                 }
 
@@ -1678,10 +1687,12 @@
                 document.addEventListener('click', function(event) {
                     const dropdown = document.getElementById('pokeStatsDropdown');
                     const arrow = document.getElementById('pokeStatsArrow');
+                    const header = document.querySelector('.header');
                     if (dropdown && dropdown.classList.contains('show')) {
                         if (!event.target.closest('.stat-item:nth-child(3)')) {
                             dropdown.classList.remove('show');
                             arrow.style.transform = 'rotate(0deg)';
+                            if (window.innerWidth <= 768) header.classList.remove('hide-after');
                         }
                     }
                 });
