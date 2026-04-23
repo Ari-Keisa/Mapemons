@@ -1518,14 +1518,18 @@
 
             .stat-content {
                 overflow: visible !important;
+                padding: 12px 20px !important;
+                width: auto;
             }
 
             .stat-label {
-                font-size: 0.85rem !important;
+                font-size: 0.8rem !important;
                 white-space: nowrap;
                 display: flex;
                 justify-content: center;
                 align-items: center;
+                position: relative;
+                z-index: 5;
             }
 
             .stat-label-pc {
@@ -1535,7 +1539,7 @@
             .stat-label-mobile {
                 display: flex;
                 align-items: center;
-                gap: 5px;
+                gap: 6px;
             }
 
             .search-option {
@@ -1636,7 +1640,11 @@
                         <span class="stat-number" id="pokemonCount">...</span>
                         <span class="stat-label" style="cursor: pointer;" onclick="togglePokeStats()">
                             <span class="stat-label-pc">покемонов</span>
-                            <span class="stat-label-mobile">◀ покемоны ▶</span>
+                            <span class="stat-label-mobile">
+                                <i class="fas fa-caret-right" style="font-size:0.9em; color:var(--primary);"></i>
+                                покемоны
+                                <i class="fas fa-caret-left" style="font-size:0.9em; color:var(--primary);"></i>
+                            </span>
                             <i id="pokeStatsArrow" class="fas fa-chevron-down" style="font-size:0.8em; transition: transform 0.3s;"></i>
                         </span>
                     </div>
