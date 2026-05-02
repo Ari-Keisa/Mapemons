@@ -234,24 +234,27 @@
         }
 
         /* Responsive Search Results */
-        @media (max-width: 600px) {
+        @media (max-width: 850px) {
             .search-result-header {
+                display: flex !important;
                 flex-direction: column !important;
-                gap: 12px !important;
+                gap: 15px !important;
                 align-items: stretch !important;
+                width: 100% !important;
             }
             .name-button-container {
                 display: flex !important;
                 justify-content: space-between !important;
-                align-items: flex-start !important;
+                align-items: center !important;
                 width: 100% !important;
             }
             .type-badges-container {
-                margin-top: 8px !important;
+                margin-top: 5px !important;
                 margin-left: 0 !important;
-                display: flex;
-                flex-wrap: wrap;
-                gap: 5px;
+                display: flex !important;
+                flex-wrap: wrap !important;
+                gap: 8px !important;
+                width: 100% !important;
             }
         }
 
