@@ -998,7 +998,6 @@
             opacity: 0;
             transform: translateY(40px);
             animation: fadeInUp 0.8s ease 2.6s forwards;
-            transition: var(--transition);
         }
 
         .search-section:hover {
@@ -1072,10 +1071,12 @@
             opacity: 0;
             transform: translateY(20px);
             animation: fadeInUp 0.6s ease 2.8s forwards;
+            transition: none !important;
         }
 
-        .search-box.hidden {
-            display: none;
+        .search-box:not(.hidden) {
+            display: block;
+            /* Обеспечиваем моментальное появление после завершения начальной анимации */
         }
 
         .search-input {
@@ -1087,7 +1088,7 @@
             border-radius: 35px;
             color: white;
             font-size: 1.1rem;
-            transition: var(--transition);
+            transition: border-color 0.3s ease, box-shadow 0.3s ease, transform 0.3s ease;
             box-shadow: 0 5px 20px rgba(0, 0, 0, 0.2);
         }
 
@@ -2130,7 +2131,15 @@
 
                         // Управляем видимостью элементов
                         if (type === 'pokemon' || type === 'item') {
-                            if (searchBox) searchBox.classList.remove('hidden');
+                            if (searchBox) {
+                                searchBox.classList.remove('hidden');
+                                const searchInput = document.getElementById('pokemonSearch');
+                                if (searchInput) {
+                                    searchInput.placeholder = type === 'pokemon' ? 
+                                        "Введите имя покемона или номер..." : 
+                                        "Введите название предмета";
+                                }
+                            }
                             if (pokecenterList) pokecenterList.classList.remove('active');
                             if (pokemartList) pokemartList.classList.remove('active');
                         } else if (type === 'pokecenter') {
