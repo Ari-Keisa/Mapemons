@@ -486,12 +486,21 @@
         @media (max-width: 600px) {
             .search-result-header {
                 flex-direction: column !important;
-                gap: 10px !important;
-                align-items: flex-start !important;
+                gap: 12px !important;
+                align-items: stretch !important;
             }
-            .search-result-header .type-badges-container {
-                margin-top: 5px !important;
-                width: 100%;
+            .name-button-container {
+                display: flex !important;
+                justify-content: space-between !important;
+                align-items: flex-start !important;
+                width: 100% !important;
+            }
+            .type-badges-container {
+                margin-top: 8px !important;
+                margin-left: 0 !important;
+                display: flex;
+                flex-wrap: wrap;
+                gap: 5px;
             }
         }
 
@@ -4165,9 +4174,9 @@
 
             let html = `
                 <div style="padding:10px;">
-                    <div class="search-result-header" style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:15px;">
-                        <div style="display:flex; align-items:flex-start; gap:12px;">
-                            <div>
+                    <div class="search-result-header" style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:15px; flex-wrap: wrap;">
+                        <div class="name-button-container" style="display:flex; align-items:flex-start; gap:12px;">
+                            <div class="name-container">
                                 <h2 style="color:var(--primary);margin:0;line-height:1.1;">#${id} ${isShinySearch ? `⭐️${p.ru}⭐️` : p.ru}${formLabel}</h2>
                                 <span style="color:var(--text-muted);display:block;margin-top:2px;">${p.en}</span>
                             </div>
@@ -4175,7 +4184,7 @@
                                 <i class="fas fa-book-open"></i>
                             </button>
                         </div>
-                        <div class="type-badges-container" style="margin-top:4px;">${types}</div>
+                        <div class="type-badges-container" style="margin-top:4px; margin-left: 10px;">${types}</div>
                     </div>`;
 
             if (msg) {

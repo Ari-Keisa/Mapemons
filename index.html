@@ -237,12 +237,21 @@
         @media (max-width: 600px) {
             .search-result-header {
                 flex-direction: column !important;
-                gap: 10px !important;
-                align-items: flex-start !important;
+                gap: 12px !important;
+                align-items: stretch !important;
             }
-            .search-result-header .type-badges-container {
-                margin-top: 5px !important;
-                width: 100%;
+            .name-button-container {
+                display: flex !important;
+                justify-content: space-between !important;
+                align-items: flex-start !important;
+                width: 100% !important;
+            }
+            .type-badges-container {
+                margin-top: 8px !important;
+                margin-left: 0 !important;
+                display: flex;
+                flex-wrap: wrap;
+                gap: 5px;
             }
         }
 
