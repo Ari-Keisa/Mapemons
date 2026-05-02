@@ -126,11 +126,19 @@ document.addEventListener('DOMContentLoaded', function () {
             if (itemLRes && itemLRes.ok) window.itemLocationsData = await itemLRes.json();
             
             window.emojiCombosData = null;
+            window.emojiCombosSorted = null;
             if (comboRes && comboRes.ok) {
                 const raw = await comboRes.json();
                 window.emojiCombosData = {};
+                window.emojiCombosSorted = {};
                 for (let k in raw) {
-                    window.emojiCombosData[k.replace(/\uFE0F/g, '')] = raw[k];
+                    const cleanKey = k.replace(/\uFE0F/g, '');
+                    const path = raw[k];
+                    window.emojiCombosData[cleanKey] = path;
+                    
+                    // Also store sorted version for order-independent lookup
+                    const sortedKey = Array.from(cleanKey).sort().join('');
+                    window.emojiCombosSorted[sortedKey] = path;
                 }
             }
 
@@ -666,49 +674,71 @@ document.addEventListener('DOMContentLoaded', function () {
         return h;
     }
 
-    function formatTextWithEmojis(text) {
-        if (!text) return '';
-        return text.replace(/([\p{Extended_Pictographic}][\uFE0F\u200D]*)([\p{Extended_Pictographic}][\uFE0F\u200D]*)/gu, (match, e1, e2) => {
-            let cleanE1 = e1.replace(/\uFE0F/g, '');
-            let cleanE2 = e2.replace(/\uFE0F/g, '');
-            let comboStr = cleanE1 + cleanE2;
-            let revCombo = cleanE2 + cleanE1;
-
-            let imgUrl = null;
-            if (window.emojiCombosData) {
-                if (window.emojiCombosData[comboStr]) imgUrl = window.emojiCombosData[comboStr];
-                else if (window.emojiCombosData[revCombo]) imgUrl = window.emojiCombosData[revCombo];
-            }
-
-            if (imgUrl) {
-                return `<img src="${imgUrl}" class="item-combo-img" style="width: 1.5em; height: 1.5em; vertical-align: middle; display: inline-block; object-fit: contain; margin: 0 2px;" alt="${comboStr}" title="${comboStr}">`;
-            }
-
-            let c1 = cleanE1.codePointAt(0).toString(16);
-            let c2 = cleanE2.codePointAt(0).toString(16);
-            return `<span class="item-double-emoji combo-${c1}-${c2}" title="${match}">
-                <span class="emoji-base">${e1}</span>
-                <span class="emoji-overlay">${e2}</span>
-            </span>`;
-        });
-    }
-
     function formatItemSticker(stickerStr) {
         if (!stickerStr) return '';
         const cleanStr = stickerStr.replace(/\uFE0F/g, '').trim();
         const chars = Array.from(cleanStr);
+        
+        // Если это два эмодзи (и нет букв/цифр)
         if (chars.length === 2 && !/[a-zA-Zа-яА-Я0-9]/.test(cleanStr)) {
-            return formatTextWithEmojis(stickerStr);
+            // Проверка на комбинацию (независимо от порядка)
+            const sortedKey = [...chars].sort().join('');
+            const comboPath = window.emojiCombosSorted ? window.emojiCombosSorted[sortedKey] : null;
+            
+            if (comboPath) {
+                return `<img src="${comboPath}" class="emoji-img" alt="${stickerStr}" style="width: 1.5em; height: 1.5em; vertical-align: middle;">`;
+            }
+            
+            // Если комбинация не найдена — применяем уменьшение (downscale)
+            return `<span class="item-sticker-downscale">${stickerStr}</span>`;
         }
-        return stickerStr;
+        
+        return formatTextWithEmojis(stickerStr);
     }
+
+    function formatTextWithEmojis(text) {
+        if (!text) return '';
+        if (!window.emojiCombosData) return text;
+        
+        let result = text;
+        // Сначала заменяем точные совпадения (включая многосимвольные комбо из JSON)
+        for (const [emoji, path] of Object.entries(window.emojiCombosData)) {
+            if (result.includes(emoji)) {
+                const imgHtml = `<img src="${path}" class="emoji-img" alt="${emoji}" style="width: 1.25em; height: 1.25em; vertical-align: middle; margin: 0 1px;">`;
+                result = result.split(emoji).join(imgHtml);
+            }
+        }
+        return result;
+    }
+
+    // Экспортируем функции в глобальную область
+    window.formatItemSticker = formatItemSticker;
+    window.formatTextWithEmojis = formatTextWithEmojis;
+    window.loadEmojiCombos = async function() {
+        if (window.emojiCombosData) return;
+        try {
+            const isInPages = window.location.pathname.includes('/pages/');
+            const resp = await fetch((isInPages ? '../' : '') + 'json/emoji_combos.json');
+            if (resp.ok) {
+                const raw = await resp.json();
+                window.emojiCombosData = {};
+                window.emojiCombosSorted = {};
+                for (let k in raw) {
+                    const cleanKey = k.replace(/\uFE0F/g, '');
+                    window.emojiCombosData[cleanKey] = raw[k];
+                    const sortedKey = Array.from(cleanKey).sort().join('');
+                    window.emojiCombosSorted[sortedKey] = raw[k];
+                }
+            }
+        } catch(e) { console.error("Error loading emoji combos", e); }
+    };
 
     function renderItemOutput(rawQuery, itemObj, habitats) {
         let titleName = itemObj ? itemObj.RuName || itemObj.Name : rawQuery;
         let engName = itemObj && itemObj.Name ? ` / ${itemObj.Name}` : '';
         let rawSticker = itemObj && itemObj.Sticker ? itemObj.Sticker : '🎒';
         let sticker = formatItemSticker(rawSticker);
-        let desc = itemObj && itemObj.Description ? `<div style="padding:15px; background:rgba(255,255,255,0.05); border-radius:10px; margin-bottom:20px; line-height:1.5;">${itemObj.Description}</div>` : '';
+        let desc = itemObj && itemObj.Description ? `<div style="padding:15px; background:rgba(255,255,255,0.05); border-radius:10px; margin-bottom:20px; line-height:1.5;">${formatTextWithEmojis(itemObj.Description)}</div>` : '';
 
         els.title.innerHTML = `<i class="fas fa-search"></i> ${sticker} ${titleName}${engName}`;
 

@@ -2299,6 +2299,7 @@
         // ===== 1. ЗАГРУЗКА ДАННЫХ =====
         document.addEventListener('DOMContentLoaded', async function () {
             try {
+                if (typeof loadEmojiCombos === 'function') await loadEmojiCombos();
                 // Грузим все файлы параллельно
                 const [locRes, layRes, pokRes, npcsRes, pkRuRes, profRes, profAffRes, pkFormsRes, itemsRes, itemMapRes, pkUpperRes] = await Promise.all([
                     fetch('../json/locations.json'),
@@ -3275,9 +3276,9 @@
                         itemKey = itemRuToKey[cleanIt];
                     }
                     if (itemKey) {
-                        return `<div class="item-tag clickable" onclick="openItemInfo('${itemKey}')" title="Подробнее">${it}</div>`;
+                        return `<div class="item-tag clickable" onclick="openItemInfo('${itemKey}')" title="Подробнее">${window.formatTextWithEmojis ? window.formatTextWithEmojis(it) : it}</div>`;
                     }
-                    return `<div class="item-tag">${it}</div>`;
+                    return `<div class="item-tag">${window.formatTextWithEmojis ? window.formatTextWithEmojis(it) : it}</div>`;
                 }).join('') + '</div>';
             } else {
                 itemsHtml = '<div class="loc-empty"><div class="loc-empty-icon">🚫</div><div class="loc-empty-text">Предметы в этой локации не найдены</div></div>';
@@ -3364,13 +3365,13 @@
                 <div class="modal-content">
                     <div class="item-modal-content">
                         <div class="item-modal-header">
-                            <div class="item-modal-sticker">${item.Sticker || '📦'}</div>
+                            <div class="item-modal-sticker">${window.formatItemSticker ? window.formatItemSticker(item.Sticker || '📦') : (item.Sticker || '📦')}</div>
                             <div class="item-modal-title-group">
                                 <div class="item-modal-ru-name">${item.RuName || item.Name}</div>
                                 <div class="item-modal-en-name">${item.Name}</div>
                             </div>
                         </div>
-                        <div class="item-modal-desc">${item.Description || 'Описание отсутствует.'}</div>
+                        <div class="item-modal-desc">${window.formatTextWithEmojis ? window.formatTextWithEmojis(item.Description || 'Описание отсутствует.') : (item.Description || 'Описание отсутствует.')}</div>
                         <div class="item-modal-footer">
                             ${priceHtml}
                             <span class="item-modal-id">ID: ${item.num_id || '???'}</span>

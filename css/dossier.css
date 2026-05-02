@@ -1136,4 +1136,35 @@
 
 /* 🛡️✨ Shield + Sparkles */
 .combo-1f6e1-2728 .emoji-base { font-size: 1.3em; left: 0; }
-.combo-1f6e1-2728 .emoji-overlay { font-size: 0.6em; right: -2px; top: -2px; }
+.combo-1f6e1-2728 .emoji-overlay { font-size: 0.6em; right: -2px; top: -2px; }
+
+/* ===== ITEM STICKER & EMOJI STYLES ===== */
+.item-sticker-downscale {
+    font-size: 0.75em;
+    letter-spacing: -0.1em;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    white-space: nowrap;
+    line-height: 1;
+    transform: scale(1.1);
+}
+
+.emoji-img {
+    width: 1.4em;
+    height: 1.4em;
+    object-fit: contain;
+    vertical-align: middle;
+    filter: drop-shadow(0 2px 5px rgba(0,0,0,0.4));
+    transition: transform 0.3s ease;
+}
+
+.emoji-img:hover {
+    transform: scale(1.15);
+}
+
+.item-modal-sticker .emoji-img {
+    width: 80%;
+    height: 80%;
+}
+
