@@ -9,12 +9,436 @@
     <link rel="stylesheet" href="css/dossier.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <script src="js/dossier.js"></script>
+    <script src="js/location-modal.js"></script>
     <style>
         /* ===== БАЗОВЫЕ СТИЛИ ===== */
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
+        }
+
+        /* ===== REDESIGNED LOCATION MODAL ===== */
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.8);
+            z-index: 10000;
+            display: none;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .modal-overlay.active {
+            display: block;
+            opacity: 1;
+        }
+
+        .modal {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%) scale(0.9);
+            background: linear-gradient(135deg, #302b63, #24243e);
+            border-radius: 20px;
+            padding: 30px;
+            width: 90%;
+            max-width: 800px;
+            max-height: 80vh;
+            overflow-y: auto;
+            z-index: 10001;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
+            border: 2px solid #4ecdc4;
+            opacity: 0;
+            transition: all 0.3s ease;
+            color: white;
+        }
+
+        .modal.active {
+            transform: translate(-50%, -50%) scale(1);
+            opacity: 1;
+        }
+
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 25px;
+            padding-bottom: 15px;
+            border-bottom: 2px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .modal-close {
+            width: 40px;
+            height: 40px;
+            background: linear-gradient(135deg, #4ecdc4, #44a08d);
+            border: none;
+            border-radius: 50%;
+            color: white;
+            cursor: pointer;
+            transition: all 0.4s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .modal-close:hover {
+            transform: rotate(90deg);
+            background: linear-gradient(135deg, #ff6b6b, #ff8e53);
+        }
+
+        .loc-modal-badges {
+            display: inline-flex;
+            gap: 6px;
+            margin-left: 10px;
+            font-size: 1.1rem;
+            vertical-align: middle;
+        }
+
+        .loc-requirements-box {
+            background: rgba(255, 107, 107, 0.1);
+            border: 1px solid rgba(255, 107, 107, 0.3);
+            border-radius: 12px;
+            padding: 15px;
+            margin: 15px 0;
+            animation: fadeIn 0.5s ease;
+        }
+
+        .req-title {
+            color: var(--accent);
+            font-weight: 800;
+            font-size: 0.85rem;
+            margin-bottom: 10px;
+            letter-spacing: 0.5px;
+        }
+
+        .req-items-list {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+        }
+
+        .req-item-tag {
+            background: var(--accent);
+            color: white;
+            padding: 5px 12px;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            font-weight: 600;
+            box-shadow: 0 4px 10px rgba(255, 107, 107, 0.3);
+        }
+
+        .loc-modal-desc {
+            color: var(--text-muted);
+            margin-bottom: 20px;
+            line-height: 1.7;
+            font-size: 0.95rem;
+            padding: 15px;
+            background: rgba(30, 30, 60, 0.5);
+            border-radius: 12px;
+            border-left: 3px solid var(--primary);
+        }
+
+        .loc-tabs {
+            display: flex;
+            gap: 4px;
+            margin-bottom: 20px;
+            background: rgba(20, 20, 40, 0.6);
+            border-radius: 14px;
+            padding: 4px;
+        }
+
+        .loc-tab {
+            flex: 1;
+            padding: 12px 8px;
+            border: none;
+            background: transparent;
+            color: var(--text-muted);
+            font-size: 0.95rem;
+            font-weight: 600;
+            border-radius: 11px;
+            cursor: pointer;
+            transition: var(--transition);
+            text-align: center;
+        }
+
+        .loc-tab:hover {
+            background: rgba(78, 205, 196, 0.1);
+            color: white;
+        }
+
+        .loc-tab.active {
+            background: linear-gradient(135deg, var(--primary), #44a08d);
+            color: white;
+            box-shadow: 0 4px 15px rgba(78, 205, 196, 0.3);
+        }
+
+        .loc-tab-panel {
+            display: none;
+        }
+
+        .loc-tab-panel.active {
+            display: block;
+            animation: fadeInTab 0.3s ease;
+        }
+
+        @keyframes fadeInTab {
+            from {
+                opacity: 0;
+                transform: translateY(8px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .npc-list {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .npc-item {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 12px 16px;
+            background: rgba(30, 30, 60, 0.5);
+            border-radius: 12px;
+            border-left: 3px solid #9370db;
+            transition: var(--transition);
+        }
+
+        .npc-item:hover {
+            background: rgba(40, 40, 80, 0.7);
+            transform: translateX(4px);
+        }
+
+        .npc-item-name {
+            color: white;
+            font-weight: 500;
+            font-size: 0.95rem;
+        }
+
+        .npc-info-btn {
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            border: none;
+            background: rgba(147, 112, 219, 0.3);
+            color: #c9b1ff;
+            cursor: pointer;
+            transition: var(--transition);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.9rem;
+            flex-shrink: 0;
+        }
+
+        .npc-info-btn:hover {
+            background: rgba(147, 112, 219, 0.6);
+            color: white;
+            transform: scale(1.1);
+        }
+
+        .npc-desc {
+            display: none;
+            padding: 10px 16px;
+            color: var(--text-muted);
+            font-size: 0.88rem;
+            line-height: 1.6;
+            border-top: 1px solid rgba(255, 255, 255, 0.05);
+            margin-top: 8px;
+        }
+
+        .npc-desc.show {
+            display: block;
+            animation: fadeInTab 0.3s ease;
+        }
+
+        .poke-list {
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+        }
+
+        .poke-item {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 10px 14px;
+            background: rgba(30, 30, 60, 0.5);
+            border-radius: 10px;
+            border-left: 3px solid var(--primary);
+            transition: var(--transition);
+            font-size: 0.9rem;
+        }
+
+        .poke-item:hover {
+            background: rgba(40, 40, 80, 0.7);
+            transform: translateX(4px);
+        }
+
+        .poke-item-info {
+            color: white;
+            flex: 1;
+        }
+
+        .poke-item-rarity {
+            color: var(--text-muted);
+            font-size: 0.82rem;
+            margin-left: 8px;
+            padding: 2px 8px;
+            background: rgba(255, 255, 255, 0.08);
+            border-radius: 6px;
+            white-space: nowrap;
+        }
+
+        .poke-info-btn {
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            border: none;
+            background: rgba(78, 205, 196, 0.25);
+            color: var(--primary);
+            cursor: pointer;
+            transition: var(--transition);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.85rem;
+            flex-shrink: 0;
+            margin-left: 10px;
+        }
+
+        .poke-info-btn:hover {
+            background: rgba(78, 205, 196, 0.5);
+            color: white;
+            transform: scale(1.1);
+        }
+
+        .items-list {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+        }
+
+        .item-tag {
+            padding: 8px 14px;
+            background: rgba(255, 215, 0, 0.1);
+            border: 1px solid rgba(255, 215, 0, 0.2);
+            border-radius: 10px;
+            color: #ffd700;
+            font-size: 0.88rem;
+            transition: var(--transition);
+        }
+
+        .item-tag.clickable {
+            cursor: pointer;
+        }
+
+        .item-tag:hover {
+            background: rgba(255, 215, 0, 0.2);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(255, 215, 0, 0.1);
+        }
+
+        .item-modal-content {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            padding: 10px 0;
+        }
+
+        .item-modal-header {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            padding-bottom: 15px;
+        }
+
+        .item-modal-sticker {
+            font-size: min(3rem, 12vw);
+            background: rgba(255, 255, 255, 0.05);
+            width: 80px;
+            height: 80px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 20px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            overflow: hidden;
+            flex-shrink: 0;
+        }
+
+        .item-modal-title-group {
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+        }
+
+        .item-modal-ru-name {
+            font-size: 1.4rem;
+            font-weight: 700;
+            color: #ffd700;
+        }
+
+        .item-modal-en-name {
+            font-size: 0.9rem;
+            color: var(--text-muted);
+            font-style: italic;
+        }
+
+        .item-modal-desc {
+            font-size: 1.05rem;
+            line-height: 1.6;
+            color: rgba(255, 255, 255, 0.9);
+            background: rgba(0, 0, 0, 0.2);
+            padding: 15px;
+            border-radius: 12px;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        .item-modal-footer {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 10px;
+            font-size: 0.95rem;
+        }
+
+        .item-modal-price {
+            color: #4ecdc4;
+            font-weight: 600;
+        }
+
+        .item-modal-id {
+            color: var(--text-muted);
+            font-size: 0.8rem;
+        }
+
+        .loc-empty {
+            text-align: center;
+            padding: 30px 20px;
+            color: var(--text-muted);
+            font-size: 0.95rem;
+        }
+
+        .loc-empty-icon {
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+            opacity: 0.4;
+        }
+
+        .loc-empty-text {
+            font-style: italic;
         }
 
         :root {

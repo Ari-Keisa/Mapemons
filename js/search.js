@@ -93,8 +93,7 @@ document.addEventListener('DOMContentLoaded', function () {
     async function loadData() {
         try {
             // Важно: Пути к JSON. Если скрипт в папке js/, нам нужно выйти назад (../) или использовать абсолютный путь.
-            // Используем относительный путь от HTML файла (обычно работает просто 'json/...')
-            const [pRes, lRes, ruRes, prRes, affRes, fRes, uRes, itemLRes, itemsRes, comboRes] = await Promise.all([
+            const results = await Promise.all([
                 fetch('json/pokemon_names.json'),
                 fetch('json/locations.json'),
                 fetch('json/pokemon_ru.json'),
@@ -104,8 +103,11 @@ document.addEventListener('DOMContentLoaded', function () {
                 fetch('json/pokemon_names_upper.json').catch(() => ({ ok: false })),
                 fetch('json/item.json').catch(() => ({ok: false})),
                 fetch('json/items.json').catch(() => ({ok: false})),
-                fetch('json/emoji_combos.json').catch(() => ({ok: false}))
+                fetch('json/emoji_combos.json').catch(() => ({ok: false})),
+                fetch('json/npcs.json').catch(() => ({ok: false}))
             ]);
+
+            const [pRes, lRes, ruRes, prRes, affRes, fRes, uRes, itemLRes, itemsRes, comboRes, npcRes] = results;
 
             if (!pRes.ok) throw new Error(`pokemon_names.json не найден`);
             if (!lRes.ok) throw new Error(`locations.json не найден`);
@@ -124,6 +126,7 @@ document.addEventListener('DOMContentLoaded', function () {
             }
             if (itemsRes && itemsRes.ok) window.itemsData = await itemsRes.json();
             if (itemLRes && itemLRes.ok) window.itemLocationsData = await itemLRes.json();
+            if (npcRes && npcRes.ok) window.npcsData = await npcRes.json();
             
             window.emojiCombosData = null;
             window.emojiCombosSorted = null;
@@ -477,11 +480,13 @@ document.addEventListener('DOMContentLoaded', function () {
                             if (locationData && locationData[locId]) {
                                 itemHabitats.push({
                                     ...locationData[locId],
+                                    name: locId, // Saved ID as name for the modal
                                     rawItemString: rawStr,
                                     regionRaw: reg
                                 });
                             } else {
                                 itemHabitats.push({
+                                    name: locId,
                                     ru_name: locId,
                                     region: reg,
                                     rawItemString: rawStr,
@@ -555,7 +560,7 @@ document.addEventListener('DOMContentLoaded', function () {
         for (const id in locationData) {
             const loc = locationData[id];
             const enc = loc.encounters?.find(e => e.species === capsName);
-            if (enc) found.push({ ...loc, info: enc });
+            if (enc) found.push({ ...loc, name: id, info: enc });
         }
         return found;
     }
@@ -668,6 +673,9 @@ document.addEventListener('DOMContentLoaded', function () {
                                     Ур. ${l.info.min_level}-${l.info.max_level} • ${l.info.rarity === 0 ? 'О' : 'Р' + l.info.rarity} ${l.info.conditions ? '⏰' : ''}
                                 </div>
                             </div>
+                            <button class="loc-info-btn" onclick="openLocationModal('${l.name}')" title="Информация о локации" style="width:34px; height:34px; border-radius:50%; border:none; background:rgba(78,205,196,0.15); color:var(--primary); cursor:pointer; transition:var(--transition); display:flex; align-items:center; justify-content:center; font-size:1rem; flex-shrink:0;">
+                                📍
+                            </button>
                         </div>`).join('')}
                 </div>
             </div>`;
@@ -766,9 +774,14 @@ document.addEventListener('DOMContentLoaded', function () {
                 <h5 style="margin:0 0 10px 0; color:var(--primary);"><i class="fas fa-map-marker-alt"></i> ${regionNames[reg] || reg}</h5>
                 <div style="display:grid; gap:8px;">
                     ${byReg[reg].map(l => `
-                        <div style="padding:10px; background:rgba(255,255,255,0.05); border-radius:8px; border-left:3px solid #ffcc00; display:flex; flex-direction:column; gap:4px;">
-                            <strong style="color:white;">${l.ru_name || l.name || 'Неизвестно'}</strong>
-                            <div style="font-size:0.85rem; color:var(--text-muted);">${formatTextWithEmojis(l.rawItemString)}</div>
+                        <div style="padding:10px; background:rgba(255,255,255,0.05); border-radius:8px; border-left:3px solid #ffcc00; display:flex; justify-content:space-between; align-items:center;">
+                            <div style="display:flex; flex-direction:column; gap:4px;">
+                                <strong style="color:white;">${l.ru_name || l.name || 'Неизвестно'}</strong>
+                                <div style="font-size:0.85rem; color:var(--text-muted);">${formatTextWithEmojis(l.rawItemString)}</div>
+                            </div>
+                            <button class="loc-info-btn" onclick="openLocationModal('${l.name}')" title="Информация о локации" style="width:34px; height:34px; border-radius:50%; border:none; background:rgba(255,215,0,0.15); color:#ffd700; cursor:pointer; transition:var(--transition); display:flex; align-items:center; justify-content:center; font-size:1rem; flex-shrink:0;">
+                                📍
+                            </button>
                         </div>`).join('')}
                 </div>
             </div>`;
