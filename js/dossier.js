@@ -19,7 +19,7 @@ const typeNamesRu = {
 };
 
 const typeColors = {
-    "normal": "#ffffffff", "fire": "#eb6657ff", "water": "#5d85e2ff", "electric": "#F8D030",
+    "normal": "#A8A878", "fire": "#eb6657ff", "water": "#5d85e2ff", "electric": "#F8D030",
     "grass": "#78C850", "ice": "#70aaaaff", "fighting": "#C03028", "poison": "#b64db6ff",
     "ground": "#6d5c2bff", "flying": "#c8b6ffff", "psychic": "#f14e7fff", "bug": "#909d17ff",
     "rock": "#443c17ff", "ghost": "#cab3f0ab", "dragon": "#27a573ff", "steel": "#545465ff",
@@ -536,9 +536,10 @@ function openPokemonDossier(pkId, isShiny = false, formIndex = null) {
         const color = typeColors[tLow] || '#888';
         const icon = typeIcons[tLow] || '';
         const nameRu = typeNamesRu[tLow] || (t.charAt(0).toUpperCase() + t.slice(1).toLowerCase());
-        const lightBackgroundTypes = ['normal', 'electric', 'fairy'];
+        const lightBackgroundTypes = ['electric', 'fairy'];
         const textColor = lightBackgroundTypes.includes(tLow) ? '#000' : '#fff';
-        return `<span class="dossier-type-badge" style="background:${color}; color:${textColor}">${icon} ${nameRu}</span>`;
+        const iconShadow = 'filter: drop-shadow(0 0 1px rgba(255,255,255,0.8))';
+        return `<span class="dossier-type-badge" style="background:${color}; color:${textColor}"><span style="${iconShadow}">${icon}</span> ${nameRu}</span>`;
     }).join('');
 
     // Basic info

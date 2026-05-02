@@ -586,8 +586,9 @@ document.addEventListener('DOMContentLoaded', function () {
         const types = p.type ? p.type.map(t => {
             const tLow = t.toLowerCase().trim();
             const nameRu = typeNamesRu[tLow] || t.toUpperCase();
-            const textColor = tLow === 'normal' ? '#000' : '#fff';
-            return `<span class="type-badge" style="background:rgba(255,255,255,0.1); padding:4px 8px; border-radius:5px; margin-right:5px; font-size:0.8rem; color:${textColor}">${typeIcons[tLow] || ''} ${nameRu}</span>`;
+            const textColor = '#fff';
+            const iconShadow = 'filter: drop-shadow(0 0 1px rgba(255,255,255,0.8))';
+            return `<span class="type-badge" style="background:rgba(255,255,255,0.1); padding:4px 8px; border-radius:5px; margin-right:5px; font-size:0.8rem; color:${textColor}"><span style="${iconShadow}">${typeIcons[tLow] || ''}</span> ${nameRu}</span>`;
         }).join('') : '';
 
         // Find correct key for dossier
@@ -610,8 +611,8 @@ document.addEventListener('DOMContentLoaded', function () {
                             <i class="fas fa-book-open"></i>
                         </button>
                     </div>
+                    <div style="margin-top:4px;">${types}</div>
                 </div>
-                <div style="margin-top:10px;">${types}</div>
             </div>`;
 
         if (msg) {

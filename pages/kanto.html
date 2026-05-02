@@ -4136,8 +4136,9 @@
             };
             const types = p.type ? p.type.map(t => {
                 const tLow = t.toLowerCase().trim();
-                const textColor = tLow === 'normal' ? '#000' : '#fff';
-                return `<span style="background:rgba(255,255,255,0.1);padding:4px 8px;border-radius:5px;margin-right:5px;font-size:0.8rem;color:${textColor}">${_typeIconsLocal[tLow] || ''} ${_typeNamesRu[tLow] || t.toUpperCase()}</span>`;
+                const textColor = '#fff';
+                const iconShadow = 'filter: drop-shadow(0 0 1px rgba(255,255,255,0.8))';
+                return `<span style="background:rgba(255,255,255,0.1);padding:4px 8px;border-radius:5px;margin-right:5px;font-size:0.8rem;color:${textColor}"><span style="${iconShadow}">${_typeIconsLocal[tLow] || ''}</span> ${_typeNamesRu[tLow] || t.toUpperCase()}</span>`;
             }).join('') : '';
 
             // Find correct key for dossier
