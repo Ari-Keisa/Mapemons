@@ -995,6 +995,12 @@
             backdrop-filter: blur(10px);
             box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
             text-align: center;
+            opacity: 1; /* Базовое состояние - видимое */
+            transform: none;
+            transition: none !important;
+        }
+
+        .search-section.intro {
             opacity: 0;
             transform: translateY(40px);
             animation: fadeInUp 0.8s ease 2.6s forwards;
@@ -1068,15 +1074,19 @@
             max-width: 500px;
             margin: 0 auto;
             position: relative;
-            opacity: 0;
-            transform: translateY(20px);
-            animation: fadeInUp 0.6s ease 2.8s forwards;
+            opacity: 1; /* Базовое состояние - видимое */
+            transform: none;
             transition: none !important;
         }
 
-        .search-box:not(.hidden) {
-            display: block;
-            /* Обеспечиваем моментальное появление после завершения начальной анимации */
+        .search-box.intro {
+            opacity: 0;
+            transform: translateY(20px);
+            animation: fadeInUp 0.6s ease 2.8s forwards;
+        }
+
+        .search-box.hidden {
+            display: none !important;
         }
 
         .search-input {
@@ -1904,7 +1914,7 @@
             </div>
         </section>
 
-        <section class="search-section">
+        <section class="search-section intro">
             <h2 class="section-title">
                 <i class="fas fa-search"></i>
                 Поиск и сервисы
@@ -1925,7 +1935,7 @@
                 </div>
             </div>
 
-            <div class="search-box" id="searchBox">
+            <div class="search-box intro" id="searchBox">
                 <input type="text" id="pokemonSearch" class="search-input"
                     placeholder="Введите имя покемона или номер...">
                 <button class="search-btn" id="searchButton">
@@ -2279,6 +2289,15 @@
                     animate();
                 }
             }
+        });
+
+        // Очистка анимаций после загрузки, чтобы не мешали переключению
+        window.addEventListener('load', function() {
+            setTimeout(() => {
+                document.querySelectorAll('.intro').forEach(el => {
+                    el.classList.remove('intro');
+                });
+            }, 4000);
         });
     </script>
 
