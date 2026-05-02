@@ -601,7 +601,7 @@ document.addEventListener('DOMContentLoaded', function () {
         let html = `
         <div style="padding:10px;">
             <div style="margin-bottom:15px;">
-                <div style="display:flex; justify-content:space-between; align-items:flex-start;">
+                <div class="search-result-header" style="display:flex; justify-content:space-between; align-items:flex-start;">
                     <div style="display:flex; align-items:flex-start; gap:12px;">
                         <div>
                             <h2 style="color:var(--primary); margin:0; line-height:1.1;">#${id} ${p.ru}${formLabel}</h2>
@@ -611,7 +611,7 @@ document.addEventListener('DOMContentLoaded', function () {
                             <i class="fas fa-book-open"></i>
                         </button>
                     </div>
-                    <div style="margin-top:4px;">${types}</div>
+                    <div class="type-badges-container" style="margin-top:4px;">${types}</div>
                 </div>
             </div>`;
 
