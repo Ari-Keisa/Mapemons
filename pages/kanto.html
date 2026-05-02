@@ -1184,17 +1184,7 @@
                 padding: 10px 4px;
             }
 
-            /* Pokemon item: wrap rarity below name */
-            .poke-item {
-                flex-wrap: wrap;
-                gap: 6px;
-            }
-
-            .poke-item-rarity {
-                order: 3;
-                flex-basis: 100%;
-                margin-left: 0;
-            }
+            /* Pokemon item: no rarity wrap needed anymore */
 
             /* Search */
             .search-box {
@@ -3254,14 +3244,18 @@
                     return `
                     <div class="poke-item">
                         <div class="poke-item-info">
-                            <strong>#${String(numStr).replace(/^0+/, '') || numStr}</strong> ${ruName} / ${enName}
-                            <span style="color:var(--text-muted);font-size:0.82rem;"> (${lvl})</span>
+                            <div style="font-weight: 500; margin-bottom: 3px;">
+                                <strong>#${String(numStr).replace(/^0+/, '') || numStr}</strong> ${ruName} <span style="font-size:0.9em; opacity:0.8;">/ ${enName}</span>
+                            </div>
+                            <div style="color:var(--text-muted); font-size:0.82rem;">
+                                ${lvl}
+                            </div>
+                            ${conditionLabel ? `<div style="font-size: 0.82rem; margin-top:2px; color:var(--accent); opacity: 0.9;" title="${enc.can_catch === false ? 'Нельзя поймать' : 'Условия'}">${conditionLabel.trim()}</div>` : ''}
                         </div>
                         <div style="display: flex; align-items: center;">
-                            ${conditionLabel ? `<span style="font-size: 0.85rem; opacity: 0.9; margin-right: 8px;" title="${enc.can_catch === false ? 'Нельзя поймать' : 'Условия'}">${conditionLabel.trim()}</span>` : ''}
-                            <span class="poke-item-rarity">${rarityLabel}</span>
+                            <span class="poke-item-rarity" style="min-width: 40px; text-align: center; display: inline-block;">${rarityLabel}</span>
+                            <button class="poke-info-btn" onclick="openPokemonDossier('${dossierKey}')" title="Досье">📋</button>
                         </div>
-                        <button class="poke-info-btn" onclick="openPokemonDossier('${dossierKey}')" title="Досье">📋</button>
                     </div>`;
                 }).join('') + '</div>';
             } else {
