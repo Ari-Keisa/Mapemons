@@ -1075,4 +1075,65 @@
     .dossier-bottom-grid {
         grid-template-columns: 1fr;
     }
-}
+}
+
+/* ===== DOUBLE EMOJI COMBO (ITEMS) ===== */
+.item-double-emoji {
+    display: inline-block;
+    position: relative;
+    width: 1.5em;
+    height: 1.5em;
+    line-height: 1.5em;
+    text-align: center;
+    vertical-align: middle;
+}
+
+.item-double-emoji .emoji-base {
+    font-size: 1.2em;
+    position: absolute;
+    left: 0;
+    bottom: 0px;
+    z-index: 1;
+}
+
+.item-double-emoji .emoji-overlay {
+    font-size: 0.7em;
+    position: absolute;
+    right: -2px;
+    top: -2px;
+    z-index: 2;
+    filter: drop-shadow(0 0 2px rgba(0,0,0,0.8));
+}
+
+/* Specific Adjustments for Known Combinations */
+/* 🐛⭐ Caterpillar + Star */
+.combo-1f41b-2b50 .emoji-base { z-index: 2; }
+.combo-1f41b-2b50 .emoji-overlay { font-size: 0.9em; right: -4px; top: 5px; z-index: 1; }
+
+/* 🌑⭐ Darkness + Star */
+.combo-1f311-2b50 .emoji-base { font-size: 1.5em; left: -2px; }
+.combo-1f311-2b50 .emoji-overlay { font-size: 0.8em; right: 4px; top: 4px; z-index: 2; }
+
+/* 💀⭐ Skull + Star */
+.combo-1f480-2b50 .emoji-base { font-size: 1em; left: 2px; bottom: 4px; z-index: 2; }
+.combo-1f480-2b50 .emoji-overlay { font-size: 1.3em; right: 0; top: 0; z-index: 1; }
+
+/* 🌿⭐ Grass + Star */
+.combo-1f33f-2b50 .emoji-base { font-size: 1em; left: -2px; bottom: 0; z-index: 2; }
+.combo-1f33f-2b50 .emoji-overlay { font-size: 1.2em; right: 1px; top: 1px; z-index: 1; }
+
+/* 🍄⭐ Mushroom + Star */
+.combo-1f344-2b50 .emoji-base { font-size: 1.3em; left: 0; bottom: 0; z-index: 1; }
+.combo-1f344-2b50 .emoji-overlay { font-size: 0.8em; right: -5px; top: -5px; z-index: 2; }
+
+/* 🐦⭐ Bird + Star */
+.combo-1f426-2b50 .emoji-base { font-size: 1.2em; left: 0; bottom: 2px; z-index: 1; }
+.combo-1f426-2b50 .emoji-overlay { font-size: 0.7em; left: -2px; bottom: -2px; z-index: 2; filter: drop-shadow(0 0 1px #fff); }
+
+/* 🐦🦴 Bird + Bone */
+.combo-1f426-1f9b4 .emoji-base { font-size: 1.1em; left: 0; bottom: 2px; z-index: 1; }
+.combo-1f426-1f9b4 .emoji-overlay { font-size: 0.7em; left: -2px; bottom: -2px; z-index: 2; }
+
+/* 🛡️✨ Shield + Sparkles */
+.combo-1f6e1-2728 .emoji-base { font-size: 1.3em; left: 0; }
+.combo-1f6e1-2728 .emoji-overlay { font-size: 0.6em; right: -2px; top: -2px; }

@@ -94,7 +94,7 @@ document.addEventListener('DOMContentLoaded', function () {
         try {
             // Важно: Пути к JSON. Если скрипт в папке js/, нам нужно выйти назад (../) или использовать абсолютный путь.
             // Используем относительный путь от HTML файла (обычно работает просто 'json/...')
-            const [pRes, lRes, ruRes, prRes, affRes, fRes, uRes, itemLRes, itemsRes] = await Promise.all([
+            const [pRes, lRes, ruRes, prRes, affRes, fRes, uRes, itemLRes, itemsRes, comboRes] = await Promise.all([
                 fetch('json/pokemon_names.json'),
                 fetch('json/locations.json'),
                 fetch('json/pokemon_ru.json'),
@@ -103,7 +103,8 @@ document.addEventListener('DOMContentLoaded', function () {
                 fetch('json/pokemon_forms_ru.json'),
                 fetch('json/pokemon_names_upper.json').catch(() => ({ ok: false })),
                 fetch('json/item.json').catch(() => ({ok: false})),
-                fetch('json/items.json').catch(() => ({ok: false}))
+                fetch('json/items.json').catch(() => ({ok: false})),
+                fetch('json/emoji_combos.json').catch(() => ({ok: false}))
             ]);
 
             if (!pRes.ok) throw new Error(`pokemon_names.json не найден`);
@@ -123,6 +124,15 @@ document.addEventListener('DOMContentLoaded', function () {
             }
             if (itemsRes && itemsRes.ok) window.itemsData = await itemsRes.json();
             if (itemLRes && itemLRes.ok) window.itemLocationsData = await itemLRes.json();
+            
+            window.emojiCombosData = null;
+            if (comboRes && comboRes.ok) {
+                const raw = await comboRes.json();
+                window.emojiCombosData = {};
+                for (let k in raw) {
+                    window.emojiCombosData[k.replace(/\uFE0F/g, '')] = raw[k];
+                }
+            }
 
             // Группируем формы по _SpeciesID (JSON — объект {"VENUSAUR-1": {...}, ...})
             if (formsRaw && typeof formsRaw === 'object' && !Array.isArray(formsRaw)) {
@@ -656,10 +666,48 @@ document.addEventListener('DOMContentLoaded', function () {
         return h;
     }
 
+    function formatTextWithEmojis(text) {
+        if (!text) return '';
+        return text.replace(/([\p{Extended_Pictographic}][\uFE0F\u200D]*)([\p{Extended_Pictographic}][\uFE0F\u200D]*)/gu, (match, e1, e2) => {
+            let cleanE1 = e1.replace(/\uFE0F/g, '');
+            let cleanE2 = e2.replace(/\uFE0F/g, '');
+            let comboStr = cleanE1 + cleanE2;
+            let revCombo = cleanE2 + cleanE1;
+
+            let imgUrl = null;
+            if (window.emojiCombosData) {
+                if (window.emojiCombosData[comboStr]) imgUrl = window.emojiCombosData[comboStr];
+                else if (window.emojiCombosData[revCombo]) imgUrl = window.emojiCombosData[revCombo];
+            }
+
+            if (imgUrl) {
+                return `<img src="${imgUrl}" class="item-combo-img" style="width: 1.5em; height: 1.5em; vertical-align: middle; display: inline-block; object-fit: contain; margin: 0 2px;" alt="${comboStr}" title="${comboStr}">`;
+            }
+
+            let c1 = cleanE1.codePointAt(0).toString(16);
+            let c2 = cleanE2.codePointAt(0).toString(16);
+            return `<span class="item-double-emoji combo-${c1}-${c2}" title="${match}">
+                <span class="emoji-base">${e1}</span>
+                <span class="emoji-overlay">${e2}</span>
+            </span>`;
+        });
+    }
+
+    function formatItemSticker(stickerStr) {
+        if (!stickerStr) return '';
+        const cleanStr = stickerStr.replace(/\uFE0F/g, '').trim();
+        const chars = Array.from(cleanStr);
+        if (chars.length === 2 && !/[a-zA-Zа-яА-Я0-9]/.test(cleanStr)) {
+            return formatTextWithEmojis(stickerStr);
+        }
+        return stickerStr;
+    }
+
     function renderItemOutput(rawQuery, itemObj, habitats) {
         let titleName = itemObj ? itemObj.RuName || itemObj.Name : rawQuery;
         let engName = itemObj && itemObj.Name ? ` / ${itemObj.Name}` : '';
-        let sticker = itemObj && itemObj.Sticker ? itemObj.Sticker : '🎒';
+        let rawSticker = itemObj && itemObj.Sticker ? itemObj.Sticker : '🎒';
+        let sticker = formatItemSticker(rawSticker);
         let desc = itemObj && itemObj.Description ? `<div style="padding:15px; background:rgba(255,255,255,0.05); border-radius:10px; margin-bottom:20px; line-height:1.5;">${itemObj.Description}</div>` : '';
 
         els.title.innerHTML = `<i class="fas fa-search"></i> ${sticker} ${titleName}${engName}`;
@@ -689,7 +737,7 @@ document.addEventListener('DOMContentLoaded', function () {
                     ${byReg[reg].map(l => `
                         <div style="padding:10px; background:rgba(255,255,255,0.05); border-radius:8px; border-left:3px solid #ffcc00; display:flex; flex-direction:column; gap:4px;">
                             <strong style="color:white;">${l.ru_name || l.name || 'Неизвестно'}</strong>
-                            <div style="font-size:0.85rem; color:var(--text-muted);">${l.rawItemString}</div>
+                            <div style="font-size:0.85rem; color:var(--text-muted);">${formatTextWithEmojis(l.rawItemString)}</div>
                         </div>`).join('')}
                 </div>
             </div>`;
