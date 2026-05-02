@@ -3251,10 +3251,12 @@
                                 ${lvl}
                             </div>
                         </div>
-                        <div style="display: flex; align-items: center; gap: 8px;">
-                            ${conditionLabel ? `<div style="font-size: 0.82rem; color:var(--accent); opacity: 0.9;" title="${enc.can_catch === false ? 'Нельзя поймать' : 'Условия'}">${conditionLabel.trim()}</div>` : ''}
-                            <span class="poke-item-rarity" style="min-width: 40px; text-align: center; display: inline-block; margin-left: 0;">${rarityLabel}</span>
-                            <button class="poke-info-btn" style="margin-left: 2px;" onclick="openPokemonDossier('${dossierKey}')" title="Досье">📋</button>
+                        <div style="display: flex; flex-direction: column; align-items: flex-end; gap: 4px;">
+                            <div style="display: flex; align-items: center;">
+                                <span class="poke-item-rarity" style="min-width: 40px; text-align: center; display: inline-block; margin-left: 0;">${rarityLabel}</span>
+                                <button class="poke-info-btn" style="margin-left: 6px;" onclick="openPokemonDossier('${dossierKey}')" title="Досье">📋</button>
+                            </div>
+                            ${conditionLabel ? `<div style="font-size: 0.8rem; color:var(--accent); opacity: 0.9; text-align: right;" title="${enc.can_catch === false ? 'Нельзя поймать' : 'Условия'}">${conditionLabel.trim()}</div>` : ''}
                         </div>
                     </div>`;
                 }).join('') + '</div>';
