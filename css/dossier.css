@@ -485,6 +485,12 @@
     gap: 10px;
 }
 
+@media (min-width: 641px) {
+    .dossier-info-text {
+        font-size: 1.05rem;
+    }
+}
+
 .dossier-info-text strong {
     color: white;
     font-weight: 600;
@@ -503,6 +509,12 @@
     margin: 3px 0;
     font-size: 0.9rem;
     color: #e0e0f0;
+}
+
+@media (min-width: 641px) {
+    .ability-item {
+        font-size: 1.05rem;
+    }
 }
 
 .ability-item:hover {
