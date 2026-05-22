@@ -685,23 +685,40 @@ document.addEventListener('DOMContentLoaded', function () {
 
     function formatItemSticker(stickerStr) {
         if (!stickerStr) return '';
-        const cleanStr = stickerStr.replace(/\uFE0F/g, '').trim();
-        const chars = Array.from(cleanStr);
         
-        // Если это два эмодзи (и нет букв/цифр)
-        if (chars.length === 2 && !/[a-zA-Zа-яА-Я0-9]/.test(cleanStr)) {
-            // Проверка на комбинацию (независимо от порядка)
-            const sortedKey = [...chars].sort().join('');
-            const comboPath = window.emojiCombosSorted ? window.emojiCombosSorted[sortedKey] : null;
-            
-            if (comboPath) {
-                return `<img src="${comboPath}" class="emoji-img" alt="${stickerStr}" style="width: 1.5em; height: 1.5em; vertical-align: middle;">`;
+        // Normalize sticker string
+        const cleanStr = stickerStr.replace(/\uFE0F/g, '').trim();
+        const chars = Array.from(cleanStr).filter(c => c && c.trim());
+        
+        if (chars.length > 1) {
+            // 1. Check for known 2-character combination image
+            if (chars.length === 2 && window.emojiCombosSorted) {
+                const sortedKey = [...chars].sort().join('');
+                const path = window.emojiCombosSorted[sortedKey];
+                if (path) {
+                   return `<img src="${path}" class="emoji-img" alt="${stickerStr}" style="width: 1.5em; height: 1.5em; vertical-align: middle;">`;
+                }
             }
-            
-            // Если комбинация не найдена — применяем уменьшение (downscale)
-            return `<span class="item-sticker-downscale">${stickerStr}</span>`;
+
+            // 2. Otherwise, if it's multiple symbols (not letters/digits), apply flip
+            const hasLetters = /[a-zA-Zа-яА-Я0-9]/.test(cleanStr);
+            if (!hasLetters) {
+                const facesHtml = chars.map((char, index) => {
+                    const content = formatTextWithEmojis(char); 
+                    return `<div class="sticker-face face-${index + 1}">${content}</div>`;
+                }).join('');
+                
+                const flipLimit = Math.min(chars.length, 4);
+                return `
+                    <div class="coin-sticker-container">
+                        <div class="coin-sticker flip-${flipLimit}">
+                            ${facesHtml}
+                        </div>
+                    </div>`;
+            }
         }
         
+        // Single character or fallback
         return formatTextWithEmojis(stickerStr);
     }
 
@@ -720,9 +737,36 @@ document.addEventListener('DOMContentLoaded', function () {
         return result;
     }
 
+    function formatItemStringWithFlip(itemText) {
+        if (!itemText) return '';
+        
+        // Match leading characters that are not letters, digits, or standard punctuation, but allow spaces.
+        const match = itemText.match(/^([^\p{L}\p{N}()\[\]\-+.,;:!?%&'"]+)(.*)$/u);
+        if (match) {
+            const leadingSticker = match[1];
+            const remainingText = match[2];
+            
+            // Clean variation selectors and all whitespace from sticker string
+            const cleanSticker = leadingSticker.replace(/[\s\uFE0F\u00A0\u200B-\u200D]/g, '');
+            // Keep only non-whitespace emoji/symbol characters
+            const chars = Array.from(cleanSticker).filter(c => c && c.trim() && /[^\p{L}\p{N}\s()\[\]\-+.,;:!?%&'"]/u.test(c));
+            
+            if (chars.length > 1) {
+                const formattedSticker = window.formatItemSticker ? window.formatItemSticker(leadingSticker) : formatItemSticker(leadingSticker);
+                const formattedText = window.formatTextWithEmojis ? window.formatTextWithEmojis(remainingText.trim()) : formatTextWithEmojis(remainingText.trim());
+                return `<span style="display:inline-flex; align-items:center; gap:8px; vertical-align: middle;">
+                    <span class="item-result-sticker" style="display:inline-flex; min-width:1.5em; justify-content:center; flex-shrink:0;">${formattedSticker}</span>
+                    <span>${formattedText}</span>
+                </span>`;
+            }
+        }
+        return window.formatTextWithEmojis ? window.formatTextWithEmojis(itemText) : formatTextWithEmojis(itemText);
+    }
+
     // Экспортируем функции в глобальную область
     window.formatItemSticker = formatItemSticker;
     window.formatTextWithEmojis = formatTextWithEmojis;
+    window.formatItemStringWithFlip = formatItemStringWithFlip;
     window.loadEmojiCombos = async function() {
         if (window.emojiCombosData) return;
         try {
@@ -777,7 +821,7 @@ document.addEventListener('DOMContentLoaded', function () {
                         <div style="padding:10px; background:rgba(255,255,255,0.05); border-radius:8px; border-left:3px solid #ffcc00; display:flex; justify-content:space-between; align-items:center;">
                             <div style="display:flex; flex-direction:column; gap:4px;">
                                 <strong style="color:white;">${l.ru_name || l.name || 'Неизвестно'}</strong>
-                                <div style="font-size:0.85rem; color:var(--text-muted);">${formatTextWithEmojis(l.rawItemString)}</div>
+                                <div style="font-size:0.85rem; color:var(--text-muted);">${window.formatItemStringWithFlip(l.rawItemString)}</div>
                             </div>
                             <button class="loc-info-btn" onclick="openLocationModal('${l.name}')" title="Информация о локации" style="width:34px; height:34px; border-radius:50%; border:none; background:rgba(255,215,0,0.15); color:#ffd700; cursor:pointer; transition:var(--transition); display:flex; align-items:center; justify-content:center; font-size:1rem; flex-shrink:0;">
                                 📍

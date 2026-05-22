@@ -312,6 +312,115 @@ function toggleAbilityDesc(id) {
     }
 }
 
+// --- STICKER & EMOJI FORMATTING (Shared) ---
+
+window.formatItemSticker = function(stickerStr) {
+    if (!stickerStr) return '';
+    
+    // Normalize sticker string
+    const cleanStr = stickerStr.replace(/\uFE0F/g, '').trim();
+    const chars = Array.from(cleanStr).filter(c => c && c.trim());
+    
+    if (chars.length > 1) {
+        // 1. Check for known 2-character combination image
+        if (chars.length === 2 && window.emojiCombosSorted) {
+            const sortedKey = [...chars].sort().join('');
+            const path = window.emojiCombosSorted[sortedKey];
+            if (path) {
+               return `<img src="${path}" class="emoji-img" alt="${stickerStr}" style="width: 1.5em; height: 1.5em; vertical-align: middle;">`;
+            }
+        }
+
+        // 2. Otherwise, if it's multiple symbols (not letters/digits), apply flip
+        const hasLetters = /[a-zA-Zа-яА-Я0-9]/.test(cleanStr);
+        if (!hasLetters) {
+            const facesHtml = chars.map((char, index) => {
+                const content = window.formatTextWithEmojis(char); 
+                return `<div class="sticker-face face-${index + 1}">${content}</div>`;
+            }).join('');
+            
+            const flipLimit = Math.min(chars.length, 4);
+            return `
+                <div class="coin-sticker-container">
+                    <div class="coin-sticker flip-${flipLimit}">
+                        ${facesHtml}
+                    </div>
+                </div>`;
+        }
+    }
+    
+    // Single character or fallback
+    return window.formatTextWithEmojis(stickerStr);
+};
+
+window.formatTextWithEmojis = function(text) {
+    if (!text) return '';
+    if (!window.emojiCombosData) return text;
+    
+    let result = text;
+    const isInPages = window.location.pathname.includes('/pages/');
+    
+    for (const [emoji, path] of Object.entries(window.emojiCombosData)) {
+        if (result.includes(emoji)) {
+            const relativePath = isInPages ? '../' + path : path;
+            const imgHtml = `<img src="${relativePath}" class="emoji-img" alt="${emoji}" style="width: 1.25em; height: 1.25em; vertical-align: middle; margin: 0 1px;">`;
+            result = result.split(emoji).join(imgHtml);
+        }
+    }
+    return result;
+};
+
+window.formatItemStringWithFlip = function(itemText) {
+    if (!itemText) return '';
+    
+    // Match leading characters that are not letters, digits, or standard punctuation, but allow spaces.
+    const match = itemText.match(/^([^\p{L}\p{N}()\[\]\-+.,;:!?%&'"]+)(.*)$/u);
+    if (match) {
+        const leadingSticker = match[1];
+        const remainingText = match[2];
+        
+        // Clean variation selectors and all whitespace characters from sticker
+        const cleanSticker = leadingSticker.replace(/[\s\uFE0F\u00A0\u200B-\u200D]/g, '');
+        // Extract array of characters and filter to only keep non-whitespace emoji/symbols
+        const chars = Array.from(cleanSticker).filter(c => c && c.trim() && /[^\p{L}\p{N}\s()\[\]\-+.,;:!?%&'"]/u.test(c));
+        
+        if (chars.length > 1) {
+            const formattedSticker = window.formatItemSticker(leadingSticker);
+            const formattedText = window.formatTextWithEmojis(remainingText.trim());
+            return `<span style="display:inline-flex; align-items:center; gap:8px; vertical-align: middle;">
+                <span class="item-result-sticker" style="display:inline-flex; min-width:1.5em; justify-content:center; flex-shrink:0;">${formattedSticker}</span>
+                <span>${formattedText}</span>
+            </span>`;
+        }
+    }
+    return window.formatTextWithEmojis(itemText);
+};
+
+window.loadEmojiCombos = async function() {
+    if (window.emojiCombosData) return;
+    try {
+        const isInPages = window.location.pathname.includes('/pages/');
+        const resp = await fetch((isInPages ? '../' : '') + 'json/emoji_combos.json');
+        if (resp.ok) {
+            const raw = await resp.json();
+            window.emojiCombosData = {};
+            window.emojiCombosSorted = {};
+            for (let k in raw) {
+                const cleanKey = k.replace(/\uFE0F/g, '');
+                const path = raw[k];
+                window.emojiCombosData[cleanKey] = path;
+                const sortedKey = Array.from(cleanKey).sort().join('');
+                window.emojiCombosSorted[sortedKey] = path;
+            }
+        }
+    } catch (e) {
+        console.warn('emoji_combos.json not loaded', e);
+    }
+};
+
+// Auto-load emojis
+window.loadEmojiCombos();
+
 /**
  * Translates English form names to Russian and formats them properly.
  */

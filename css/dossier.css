@@ -1185,4 +1185,155 @@
     width: 80%;
     height: 80%;
 }
+
+/* ===== ITEM STICKER COIN FLIP ANIMATION ===== */
+.coin-sticker-container {
+    perspective: 400px;
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+    width: 1.5em; /* Default for small search results */
+    height: 1.5em;
+    vertical-align: middle;
+    position: relative;
+    user-select: none;
+    flex-shrink: 0;
+}
+
+/* Force 100% size in the big item modal box */
+.item-modal-sticker .coin-sticker-container {
+    width: 80%; /* Don't fill 100% to keep some padding */
+    height: 80%;
+}
+
+.coin-sticker {
+    width: 100%;
+    height: 100%;
+    position: relative;
+    transform-style: preserve-3d;
+}
+
+.coin-sticker.flip-2 { animation: coinFlip2 3s infinite linear; }
+.coin-sticker.flip-3 { animation: coinFlip3 6s infinite linear; }
+.coin-sticker.flip-4 { animation: coinFlip4 8s infinite linear; }
+
+.sticker-face {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    backface-visibility: hidden;
+    font-size: 1.25em; 
+    line-height: 1;
+    overflow: hidden;
+}
+
+.sticker-face img.emoji-img {
+    width: 0.9em !important;
+    height: 0.9em !important;
+    margin: auto !important;
+    padding: 0 !important;
+    display: block !important;
+    object-fit: contain !important;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+.item-modal-sticker .sticker-face {
+    font-size: 1em;
+}
+
+.face-1 { transform: rotateY(0deg); z-index: 10; }
+.face-2 { transform: rotateY(180deg); z-index: 5; }
+.face-3 { transform: rotateY(0deg); z-index: 5; }
+.face-4 { transform: rotateY(180deg); z-index: 5; }
+
+@keyframes coinFlip2 {
+    0% { transform: rotateY(0deg); }
+    100% { transform: rotateY(360deg); }
+}
+
+@keyframes coinFlip3 {
+    0% { transform: rotateY(0deg); }
+    100% { transform: rotateY(1080deg); }
+}
+
+@keyframes coinFlip4 {
+    0% { transform: rotateY(0deg); }
+    100% { transform: rotateY(720deg); }
+}
+
+.coin-sticker.flip-3 .face-1 { animation: faceSwap3-1 6s infinite linear; }
+.coin-sticker.flip-3 .face-2 { animation: faceSwap3-2 6s infinite linear; }
+.coin-sticker.flip-3 .face-3 { animation: faceSwap3-3 6s infinite linear; }
+
+@keyframes faceSwap3-1 {
+    0% { opacity: 1; z-index: 10; }
+    16.6% { opacity: 1; z-index: 10; }
+    16.7% { opacity: 0; z-index: 1; }
+    49.9% { opacity: 0; z-index: 1; }
+    50% { opacity: 1; z-index: 10; }
+    66.6% { opacity: 1; z-index: 10; }
+    66.7% { opacity: 0; z-index: 1; }
+    100% { opacity: 0; z-index: 1; }
+}
+@keyframes faceSwap3-2 {
+    0% { opacity: 0; z-index: 1; }
+    16.6% { opacity: 0; z-index: 1; }
+    16.7% { opacity: 1; z-index: 10; }
+    33.3% { opacity: 1; z-index: 10; }
+    33.4% { opacity: 0; z-index: 1; }
+    66.6% { opacity: 0; z-index: 1; }
+    66.7% { opacity: 1; z-index: 10; }
+    83.3% { opacity: 1; z-index: 10; }
+    83.4% { opacity: 0; z-index: 1; }
+    100% { opacity: 0; z-index: 1; }
+}
+@keyframes faceSwap3-3 {
+    0% { opacity: 0; z-index: 1; }
+    33.3% { opacity: 0; z-index: 1; }
+    33.4% { opacity: 1; z-index: 10; }
+    49.9% { opacity: 1; z-index: 10; }
+    50% { opacity: 0; z-index: 1; }
+    83.3% { opacity: 0; z-index: 1; }
+    83.4% { opacity: 1; z-index: 10; }
+    100% { opacity: 1; z-index: 10; }
+}
+
+.coin-sticker.flip-4 .face-1 { animation: faceSwap4-1 8s infinite linear; }
+.coin-sticker.flip-4 .face-2 { animation: faceSwap4-2 8s infinite linear; }
+.coin-sticker.flip-4 .face-3 { animation: faceSwap4-3 8s infinite linear; }
+.coin-sticker.flip-4 .face-4 { animation: faceSwap4-4 8s infinite linear; }
+
+@keyframes faceSwap4-1 {
+    0% { opacity: 1; z-index: 10; }
+    24.9% { opacity: 1; z-index: 10; }
+    25% { opacity: 0; z-index: 1; }
+    100% { opacity: 0; z-index: 1; }
+}
+@keyframes faceSwap4-2 {
+    0% { opacity: 0; z-index: 1; }
+    24.9% { opacity: 0; z-index: 1; }
+    25% { opacity: 1; z-index: 10; }
+    49.9% { opacity: 1; z-index: 10; }
+    50% { opacity: 0; z-index: 1; }
+    100% { opacity: 0; z-index: 1; }
+}
+@keyframes faceSwap4-3 {
+    0% { opacity: 0; z-index: 1; }
+    49.9% { opacity: 0; z-index: 1; }
+    50% { opacity: 1; z-index: 10; }
+    74.9% { opacity: 1; z-index: 10; }
+    75% { opacity: 0; z-index: 1; }
+    100% { opacity: 0; z-index: 1; }
+}
+@keyframes faceSwap4-4 {
+    0% { opacity: 0; z-index: 1; }
+    74.9% { opacity: 0; z-index: 1; }
+    75% { opacity: 1; z-index: 10; }
+    100% { opacity: 1; z-index: 10; }
+}
 

@@ -213,7 +213,7 @@ function showLocationInfo(locId, data) {
                 }
             }
 
-            const formatted = window.formatTextWithEmojis ? window.formatTextWithEmojis(it) : it;
+            const formatted = window.formatItemStringWithFlip ? window.formatItemStringWithFlip(it) : (window.formatTextWithEmojis ? window.formatTextWithEmojis(it) : it);
             if (itemKey) {
                 return `<div class="item-tag clickable" onclick="openItemInfo('${itemKey}')" title="Подробнее">${formatted}</div>`;
             }
