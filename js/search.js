@@ -686,9 +686,22 @@ document.addEventListener('DOMContentLoaded', function () {
     function formatItemSticker(stickerStr) {
         if (!stickerStr) return '';
         
-        // Normalize sticker string
-        const cleanStr = stickerStr.replace(/\uFE0F/g, '').trim();
-        const chars = Array.from(cleanStr).filter(c => c && c.trim());
+        // Normalize sticker string: remove ALL invisible Unicode characters
+        // FE0F = emoji presentation selector, FE0E = text presentation selector
+        // 200B = zero-width space, 200C = ZWNJ, 200D = ZWJ, FEFF = BOM/ZWNBS
+        // 00A0 = non-breaking space, 00AD = soft hyphen
+        // 2060 = word joiner, 2061-2064 = invisible operators
+        const cleanStr = stickerStr.replace(/[\uFE0F\uFE0E\u200B-\u200D\u00A0\u00AD\uFEFF\u2060-\u2064\u2028\u2029]/g, '').trim();
+        const chars = Array.from(cleanStr).filter(c => {
+            if (!c || !c.trim()) return false;
+            const cp = c.codePointAt(0);
+            // Filter out remaining control/format characters
+            if (cp < 0x20) return false; // C0 controls
+            if (cp >= 0x7F && cp <= 0x9F) return false; // C1 controls
+            if (cp >= 0xE0020 && cp <= 0xE007F) return false; // Tags
+            if (cp === 0x2028 || cp === 0x2029) return false; // line/para separators
+            return true;
+        });
         
         if (chars.length > 1) {
             // 1. Check for known 2-character combination image
@@ -746,10 +759,16 @@ document.addEventListener('DOMContentLoaded', function () {
             const leadingSticker = match[1];
             const remainingText = match[2];
             
-            // Clean variation selectors and all whitespace from sticker string
-            const cleanSticker = leadingSticker.replace(/[\s\uFE0F\u00A0\u200B-\u200D]/g, '');
-            // Keep only non-whitespace emoji/symbol characters
-            const chars = Array.from(cleanSticker).filter(c => c && c.trim() && /[^\p{L}\p{N}\s()\[\]\-+.,;:!?%&'"]/u.test(c));
+            // Clean ALL invisible Unicode characters from sticker
+            const cleanSticker = leadingSticker.replace(/[\s\uFE0F\uFE0E\u00A0\u00AD\u200B-\u200D\uFEFF\u2060-\u2064\u2028\u2029]/g, '');
+            // Extract array of characters and filter to only keep visible emoji/symbols
+            const chars = Array.from(cleanSticker).filter(c => {
+                if (!c || !c.trim()) return false;
+                const cp = c.codePointAt(0);
+                if (cp < 0x20 || (cp >= 0x7F && cp <= 0x9F)) return false;
+                if (cp >= 0xE0020 && cp <= 0xE007F) return false;
+                return /[^\p{L}\p{N}\s()\[\]\-+.,;:!?%&'"]/u.test(c);
+            });
             
             if (chars.length > 1) {
                 const formattedSticker = window.formatItemSticker ? window.formatItemSticker(leadingSticker) : formatItemSticker(leadingSticker);
