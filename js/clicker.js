@@ -1464,6 +1464,33 @@
     let shuffledThemes = shuffle([...THEMES]);
     let clickCount = parseInt(localStorage.getItem('meow_clicks') || '0');
 
+    // ========== Firebase Setup ==========
+    let firebaseDB = null;
+    let counterRef = null;
+    let firebaseReady = false;
+
+    try {
+        const firebaseConfig = {
+            apiKey: "AIzaSyAIXAcsiwXZzBSkZhOujnARKF-uDiSPezk",
+            authDomain: "mapemons-clicker.firebaseapp.com",
+            databaseURL: "https://mapemons-clicker-default-rtdb.europe-west1.firebasedatabase.app",
+            projectId: "mapemons-clicker",
+            storageBucket: "mapemons-clicker.firebasestorage.app",
+            messagingSenderId: "746438942010",
+            appId: "1:746438942010:web:a72f74917baaa412740403",
+            measurementId: "G-XRT3Z3CCJN"
+        };
+
+        const app = firebase.initializeApp(firebaseConfig);
+        firebaseDB = firebase.database();
+        counterRef = firebaseDB.ref('clicker/globalCount');
+        firebaseReady = true;
+        console.log('[Clicker] Firebase connected ✓');
+    } catch (e) {
+        console.warn('[Clicker] Firebase init failed, using localStorage only:', e);
+    }
+    // ====================================
+
     // DOM Elements
     const container = document.createElement('div');
     container.className = 'meow-clicker-container';
@@ -1481,12 +1508,42 @@
     container.appendChild(counter);
     document.body.appendChild(container);
 
+    // ========== Animate counter number ==========
+    function animateCounter(newValue) {
+        clickCount = newValue;
+        counter.innerText = clickCount;
+        counter.style.transform = 'scale(1.3)';
+        counter.style.color = '#ffd700';
+        setTimeout(() => {
+            counter.style.transform = '';
+            counter.style.color = '';
+        }, 200);
+    }
+
+    // ========== Firebase real-time listener ==========
+    if (firebaseReady && counterRef) {
+        counterRef.on('value', (snapshot) => {
+            const val = snapshot.val();
+            if (val !== null && val !== clickCount) {
+                animateCounter(val);
+                localStorage.setItem('meow_clicks', val);
+            }
+        });
+    }
+
     // Click handler
     button.addEventListener('click', (e) => {
-        // Update count
-        clickCount++;
-        counter.innerText = clickCount;
-        localStorage.setItem('meow_clicks', clickCount);
+        // Update count via Firebase transaction (atomic increment)
+        if (firebaseReady && counterRef) {
+            counterRef.transaction((current) => {
+                return (current || 0) + 1;
+            });
+        } else {
+            // Fallback: localStorage only
+            clickCount++;
+            counter.innerText = clickCount;
+            localStorage.setItem('meow_clicks', clickCount);
+        }
 
         // Animation logic: Stream for 3 seconds
         const rect = button.getBoundingClientRect();
@@ -1599,3 +1656,4 @@
 
     // Initialize global counter
 })();
+
