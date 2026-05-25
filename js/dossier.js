@@ -3,6 +3,49 @@
  * Centralized for multiple pages (index.html, kanto.html, etc.)
  */
 
+// ==========================================
+// ГЛОБАЛЬНЫЕ ФУНКЦИИ (Fuzzy Match & String Norm)
+// ==========================================
+window.itemSimilarity = function(str1, str2) {
+    if (!str1 || !str2) return 0;
+    if (str1 === str2) return 1;
+    const getBigrams = str => {
+        const b = new Set();
+        for (let i = 0; i < str.length - 1; i++) b.add(str.slice(i, i+2));
+        return b;
+    };
+    const bg1 = getBigrams(str1);
+    const bg2 = getBigrams(str2);
+    let intersection = 0;
+    for (let bg of bg1) if (bg2.has(bg)) intersection++;
+    if (bg1.size + bg2.size === 0) return 0;
+    return (2.0 * intersection) / (bg1.size + bg2.size);
+};
+
+window.fuzzyMatchItemKey = function(queryStr, itemsDataObj) {
+    if (!queryStr || !itemsDataObj) return null;
+    const norm = str => str.toLowerCase().replace(/ё/g, 'е').replace(/[^а-яa-z0-9]/g, '');
+    const qNorm = norm(queryStr);
+    for (const key in itemsDataObj) {
+        const item = itemsDataObj[key];
+        if (norm(item.RuName || "") === qNorm || norm(item.Name || "") === qNorm) return key;
+    }
+    let bestKey = null;
+    let bestScore = 0;
+    for (const key in itemsDataObj) {
+        const item = itemsDataObj[key];
+        const rScore = window.itemSimilarity(qNorm, norm(item.RuName || ""));
+        const eScore = window.itemSimilarity(qNorm, norm(item.Name || ""));
+        const score = Math.max(rScore, eScore);
+        if (score > bestScore) {
+            bestScore = score;
+            bestKey = key;
+        }
+    }
+    if (bestScore > 0.70) return bestKey;
+    return null;
+};
+
 const typeIcons = {
     "grass": "🌿", "fire": "🔥", "water": "💧", "electric": "⚡️", "poison": "☠️",
     "ice": "❄️", "fighting": "🥊", "ground": "🏜️", "flying": "🕊️", "psychic": "🔮",

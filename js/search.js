@@ -21,6 +21,10 @@ window.onerror = function (msg, url, line) {
     return false;
 };
 
+// ==========================================
+// ГЛОБАЛЬНЫЕ ФУНКЦИИ (Перенесены в dossier.js)
+// ==========================================
+
 document.addEventListener('DOMContentLoaded', function () {
     // === ЭЛЕМЕНТЫ ===
     const els = {
@@ -53,7 +57,7 @@ document.addEventListener('DOMContentLoaded', function () {
     // === ТЕКСТЫ ПОДСКАЗОК ===
     const hintTexts = {
         'pokemon': 'Например: Pikachu, Charizard, Мьюту, #025, 125',
-        'item': 'Например: Чёрный пояс, Уголёк, Травяная броня',
+        'item': 'Например: Чёрный пояс, Уголёк, Травяная броня, item_996, 996',
         'pokecenter': 'Список локаций, где присутствует Покецентр',
         'pokemart': 'Список локаций, где присутствует Магазин'
     };
@@ -63,8 +67,8 @@ document.addEventListener('DOMContentLoaded', function () {
     let locationData = null;
     window.pokemonDB = null;
     window.locationData = null;
-    window.itemsData = null;
     window.itemLocationsData = null;
+    window.itemsRelationsData = null;
     window.pokemonRuData = null;
     window.professionsData = null;
     window.profAffinityData = null;
@@ -104,10 +108,11 @@ document.addEventListener('DOMContentLoaded', function () {
                 fetch('json/item.json').catch(() => ({ok: false})),
                 fetch('json/items.json').catch(() => ({ok: false})),
                 fetch('json/emoji_combos.json').catch(() => ({ok: false})),
-                fetch('json/npcs.json').catch(() => ({ok: false}))
+                fetch('json/npcs.json').catch(() => ({ok: false})),
+                fetch('json/items_relations.json').catch(() => ({ok: false}))
             ]);
 
-            const [pRes, lRes, ruRes, prRes, affRes, fRes, uRes, itemLRes, itemsRes, comboRes, npcRes] = results;
+            const [pRes, lRes, ruRes, prRes, affRes, fRes, uRes, itemLRes, itemsRes, comboRes, npcRes, relRes] = results;
 
             if (!pRes.ok) throw new Error(`pokemon_names.json не найден`);
             if (!lRes.ok) throw new Error(`locations.json не найден`);
@@ -127,6 +132,7 @@ document.addEventListener('DOMContentLoaded', function () {
             if (itemsRes && itemsRes.ok) window.itemsData = await itemsRes.json();
             if (itemLRes && itemLRes.ok) window.itemLocationsData = await itemLRes.json();
             if (npcRes && npcRes.ok) window.npcsData = await npcRes.json();
+            if (relRes && relRes.ok) window.itemsRelationsData = await relRes.json();
             
             window.emojiCombosData = null;
             window.emojiCombosSorted = null;
@@ -178,15 +184,22 @@ document.addEventListener('DOMContentLoaded', function () {
             if (window.itemsData) {
                 for (let key in window.itemsData) {
                     const it = window.itemsData[key];
+                    if (it.num_id) {
+                        itemSearchIndex[it.num_id.toString()] = key;
+                    }
                     if (it.RuName) {
                         const rLow = it.RuName.toLowerCase().trim();
                         itemSearchIndex[rLow] = key;
                         itemSearchIndex[rLow.replace(/\s+/g, '')] = key;
+                        const norm = str => str.toLowerCase().replace(/ё/g, 'е').replace(/[^а-яa-z0-9]/g, '');
+                        itemSearchIndex[norm(it.RuName)] = key;
                     }
                     if (it.Name) {
                         const nLow = it.Name.toLowerCase().trim();
                         itemSearchIndex[nLow] = key;
                         itemSearchIndex[nLow.replace(/\s+/g, '')] = key;
+                        const norm = str => str.toLowerCase().replace(/ё/g, 'е').replace(/[^а-яa-z0-9]/g, '');
+                        itemSearchIndex[norm(it.Name)] = key;
                     }
                 }
             }
@@ -439,72 +452,189 @@ document.addEventListener('DOMContentLoaded', function () {
                 const checkClean = cleanQuery.replace(/\s+/g, '');
                 if (itemSearchIndex[cleanQuery] || itemSearchIndex[checkClean]) {
                     isItemSearch = true;
+                } else if (window.fuzzyMatchItemKey && window.itemsData && window.fuzzyMatchItemKey(cleanQuery, window.itemsData)) {
+                    isItemSearch = true;
                 }
             }
         }
 
         if (isItemSearch) {
-            if (!window.itemLocationsData) {
+            if (!window.itemsRelationsData || !window.locationData) {
                 renderError("Данные предметов загружаются...");
                 return;
             }
-            const cleanQueryForItems = cleanQuery.replace(/\s+/g, '');
-            let foundId = itemSearchIndex[cleanQuery] || itemSearchIndex[cleanQueryForItems];
-            let itemObj = window.itemsData && foundId ? window.itemsData[foundId] : null;
-
-            let targetSearchStrings = [];
-            if (itemObj) {
-                if (itemObj.RuName) targetSearchStrings.push(itemObj.RuName.toLowerCase());
-                if (itemObj.Name) targetSearchStrings.push(itemObj.Name.toLowerCase());
-            }
-            targetSearchStrings.push(cleanQuery); // Always add query fallback
-
-            // Find locations
-            let itemHabitats = [];
-            for (let reg in window.itemLocationsData) {
-                for (let locId in window.itemLocationsData[reg]) {
-                    const itemsInLoc = window.itemLocationsData[reg][locId];
-                    if (!Array.isArray(itemsInLoc)) continue;
-                    
-                    for (let rawStr of itemsInLoc) {
-                        const rawLower = rawStr.toLowerCase();
-                        // Cleaning symbols
-                        const cleanRawLoc = rawLower.replace(/[^\p{L}\d\s]/gu, '').trim();
-                        const isMatch = targetSearchStrings.some(ts => {
-                            const tsClean = ts.replace(/[^\p{L}\d\s]/gu, '').trim();
-                            if (!tsClean) return false;
-                            return cleanRawLoc === tsClean || cleanRawLoc.includes(tsClean);
-                        });
-
-                        if (isMatch) {
-                            if (locationData && locationData[locId]) {
-                                itemHabitats.push({
-                                    ...locationData[locId],
-                                    name: locId, // Saved ID as name for the modal
-                                    rawItemString: rawStr,
-                                    regionRaw: reg
-                                });
-                            } else {
-                                itemHabitats.push({
-                                    name: locId,
-                                    ru_name: locId,
-                                    region: reg,
-                                    rawItemString: rawStr,
-                                    regionRaw: reg
-                                });
-                            }
-                            break; // Stop at first match in this loc
+            const norm = str => str.toLowerCase().replace(/ё/g, 'е').replace(/[^а-яa-z0-9]/g, '');
+            const normQuery = norm(cleanQuery);
+            let foundId = itemSearchIndex[cleanQuery] || itemSearchIndex[cleanQuery.replace(/\s+/g, '')] || itemSearchIndex[normQuery];
+            if (!foundId && window.itemsData) {
+                const idMatch = cleanQuery.match(/^(?:\/?item_|\/?item\s+)?(\d+)$/);
+                if (idMatch) {
+                    const idStr = idMatch[1];
+                    for (const key in window.itemsData) {
+                        if (window.itemsData[key].num_id == idStr || key == idStr) {
+                            foundId = key;
+                            break;
                         }
                     }
                 }
+                if (!foundId) {
+                    if (window.itemsData[cleanQuery]) foundId = cleanQuery;
+                    else if (window.itemsData[cleanQuery.toUpperCase()]) foundId = cleanQuery.toUpperCase();
+                    else foundId = window.fuzzyMatchItemKey(cleanQuery, window.itemsData);
+                }
+            }
+            
+            let itemObj = window.itemsData && foundId ? window.itemsData[foundId] : null;
+            let titleName = itemObj ? itemObj.RuName || itemObj.Name : rawQuery;
+
+            let targetSearchStrings = [];
+            if (itemObj) {
+                if (itemObj.RuName) targetSearchStrings.push(norm(itemObj.RuName));
+                if (itemObj.Name) targetSearchStrings.push(norm(itemObj.Name));
+            }
+            targetSearchStrings.push(normQuery);
+
+            const isMatchItem = (itemsArray) => {
+                if (!itemsArray) return false;
+                return itemsArray.some(rawStr => {
+                    const cleanRaw = norm(rawStr);
+                    return targetSearchStrings.some(tsClean => {
+                        if (!tsClean) return false;
+                        if (cleanRaw === tsClean || cleanRaw.includes(tsClean)) return true;
+                        // Use fuzzy matching for substring if it's close enough
+                        if (window.itemSimilarity(cleanRaw, tsClean) > 0.75) return true;
+                        return false;
+                    });
+                });
+            };
+
+            const rel = window.itemsRelationsData;
+            let dropTypes = [];
+            let dropPokemons = [];
+            let dropNPCs = [];
+            let isWildDrop = false;
+            let isDiamondDrop = false;
+
+            if (rel.types) {
+                for (let type in rel.types) {
+                    if (isMatchItem(rel.types[type])) dropTypes.push(type);
+                }
+            }
+            if (rel.pokemon) {
+                for (let pk in rel.pokemon) {
+                    if (isMatchItem(rel.pokemon[pk])) dropPokemons.push(pk);
+                }
+            }
+            if (rel.wild && isMatchItem(rel.wild)) isWildDrop = true;
+            if (rel.npcs) {
+                for (let npc in rel.npcs) {
+                    if (isMatchItem(rel.npcs[npc])) dropNPCs.push(npc);
+                }
+            }
+            if (rel.diamonds && isMatchItem(rel.diamonds)) isDiamondDrop = true;
+
+            let itemHabitats = [];
+            let addedLocs = new Set();
+
+            for (let locId in window.locationData) {
+                let loc = window.locationData[locId];
+                let addedToLoc = false;
+                let sources = [];
+
+                if (loc.encounters && loc.encounters.length > 0) {
+                    if (isWildDrop) {
+                        sources.push("Дикие покемоны");
+                        addedToLoc = true;
+                    }
+
+                    loc.encounters.forEach(enc => {
+                        let capsSpecies = enc.species;
+                        if (dropPokemons.includes(capsSpecies)) {
+                            sources.push(capsSpecies);
+                            addedToLoc = true;
+                        }
+
+                        let pkId = window.pokemonNamesUpper ? window.pokemonNamesUpper[capsSpecies] : null;
+                        if (!pkId && window.pokemonRuData && window.pokemonRuData[capsSpecies]) {
+                            pkId = String(window.pokemonRuData[capsSpecies].NationalId).padStart(3, '0');
+                        }
+
+                        let pk = pkId ? window.pokemonDB[pkId] : null;
+                        if (pk && pk.type) {
+                            let typeArr = pk.type;
+                            if (enc.form > 0 && window.formsBySpecies && window.formsBySpecies[capsSpecies]) {
+                                let formObj = window.formsBySpecies[capsSpecies].find(f => f._FormKey === `${capsSpecies}-${enc.form}`);
+                                if (!formObj && window.formsBySpecies[capsSpecies].length >= enc.form) {
+                                    formObj = window.formsBySpecies[capsSpecies][enc.form - 1];
+                                }
+                                if (formObj && formObj.Types) {
+                                    typeArr = formObj.Types.toLowerCase().split(',').map(t => t.trim());
+                                }
+                            }
+                            typeArr.forEach(t => {
+                                if (dropTypes.includes(t.toLowerCase())) {
+                                    sources.push(`Покемоны типа ${typeNamesRu[t.toLowerCase()] || t}`);
+                                    addedToLoc = true;
+                                }
+                            });
+                        }
+                    });
+                }
+
+                // Check NPC
+                if (window.npcsData) {
+                    for (let npcKey in window.npcsData) {
+                        let npc = window.npcsData[npcKey];
+                        if (npc.location_id === locId && dropNPCs.includes(npc.ru_name)) {
+                            sources.push(`NPC: ${npc.ru_name}`);
+                            addedToLoc = true;
+                        }
+                    }
+                }
+
+                if (addedToLoc && !addedLocs.has(locId)) {
+                    addedLocs.add(locId);
+                    itemHabitats.push({
+                        ...loc,
+                        name: locId,
+                        rawItemString: Array.from(new Set(sources)).join(', '),
+                        regionRaw: loc.region || 'UNKNOWN'
+                    });
+                }
             }
 
-            if (itemHabitats.length === 0) {
-                renderError(`Предмет "<b>${rawQuery}</b>" не найден на картах.`);
-                return;
+            let msgLines = [];
+            if (dropTypes.length > 0) {
+                msgLines.push(`<b>${titleName || rawQuery}</b> вы можете выбить из покемонов типа <b>${dropTypes.map(t => typeNamesRu[t.toLowerCase()] || t).join(', ')}</b>.`);
+            }
+            if (dropPokemons.length > 0) {
+                msgLines.push(`<b>${titleName || rawQuery}</b> падает с <b>${dropPokemons.join(', ')}</b>.`);
+            }
+            if (isWildDrop) {
+                msgLines.push(`<b>${titleName || rawQuery}</b> может упасть с любого дикого покемона.`);
+            }
+            if (dropNPCs.length > 0) {
+                msgLines.push(`<b>${titleName || rawQuery}</b> можно купить у: <b>${dropNPCs.join(', ')}</b>.`);
+            }
+            if (isDiamondDrop) {
+                msgLines.push(`Этот предмет вы можете купить в магазине за алмазы. Напишите боту <b>"/diamonds"</b>.`);
             }
 
-            renderItemOutput(rawQuery, itemObj, itemHabitats);
+            let messageHtml = '';
+            if (msgLines.length > 0) {
+                messageHtml = `<div style="padding:15px; border-left:5px solid var(--accent); background:rgba(255,107,107,0.1); border-radius:10px; margin-bottom:20px; line-height:1.5;">${msgLines.join('<br>')}</div>`;
+            }
+
+            if (itemHabitats.length === 0 && !isDiamondDrop && msgLines.length === 0) {
+                if (itemObj) {
+                    messageHtml = `<div style="padding:15px; border-left:5px solid #ffcc00; background:rgba(255,215,0,0.1); border-radius:10px; margin-bottom:20px; line-height:1.5;">Извините, но местонахождение <b>${titleName}</b> не найдено.</div>`;
+                } else {
+                    renderError(`Предмет "<b>${rawQuery}</b>" не найден.`);
+                    return;
+                }
+            }
+
+            renderItemOutput(rawQuery, itemObj, itemHabitats, messageHtml);
             return;
         }
 
@@ -782,7 +912,6 @@ document.addEventListener('DOMContentLoaded', function () {
         return window.formatTextWithEmojis ? window.formatTextWithEmojis(itemText) : formatTextWithEmojis(itemText);
     }
 
-    // Экспортируем функции в глобальную область
     window.formatItemSticker = formatItemSticker;
     window.formatTextWithEmojis = formatTextWithEmojis;
     window.formatItemStringWithFlip = formatItemStringWithFlip;
@@ -805,12 +934,19 @@ document.addEventListener('DOMContentLoaded', function () {
         } catch(e) { console.error("Error loading emoji combos", e); }
     };
 
-    function renderItemOutput(rawQuery, itemObj, habitats) {
+    function renderItemOutput(rawQuery, itemObj, habitats, messageHtml = '') {
         let titleName = itemObj ? itemObj.RuName || itemObj.Name : rawQuery;
         let engName = itemObj && itemObj.Name ? ` / ${itemObj.Name}` : '';
         let rawSticker = itemObj && itemObj.Sticker ? itemObj.Sticker : '🎒';
         let sticker = formatItemSticker(rawSticker);
-        let desc = itemObj && itemObj.Description ? `<div style="padding:15px; background:rgba(255,255,255,0.05); border-radius:10px; margin-bottom:20px; line-height:1.5;">${formatTextWithEmojis(itemObj.Description)}</div>` : '';
+        let desc = '';
+        if (itemObj && itemObj.Description) {
+            desc = `
+            <div style="padding:15px 15px 25px 15px; background:rgba(255,255,255,0.05); border-radius:10px; margin-bottom:20px; line-height:1.5; position:relative;">
+                ${formatTextWithEmojis(itemObj.Description)}
+                ${itemObj.num_id ? `<div style="position: absolute; bottom: 5px; right: 10px; font-size: 0.75rem; color: rgba(255,255,255,0.3);">ID: ${itemObj.num_id}</div>` : ''}
+            </div>`;
+        }
 
         els.title.innerHTML = `<i class="fas fa-search"></i> ${sticker} ${titleName}${engName}`;
 
@@ -820,7 +956,8 @@ document.addEventListener('DOMContentLoaded', function () {
                             <span>${titleName}</span>
                         </h2>
                         ${desc}
-                        <div style="margin-bottom:15px; color:var(--text-muted);">📍 Найдено в следующих локациях:</div>
+                        ${messageHtml}
+                        ${habitats.length > 0 ? `<div style="margin-bottom:15px; color:var(--text-muted);">📍 Найдено в следующих локациях:</div>` : ''}
                    `;
 
         // Группируем по региону

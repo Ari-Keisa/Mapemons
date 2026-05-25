@@ -2144,7 +2144,7 @@
         <section class="search-section">
             <h2 class="section-title"><i class="fas fa-search"></i> Поиск в Канто</h2>
             <div class="search-box">
-                <input type="text" id="kantoSearch" class="search-input" placeholder="Введите что вы ищете...">
+                <input type="text" id="kantoSearch" class="search-input" placeholder="Введите что вы ищете (напр. 025, item_996)...">
                 <button class="search-btn" id="kantoSearchBtn">
                     <i class="fas fa-search"></i>
                 </button>
@@ -2458,7 +2458,7 @@
         let npcByLocation = {};        // location_id -> [{ru_name, description}]
         let pokemonUpperIndex = {};    // UPPERCASE_EN -> "001"
         window.formsBySpecies = {};       // speciesId -> [form, ...]
-        let itemMap = {};                 // Location -> [ItemStrings]
+        let itemsRelationsData = {};                 
         let itemRuToKey = {};             // "StickerName" -> "ITEM_KEY"
         let itemSearchIndex = {};         // "lowercasename" -> "ITEM_KEY"
 
@@ -2477,7 +2477,7 @@
                     fetch('../json/profession_affinity.json').catch(() => ({ ok: false })),
                     fetch('../json/pokemon_forms_ru.json').catch(() => ({ ok: false })),
                     fetch('../json/items.json').catch(() => ({ ok: false })),
-                    fetch('../json/item.json').catch(() => ({ ok: false })),
+                    fetch('../json/items_relations.json').catch(() => ({ ok: false })),
                     fetch('../json/pokemon_names_upper.json').catch(() => ({ ok: false }))
                 ]);
                 const rawLocs = await locRes.json();
@@ -2491,7 +2491,7 @@
                 if (profAffRes.ok) profAffinityData = await profAffRes.json();
                 if (pkFormsRes.ok) pokemonFormsData = await pkFormsRes.json();
                 if (itemsRes.ok) itemsData = await itemsRes.json();
-                if (itemMapRes && itemMapRes.ok) itemMap = await itemMapRes.json();
+                if (itemMapRes && itemMapRes.ok) itemsRelationsData = await itemMapRes.json();
                 if (pkUpperRes && pkUpperRes.ok) {
                     const rawUpper = await pkUpperRes.json();
                     window.pokemonNamesUpper = rawUpper.pokemon || rawUpper;
@@ -2506,9 +2506,12 @@
                         const fullRu = (it.Sticker || "") + (it.RuName || "");
                         if (fullRu) itemRuToKey[fullRu] = key;
                         if (it.RuName) {
+                            const norm = str => str.toLowerCase().replace(/ё/g, 'е').replace(/[^а-яa-z0-9]/g, '');
                             itemRuToKey[it.RuName] = key;
+                            itemRuToKey[norm(it.RuName)] = key;
                             const rLow = it.RuName.toLowerCase().trim();
                             itemSearchIndex[rLow] = key;
+                            itemSearchIndex[norm(it.RuName)] = key;
                             itemSearchIndex[rLow.replace(/\s+/g, '')] = key;
                         }
                         if (it.Name) {
@@ -3432,19 +3435,67 @@
             }
 
             // --- Items tab content ---
-            const locItems = (itemMap && itemMap.KANTO && itemMap.KANTO[name]) || [];
+            let locItemsRaw = new Set();
+            const rel = itemsRelationsData;
+            if (rel) {
+                if (encounters.length > 0) {
+                    if (rel.wild) rel.wild.forEach(i => locItemsRaw.add(i));
+                    encounters.forEach(enc => {
+                        let capsSpecies = enc.species;
+                        if (rel.pokemon && rel.pokemon[capsSpecies]) {
+                            rel.pokemon[capsSpecies].forEach(i => locItemsRaw.add(i));
+                        }
+                        let pkId = window.pokemonNamesUpper ? window.pokemonNamesUpper[capsSpecies] : null;
+                        if (!pkId && pokemonRuData && pokemonRuData[capsSpecies]) {
+                            pkId = String(pokemonRuData[capsSpecies].NationalId).padStart(3, '0');
+                        }
+                        let pk = pkId && pokemonDB ? pokemonDB[pkId] : null;
+                        if (pk && pk.type && rel.types) {
+                            let typeArr = pk.type;
+                            if (enc.form > 0 && window.formsBySpecies && window.formsBySpecies[capsSpecies]) {
+                                let formObj = window.formsBySpecies[capsSpecies].find(f => f._FormKey === `${capsSpecies}-${enc.form}`);
+                                if (!formObj && window.formsBySpecies[capsSpecies].length >= enc.form) {
+                                    formObj = window.formsBySpecies[capsSpecies][enc.form - 1];
+                                }
+                                if (formObj && formObj.Types) {
+                                    typeArr = formObj.Types.toLowerCase().split(',').map(t => t.trim());
+                                }
+                            }
+                            typeArr.forEach(t => {
+                                let tLow = t.toLowerCase();
+                                if (rel.types[tLow]) {
+                                    rel.types[tLow].forEach(i => locItemsRaw.add(i));
+                                }
+                            });
+                        }
+                    });
+                }
+                if (npcs && npcs.length > 0 && rel.npcs) {
+                    npcs.forEach(npc => {
+                        if (rel.npcs[npc.ru_name]) {
+                            rel.npcs[npc.ru_name].forEach(i => locItemsRaw.add(i));
+                        }
+                    });
+                }
+            }
+            const locItems = Array.from(locItemsRaw);
             let itemsHtml = '';
             if (locItems.length > 0) {
                 itemsHtml = '<div class="items-list">' + locItems.map(it => {
-                    let itemKey = itemRuToKey[it];
-                    if (!itemKey) {
-                        const cleanIt = it.replace(/^[^А-Яа-яA-Za-z0-9]+/i, '').trim();
-                        itemKey = itemRuToKey[cleanIt];
+                    const norm = str => str.toLowerCase().replace(/ё/g, 'е').replace(/[^а-яa-z0-9]/g, '');
+                    let itemKey = itemRuToKey[it] || itemRuToKey[norm(it)];
+                    if (!itemKey && typeof window.fuzzyMatchItemKey === 'function') {
+                        itemKey = window.fuzzyMatchItemKey(it, itemsData);
+                    }
+                    
+                    let displayStr = it;
+                    if (itemKey && itemsData[itemKey]) {
+                        displayStr = (itemsData[itemKey].Sticker || "") + (itemsData[itemKey].RuName || it);
                     }
                     if (itemKey) {
-                        return `<div class="item-tag clickable" onclick="openItemInfo('${itemKey}')" title="Подробнее">${window.formatItemStringWithFlip ? window.formatItemStringWithFlip(it) : (window.formatTextWithEmojis ? window.formatTextWithEmojis(it) : it)}</div>`;
+                        return `<div class="item-tag clickable" onclick="openItemInfo('${itemKey}')" title="Подробнее">${window.formatItemStringWithFlip ? window.formatItemStringWithFlip(displayStr) : (window.formatTextWithEmojis ? window.formatTextWithEmojis(displayStr) : displayStr)}</div>`;
                     }
-                    return `<div class="item-tag">${window.formatItemStringWithFlip ? window.formatItemStringWithFlip(it) : (window.formatTextWithEmojis ? window.formatTextWithEmojis(it) : it)}</div>`;
+                    return `<div class="item-tag">${window.formatItemStringWithFlip ? window.formatItemStringWithFlip(displayStr) : (window.formatTextWithEmojis ? window.formatTextWithEmojis(displayStr) : displayStr)}</div>`;
                 }).join('') + '</div>';
             } else {
                 itemsHtml = '<div class="loc-empty"><div class="loc-empty-icon">🚫</div><div class="loc-empty-text">Предметы в этой локации не найдены</div></div>';
@@ -3812,7 +3863,19 @@
                 const loc = allLocationData[id];
                 if (loc.region !== 'KANTO') continue; // Только Канто!
                 const enc = loc.encounters?.find(e => e.species === capsName);
-                if (enc) found.push({ ...loc, info: enc });
+                if (enc) found.push({ ...loc, name: id, info: enc });
+            }
+            return found;
+        }
+
+        function findInWildGlobal(capsName) {
+            const found = [];
+            if (!allLocationData) return found;
+            for (const id in allLocationData) {
+                const loc = allLocationData[id];
+                if (loc.region === 'KANTO') continue; // Канто мы уже вывели
+                const enc = loc.encounters?.find(e => e.species === capsName);
+                if (enc) found.push({ ...loc, name: id, info: enc });
             }
             return found;
         }
@@ -3906,12 +3969,25 @@
             }
 
             // Поиск по локациям
-            const foundLocation = Object.keys(kantoLocations).find(loc => {
-                const l = kantoLocations[loc];
-                return loc.toLowerCase().includes(query) ||
-                    (l.name && l.name.toLowerCase().includes(query)) ||
-                    (l.ru_name && l.ru_name.toLowerCase().includes(query));
-            });
+            const isNumericRouteSearch = query.match(/^[мm]\s*(\d+)$/i);
+            const routeNum = isNumericRouteSearch ? isNumericRouteSearch[1] : null;
+
+            let foundLocation = null;
+            
+            // Если запрос - это просто число, мы пропускаем поиск локации, чтобы искать покемона/предмет по ID
+            if (isNaN(query) && query.trim() !== '') {
+                foundLocation = Object.keys(kantoLocations).find(loc => {
+                    const l = kantoLocations[loc];
+                    if (routeNum) {
+                        return (l.name && l.name.toLowerCase().includes(`route ${routeNum}`)) ||
+                               (l.ru_name && l.ru_name.toLowerCase().includes(`маршрут ${routeNum}`)) ||
+                               loc.toLowerCase().includes(`route-${routeNum}`);
+                    }
+                    return loc.toLowerCase().includes(query) ||
+                        (l.name && l.name.toLowerCase().includes(query)) ||
+                        (l.ru_name && l.ru_name.toLowerCase().includes(query));
+                });
+            }
 
             if (foundLocation) {
                 // Подсветка найденного
@@ -3920,6 +3996,11 @@
                 if (node) {
                     node.classList.remove('hidden');
                     node.classList.add('route-active');
+                    
+                    const locObj = kantoLocations[foundLocation];
+                    const locName = locObj ? (locObj.ru_name || locObj.name) : query;
+                    showNotification(`На карте показана локация: ${locName}`, 'success');
+
                     highlightTimeout = setTimeout(() => {
                         node.classList.remove('route-active');
                         document.querySelectorAll('.location-node').forEach(n => n.classList.remove('hidden'));
@@ -3931,7 +4012,22 @@
             // ===== ПОИСК ПО ПРЕДМЕТАМ (если локация не найдена) =====
             const cleanQueryForItems = cleanQuery.replace(/\s+/g, '');
             let foundItemId = itemSearchIndex[cleanQuery] || itemSearchIndex[cleanQueryForItems];
-            let itemObj = itemsData && foundItemId ? itemsData[foundItemId] : null;
+            
+            if (!foundItemId && window.itemsData) {
+                // Require 'item' prefix so we don't conflict with Pokemon IDs (e.g., 025)
+                const idMatch = cleanQuery.match(/^(?:\/?item_|\/?item\s+)(\d+)$/);
+                if (idMatch) {
+                    const idStr = idMatch[1];
+                    for (const key in window.itemsData) {
+                        if (window.itemsData[key] && (window.itemsData[key].num_id == idStr || key == idStr)) {
+                            foundItemId = key;
+                            break;
+                        }
+                    }
+                }
+            }
+
+            let itemObj = window.itemsData && foundItemId ? window.itemsData[foundItemId] : null;
 
             let targetSearchStrings = [];
             if (itemObj) {
@@ -3940,53 +4036,123 @@
             }
 
             let foundItemLocs = new Set();
-            if (itemMap && itemMap.KANTO) {
-                for (let locId in itemMap.KANTO) {
-                    const itemsInLoc = itemMap.KANTO[locId];
-                    if (!Array.isArray(itemsInLoc)) continue;
-
-                    for (let rawStr of itemsInLoc) {
-                        const rawLower = rawStr.toLowerCase();
-                        const cleanRawLoc = rawLower.replace(/[^\p{L}\d\s]/gu, '').trim();
-                        
-                        let isMatch = false;
-                        if (targetSearchStrings.length > 0) {
-                            isMatch = targetSearchStrings.some(ts => {
-                                const tsClean = ts.replace(/[^\p{L}\d\s]/gu, '').trim();
-                                if (!tsClean) return false;
-                                return cleanRawLoc === tsClean || cleanRawLoc.includes(tsClean);
-                            });
-                        } else {
-                            // Only query, no exact item in DB. Check exact or includes if very long keyword
-                            const qClean = cleanQuery.replace(/[^\p{L}\d\s]/gu, '').trim();
-                            if (qClean && qClean.length > 2) {
-                                if (cleanRawLoc === qClean || (qClean.length > 4 && cleanRawLoc.includes(qClean))) {
-                                    isMatch = true;
-                                }
+            
+            const isMatchItem = (itemsArr) => {
+                if (!itemsArr) return false;
+                const norm = str => str.toLowerCase().replace(/ё/g, 'е').replace(/[^а-яa-z0-9]/g, '');
+                for (let rawStr of itemsArr) {
+                    const cleanRawLoc = norm(rawStr);
+                    let isMatch = false;
+                    if (targetSearchStrings.length > 0) {
+                        isMatch = targetSearchStrings.some(ts => {
+                            const tsClean = norm(ts);
+                            if (!tsClean) return false;
+                            if (cleanRawLoc === tsClean || cleanRawLoc.includes(tsClean)) return true;
+                            if (typeof window.itemSimilarity === 'function' && window.itemSimilarity(cleanRawLoc, tsClean) > 0.75) return true;
+                            return false;
+                        });
+                    } else {
+                        const qClean = norm(cleanQuery);
+                        if (qClean && qClean.length > 2) {
+                            if (cleanRawLoc === qClean || (qClean.length > 4 && cleanRawLoc.includes(qClean))) {
+                                isMatch = true;
+                            } else if (typeof window.itemSimilarity === 'function' && window.itemSimilarity(cleanRawLoc, qClean) > 0.75) {
+                                isMatch = true;
                             }
                         }
-                        
-                        if (isMatch) {
-                            foundItemLocs.add(locId);
-                            break;
-                        }
+                    }
+                    if (isMatch) return true;
+                }
+                return false;
+            };
+
+            const rel = itemsRelationsData;
+            let dropTypes = [];
+            let dropPokemons = [];
+            let dropNPCs = [];
+            let isWildDrop = false;
+
+            if (rel) {
+                if (rel.types) {
+                    for (let type in rel.types) {
+                        if (isMatchItem(rel.types[type])) dropTypes.push(type);
+                    }
+                }
+                if (rel.pokemon) {
+                    for (let pk in rel.pokemon) {
+                        if (isMatchItem(rel.pokemon[pk])) dropPokemons.push(pk);
+                    }
+                }
+                if (rel.wild && isMatchItem(rel.wild)) isWildDrop = true;
+                if (rel.npcs) {
+                    for (let npc in rel.npcs) {
+                        if (isMatchItem(rel.npcs[npc])) dropNPCs.push(npc);
                     }
                 }
             }
 
-            if (foundItemLocs.size > 0) {
+            for (let locId in kantoLocations) {
+                let loc = kantoLocations[locId];
+                let isAdded = false;
+
+                if (loc.encounters && loc.encounters.length > 0) {
+                    if (isWildDrop) isAdded = true;
+                    if (!isAdded) {
+                        for (let enc of loc.encounters) {
+                            let capsSpecies = enc.species;
+                            if (dropPokemons.includes(capsSpecies)) {
+                                isAdded = true;
+                                break;
+                            }
+                            let pkId = window.pokemonNamesUpper ? window.pokemonNamesUpper[capsSpecies] : null;
+                            if (!pkId && pokemonRuData && pokemonRuData[capsSpecies]) pkId = String(pokemonRuData[capsSpecies].NationalId).padStart(3, '0');
+                            let pk = pkId && pokemonDB ? pokemonDB[pkId] : null;
+                            if (pk && pk.type) {
+                                let typeArr = pk.type;
+                                if (enc.form > 0 && window.formsBySpecies && window.formsBySpecies[capsSpecies]) {
+                                    let formObj = window.formsBySpecies[capsSpecies].find(f => f._FormKey === `${capsSpecies}-${enc.form}`);
+                                    if (!formObj && window.formsBySpecies[capsSpecies].length >= enc.form) {
+                                        formObj = window.formsBySpecies[capsSpecies][enc.form - 1];
+                                    }
+                                    if (formObj && formObj.Types) {
+                                        typeArr = formObj.Types.toLowerCase().split(',').map(t => t.trim());
+                                    }
+                                }
+                                if (typeArr.some(t => dropTypes.includes(t.toLowerCase()))) {
+                                    isAdded = true;
+                                    break;
+                                }
+                            }
+                        }
+                    }
+                }
+
+                if (!isAdded && loc.npcs && loc.npcs.length > 0) {
+                    if (loc.npcs.some(npc => dropNPCs.includes(npc.ru_name))) {
+                        isAdded = true;
+                    }
+                }
+
+                if (isAdded) {
+                    foundItemLocs.add(locId);
+                }
+            }
+
+            if (foundItemId) {
                 document.querySelectorAll('.location-node').forEach(n => n.classList.add('hidden'));
                 const foundArray = [];
-                foundItemLocs.forEach(locId => {
-                    const node = document.querySelector(`[data-location="${locId}"]`);
-                    if (node) {
-                        node.classList.remove('hidden');
-                        node.classList.add('route-active');
-                    }
-                    if(kantoLocations[locId]) {
-                        foundArray.push({...kantoLocations[locId], locId});
-                    }
-                });
+                if (foundItemLocs.size > 0) {
+                    foundItemLocs.forEach(locId => {
+                        const node = document.querySelector(`[data-location="${locId}"]`);
+                        if (node) {
+                            node.classList.remove('hidden');
+                            node.classList.add('route-active');
+                        }
+                        if(kantoLocations[locId]) {
+                            foundArray.push({...kantoLocations[locId], locId});
+                        }
+                    });
+                }
 
                 highlightTimeout = setTimeout(() => {
                     document.querySelectorAll('.location-node').forEach(n => {
@@ -4006,9 +4172,24 @@
                 title.innerHTML = `<i class="fas fa-box"></i> Где найти: ${itemName}`;
                 
                 if (foundArray.length === 0) {
-                    content.innerHTML = `<div style="text-align:center;padding:20px;">Нет известных локаций в Канто.</div>`;
+                    let descHtml = '';
+                    if (itemObj && itemObj.Description) {
+                        descHtml = `
+                        <div style="padding:15px 15px 25px 15px; background:rgba(0,0,0,0.2); border-radius:10px; margin-top:15px; color:#ddd; font-style: italic; line-height: 1.4; position: relative;">
+                            ${itemObj.Description}
+                            ${itemObj.num_id ? `<div style="position: absolute; bottom: 5px; right: 10px; font-size: 0.75rem; color: rgba(255,255,255,0.3);">ID: ${itemObj.num_id}</div>` : ''}
+                        </div>`;
+                    }
+                    content.innerHTML = descHtml + `<div style="text-align:center;padding:20px;color:#ffcc00;font-size:1.1rem;margin-top:10px;">В локациях Канто <b>${itemName}</b> не найден.</div>`;
                 } else {
-                    let descHtml = itemObj && itemObj.Description ? `<div style="padding:15px; background:rgba(0,0,0,0.2); border-radius:10px; margin-top:15px; color:#ddd; font-style: italic; line-height: 1.4;">${itemObj.Description}</div>` : '';
+                    let descHtml = '';
+                    if (itemObj && itemObj.Description) {
+                        descHtml = `
+                        <div style="padding:15px 15px 25px 15px; background:rgba(0,0,0,0.2); border-radius:10px; margin-top:15px; color:#ddd; font-style: italic; line-height: 1.4; position: relative;">
+                            ${itemObj.Description}
+                            ${itemObj.num_id ? `<div style="position: absolute; bottom: 5px; right: 10px; font-size: 0.75rem; color: rgba(255,255,255,0.3);">ID: ${itemObj.num_id}</div>` : ''}
+                        </div>`;
+                    }
                     let html = descHtml + '<div class="habitat-list" style="margin-top: 15px;">';
                     foundArray.forEach(loc => {
                         const bg = loc.type;
@@ -4056,7 +4237,11 @@
 
             if (!foundID) {
                 title.innerHTML = '<i class="fas fa-search"></i> Результаты поиска';
-                content.innerHTML = `<div style="text-align:center;padding:30px;color:#ff6b6b;">Не найдено: "<b>${rawQuery}</b>"</div>`;
+                content.innerHTML = `<div style="text-align:center;padding:30px;color:#ff6b6b;line-height:1.5;font-size:1.05rem;">
+                    По запросу <b>"${rawQuery}"</b> ничего не найдено в Канто.<br><br>
+                    <span style="color:#ddd;font-size:0.95rem;">Если вы искали локацию, проверьте правильность написания названия либо поищите в другом регионе.<br>
+                    Если вы искали предмет или покемона, убедитесь в правильности имени.</span>
+                </div>`;
                 return;
             }
 
@@ -4078,11 +4263,34 @@
             const habitats = findInWildKanto(searchNameCaps);
             let message = "";
             let ancestorHabitats = [];
+            let habitatsGlobal = [];
 
             if (habitats.length === 0) {
                 const ancestors = getAllAncestors(actualId);
-                if (ancestors.length > 0) {
-                    message = `Покемон <b>${pokemon.en}</b> (<i>${pokemon.ru}</i>) не встречается в Канто. Вы можете эволюционировать его из предыдущих форм:`;
+                habitatsGlobal = findInWildGlobal(searchNameCaps);
+
+                if (habitatsGlobal.length > 0) {
+                    if (pokemon.is_starter) {
+                        message = `Покемон <b>${pokemon.en}</b> (<i>${pokemon.ru}</i>) является стартовым и в Канто не встречается. Вы можете встретить покемона в других локациях.`;
+                    } else {
+                        const isLegend = pokemon.is_legendary || (pokemon.rarity && pokemon.rarity >= 8);
+                        if (isLegend) {
+                            message = `Покемон <b>${pokemon.en}</b> (<i>${pokemon.ru}</i>) является легендарным и в Канто не обитает. Вы можете встретить покемона в других локациях.`;
+                        } else {
+                            message = `Покемон <b>${pokemon.en}</b> (<i>${pokemon.ru}</i>) в Канто не обитает. Вы можете встретить покемона в других локациях.`;
+                        }
+                    }
+                } else if (ancestors.length > 0) {
+                    if (pokemon.is_starter) {
+                        message = `Покемон <b>${pokemon.en}</b> (<i>${pokemon.ru}</i>) является стартовым и в Канто не встречается. Вы можете эволюционировать его из предыдущих форм:`;
+                    } else {
+                        const isLegend = pokemon.is_legendary || (pokemon.rarity && pokemon.rarity >= 8);
+                        if (isLegend) {
+                            message = `Покемон <b>${pokemon.en}</b> (<i>${pokemon.ru}</i>) является легендарным и в Канто не обитает. Вы можете эволюционировать его из предыдущих форм:`;
+                        } else {
+                            message = `Покемон <b>${pokemon.en}</b> (<i>${pokemon.ru}</i>) не встречается в Канто. Вы можете эволюционировать его из предыдущих форм:`;
+                        }
+                    }
                     ancestors.forEach(anc => {
                         const ancLocs = findInWildKanto(anc.en.toUpperCase().trim());
                         if (ancLocs.length > 0) {
@@ -4095,17 +4303,18 @@
                     } else {
                         const isLegend = pokemon.is_legendary || (pokemon.rarity && pokemon.rarity >= 8);
                         message = isLegend
-                            ? `Покемон <b>${pokemon.en}</b> (<i>${pokemon.ru}</i>) является легендарным и не имеет конкретного места обитания в Канто.`
-                            : `Покемон <b>${pokemon.en}</b> (<i>${pokemon.ru}</i>) не встречается в дикой природе Канто.`;
+                            ? `Покемон <b>${pokemon.en}</b> (<i>${pokemon.ru}</i>) является легендарным и не имеет конкретного места обитания.`
+                            : `Покемон <b>${pokemon.en}</b> (<i>${pokemon.ru}</i>) в дикой природе не встречается.`;
                     }
                 }
             }
 
-            renderPokemonOutput(actualId, pokemon, habitats, message, ancestorHabitats, isShinySearchBool, formIndex);
+            renderPokemonOutput(actualId, pokemon, habitats, message, ancestorHabitats, isShinySearchBool, formIndex, habitatsGlobal);
         }
 
         function highlightByProp(prop) {
             document.querySelectorAll('.location-node').forEach(n => n.classList.add('hidden'));
+            let count = 0;
             Object.keys(kantoLocations).forEach(key => {
                 if (kantoLocations[key][prop]) {
                     const node = document.querySelector(`[data-location="${key}"]`);
@@ -4113,8 +4322,16 @@
                         node.classList.remove('hidden');
                         node.classList.add('route-active');
                     }
+                    count++;
                 }
             });
+            
+            if (prop === 'has_pokemart') {
+                showNotification(`На карте подсвечены местонахождения маркетов (${count})`, 'success');
+            } else if (prop === 'has_pokecenter') {
+                showNotification(`На карте подсвечены местонахождения лечебниц (${count})`, 'success');
+            }
+
             highlightTimeout = setTimeout(() => {
                 document.querySelectorAll('.location-node').forEach(n => {
                     n.classList.remove('hidden', 'route-active');
@@ -4281,7 +4498,7 @@
             }, 60000);
         }
 
-        function renderPokemonOutput(id, p, list, msg, ancestorHabitats, isShinySearch = false, formIndex = null) {
+        function renderPokemonOutput(id, p, list, msg, ancestorHabitats, isShinySearch = false, formIndex = null, habitatsGlobal = []) {
             const title = document.getElementById('pokemonResultTitle');
             const content = document.getElementById('pokemonResultsContent');
 

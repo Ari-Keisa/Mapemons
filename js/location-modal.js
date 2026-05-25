@@ -196,24 +196,86 @@ function showLocationInfo(locId, data) {
     }
 
     // --- Items tab content ---
-    const region = data.region || 'KANTO';
-    const locItems = (window.itemLocationsData && window.itemLocationsData[region] && window.itemLocationsData[region][locId]) || [];
+    let locItemsRaw = new Set();
+    const rel = window.itemsRelationsData;
+    
+    if (rel) {
+        if (encounters.length > 0) {
+            if (rel.wild) rel.wild.forEach(i => locItemsRaw.add(i));
+            
+            encounters.forEach(enc => {
+                let capsSpecies = enc.species;
+                if (rel.pokemon && rel.pokemon[capsSpecies]) {
+                    rel.pokemon[capsSpecies].forEach(i => locItemsRaw.add(i));
+                }
+                
+                let pkId = window.pokemonNamesUpper ? window.pokemonNamesUpper[capsSpecies] : null;
+                if (!pkId && window.pokemonRuData && window.pokemonRuData[capsSpecies]) {
+                    pkId = String(window.pokemonRuData[capsSpecies].NationalId).padStart(3, '0');
+                }
+                let pk = pkId && window.pokemonDB ? window.pokemonDB[pkId] : null;
+                if (pk && pk.type && rel.types) {
+                    let typeArr = pk.type;
+                    if (enc.form > 0 && window.formsBySpecies && window.formsBySpecies[capsSpecies]) {
+                        let formObj = window.formsBySpecies[capsSpecies].find(f => f._FormKey === `${capsSpecies}-${enc.form}`);
+                        if (!formObj && window.formsBySpecies[capsSpecies].length >= enc.form) {
+                            formObj = window.formsBySpecies[capsSpecies][enc.form - 1];
+                        }
+                        if (formObj && formObj.Types) {
+                            typeArr = formObj.Types.toLowerCase().split(',').map(t => t.trim());
+                        }
+                    }
+                    typeArr.forEach(t => {
+                        let tLow = t.toLowerCase();
+                        if (rel.types[tLow]) {
+                            rel.types[tLow].forEach(i => locItemsRaw.add(i));
+                        }
+                    });
+                }
+            });
+        }
+        
+        if (npcs && npcs.length > 0 && rel.npcs) {
+            npcs.forEach(npc => {
+                if (rel.npcs[npc.ru_name]) {
+                    rel.npcs[npc.ru_name].forEach(i => locItemsRaw.add(i));
+                }
+            });
+        }
+    } else {
+        // Fallback to old behavior
+        const region = data.region || 'KANTO';
+        const fallbackItems = (window.itemLocationsData && window.itemLocationsData[region] && window.itemLocationsData[region][locId]) || [];
+        fallbackItems.forEach(i => locItemsRaw.add(i));
+    }
+    
+    const locItems = Array.from(locItemsRaw);
     let itemsHtml = '';
     if (locItems.length > 0) {
         itemsHtml = '<div class="items-list">' + locItems.map(it => {
-            // Find item key for linking
             let itemKey = null;
             if (window.itemsData) {
+                const norm = str => str.toLowerCase().replace(/ё/g, 'е').replace(/[^а-яa-z0-9]/g, '');
+                const searchIt = norm(it);
                 for (const key in window.itemsData) {
                     const item = window.itemsData[key];
-                    if (item.RuName === it || item.Name === it || (item.Sticker + item.RuName) === it) {
+                    const ruNameNorm = item.RuName ? norm(item.RuName) : "";
+                    if (ruNameNorm === searchIt || (item.Name && norm(item.Name) === searchIt)) {
                         itemKey = key;
                         break;
                     }
                 }
+                if (!itemKey && typeof window.fuzzyMatchItemKey === 'function') {
+                    itemKey = window.fuzzyMatchItemKey(it, window.itemsData);
+                }
             }
 
-            const formatted = window.formatItemStringWithFlip ? window.formatItemStringWithFlip(it) : (window.formatTextWithEmojis ? window.formatTextWithEmojis(it) : it);
+            let displayStr = it;
+            if (itemKey && window.itemsData[itemKey]) {
+                displayStr = (window.itemsData[itemKey].Sticker || "") + (window.itemsData[itemKey].RuName || it);
+            }
+
+            const formatted = window.formatItemStringWithFlip ? window.formatItemStringWithFlip(displayStr) : (window.formatTextWithEmojis ? window.formatTextWithEmojis(displayStr) : displayStr);
             if (itemKey) {
                 return `<div class="item-tag clickable" onclick="openItemInfo('${itemKey}')" title="Подробнее">${formatted}</div>`;
             }
