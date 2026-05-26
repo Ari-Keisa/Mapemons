@@ -1,0 +1,3786 @@
+{
+  "nodes": {
+    "BERRY-FOREST": {
+      "x": 57031,
+      "y": 15092
+    },
+    "BIRTH-ISLAND": {
+      "x": 40381,
+      "y": 18309
+    },
+    "BOND-BRIDGE": {
+      "x": 58243,
+      "y": 16817
+    },
+    "CANYON-ENTRANCE": {
+      "x": 39113,
+      "y": 22296
+    },
+    "CAPE-BRINK": {
+      "x": 63386,
+      "y": 21061
+    },
+    "CELADON-CITY": {
+      "x": 45389,
+      "y": 6558
+    },
+    "CERULEAN-CAVE": {
+      "x": 56395,
+      "y": -731
+    },
+    "CERULEAN-CITY": {
+      "x": 53995,
+      "y": 55
+    },
+    "CINNABAR-ISLAND": {
+      "x": 36131,
+      "y": 12977
+    },
+    "DIGLETTS-CAVE": {
+      "x": 47677,
+      "y": 4382
+    },
+    "DILFORD-CHAMBER": {
+      "x": 32273,
+      "y": 26418
+    },
+    "FIVE-ISLAND": {
+      "x": 48230,
+      "y": 15016
+    },
+    "FIVE-ISLE-MEADOW": {
+      "x": 46701,
+      "y": 13266
+    },
+    "FOUR-ISLAND": {
+      "x": 52993,
+      "y": 15541
+    },
+    "FUCHSIA-CITY": {
+      "x": 38500,
+      "y": 8971
+    },
+    "GREEN-PATH": {
+      "x": 49635,
+      "y": 19836
+    },
+    "ICEFALL-CAVE": {
+      "x": 54339,
+      "y": 14058
+    },
+    "INDIGO-PLATEAU": {
+      "x": 31687,
+      "y": -1918
+    },
+    "KANTO-ALTERING-CAVE": {
+      "x": 43217,
+      "y": 24598
+    },
+    "KANTO-ROUTE-1": {
+      "x": 35407,
+      "y": 5957
+    },
+    "KANTO-ROUTE-10": {
+      "x": 57014,
+      "y": 3379
+    },
+    "KANTO-ROUTE-11": {
+      "x": 51282,
+      "y": 9832
+    },
+    "KANTO-ROUTE-12": {
+      "x": 47959,
+      "y": 9263
+    },
+    "KANTO-ROUTE-13": {
+      "x": 45452,
+      "y": 10369
+    },
+    "KANTO-ROUTE-14": {
+      "x": 43486,
+      "y": 11734
+    },
+    "KANTO-ROUTE-15": {
+      "x": 41084,
+      "y": 10535
+    },
+    "KANTO-ROUTE-16": {
+      "x": 43567,
+      "y": 7665
+    },
+    "KANTO-ROUTE-17": {
+      "x": 41572,
+      "y": 5856
+    },
+    "KANTO-ROUTE-18": {
+      "x": 40348,
+      "y": 7823
+    },
+    "KANTO-ROUTE-2": {
+      "x": 43656,
+      "y": 3905
+    },
+    "KANTO-ROUTE-22": {
+      "x": 37130,
+      "y": 3169
+    },
+    "KANTO-ROUTE-23": {
+      "x": 38608,
+      "y": 897
+    },
+    "KANTO-ROUTE-24": {
+      "x": 52821,
+      "y": -2285
+    },
+    "KANTO-ROUTE-25": {
+      "x": 50046,
+      "y": -3380
+    },
+    "KANTO-ROUTE-26": {
+      "x": 46985,
+      "y": -3170
+    },
+    "KANTO-ROUTE-27": {
+      "x": 44576,
+      "y": -2024
+    },
+    "KANTO-ROUTE-28": {
+      "x": 41878,
+      "y": -2554
+    },
+    "KANTO-ROUTE-3": {
+      "x": 44533,
+      "y": 1757
+    },
+    "KANTO-ROUTE-4": {
+      "x": 51275,
+      "y": 779
+    },
+    "KANTO-ROUTE-5": {
+      "x": 50409,
+      "y": 3503
+    },
+    "KANTO-ROUTE-6": {
+      "x": 53430,
+      "y": 8297
+    },
+    "KANTO-ROUTE-7": {
+      "x": 47964,
+      "y": 7241
+    },
+    "KANTO-ROUTE-8": {
+      "x": 52951,
+      "y": 4142
+    },
+    "KANTO-ROUTE-9": {
+      "x": 55985,
+      "y": 1405
+    },
+    "KANTO-SAFARI-ZONE": {
+      "x": 37751,
+      "y": 6846
+    },
+    "KANTO-SEA-ROUTE-19": {
+      "x": 37588,
+      "y": 10534
+    },
+    "KANTO-SEA-ROUTE-20": {
+      "x": 39068,
+      "y": 12615
+    },
+    "KANTO-SEA-ROUTE-21": {
+      "x": 34913,
+      "y": 10635
+    },
+    "KANTO-VICTORY-ROAD-1": {
+      "x": 38009,
+      "y": -1724
+    },
+    "KANTO-VICTORY-ROAD-2": {
+      "x": 34792,
+      "y": -64
+    },
+    "KINDLE-ROAD": {
+      "x": 62773,
+      "y": 14423
+    },
+    "LAVENDER-TOWN": {
+      "x": 55129,
+      "y": 6468
+    },
+    "LIPTOO-CHAMBER": {
+      "x": 29423,
+      "y": 25000
+    },
+    "LOST-CAVE": {
+      "x": 41742,
+      "y": 14359
+    },
+    "MEMORIAL-PILLAR": {
+      "x": 49068,
+      "y": 12589
+    },
+    "MONEAN-CHAMBER": {
+      "x": 32942,
+      "y": 19575
+    },
+    "MT-EMBER": {
+      "x": 64948,
+      "y": 16071
+    },
+    "MT-MOON": {
+      "x": 49357,
+      "y": -707
+    },
+    "MT-SILVER": {
+      "x": 42270,
+      "y": -4413
+    },
+    "NAVEL-ROCK": {
+      "x": 37969,
+      "y": 17779
+    },
+    "ONE-ISLAND": {
+      "x": 60181,
+      "y": 13888
+    },
+    "OUTCAST-ISLAND": {
+      "x": 45721,
+      "y": 24913
+    },
+    "PALLET-TOWN": {
+      "x": 33634,
+      "y": 8371
+    },
+    "PATTERN-BUSH": {
+      "x": 52205,
+      "y": 20289
+    },
+    "PEWTER-CITY": {
+      "x": 47633,
+      "y": 2361
+    },
+    "POKEMON-MANSION": {
+      "x": 33689,
+      "y": 13436
+    },
+    "POKEMON-TOWER": {
+      "x": 57563,
+      "y": 7738
+    },
+    "POWER-PLANT": {
+      "x": 59597,
+      "y": 2046
+    },
+    "RESORT-GORGEOUS": {
+      "x": 42676,
+      "y": 15907
+    },
+    "RIXY-CHAMBER": {
+      "x": 28779,
+      "y": 22730
+    },
+    "ROCK-TUNNEL": {
+      "x": 59009,
+      "y": 4922
+    },
+    "RUIN-VALLEY": {
+      "x": 50362,
+      "y": 23356
+    },
+    "SAFFRON-CITY": {
+      "x": 50738,
+      "y": 6149
+    },
+    "SCUFIB-CHAMBER": {
+      "x": 35293,
+      "y": 25436
+    },
+    "SEAFOAM-ISLANDS": {
+      "x": 38947,
+      "y": 14446
+    },
+    "SEVAULT-CANYON": {
+      "x": 36166,
+      "y": 23203
+    },
+    "SEVEN-ISLAND": {
+      "x": 41885,
+      "y": 21060
+    },
+    "SIX-ISLAND": {
+      "x": 46616,
+      "y": 19999
+    },
+    "SS-ANNE": {
+      "x": 57366,
+      "y": 9870
+    },
+    "STRANGE-ISLAND": {
+      "x": 63039,
+      "y": 8641
+    },
+    "TANOBY-RUINS": {
+      "x": 32704,
+      "y": 23414
+    },
+    "THREE-ISLAND": {
+      "x": 57146,
+      "y": 18577
+    },
+    "THREE-ISLE-PATH": {
+      "x": 54907,
+      "y": 17571
+    },
+    "THREE-ISLE-PORT": {
+      "x": 58141,
+      "y": 20340
+    },
+    "TOHJO-FALLS": {
+      "x": 46185,
+      "y": -591
+    },
+    "TRAINER-TOWER": {
+      "x": 43546,
+      "y": 22451
+    },
+    "TREASURE-BEACH": {
+      "x": 61997,
+      "y": 11725
+    },
+    "TWO-ISLAND": {
+      "x": 62134,
+      "y": 19409
+    },
+    "VERMILION-CITY": {
+      "x": 54198,
+      "y": 10292
+    },
+    "VIAPOS-CHAMBER": {
+      "x": 35316,
+      "y": 20923
+    },
+    "VIRIDIAN-CITY": {
+      "x": 39597,
+      "y": 3809
+    },
+    "VIRIDIAN-FOREST": {
+      "x": 41699,
+      "y": 1518
+    },
+    "WATER-LABYRINTH": {
+      "x": 44870,
+      "y": 16583
+    },
+    "WATER-PATH": {
+      "x": 47680,
+      "y": 22136
+    },
+    "WEEPTH-CHAMBER": {
+      "x": 30048,
+      "y": 20257
+    },
+    "AZALEA-TOWN": {
+      "x": 12888,
+      "y": 14293
+    },
+    "BELL-TOWER": {
+      "x": 8096,
+      "y": 2280
+    },
+    "BELLCHIME-TRAIL": {
+      "x": 8093,
+      "y": 3378
+    },
+    "BLACKTHORN-CITY": {
+      "x": 24565,
+      "y": 4455
+    },
+    "BURNED-TOWER": {
+      "x": 10626,
+      "y": 3392
+    },
+    "CHERRYGROVE-CITY": {
+      "x": 22083,
+      "y": 10405
+    },
+    "CIANWOOD-CITY": {
+      "x": 2978,
+      "y": 7932
+    },
+    "CLIFF-CAVE": {
+      "x": 3012,
+      "y": 9129
+    },
+    "CLIFF-EDGE-GATE": {
+      "x": 796,
+      "y": 7936
+    },
+    "DARK-CAVE": {
+      "x": 22215,
+      "y": 7243
+    },
+    "DRAGONS-DEN": {
+      "x": 24565,
+      "y": 3260
+    },
+    "ECRUTEAK-CITY": {
+      "x": 10630,
+      "y": 4440
+    },
+    "EMBEDDED-TOWER": {
+      "x": 797,
+      "y": 10152
+    },
+    "FRONTIER-ACCESS": {
+      "x": 796,
+      "y": 6932
+    },
+    "GOLDENROD-CITY": {
+      "x": 10639,
+      "y": 11563
+    },
+    "GOLDENROD-TUNNEL": {
+      "x": 8169,
+      "y": 11563
+    },
+    "ICE-PATH": {
+      "x": 21205,
+      "y": 4447
+    },
+    "ILEX-FOREST": {
+      "x": 10633,
+      "y": 14298
+    },
+    "JOHTO-LIGHTHOUSE": {
+      "x": 2956,
+      "y": 5943
+    },
+    "JOHTO-ROUTE-29": {
+      "x": 24564,
+      "y": 10414
+    },
+    "JOHTO-ROUTE-30": {
+      "x": 19605,
+      "y": 10398
+    },
+    "JOHTO-ROUTE-31": {
+      "x": 19610,
+      "y": 7245
+    },
+    "JOHTO-ROUTE-32": {
+      "x": 17403,
+      "y": 8503
+    },
+    "JOHTO-ROUTE-33": {
+      "x": 15148,
+      "y": 14295
+    },
+    "JOHTO-ROUTE-34": {
+      "x": 10633,
+      "y": 12808
+    },
+    "JOHTO-ROUTE-35": {
+      "x": 10634,
+      "y": 9960
+    },
+    "JOHTO-ROUTE-36": {
+      "x": 10636,
+      "y": 7246
+    },
+    "JOHTO-ROUTE-37": {
+      "x": 10632,
+      "y": 6006
+    },
+    "JOHTO-ROUTE-38": {
+      "x": 8104,
+      "y": 4443
+    },
+    "JOHTO-ROUTE-39": {
+      "x": 5201,
+      "y": 4446
+    },
+    "JOHTO-ROUTE-42": {
+      "x": 13046,
+      "y": 4437
+    },
+    "JOHTO-ROUTE-43": {
+      "x": 15231,
+      "y": 3389
+    },
+    "JOHTO-ROUTE-44": {
+      "x": 17424,
+      "y": 4447
+    },
+    "JOHTO-ROUTE-45": {
+      "x": 24569,
+      "y": 6323
+    },
+    "JOHTO-ROUTE-46": {
+      "x": 24564,
+      "y": 8562
+    },
+    "JOHTO-ROUTE-47": {
+      "x": 796,
+      "y": 9132
+    },
+    "JOHTO-ROUTE-48": {
+      "x": -1556,
+      "y": 9123
+    },
+    "JOHTO-SAFARI-ZONE": {
+      "x": -1554,
+      "y": 7907
+    },
+    "JOHTO-SEA-ROUTE-40": {
+      "x": 5202,
+      "y": 6938
+    },
+    "JOHTO-SEA-ROUTE-41": {
+      "x": 5199,
+      "y": 7931
+    },
+    "LAKE-OF-RAGE": {
+      "x": 15233,
+      "y": 2350
+    },
+    "MAHOGANY-TOWN": {
+      "x": 15228,
+      "y": 4440
+    },
+    "MT-MORTAR": {
+      "x": 13052,
+      "y": 3385
+    },
+    "MT-SILVER-CAVE": {
+      "x": 27433,
+      "y": 7247
+    },
+    "NATIONAL-PARK": {
+      "x": 10635,
+      "y": 8481
+    },
+    "NEW-BARK-TOWN": {
+      "x": 27418,
+      "y": 10414
+    },
+    "OLIVINE-CITY": {
+      "x": 5197,
+      "y": 5946
+    },
+    "POKEATHLON-DOME": {
+      "x": 21010,
+      "y": -1560
+    },
+    "POKEWALKER": {
+      "x": 23210,
+      "y": -1580
+    },
+    "RADIO-TOWER": {
+      "x": 12819,
+      "y": 11565
+    },
+    "ROAMING-JOHTO": {
+      "x": 20350,
+      "y": -2840
+    },
+    "RUINS-OF-ALPH": {
+      "x": 13149,
+      "y": 8501
+    },
+    "SAFARI-ZONE-GATE": {
+      "x": 25230,
+      "y": -1560
+    },
+    "SINJOH-RUINS": {
+      "x": 13154,
+      "y": 9944
+    },
+    "SLOWPOKE-WELL": {
+      "x": 12890,
+      "y": 15283
+    },
+    "SPROUT-TOWER": {
+      "x": 17408,
+      "y": 6113
+    },
+    "SS-AQUA": {
+      "x": 7401,
+      "y": 5949
+    },
+    "TEAM-ROCKET-HQ": {
+      "x": 15233,
+      "y": 5453
+    },
+    "UNION-CAVE": {
+      "x": 17402,
+      "y": 14292
+    },
+    "UNKNOWN-ALL-BUGS": {
+      "x": 24750,
+      "y": -460
+    },
+    "UNKNOWN-ALL-POLIWAG": {
+      "x": 25710,
+      "y": 300
+    },
+    "UNKNOWN-ALL-RATTATA": {
+      "x": 27390,
+      "y": -580
+    },
+    "VIOLET-CITY": {
+      "x": 17403,
+      "y": 7239
+    },
+    "WHIRL-ISLANDS": {
+      "x": 7395,
+      "y": 7933
+    },
+    "ABANDONED-SHIP": {
+      "x": 10318,
+      "y": 9250
+    },
+    "ANCIENT-TOMB": {
+      "x": 18658,
+      "y": -1040
+    },
+    "ARTISAN-CAVE": {
+      "x": 27720,
+      "y": 0
+    },
+    "BATTLE-RESORT": {
+      "x": 30522,
+      "y": -5339
+    },
+    "CAVE-OF-ORIGIN": {
+      "x": 24695,
+      "y": 3766
+    },
+    "CRESCENT-ISLE": {
+      "x": 30420,
+      "y": -3900
+    },
+    "DESERT-RUINS": {
+      "x": 14798,
+      "y": -432
+    },
+    "DESERT-UNDERPASS": {
+      "x": 883,
+      "y": -2710
+    },
+    "DEWFORD-TOWN": {
+      "x": -1351,
+      "y": 9253
+    },
+    "EVER-GRANDE-CITY": {
+      "x": 32079,
+      "y": 6241
+    },
+    "FABLED-CAVE": {
+      "x": 30060,
+      "y": -3080
+    },
+    "FALLARBOR-TOWN": {
+      "x": 3118,
+      "y": -1681
+    },
+    "FARAWAY-ISLAND": {
+      "x": 30080,
+      "y": -2180
+    },
+    "FIERY-PATH": {
+      "x": 11178,
+      "y": 120
+    },
+    "FORTREE-CITY": {
+      "x": 20854,
+      "y": -2442
+    },
+    "GNARLED-DEN": {
+      "x": 35846,
+      "y": 1531
+    },
+    "GRANITE-CAVE": {
+      "x": 959,
+      "y": 8184
+    },
+    "HOENN-ALTERING-CAVE": {
+      "x": 34392,
+      "y": -1451
+    },
+    "HOENN-BATTLE-FRONTIER": {
+      "x": 30737,
+      "y": -7087
+    },
+    "HOENN-BATTLE-TOWER": {
+      "x": 15056,
+      "y": 6318
+    },
+    "HOENN-POKEMON-LEAGUE": {
+      "x": 32075,
+      "y": 3985
+    },
+    "HOENN-ROUTE-101": {
+      "x": 5640,
+      "y": 6066
+    },
+    "HOENN-ROUTE-102": {
+      "x": 3218,
+      "y": 5143
+    },
+    "HOENN-ROUTE-103": {
+      "x": 5643,
+      "y": 4081
+    },
+    "HOENN-ROUTE-104": {
+      "x": -1353,
+      "y": 5137
+    },
+    "HOENN-ROUTE-105": {
+      "x": -1351,
+      "y": 6950
+    },
+    "HOENN-ROUTE-106": {
+      "x": -1343,
+      "y": 8181
+    },
+    "HOENN-ROUTE-107": {
+      "x": 5647,
+      "y": 9250
+    },
+    "HOENN-ROUTE-108": {
+      "x": 7999,
+      "y": 9250
+    },
+    "HOENN-ROUTE-109": {
+      "x": 12659,
+      "y": 9255
+    },
+    "HOENN-ROUTE-110": {
+      "x": 12654,
+      "y": 4078
+    },
+    "HOENN-ROUTE-111": {
+      "x": 12657,
+      "y": -1671
+    },
+    "HOENN-ROUTE-112": {
+      "x": 9326,
+      "y": 1300
+    },
+    "HOENN-ROUTE-113": {
+      "x": 5923,
+      "y": -1675
+    },
+    "HOENN-ROUTE-114": {
+      "x": 883,
+      "y": -1677
+    },
+    "HOENN-ROUTE-115": {
+      "x": -1350,
+      "y": 56
+    },
+    "HOENN-ROUTE-116": {
+      "x": 920,
+      "y": 2720
+    },
+    "HOENN-ROUTE-117": {
+      "x": 8720,
+      "y": 2720
+    },
+    "HOENN-ROUTE-118": {
+      "x": 16832,
+      "y": 2726
+    },
+    "HOENN-ROUTE-119": {
+      "x": 16831,
+      "y": -2440
+    },
+    "HOENN-ROUTE-120": {
+      "x": 20858,
+      "y": -1042
+    },
+    "HOENN-ROUTE-121": {
+      "x": 20857,
+      "y": 280
+    },
+    "HOENN-ROUTE-122": {
+      "x": 20859,
+      "y": 1408
+    },
+    "HOENN-ROUTE-123": {
+      "x": 20863,
+      "y": 2728
+    },
+    "HOENN-ROUTE-124": {
+      "x": 27254,
+      "y": 288
+    },
+    "HOENN-ROUTE-125": {
+      "x": 29968,
+      "y": -240
+    },
+    "HOENN-ROUTE-126": {
+      "x": 27244,
+      "y": 2296
+    },
+    "HOENN-ROUTE-127": {
+      "x": 29960,
+      "y": 2297
+    },
+    "HOENN-ROUTE-128": {
+      "x": 29960,
+      "y": 6240
+    },
+    "HOENN-ROUTE-129": {
+      "x": 29960,
+      "y": 7759
+    },
+    "HOENN-ROUTE-130": {
+      "x": 27392,
+      "y": 7753
+    },
+    "HOENN-ROUTE-131": {
+      "x": 24555,
+      "y": 7756
+    },
+    "HOENN-ROUTE-132": {
+      "x": 19717,
+      "y": 7751
+    },
+    "HOENN-ROUTE-133": {
+      "x": 17367,
+      "y": 7754
+    },
+    "HOENN-ROUTE-134": {
+      "x": 15052,
+      "y": 7756
+    },
+    "HOENN-SAFARI-ZONE": {
+      "x": 18655,
+      "y": 286
+    },
+    "HOENN-VICTORY-ROAD": {
+      "x": 32077,
+      "y": 5110
+    },
+    "INSIDE-OF-TRUCK": {
+      "x": 38030,
+      "y": 0
+    },
+    "ISLAND-CAVE": {
+      "x": 947,
+      "y": 6955
+    },
+    "JAGGED-PASS": {
+      "x": 8522,
+      "y": 213
+    },
+    "LAVARIDGE-TOWN": {
+      "x": 6789,
+      "y": 1305
+    },
+    "LILYCOVE-CITY": {
+      "x": 23238,
+      "y": 285
+    },
+    "LITTLEROOT-TOWN": {
+      "x": 5641,
+      "y": 7037
+    },
+    "MAGMA-HIDEOUT": {
+      "x": 39110,
+      "y": 0
+    },
+    "MARINE-CAVE": {
+      "x": 40190,
+      "y": 0
+    },
+    "MAUVILLE-CITY": {
+      "x": 12656,
+      "y": 2724
+    },
+    "MAUVILLE-SPACE-CENTER": {
+      "x": 10604,
+      "y": 3598
+    },
+    "METEOR-FALLS": {
+      "x": -1347,
+      "y": -1673
+    },
+    "MIRAGE-CAVE": {
+      "x": 41270,
+      "y": 0
+    },
+    "MIRAGE-FOREST": {
+      "x": 42350,
+      "y": 0
+    },
+    "MIRAGE-ISLAND": {
+      "x": 43430,
+      "y": 0
+    },
+    "MIRAGE-MOUNTAIN": {
+      "x": 44510,
+      "y": 0
+    },
+    "MIRAGE-TOWER": {
+      "x": 12659,
+      "y": -2708
+    },
+    "MOSSDEEP-CITY": {
+      "x": 29963,
+      "y": 1094
+    },
+    "MT-CHIMNEY": {
+      "x": 8519,
+      "y": -821
+    },
+    "MT-PYRE": {
+      "x": 18636,
+      "y": 1408
+    },
+    "NAMELESS-CAVERN": {
+      "x": 45590,
+      "y": 0
+    },
+    "NEW-MAUVILLE": {
+      "x": 14949,
+      "y": 4080
+    },
+    "OLDALE-TOWN": {
+      "x": 5640,
+      "y": 5140
+    },
+    "PACIFIDLOG-TOWN": {
+      "x": 22080,
+      "y": 7757
+    },
+    "PATHLESS-PLAIN": {
+      "x": 46670,
+      "y": 0
+    },
+    "PETALBURG-CITY": {
+      "x": 927,
+      "y": 5140
+    },
+    "PETALBURG-WOODS": {
+      "x": -1355,
+      "y": 3973
+    },
+    "ROAMING-HOENN": {
+      "x": 47750,
+      "y": 0
+    },
+    "RUSTBORO-CITY": {
+      "x": -1349,
+      "y": 2716
+    },
+    "RUSTURF-TUNNEL": {
+      "x": 3108,
+      "y": 2723
+    },
+    "SCORCHED-SLAB": {
+      "x": 23163,
+      "y": -1037
+    },
+    "SEA-MAUVILLE": {
+      "x": 48830,
+      "y": 0
+    },
+    "SEAFLOOR-CAVERN": {
+      "x": 27848,
+      "y": 6243
+    },
+    "SEALED-CHAMBER": {
+      "x": 15047,
+      "y": 9039
+    },
+    "SECRET-BASE": {
+      "x": 49910,
+      "y": 0
+    },
+    "SECRET-ISLET": {
+      "x": 27247,
+      "y": 3757
+    },
+    "SECRET-LAB-JUNGLE": {
+      "x": 14710,
+      "y": -3880
+    },
+    "SECRET-MEADOW": {
+      "x": 27391,
+      "y": 8835
+    },
+    "SECRET-SHORE": {
+      "x": 29962,
+      "y": 8813
+    },
+    "SHOAL-CAVE": {
+      "x": 32384,
+      "y": -232
+    },
+    "SKY-PILLAR": {
+      "x": 24554,
+      "y": 8826
+    },
+    "SLATEPORT-CITY": {
+      "x": 12660,
+      "y": 7754
+    },
+    "SOARING-IN-THE-SKY": {
+      "x": 50990,
+      "y": 0
+    },
+    "SOOTOPOLIS-CITY": {
+      "x": 24696,
+      "y": 2302
+    },
+    "SOUTHERN-ISLAND": {
+      "x": 52070,
+      "y": 0
+    },
+    "SS-TIDAL": {
+      "x": 10427,
+      "y": 7746
+    },
+    "TEAM-AQUA-HIDEOUT": {
+      "x": 53150,
+      "y": 0
+    },
+    "TEAM-MAGMA-HIDEOUT": {
+      "x": 54230,
+      "y": 0
+    },
+    "TERRA-CAVE": {
+      "x": 55310,
+      "y": 0
+    },
+    "TRACKLESS-FOREST": {
+      "x": 56390,
+      "y": 0
+    },
+    "UNDERWATER": {
+      "x": 57470,
+      "y": 0
+    },
+    "VERDANTURF-TOWN": {
+      "x": 5665,
+      "y": 2718
+    },
+    "WEATHER-INSTITUTE": {
+      "x": 16830,
+      "y": -3874
+    },
+    "ACUITY-CAVERN": {
+      "x": 10070,
+      "y": -7898
+    },
+    "ACUITY-LAKEFRONT": {
+      "x": 12281,
+      "y": -6815
+    },
+    "AMITY-SQUARE": {
+      "x": 20840,
+      "y": 4299
+    },
+    "CANALAVE-CITY": {
+      "x": 1592,
+      "y": 4270
+    },
+    "CELESTIC-RUINS": {
+      "x": 18827,
+      "y": -4211
+    },
+    "CELESTIC-TOWN": {
+      "x": 18834,
+      "y": -2871
+    },
+    "ETERNA-CITY": {
+      "x": 10943,
+      "y": -1660
+    },
+    "ETERNA-FOREST": {
+      "x": 6174,
+      "y": -1667
+    },
+    "FIGHT-AREA": {
+      "x": 21550,
+      "y": -7561
+    },
+    "FLOAROMA-MEADOW": {
+      "x": 4058,
+      "y": 1053
+    },
+    "FLOAROMA-TOWN": {
+      "x": 6166,
+      "y": 1050
+    },
+    "FLOWER-PARADISE": {
+      "x": 30993,
+      "y": -8497
+    },
+    "FUEGO-IRONWORKS": {
+      "x": 4055,
+      "y": -118
+    },
+    "FULLMOON-ISLAND": {
+      "x": -1519,
+      "y": 3152
+    },
+    "GALACTIC-HQ": {
+      "x": 25771,
+      "y": -2548
+    },
+    "GRAND-LAKE": {
+      "x": 23883,
+      "y": 8019
+    },
+    "GREAT-MARSH": {
+      "x": 18843,
+      "y": 9329
+    },
+    "HEARTHOME-CITY": {
+      "x": 18831,
+      "y": 4296
+    },
+    "IRON-ISLAND": {
+      "x": -1491,
+      "y": 4273
+    },
+    "JUBILIFE-CITY": {
+      "x": 6178,
+      "y": 4281
+    },
+    "JUBILIFE-TV": {
+      "x": 4147,
+      "y": 5122
+    },
+    "LAKE-ACUITY": {
+      "x": 10076,
+      "y": -6807
+    },
+    "LAKE-VALOR": {
+      "x": 23899,
+      "y": 9163
+    },
+    "LAKE-VERITY": {
+      "x": 1597,
+      "y": 6697
+    },
+    "LOST-TOWER": {
+      "x": 16789,
+      "y": 2677
+    },
+    "MANIAC-TUNNEL": {
+      "x": 22062,
+      "y": 3352
+    },
+    "MINING-MUSEUM": {
+      "x": 9593,
+      "y": 5716
+    },
+    "MT-CORONET": {
+      "x": 15319,
+      "y": 691
+    },
+    "NEWMOON-ISLAND": {
+      "x": -1512,
+      "y": 5364
+    },
+    "OLD-CHATEAU": {
+      "x": 4059,
+      "y": -1666
+    },
+    "OREBURGH-CITY": {
+      "x": 10948,
+      "y": 4281
+    },
+    "OREBURGH-MINE": {
+      "x": 11654,
+      "y": 5694
+    },
+    "PASTORIA-CITY": {
+      "x": 18835,
+      "y": 8027
+    },
+    "RAVAGED-PATH": {
+      "x": 6180,
+      "y": 3098
+    },
+    "RESORT-AREA": {
+      "x": 25948,
+      "y": -6343
+    },
+    "RUIN-MANIAC-CAVE": {
+      "x": 22074,
+      "y": 5314
+    },
+    "SANDGEM-TOWN": {
+      "x": 6178,
+      "y": 6688
+    },
+    "SEABREAK-PATH": {
+      "x": 30990,
+      "y": -6339
+    },
+    "SENDOFF-SPRING": {
+      "x": 25046,
+      "y": 1827
+    },
+    "SINNOH-BATTLE-TOWER": {
+      "x": 28124,
+      "y": -7560
+    },
+    "SINNOH-POKEMON-LEAGUE": {
+      "x": 28829,
+      "y": 2910
+    },
+    "SINNOH-ROUTE-201": {
+      "x": 3712,
+      "y": 6691
+    },
+    "SINNOH-ROUTE-202": {
+      "x": 6173,
+      "y": 5569
+    },
+    "SINNOH-ROUTE-203": {
+      "x": 8509,
+      "y": 4278
+    },
+    "SINNOH-ROUTE-204": {
+      "x": 6176,
+      "y": 2094
+    },
+    "SINNOH-ROUTE-205": {
+      "x": 6174,
+      "y": -115
+    },
+    "SINNOH-ROUTE-206": {
+      "x": 10946,
+      "y": -121
+    },
+    "SINNOH-ROUTE-207": {
+      "x": 10941,
+      "y": 1961
+    },
+    "SINNOH-ROUTE-208": {
+      "x": 15325,
+      "y": 4301
+    },
+    "SINNOH-ROUTE-209": {
+      "x": 18829,
+      "y": 2683
+    },
+    "SINNOH-ROUTE-210": {
+      "x": 18841,
+      "y": -1245
+    },
+    "SINNOH-ROUTE-211": {
+      "x": 16409,
+      "y": -1665
+    },
+    "SINNOH-ROUTE-212": {
+      "x": 18840,
+      "y": 6175
+    },
+    "SINNOH-ROUTE-213": {
+      "x": 21398,
+      "y": 8020
+    },
+    "SINNOH-ROUTE-214": {
+      "x": 26261,
+      "y": 5313
+    },
+    "SINNOH-ROUTE-215": {
+      "x": 23369,
+      "y": -1236
+    },
+    "SINNOH-ROUTE-216": {
+      "x": 14379,
+      "y": -3259
+    },
+    "SINNOH-ROUTE-217": {
+      "x": 14366,
+      "y": -5548
+    },
+    "SINNOH-ROUTE-218": {
+      "x": 3709,
+      "y": 4273
+    },
+    "SINNOH-ROUTE-219": {
+      "x": 6183,
+      "y": 7998
+    },
+    "SINNOH-ROUTE-221": {
+      "x": 11366,
+      "y": 8011
+    },
+    "SINNOH-ROUTE-222": {
+      "x": 26274,
+      "y": 8032
+    },
+    "SINNOH-ROUTE-224": {
+      "x": 28820,
+      "y": -6337
+    },
+    "SINNOH-ROUTE-225": {
+      "x": 21556,
+      "y": -8617
+    },
+    "SINNOH-ROUTE-226": {
+      "x": 23714,
+      "y": -9774
+    },
+    "SINNOH-ROUTE-227": {
+      "x": 23707,
+      "y": -10937
+    },
+    "SINNOH-ROUTE-228": {
+      "x": 25972,
+      "y": -9761
+    },
+    "SINNOH-ROUTE-229": {
+      "x": 25952,
+      "y": -7561
+    },
+    "SINNOH-ROUTE-230": {
+      "x": 23746,
+      "y": -7560
+    },
+    "SINNOH-SEA-ROUTE-220": {
+      "x": 8541,
+      "y": 8005
+    },
+    "SINNOH-SEA-ROUTE-223": {
+      "x": 28831,
+      "y": 6584
+    },
+    "SINNOH-VICTORY-ROAD": {
+      "x": 28817,
+      "y": -530
+    },
+    "SINNOH-VILLA": {
+      "x": 16260,
+      "y": 6176
+    },
+    "SNOWPOINT-CITY": {
+      "x": 14355,
+      "y": -8094
+    },
+    "SNOWPOINT-TEMPLE": {
+      "x": 14349,
+      "y": -9162
+    },
+    "SNOWPOINT-WAREHOUSE": {
+      "x": 16492,
+      "y": -8093
+    },
+    "SOLACEON-RUINS": {
+      "x": 22057,
+      "y": 1041
+    },
+    "SOLACEON-TOWN": {
+      "x": 18839,
+      "y": 1040
+    },
+    "SPEAR-PILLAR": {
+      "x": 13952,
+      "y": 2518
+    },
+    "SPRING-PATH": {
+      "x": 25031,
+      "y": 4067
+    },
+    "SS-SINNOH": {
+      "x": 1597,
+      "y": 5416
+    },
+    "STARK-MOUNTAIN": {
+      "x": 23702,
+      "y": -11973
+    },
+    "SUNYSHORE-CITY": {
+      "x": 28825,
+      "y": 8018
+    },
+    "SURVIVAL-AREA": {
+      "x": 21551,
+      "y": -9779
+    },
+    "TG-ETERNA-BLDG": {
+      "x": 10946,
+      "y": -2748
+    },
+    "TROPHY-GARDEN": {
+      "x": 16261,
+      "y": 7284
+    },
+    "TURNBACK-CAVE": {
+      "x": 25041,
+      "y": 2895
+    },
+    "TWINLEAF-TOWN": {
+      "x": 3715,
+      "y": 7922
+    },
+    "VALLEY-WINDWORKS": {
+      "x": 8579,
+      "y": -116
+    },
+    "VALOR-CAVERN": {
+      "x": 23898,
+      "y": 10584
+    },
+    "VEILSTONE-CITY": {
+      "x": 26246,
+      "y": -1248
+    },
+    "VERITY-CAVERN": {
+      "x": -637,
+      "y": 6700
+    },
+    "WAYWARD-CAVE": {
+      "x": 13100,
+      "y": -129
+    },
+    "ABUNDANT-SHRINE": {
+      "x": 20538,
+      "y": 5272
+    },
+    "ABYSSAL-RUINS": {
+      "x": 23364,
+      "y": 2140
+    },
+    "ACCUMULA-GATE": {
+      "x": 15905,
+      "y": -5835
+    },
+    "ACCUMULA-TOWN": {
+      "x": 21994,
+      "y": 14676
+    },
+    "ANVILLE-TOWN": {
+      "x": -6591,
+      "y": 4258
+    },
+    "ASPERTIA-CITY": {
+      "x": 9208,
+      "y": 15970
+    },
+    "ASPERTIA-GATE": {
+      "x": 17836,
+      "y": -5514
+    },
+    "BATTLE-SUBWAY": {
+      "x": 16366,
+      "y": -4802
+    },
+    "BLACK-CITY": {
+      "x": 15586,
+      "y": 8106
+    },
+    "BLACK-GATE": {
+      "x": 20923,
+      "y": -5422
+    },
+    "BLACK-TOWER": {
+      "x": 20731,
+      "y": -4089
+    },
+    "BRIDGE-GATE": {
+      "x": 21742,
+      "y": -3538
+    },
+    "CASTELIA-CITY": {
+      "x": 8489,
+      "y": 10894
+    },
+    "CASTELIA-GATE": {
+      "x": 23626,
+      "y": -4572
+    },
+    "CASTELIA-SEWERS": {
+      "x": 5812,
+      "y": 9581
+    },
+    "CAVE-OF-BEING": {
+      "x": 5409,
+      "y": 14672
+    },
+    "CELESTIAL-TOWER": {
+      "x": -4424,
+      "y": 1281
+    },
+    "CHALLENGERS-CAVE": {
+      "x": 5448,
+      "y": -1143
+    },
+    "CHARGESTONE-CAVE": {
+      "x": -4419,
+      "y": 6777
+    },
+    "CLAY-TUNNEL": {
+      "x": 243,
+      "y": 5588
+    },
+    "COLD-STORAGE": {
+      "x": 242,
+      "y": 8091
+    },
+    "DESERT-RESORT": {
+      "x": 5719,
+      "y": 8198
+    },
+    "DRAGONSPIRAL-TOWER": {
+      "x": 2946,
+      "y": 3580
+    },
+    "DREAMYARD": {
+      "x": 21995,
+      "y": 10905
+    },
+    "DRIFTVEIL-CITY": {
+      "x": 246,
+      "y": 6775
+    },
+    "DRIFTVEIL-DRAWBRIDGE": {
+      "x": 3041,
+      "y": 6774
+    },
+    "ENTRALINK": {
+      "x": 27039,
+      "y": -4503
+    },
+    "ENTREE-FOREST": {
+      "x": 30830,
+      "y": -4916
+    },
+    "FLOCCESY-RANCH": {
+      "x": 555,
+      "y": 14676
+    },
+    "FLOCCESY-TOWN": {
+      "x": 3168,
+      "y": 15963
+    },
+    "GEAR-STATION": {
+      "x": 8487,
+      "y": 4805
+    },
+    "GIANT-CHASM": {
+      "x": 17962,
+      "y": -1552
+    },
+    "GLACIER-ROOM": {
+      "x": 36072,
+      "y": -4271
+    },
+    "GUIDANCE-CHAMBER": {
+      "x": 36925,
+      "y": -1608
+    },
+    "HIDDEN-GROTTO": {
+      "x": 39360,
+      "y": -2160
+    },
+    "HUMILAU-CITY": {
+      "x": 26665,
+      "y": -576
+    },
+    "ICIRRUS-CITY": {
+      "x": 2941,
+      "y": 2439
+    },
+    "IRON-ROOM": {
+      "x": 37844,
+      "y": -3147
+    },
+    "JOIN-AVENUE": {
+      "x": 9630,
+      "y": 13571
+    },
+    "LACUNOSA-TOWN": {
+      "x": 13098,
+      "y": 2495
+    },
+    "LENTIMAS-TOWN": {
+      "x": 12816,
+      "y": 3878
+    },
+    "LIBERTY-GARDEN": {
+      "x": 11266,
+      "y": 12574
+    },
+    "LOSTLORN-FOREST": {
+      "x": 10849,
+      "y": 5740
+    },
+    "MARINE-TUBE": {
+      "x": 26659,
+      "y": 3875
+    },
+    "MARVELOUS-BRIDGE": {
+      "x": 13295,
+      "y": 6777
+    },
+    "MEDAL-SECRETARIAT": {
+      "x": 40854,
+      "y": -3170
+    },
+    "MISTRALTON-CAVE": {
+      "x": -2248,
+      "y": 5585
+    },
+    "MISTRALTON-CITY": {
+      "x": -4423,
+      "y": 4257
+    },
+    "MOOR-OF-ICIRRUS": {
+      "x": 2938,
+      "y": 2
+    },
+    "MUSICAL-THEATER": {
+      "x": 39269,
+      "y": -1241
+    },
+    "NACRENE-CITY": {
+      "x": 17281,
+      "y": 10907
+    },
+    "NACRENE-GATE": {
+      "x": 41819,
+      "y": -1470
+    },
+    "NATURE-SANCTUARY": {
+      "x": -2212,
+      "y": 4261
+    },
+    "NIMBASA-CITY": {
+      "x": 8492,
+      "y": 6777
+    },
+    "NIMBASA-GATE": {
+      "x": 44461,
+      "y": -2160
+    },
+    "NS-CASTLE": {
+      "x": 41958,
+      "y": -620
+    },
+    "NUVEMA-TOWN": {
+      "x": 18898,
+      "y": 13384
+    },
+    "OPELUCID-CITY": {
+      "x": 8069,
+      "y": -52
+    },
+    "OPELUCID-GATE": {
+      "x": 44830,
+      "y": -873
+    },
+    "P2-LABORATORY": {
+      "x": 46622,
+      "y": -1792
+    },
+    "PINWHEEL-FOREST": {
+      "x": 14541,
+      "y": 10901
+    },
+    "PLASMA-FRIGATE": {
+      "x": 48299,
+      "y": -1723
+    },
+    "PLEDGE-GROVE": {
+      "x": 524,
+      "y": 15965
+    },
+    "POKE-TRANSFER-LAB": {
+      "x": 50459,
+      "y": -1654
+    },
+    "POKESTAR-STUDIOS": {
+      "x": 728,
+      "y": 10277
+    },
+    "RELIC-CASTLE": {
+      "x": 2987,
+      "y": 8197
+    },
+    "RELIC-PASSAGE": {
+      "x": 2987,
+      "y": 9577
+    },
+    "REVERSAL-MOUNTAIN": {
+      "x": 15166,
+      "y": 3875
+    },
+    "ROAMING-UNOVA": {
+      "x": 52458,
+      "y": -1999
+    },
+    "ROCKY-MOUNTAIN-ROOM": {
+      "x": 50138,
+      "y": -2573
+    },
+    "ROUTE-GATE": {
+      "x": 51448,
+      "y": -3101
+    },
+    "ROYAL-UNOVA": {
+      "x": 5798,
+      "y": 12257
+    },
+    "RUMINATION-FIELD": {
+      "x": 49541,
+      "y": -850
+    },
+    "SEASIDE-CAVE": {
+      "x": 21036,
+      "y": 3183
+    },
+    "SKYARROW-BRIDGE": {
+      "x": 11993,
+      "y": 10895
+    },
+    "STRANGE-HOUSE": {
+      "x": 15175,
+      "y": 5254
+    },
+    "STRIATON-CITY": {
+      "x": 21994,
+      "y": 12075
+    },
+    "TRIAL-CHAMBER": {
+      "x": 54320,
+      "y": -1470
+    },
+    "TUBELINE-BRIDGE": {
+      "x": 5446,
+      "y": 1153
+    },
+    "TWIST-MOUNTAIN": {
+      "x": 249,
+      "y": 2434
+    },
+    "UNDELLA-BAY": {
+      "x": 21045,
+      "y": 2138
+    },
+    "UNDELLA-GATE": {
+      "x": 55675,
+      "y": -2872
+    },
+    "UNDELLA-TOWN": {
+      "x": 17951,
+      "y": 3876
+    },
+    "UNDERGROUND-RUINS": {
+      "x": 3017,
+      "y": 5594
+    },
+    "UNITY-TOWER": {
+      "x": 7360,
+      "y": 13567
+    },
+    "UNOVA-FARAWAY-PLACE": {
+      "x": 53677,
+      "y": -3400
+    },
+    "UNOVA-MYSTERY-ZONE": {
+      "x": 57835,
+      "y": -2274
+    },
+    "UNOVA-POKEMON-LEAGUE": {
+      "x": 10453,
+      "y": -2435
+    },
+    "UNOVA-ROUTE-1": {
+      "x": 18900,
+      "y": 14667
+    },
+    "UNOVA-ROUTE-10": {
+      "x": 8072,
+      "y": -1317
+    },
+    "UNOVA-ROUTE-11": {
+      "x": 10436,
+      "y": -52
+    },
+    "UNOVA-ROUTE-12": {
+      "x": 13104,
+      "y": 1246
+    },
+    "UNOVA-ROUTE-13": {
+      "x": 17948,
+      "y": 2499
+    },
+    "UNOVA-ROUTE-14": {
+      "x": 17944,
+      "y": 5265
+    },
+    "UNOVA-ROUTE-15": {
+      "x": 15584,
+      "y": 6776
+    },
+    "UNOVA-ROUTE-16": {
+      "x": 10849,
+      "y": 6773
+    },
+    "UNOVA-ROUTE-17": {
+      "x": 18900,
+      "y": 15847
+    },
+    "UNOVA-ROUTE-18": {
+      "x": 16203,
+      "y": 15847
+    },
+    "UNOVA-ROUTE-19": {
+      "x": 6480,
+      "y": 15973
+    },
+    "UNOVA-ROUTE-2": {
+      "x": 21992,
+      "y": 13341
+    },
+    "UNOVA-ROUTE-20": {
+      "x": 3174,
+      "y": 14676
+    },
+    "UNOVA-ROUTE-21": {
+      "x": 21051,
+      "y": 487
+    },
+    "UNOVA-ROUTE-22": {
+      "x": 21073,
+      "y": -1560
+    },
+    "UNOVA-ROUTE-23": {
+      "x": 15827,
+      "y": -1550
+    },
+    "UNOVA-ROUTE-3": {
+      "x": 19787,
+      "y": 10908
+    },
+    "UNOVA-ROUTE-4": {
+      "x": 8493,
+      "y": 8217
+    },
+    "UNOVA-ROUTE-5": {
+      "x": 5726,
+      "y": 6773
+    },
+    "UNOVA-ROUTE-6": {
+      "x": -2242,
+      "y": 6776
+    },
+    "UNOVA-ROUTE-7": {
+      "x": -4430,
+      "y": 2434
+    },
+    "UNOVA-ROUTE-8": {
+      "x": 2947,
+      "y": 1161
+    },
+    "UNOVA-ROUTE-9": {
+      "x": 5449,
+      "y": -45
+    },
+    "UNOVA-SHOPPING-MALL": {
+      "x": 59398,
+      "y": -1332
+    },
+    "UNOVA-VICTORY-ROAD": {
+      "x": 8066,
+      "y": -2430
+    },
+    "UNOVA-VICTORY-ROAD-2": {
+      "x": 60593,
+      "y": -2895
+    },
+    "VILLAGE-BRIDGE": {
+      "x": 10431,
+      "y": 1238
+    },
+    "VIRBANK-CITY": {
+      "x": 3169,
+      "y": 10892
+    },
+    "VIRBANK-COMPLEX": {
+      "x": 737,
+      "y": 11401
+    },
+    "VIRBANK-GATE": {
+      "x": 61466,
+      "y": -1815
+    },
+    "WELLSPRING-CAVE": {
+      "x": 19792,
+      "y": 9827
+    },
+    "WHITE-FOREST": {
+      "x": 17943,
+      "y": 8106
+    },
+    "WHITE-GATE": {
+      "x": 62868,
+      "y": -873
+    },
+    "WHITE-TREEHOLLOW": {
+      "x": 63810,
+      "y": 0
+    }
+  },
+  "edges": {
+    "BERRY-FOREST-BOND-BRIDGE": {
+      "sourceHandle": "left-source",
+      "targetHandle": "right-target"
+    },
+    "BIRTH-ISLAND-SEVEN-ISLAND": {
+      "sourceHandle": "top-source",
+      "targetHandle": "bottom-target"
+    },
+    "BIRTH-ISLAND-NAVEL-ROCK": {
+      "sourceHandle": "right-source",
+      "targetHandle": "left-target"
+    },
+    "BOND-BRIDGE-THREE-ISLAND": {
+      "sourceHandle": "left-source",
+      "targetHandle": "right-target"
+    },
+    "CANYON-ENTRANCE-SEVEN-ISLAND": {
+      "sourceHandle": "left-source",
+      "targetHandle": "right-target"
+    },
+    "CANYON-ENTRANCE-SEVAULT-CANYON": {
+      "sourceHandle": "right-source",
+      "targetHandle": "left-target"
+    },
+    "CAPE-BRINK-TWO-ISLAND": {
+      "sourceHandle": "left-source",
+      "targetHandle": "right-target"
+    },
+    "CELADON-CITY-KANTO-ROUTE-16": {
+      "sourceHandle": "left-source",
+      "targetHandle": "right-target"
+    },
+    "CELADON-CITY-KANTO-ROUTE-7": {
+      "sourceHandle": "right-source",
+      "targetHandle": "left-target"
+    },
+    "CERULEAN-CAVE-CERULEAN-CITY": {
+      "sourceHandle": "left-source",
+      "targetHandle": "right-target"
+    },
+    "CERULEAN-CITY-KANTO-ROUTE-24": {
+      "sourceHandle": "top-source",
+      "targetHandle": "bottom-target"
+    },
+    "CERULEAN-CITY-KANTO-ROUTE-5": {
+      "sourceHandle": "bottom-source",
+      "targetHandle": "top-target"
+    },
+    "CERULEAN-CITY-KANTO-ROUTE-4": {
+      "sourceHandle": "left-source",
+      "targetHandle": "right-target"
+    },
+    "CERULEAN-CITY-KANTO-ROUTE-9": {
+      "sourceHandle": "right-source",
+      "targetHandle": "left-target"
+    },
+    "CINNABAR-ISLAND-KANTO-SEA-ROUTE-21": {
+      "sourceHandle": "top-source",
+      "targetHandle": "bottom-target"
+    },
+    "CINNABAR-ISLAND-KANTO-SEA-ROUTE-20": {
+      "sourceHandle": "right-source",
+      "targetHandle": "left-target"
+    },
+    "CINNABAR-ISLAND-POKEMON-MANSION": {
+      "sourceHandle": "bottom-source",
+      "targetHandle": "top-target"
+    },
+    "DIGLETTS-CAVE-KANTO-ROUTE-2": {
+      "sourceHandle": "left-source",
+      "targetHandle": "right-target"
+    },
+    "DIGLETTS-CAVE-KANTO-ROUTE-11": {
+      "sourceHandle": "right-source",
+      "targetHandle": "left-target"
+    },
+    "DILFORD-CHAMBER-TANOBY-RUINS": {
+      "sourceHandle": "left-source",
+      "targetHandle": "right-target"
+    },
+    "FIVE-ISLAND-FOUR-ISLAND": {
+      "sourceHandle": "top-source",
+      "targetHandle": "bottom-target"
+    },
+    "FIVE-ISLAND-SIX-ISLAND": {
+      "sourceHandle": "bottom-source",
+      "targetHandle": "top-target"
+    },
+    "FIVE-ISLAND-WATER-LABYRINTH": {
+      "sourceHandle": "right-source",
+      "targetHandle": "left-target"
+    },
+    "FIVE-ISLAND-FIVE-ISLE-MEADOW": {
+      "sourceHandle": "left-source",
+      "targetHandle": "right-target"
+    },
+    "FIVE-ISLE-MEADOW-MEMORIAL-PILLAR": {
+      "sourceHandle": "left-source",
+      "targetHandle": "right-target"
+    },
+    "FOUR-ISLAND-THREE-ISLE-PATH": {
+      "sourceHandle": "top-source",
+      "targetHandle": "bottom-target"
+    },
+    "FOUR-ISLAND-ICEFALL-CAVE": {
+      "sourceHandle": "right-source",
+      "targetHandle": "left-target"
+    },
+    "FUCHSIA-CITY-KANTO-ROUTE-18": {
+      "sourceHandle": "left-source",
+      "targetHandle": "right-target"
+    },
+    "FUCHSIA-CITY-KANTO-ROUTE-15": {
+      "sourceHandle": "right-source",
+      "targetHandle": "left-target"
+    },
+    "FUCHSIA-CITY-KANTO-SEA-ROUTE-19": {
+      "sourceHandle": "bottom-source",
+      "targetHandle": "top-target"
+    },
+    "FUCHSIA-CITY-KANTO-SAFARI-ZONE": {
+      "sourceHandle": "right-source",
+      "targetHandle": "left-target"
+    },
+    "GREEN-PATH-OUTCAST-ISLAND": {
+      "sourceHandle": "left-source",
+      "targetHandle": "right-target"
+    },
+    "GREEN-PATH-WATER-PATH": {
+      "sourceHandle": "left-source",
+      "targetHandle": "right-target"
+    },
+    "GREEN-PATH-PATTERN-BUSH": {
+      "sourceHandle": "left-source",
+      "targetHandle": "right-target"
+    },
+    "INDIGO-PLATEAU-KANTO-VICTORY-ROAD-2": {
+      "sourceHandle": "bottom-source",
+      "targetHandle": "top-target"
+    },
+    "KANTO-ALTERING-CAVE-OUTCAST-ISLAND": {
+      "sourceHandle": "bottom-source",
+      "targetHandle": "top-target"
+    },
+    "KANTO-ROUTE-1-PALLET-TOWN": {
+      "sourceHandle": "bottom-source",
+      "targetHandle": "top-target"
+    },
+    "KANTO-ROUTE-1-VIRIDIAN-CITY": {
+      "sourceHandle": "top-source",
+      "targetHandle": "bottom-target"
+    },
+    "KANTO-ROUTE-10-LAVENDER-TOWN": {
+      "sourceHandle": "bottom-source",
+      "targetHandle": "top-target"
+    },
+    "KANTO-ROUTE-10-KANTO-ROUTE-9": {
+      "sourceHandle": "left-source",
+      "targetHandle": "right-target"
+    },
+    "KANTO-ROUTE-10-ROCK-TUNNEL": {
+      "sourceHandle": "top-source",
+      "targetHandle": "bottom-target"
+    },
+    "KANTO-ROUTE-10-POWER-PLANT": {
+      "sourceHandle": "right-source",
+      "targetHandle": "left-target"
+    },
+    "KANTO-ROUTE-11-VERMILION-CITY": {
+      "sourceHandle": "left-source",
+      "targetHandle": "right-target"
+    },
+    "KANTO-ROUTE-11-KANTO-ROUTE-12": {
+      "sourceHandle": "right-source",
+      "targetHandle": "left-target"
+    },
+    "KANTO-ROUTE-12-KANTO-ROUTE-13": {
+      "sourceHandle": "bottom-source",
+      "targetHandle": "top-target"
+    },
+    "KANTO-ROUTE-12-LAVENDER-TOWN": {
+      "sourceHandle": "top-source",
+      "targetHandle": "bottom-target"
+    },
+    "KANTO-ROUTE-13-KANTO-ROUTE-14": {
+      "sourceHandle": "left-source",
+      "targetHandle": "right-target"
+    },
+    "KANTO-ROUTE-14-KANTO-ROUTE-15": {
+      "sourceHandle": "left-source",
+      "targetHandle": "right-target"
+    },
+    "KANTO-ROUTE-16-KANTO-ROUTE-17": {
+      "sourceHandle": "bottom-source",
+      "targetHandle": "top-target"
+    },
+    "KANTO-ROUTE-17-KANTO-ROUTE-18": {
+      "sourceHandle": "bottom-source",
+      "targetHandle": "top-target"
+    },
+    "KANTO-ROUTE-2-VIRIDIAN-CITY": {
+      "sourceHandle": "bottom-source",
+      "targetHandle": "top-target"
+    },
+    "KANTO-ROUTE-2-VIRIDIAN-FOREST": {
+      "sourceHandle": "top-source",
+      "targetHandle": "bottom-target"
+    },
+    "KANTO-ROUTE-22-VIRIDIAN-CITY": {
+      "sourceHandle": "right-source",
+      "targetHandle": "left-target"
+    },
+    "KANTO-ROUTE-22-KANTO-ROUTE-23": {
+      "sourceHandle": "top-source",
+      "targetHandle": "bottom-target"
+    },
+    "KANTO-ROUTE-23-KANTO-VICTORY-ROAD-1": {
+      "sourceHandle": "top-source",
+      "targetHandle": "bottom-target"
+    },
+    "KANTO-ROUTE-24-KANTO-ROUTE-25": {
+      "sourceHandle": "top-source",
+      "targetHandle": "bottom-target"
+    },
+    "KANTO-ROUTE-25-KANTO-ROUTE-26": {
+      "sourceHandle": "left-source",
+      "targetHandle": "right-target"
+    },
+    "KANTO-ROUTE-26-KANTO-ROUTE-27": {
+      "sourceHandle": "left-source",
+      "targetHandle": "right-target"
+    },
+    "KANTO-ROUTE-27-TOHJO-FALLS": {
+      "sourceHandle": "top-source",
+      "targetHandle": "bottom-target"
+    },
+    "KANTO-ROUTE-27-KANTO-ROUTE-28": {
+      "sourceHandle": "left-source",
+      "targetHandle": "right-target"
+    },
+    "KANTO-ROUTE-28-MT-SILVER": {
+      "sourceHandle": "left-source",
+      "targetHandle": "right-target"
+    },
+    "KANTO-ROUTE-3-PEWTER-CITY": {
+      "sourceHandle": "right-source",
+      "targetHandle": "left-target"
+    },
+    "KANTO-ROUTE-3-VIRIDIAN-FOREST": {
+      "sourceHandle": "bottom-source",
+      "targetHandle": "top-target"
+    },
+    "KANTO-ROUTE-4-PEWTER-CITY": {
+      "sourceHandle": "left-source",
+      "targetHandle": "right-target"
+    },
+    "KANTO-ROUTE-4-MT-MOON": {
+      "sourceHandle": "top-source",
+      "targetHandle": "bottom-target"
+    },
+    "KANTO-ROUTE-5-SAFFRON-CITY": {
+      "sourceHandle": "bottom-source",
+      "targetHandle": "top-target"
+    },
+    "KANTO-ROUTE-6-VERMILION-CITY": {
+      "sourceHandle": "bottom-source",
+      "targetHandle": "top-target"
+    },
+    "KANTO-ROUTE-6-SAFFRON-CITY": {
+      "sourceHandle": "top-source",
+      "targetHandle": "bottom-target"
+    },
+    "KANTO-ROUTE-7-SAFFRON-CITY": {
+      "sourceHandle": "right-source",
+      "targetHandle": "left-target"
+    },
+    "KANTO-ROUTE-8-LAVENDER-TOWN": {
+      "sourceHandle": "right-source",
+      "targetHandle": "left-target"
+    },
+    "KANTO-ROUTE-8-SAFFRON-CITY": {
+      "sourceHandle": "left-source",
+      "targetHandle": "right-target"
+    },
+    "KANTO-SEA-ROUTE-19-KANTO-SEA-ROUTE-20": {
+      "sourceHandle": "left-source",
+      "targetHandle": "right-target"
+    },
+    "KANTO-SEA-ROUTE-20-SEAFOAM-ISLANDS": {
+      "sourceHandle": "bottom-source",
+      "targetHandle": "top-target"
+    },
+    "KANTO-SEA-ROUTE-21-PALLET-TOWN": {
+      "sourceHandle": "top-source",
+      "targetHandle": "bottom-target"
+    },
+    "KANTO-VICTORY-ROAD-1-KANTO-VICTORY-ROAD-2": {
+      "sourceHandle": "top-source",
+      "targetHandle": "bottom-target"
+    },
+    "KINDLE-ROAD-MT-EMBER": {
+      "sourceHandle": "right-source",
+      "targetHandle": "left-target"
+    },
+    "KINDLE-ROAD-ONE-ISLAND": {
+      "sourceHandle": "left-source",
+      "targetHandle": "right-target"
+    },
+    "LAVENDER-TOWN-POKEMON-TOWER": {
+      "sourceHandle": "right-source",
+      "targetHandle": "left-target"
+    },
+    "LIPTOO-CHAMBER-TANOBY-RUINS": {
+      "sourceHandle": "left-source",
+      "targetHandle": "right-target"
+    },
+    "FIVE-ISLAND-LOST-CAVE": {
+      "sourceHandle": "left-source",
+      "targetHandle": "right-target"
+    },
+    "MONEAN-CHAMBER-TANOBY-RUINS": {
+      "sourceHandle": "left-source",
+      "targetHandle": "right-target"
+    },
+    "ONE-ISLAND-TREASURE-BEACH": {
+      "sourceHandle": "right-source",
+      "targetHandle": "left-target"
+    },
+    "ONE-ISLAND-TWO-ISLAND": {
+      "sourceHandle": "bottom-source",
+      "targetHandle": "top-target"
+    },
+    "ONE-ISLAND-VERMILION-CITY": {
+      "sourceHandle": "top-source",
+      "targetHandle": "bottom-target"
+    },
+    "RESORT-GORGEOUS-WATER-LABYRINTH": {
+      "sourceHandle": "left-source",
+      "targetHandle": "right-target"
+    },
+    "LOST-CAVE-RESORT-GORGEOUS": {
+      "sourceHandle": "bottom-source",
+      "targetHandle": "top-target"
+    },
+    "RIXY-CHAMBER-TANOBY-RUINS": {
+      "sourceHandle": "left-source",
+      "targetHandle": "right-target"
+    },
+    "RUIN-VALLEY-WATER-PATH": {
+      "sourceHandle": "right-source",
+      "targetHandle": "left-target"
+    },
+    "SCUFIB-CHAMBER-TANOBY-RUINS": {
+      "sourceHandle": "left-source",
+      "targetHandle": "right-target"
+    },
+    "SEVAULT-CANYON-TANOBY-RUINS": {
+      "sourceHandle": "bottom-source",
+      "targetHandle": "top-target"
+    },
+    "SEVEN-ISLAND-TRAINER-TOWER": {
+      "sourceHandle": "left-source",
+      "targetHandle": "right-target"
+    },
+    "SEVEN-ISLAND-SIX-ISLAND": {
+      "sourceHandle": "top-source",
+      "targetHandle": "bottom-target"
+    },
+    "SIX-ISLAND-WATER-PATH": {
+      "sourceHandle": "left-source",
+      "targetHandle": "right-target"
+    },
+    "SS-ANNE-VERMILION-CITY": {
+      "sourceHandle": "right-source",
+      "targetHandle": "left-target"
+    },
+    "SS-ANNE-STRANGE-ISLAND": {
+      "sourceHandle": "bottom-source",
+      "targetHandle": "top-target"
+    },
+    "TANOBY-RUINS-WEEPTH-CHAMBER": {
+      "sourceHandle": "right-source",
+      "targetHandle": "left-target"
+    },
+    "TANOBY-RUINS-VIAPOS-CHAMBER": {
+      "sourceHandle": "right-source",
+      "targetHandle": "left-target"
+    },
+    "THREE-ISLAND-TWO-ISLAND": {
+      "sourceHandle": "top-source",
+      "targetHandle": "bottom-target"
+    },
+    "THREE-ISLAND-THREE-ISLE-PATH": {
+      "sourceHandle": "bottom-source",
+      "targetHandle": "top-target"
+    },
+    "THREE-ISLAND-THREE-ISLE-PORT": {
+      "sourceHandle": "left-source",
+      "targetHandle": "right-target"
+    },
+    "ONE-ISLAND-THREE-ISLE-PORT": {
+      "sourceHandle": "top-source",
+      "targetHandle": "bottom-target"
+    },
+    "THREE-ISLE-PORT-TWO-ISLAND": {
+      "sourceHandle": "right-source",
+      "targetHandle": "left-target"
+    },
+    "THREE-ISLE-PORT-VERMILION-CITY": {
+      "sourceHandle": "top-source",
+      "targetHandle": "bottom-target"
+    },
+    "OUTCAST-ISLAND-WATER-PATH": {
+      "sourceHandle": "left-source",
+      "targetHandle": "right-target"
+    },
+    "GREEN-PATH-SIX-ISLAND": {
+      "sourceHandle": "right-source",
+      "targetHandle": "left-target"
+    },
+    "AZALEA-TOWN-JOHTO-ROUTE-33": {
+      "sourceHandle": "right-source",
+      "targetHandle": "left-target"
+    },
+    "AZALEA-TOWN-SLOWPOKE-WELL": {
+      "sourceHandle": "bottom-source",
+      "targetHandle": "top-target"
+    },
+    "AZALEA-TOWN-ILEX-FOREST": {
+      "sourceHandle": "left-source",
+      "targetHandle": "right-target"
+    },
+    "BELL-TOWER-BELLCHIME-TRAIL": {
+      "sourceHandle": "bottom-source",
+      "targetHandle": "top-target"
+    },
+    "BELLCHIME-TRAIL-ECRUTEAK-CITY": {
+      "sourceHandle": "right-source",
+      "targetHandle": "left-target"
+    },
+    "BLACKTHORN-CITY-JOHTO-ROUTE-45": {
+      "sourceHandle": "bottom-source",
+      "targetHandle": "top-target"
+    },
+    "BLACKTHORN-CITY-DRAGONS-DEN": {
+      "sourceHandle": "top-source",
+      "targetHandle": "bottom-target"
+    },
+    "BLACKTHORN-CITY-ICE-PATH": {
+      "sourceHandle": "left-source",
+      "targetHandle": "right-target"
+    },
+    "BURNED-TOWER-ECRUTEAK-CITY": {
+      "sourceHandle": "bottom-source",
+      "targetHandle": "top-target"
+    },
+    "CHERRYGROVE-CITY-JOHTO-ROUTE-29": {
+      "sourceHandle": "right-source",
+      "targetHandle": "left-target"
+    },
+    "CHERRYGROVE-CITY-JOHTO-ROUTE-30": {
+      "sourceHandle": "left-source",
+      "targetHandle": "right-target"
+    },
+    "CIANWOOD-CITY-JOHTO-SEA-ROUTE-41": {
+      "sourceHandle": "right-source",
+      "targetHandle": "left-target"
+    },
+    "CIANWOOD-CITY-CLIFF-EDGE-GATE": {
+      "sourceHandle": "left-source",
+      "targetHandle": "right-target"
+    },
+    "CLIFF-CAVE-JOHTO-ROUTE-47": {
+      "sourceHandle": "left-source",
+      "targetHandle": "right-target"
+    },
+    "CLIFF-EDGE-GATE-JOHTO-ROUTE-47": {
+      "sourceHandle": "bottom-source",
+      "targetHandle": "top-target"
+    },
+    "DARK-CAVE-JOHTO-ROUTE-31": {
+      "sourceHandle": "left-source",
+      "targetHandle": "right-target"
+    },
+    "DARK-CAVE-JOHTO-ROUTE-45": {
+      "sourceHandle": "right-source",
+      "targetHandle": "left-target"
+    },
+    "DARK-CAVE-JOHTO-ROUTE-46": {
+      "sourceHandle": "right-source",
+      "targetHandle": "left-target"
+    },
+    "DARK-CAVE-MT-SILVER-CAVE": {
+      "sourceHandle": "right-source",
+      "targetHandle": "left-target"
+    },
+    "ECRUTEAK-CITY-JOHTO-ROUTE-37": {
+      "sourceHandle": "bottom-source",
+      "targetHandle": "top-target"
+    },
+    "ECRUTEAK-CITY-JOHTO-ROUTE-38": {
+      "sourceHandle": "left-source",
+      "targetHandle": "right-target"
+    },
+    "ECRUTEAK-CITY-JOHTO-ROUTE-42": {
+      "sourceHandle": "right-source",
+      "targetHandle": "left-target"
+    },
+    "EMBEDDED-TOWER-JOHTO-ROUTE-47": {
+      "sourceHandle": "top-source",
+      "targetHandle": "bottom-target"
+    },
+    "FRONTIER-ACCESS-JOHTO-SEA-ROUTE-40": {
+      "sourceHandle": "right-source",
+      "targetHandle": "left-target"
+    },
+    "GOLDENROD-CITY-JOHTO-ROUTE-34": {
+      "sourceHandle": "bottom-source",
+      "targetHandle": "top-target"
+    },
+    "GOLDENROD-CITY-JOHTO-ROUTE-35": {
+      "sourceHandle": "top-source",
+      "targetHandle": "bottom-target"
+    },
+    "GOLDENROD-CITY-GOLDENROD-TUNNEL": {
+      "sourceHandle": "left-source",
+      "targetHandle": "right-target"
+    },
+    "GOLDENROD-CITY-RADIO-TOWER": {
+      "sourceHandle": "right-source",
+      "targetHandle": "left-target"
+    },
+    "ICE-PATH-JOHTO-ROUTE-44": {
+      "sourceHandle": "left-source",
+      "targetHandle": "right-target"
+    },
+    "ILEX-FOREST-JOHTO-ROUTE-34": {
+      "sourceHandle": "top-source",
+      "targetHandle": "bottom-target"
+    },
+    "JOHTO-LIGHTHOUSE-OLIVINE-CITY": {
+      "sourceHandle": "right-source",
+      "targetHandle": "left-target"
+    },
+    "JOHTO-ROUTE-29-NEW-BARK-TOWN": {
+      "sourceHandle": "right-source",
+      "targetHandle": "left-target"
+    },
+    "JOHTO-ROUTE-29-JOHTO-ROUTE-46": {
+      "sourceHandle": "top-source",
+      "targetHandle": "bottom-target"
+    },
+    "JOHTO-ROUTE-30-JOHTO-ROUTE-31": {
+      "sourceHandle": "top-source",
+      "targetHandle": "bottom-target"
+    },
+    "JOHTO-ROUTE-31-VIOLET-CITY": {
+      "sourceHandle": "left-source",
+      "targetHandle": "right-target"
+    },
+    "JOHTO-ROUTE-32-VIOLET-CITY": {
+      "sourceHandle": "top-source",
+      "targetHandle": "bottom-target"
+    },
+    "JOHTO-ROUTE-32-UNION-CAVE": {
+      "sourceHandle": "bottom-source",
+      "targetHandle": "top-target"
+    },
+    "JOHTO-ROUTE-32-RUINS-OF-ALPH": {
+      "sourceHandle": "left-source",
+      "targetHandle": "right-target"
+    },
+    "JOHTO-ROUTE-33-UNION-CAVE": {
+      "sourceHandle": "right-source",
+      "targetHandle": "left-target"
+    },
+    "JOHTO-ROUTE-35-JOHTO-ROUTE-36": {
+      "sourceHandle": "top-source",
+      "targetHandle": "bottom-target"
+    },
+    "JOHTO-ROUTE-35-NATIONAL-PARK": {
+      "sourceHandle": "top-source",
+      "targetHandle": "bottom-target"
+    },
+    "JOHTO-ROUTE-36-VIOLET-CITY": {
+      "sourceHandle": "right-source",
+      "targetHandle": "left-target"
+    },
+    "JOHTO-ROUTE-36-JOHTO-ROUTE-37": {
+      "sourceHandle": "top-source",
+      "targetHandle": "bottom-target"
+    },
+    "JOHTO-ROUTE-36-RUINS-OF-ALPH": {
+      "sourceHandle": "right-source",
+      "targetHandle": "left-target"
+    },
+    "JOHTO-ROUTE-36-NATIONAL-PARK": {
+      "sourceHandle": "bottom-source",
+      "targetHandle": "top-target"
+    },
+    "JOHTO-ROUTE-38-JOHTO-ROUTE-39": {
+      "sourceHandle": "left-source",
+      "targetHandle": "right-target"
+    },
+    "JOHTO-ROUTE-39-OLIVINE-CITY": {
+      "sourceHandle": "bottom-source",
+      "targetHandle": "top-target"
+    },
+    "JOHTO-ROUTE-42-MAHOGANY-TOWN": {
+      "sourceHandle": "right-source",
+      "targetHandle": "left-target"
+    },
+    "JOHTO-ROUTE-42-MT-MORTAR": {
+      "sourceHandle": "top-source",
+      "targetHandle": "bottom-target"
+    },
+    "JOHTO-ROUTE-43-LAKE-OF-RAGE": {
+      "sourceHandle": "top-source",
+      "targetHandle": "bottom-target"
+    },
+    "JOHTO-ROUTE-43-MAHOGANY-TOWN": {
+      "sourceHandle": "bottom-source",
+      "targetHandle": "top-target"
+    },
+    "JOHTO-ROUTE-44-MAHOGANY-TOWN": {
+      "sourceHandle": "left-source",
+      "targetHandle": "right-target"
+    },
+    "JOHTO-ROUTE-45-JOHTO-ROUTE-46": {
+      "sourceHandle": "bottom-source",
+      "targetHandle": "top-target"
+    },
+    "JOHTO-ROUTE-47-JOHTO-ROUTE-48": {
+      "sourceHandle": "left-source",
+      "targetHandle": "right-target"
+    },
+    "JOHTO-ROUTE-48-JOHTO-SAFARI-ZONE": {
+      "sourceHandle": "top-source",
+      "targetHandle": "bottom-target"
+    },
+    "JOHTO-SEA-ROUTE-40-JOHTO-SEA-ROUTE-41": {
+      "sourceHandle": "bottom-source",
+      "targetHandle": "top-target"
+    },
+    "JOHTO-SEA-ROUTE-40-OLIVINE-CITY": {
+      "sourceHandle": "top-source",
+      "targetHandle": "bottom-target"
+    },
+    "JOHTO-SEA-ROUTE-41-WHIRL-ISLANDS": {
+      "sourceHandle": "right-source",
+      "targetHandle": "left-target"
+    },
+    "MAHOGANY-TOWN-TEAM-ROCKET-HQ": {
+      "sourceHandle": "bottom-source",
+      "targetHandle": "top-target"
+    },
+    "OLIVINE-CITY-SS-AQUA": {
+      "sourceHandle": "right-source",
+      "targetHandle": "left-target"
+    },
+    "RUINS-OF-ALPH-SINJOH-RUINS": {
+      "sourceHandle": "bottom-source",
+      "targetHandle": "top-target"
+    },
+    "SPROUT-TOWER-VIOLET-CITY": {
+      "sourceHandle": "bottom-source",
+      "targetHandle": "top-target"
+    },
+    "ABANDONED-SHIP-HOENN-ROUTE-109": {
+      "sourceHandle": "right-source",
+      "targetHandle": "left-target"
+    },
+    "ABANDONED-SHIP-HOENN-ROUTE-108": {
+      "sourceHandle": "left-source",
+      "targetHandle": "right-target"
+    },
+    "ANCIENT-TOMB-HOENN-ROUTE-120": {
+      "sourceHandle": "right-source",
+      "targetHandle": "left-target"
+    },
+    "CAVE-OF-ORIGIN-SOOTOPOLIS-CITY": {
+      "sourceHandle": "top-source",
+      "targetHandle": "bottom-target"
+    },
+    "DESERT-RUINS-HOENN-ROUTE-111": {
+      "sourceHandle": "left-source",
+      "targetHandle": "right-target"
+    },
+    "DESERT-UNDERPASS-HOENN-ROUTE-114": {
+      "sourceHandle": "bottom-source",
+      "targetHandle": "top-target"
+    },
+    "DEWFORD-TOWN-HOENN-ROUTE-107": {
+      "sourceHandle": "right-source",
+      "targetHandle": "left-target"
+    },
+    "DEWFORD-TOWN-HOENN-ROUTE-106": {
+      "sourceHandle": "top-source",
+      "targetHandle": "bottom-target"
+    },
+    "EVER-GRANDE-CITY-HOENN-ROUTE-128": {
+      "sourceHandle": "left-source",
+      "targetHandle": "right-target"
+    },
+    "EVER-GRANDE-CITY-HOENN-VICTORY-ROAD": {
+      "sourceHandle": "top-source",
+      "targetHandle": "bottom-target"
+    },
+    "FALLARBOR-TOWN-HOENN-ROUTE-113": {
+      "sourceHandle": "right-source",
+      "targetHandle": "left-target"
+    },
+    "FALLARBOR-TOWN-HOENN-ROUTE-114": {
+      "sourceHandle": "left-source",
+      "targetHandle": "right-target"
+    },
+    "FIERY-PATH-HOENN-ROUTE-112": {
+      "sourceHandle": "left-source",
+      "targetHandle": "right-target"
+    },
+    "FORTREE-CITY-HOENN-ROUTE-119": {
+      "sourceHandle": "left-source",
+      "targetHandle": "right-target"
+    },
+    "FORTREE-CITY-HOENN-ROUTE-120": {
+      "sourceHandle": "bottom-source",
+      "targetHandle": "top-target"
+    },
+    "GRANITE-CAVE-HOENN-ROUTE-106": {
+      "sourceHandle": "left-source",
+      "targetHandle": "right-target"
+    },
+    "HOENN-BATTLE-FRONTIER-HOENN-ROUTE-134": {
+      "sourceHandle": "left-source",
+      "targetHandle": "right-target"
+    },
+    "BATTLE-RESORT-HOENN-BATTLE-FRONTIER": {
+      "sourceHandle": "bottom-source",
+      "targetHandle": "top-target"
+    },
+    "HOENN-BATTLE-TOWER-HOENN-ROUTE-134": {
+      "sourceHandle": "bottom-source",
+      "targetHandle": "top-target"
+    },
+    "BATTLE-RESORT-HOENN-BATTLE-TOWER": {
+      "sourceHandle": "top-source",
+      "targetHandle": "bottom-target"
+    },
+    "HOENN-POKEMON-LEAGUE-HOENN-VICTORY-ROAD": {
+      "sourceHandle": "bottom-source",
+      "targetHandle": "top-target"
+    },
+    "HOENN-ROUTE-101-LITTLEROOT-TOWN": {
+      "sourceHandle": "bottom-source",
+      "targetHandle": "top-target"
+    },
+    "HOENN-ROUTE-101-OLDALE-TOWN": {
+      "sourceHandle": "top-source",
+      "targetHandle": "bottom-target"
+    },
+    "HOENN-ROUTE-102-OLDALE-TOWN": {
+      "sourceHandle": "right-source",
+      "targetHandle": "left-target"
+    },
+    "HOENN-ROUTE-102-PETALBURG-CITY": {
+      "sourceHandle": "left-source",
+      "targetHandle": "right-target"
+    },
+    "HOENN-ROUTE-103-HOENN-ROUTE-110": {
+      "sourceHandle": "right-source",
+      "targetHandle": "left-target"
+    },
+    "HOENN-ROUTE-103-OLDALE-TOWN": {
+      "sourceHandle": "bottom-source",
+      "targetHandle": "top-target"
+    },
+    "HOENN-ROUTE-104-PETALBURG-CITY": {
+      "sourceHandle": "right-source",
+      "targetHandle": "left-target"
+    },
+    "HOENN-ROUTE-104-PETALBURG-WOODS": {
+      "sourceHandle": "top-source",
+      "targetHandle": "bottom-target"
+    },
+    "HOENN-ROUTE-104-HOENN-ROUTE-105": {
+      "sourceHandle": "bottom-source",
+      "targetHandle": "top-target"
+    },
+    "HOENN-ROUTE-105-HOENN-ROUTE-106": {
+      "sourceHandle": "bottom-source",
+      "targetHandle": "top-target"
+    },
+    "HOENN-ROUTE-105-ISLAND-CAVE": {
+      "sourceHandle": "right-source",
+      "targetHandle": "left-target"
+    },
+    "HOENN-ROUTE-107-HOENN-ROUTE-108": {
+      "sourceHandle": "right-source",
+      "targetHandle": "left-target"
+    },
+    "HOENN-ROUTE-109-SLATEPORT-CITY": {
+      "sourceHandle": "top-source",
+      "targetHandle": "bottom-target"
+    },
+    "HOENN-ROUTE-110-MAUVILLE-CITY": {
+      "sourceHandle": "top-source",
+      "targetHandle": "bottom-target"
+    },
+    "HOENN-ROUTE-110-SLATEPORT-CITY": {
+      "sourceHandle": "bottom-source",
+      "targetHandle": "top-target"
+    },
+    "HOENN-ROUTE-110-NEW-MAUVILLE": {
+      "sourceHandle": "right-source",
+      "targetHandle": "left-target"
+    },
+    "HOENN-ROUTE-111-MAUVILLE-CITY": {
+      "sourceHandle": "bottom-source",
+      "targetHandle": "top-target"
+    },
+    "HOENN-ROUTE-111-HOENN-ROUTE-113": {
+      "sourceHandle": "left-source",
+      "targetHandle": "right-target"
+    },
+    "HOENN-ROUTE-111-MIRAGE-TOWER": {
+      "sourceHandle": "top-source",
+      "targetHandle": "bottom-target"
+    },
+    "HOENN-ROUTE-112-LAVARIDGE-TOWN": {
+      "sourceHandle": "left-source",
+      "targetHandle": "right-target"
+    },
+    "HOENN-ROUTE-112-JAGGED-PASS": {
+      "sourceHandle": "top-source",
+      "targetHandle": "bottom-target"
+    },
+    "HOENN-ROUTE-114-METEOR-FALLS": {
+      "sourceHandle": "left-source",
+      "targetHandle": "right-target"
+    },
+    "HOENN-ROUTE-115-RUSTBORO-CITY": {
+      "sourceHandle": "bottom-source",
+      "targetHandle": "top-target"
+    },
+    "HOENN-ROUTE-115-METEOR-FALLS": {
+      "sourceHandle": "top-source",
+      "targetHandle": "bottom-target"
+    },
+    "HOENN-ROUTE-116-RUSTBORO-CITY": {
+      "sourceHandle": "left-source",
+      "targetHandle": "right-target"
+    },
+    "HOENN-ROUTE-116-RUSTURF-TUNNEL": {
+      "sourceHandle": "right-source",
+      "targetHandle": "left-target"
+    },
+    "HOENN-ROUTE-117-MAUVILLE-CITY": {
+      "sourceHandle": "right-source",
+      "targetHandle": "left-target"
+    },
+    "HOENN-ROUTE-117-VERDANTURF-TOWN": {
+      "sourceHandle": "left-source",
+      "targetHandle": "right-target"
+    },
+    "HOENN-ROUTE-118-MAUVILLE-CITY": {
+      "sourceHandle": "left-source",
+      "targetHandle": "right-target"
+    },
+    "HOENN-ROUTE-118-HOENN-ROUTE-119": {
+      "sourceHandle": "top-source",
+      "targetHandle": "bottom-target"
+    },
+    "HOENN-ROUTE-118-HOENN-ROUTE-123": {
+      "sourceHandle": "right-source",
+      "targetHandle": "left-target"
+    },
+    "HOENN-ROUTE-119-WEATHER-INSTITUTE": {
+      "sourceHandle": "top-source",
+      "targetHandle": "bottom-target"
+    },
+    "HOENN-ROUTE-119-SECRET-LAB-JUNGLE": {
+      "sourceHandle": "left-source",
+      "targetHandle": "right-target"
+    },
+    "HOENN-ROUTE-120-HOENN-ROUTE-121": {
+      "sourceHandle": "bottom-source",
+      "targetHandle": "top-target"
+    },
+    "HOENN-ROUTE-120-SCORCHED-SLAB": {
+      "sourceHandle": "right-source",
+      "targetHandle": "left-target"
+    },
+    "HOENN-ROUTE-121-LILYCOVE-CITY": {
+      "sourceHandle": "right-source",
+      "targetHandle": "left-target"
+    },
+    "HOENN-ROUTE-121-HOENN-ROUTE-122": {
+      "sourceHandle": "bottom-source",
+      "targetHandle": "top-target"
+    },
+    "HOENN-ROUTE-121-HOENN-SAFARI-ZONE": {
+      "sourceHandle": "left-source",
+      "targetHandle": "right-target"
+    },
+    "HOENN-ROUTE-122-HOENN-ROUTE-123": {
+      "sourceHandle": "bottom-source",
+      "targetHandle": "top-target"
+    },
+    "HOENN-ROUTE-122-MT-PYRE": {
+      "sourceHandle": "left-source",
+      "targetHandle": "right-target"
+    },
+    "HOENN-ROUTE-124-MOSSDEEP-CITY": {
+      "sourceHandle": "right-source",
+      "targetHandle": "left-target"
+    },
+    "HOENN-ROUTE-124-LILYCOVE-CITY": {
+      "sourceHandle": "left-source",
+      "targetHandle": "right-target"
+    },
+    "HOENN-ROUTE-124-HOENN-ROUTE-126": {
+      "sourceHandle": "bottom-source",
+      "targetHandle": "top-target"
+    },
+    "HOENN-ROUTE-125-MOSSDEEP-CITY": {
+      "sourceHandle": "bottom-source",
+      "targetHandle": "top-target"
+    },
+    "HOENN-ROUTE-124-HOENN-ROUTE-125": {
+      "sourceHandle": "left-source",
+      "targetHandle": "right-target"
+    },
+    "HOENN-ROUTE-125-SHOAL-CAVE": {
+      "sourceHandle": "right-source",
+      "targetHandle": "left-target"
+    },
+    "HOENN-ROUTE-126-HOENN-ROUTE-127": {
+      "sourceHandle": "right-source",
+      "targetHandle": "left-target"
+    },
+    "HOENN-ROUTE-126-SOOTOPOLIS-CITY": {
+      "sourceHandle": "left-source",
+      "targetHandle": "right-target"
+    },
+    "HOENN-ROUTE-126-SECRET-ISLET": {
+      "sourceHandle": "bottom-source",
+      "targetHandle": "top-target"
+    },
+    "HOENN-ROUTE-127-MOSSDEEP-CITY": {
+      "sourceHandle": "top-source",
+      "targetHandle": "bottom-target"
+    },
+    "HOENN-ROUTE-127-HOENN-ROUTE-128": {
+      "sourceHandle": "bottom-source",
+      "targetHandle": "top-target"
+    },
+    "HOENN-ROUTE-128-HOENN-ROUTE-129": {
+      "sourceHandle": "bottom-source",
+      "targetHandle": "top-target"
+    },
+    "HOENN-ROUTE-128-SEAFLOOR-CAVERN": {
+      "sourceHandle": "left-source",
+      "targetHandle": "right-target"
+    },
+    "HOENN-ROUTE-129-HOENN-ROUTE-130": {
+      "sourceHandle": "left-source",
+      "targetHandle": "right-target"
+    },
+    "HOENN-ROUTE-129-SECRET-SHORE": {
+      "sourceHandle": "bottom-source",
+      "targetHandle": "top-target"
+    },
+    "HOENN-ROUTE-130-HOENN-ROUTE-131": {
+      "sourceHandle": "left-source",
+      "targetHandle": "right-target"
+    },
+    "HOENN-ROUTE-130-SECRET-MEADOW": {
+      "sourceHandle": "bottom-source",
+      "targetHandle": "top-target"
+    },
+    "HOENN-ROUTE-131-PACIFIDLOG-TOWN": {
+      "sourceHandle": "left-source",
+      "targetHandle": "right-target"
+    },
+    "HOENN-ROUTE-131-SKY-PILLAR": {
+      "sourceHandle": "bottom-source",
+      "targetHandle": "top-target"
+    },
+    "HOENN-ROUTE-132-PACIFIDLOG-TOWN": {
+      "sourceHandle": "right-source",
+      "targetHandle": "left-target"
+    },
+    "HOENN-ROUTE-132-HOENN-ROUTE-133": {
+      "sourceHandle": "left-source",
+      "targetHandle": "right-target"
+    },
+    "HOENN-ROUTE-133-HOENN-ROUTE-134": {
+      "sourceHandle": "left-source",
+      "targetHandle": "right-target"
+    },
+    "HOENN-ROUTE-134-SLATEPORT-CITY": {
+      "sourceHandle": "left-source",
+      "targetHandle": "right-target"
+    },
+    "HOENN-ROUTE-134-SEALED-CHAMBER": {
+      "sourceHandle": "bottom-source",
+      "targetHandle": "top-target"
+    },
+    "HOENN-ROUTE-118-HOENN-SAFARI-ZONE": {
+      "sourceHandle": "bottom-source",
+      "targetHandle": "top-target"
+    },
+    "JAGGED-PASS-MT-CHIMNEY": {
+      "sourceHandle": "top-source",
+      "targetHandle": "bottom-target"
+    },
+    "MAUVILLE-CITY-MAUVILLE-SPACE-CENTER": {
+      "sourceHandle": "left-source",
+      "targetHandle": "right-target"
+    },
+    "PETALBURG-WOODS-RUSTBORO-CITY": {
+      "sourceHandle": "top-source",
+      "targetHandle": "bottom-target"
+    },
+    "RUSTURF-TUNNEL-VERDANTURF-TOWN": {
+      "sourceHandle": "right-source",
+      "targetHandle": "left-target"
+    },
+    "SLATEPORT-CITY-SS-TIDAL": {
+      "sourceHandle": "left-source",
+      "targetHandle": "right-target"
+    },
+    "xy-edge__HOENN-ROUTE-111bottom-source-HOENN-ROUTE-112right-target": {
+      "sourceHandle": "bottom-source",
+      "targetHandle": "right-target"
+    },
+    "HOENN-ROUTE-111-HOENN-ROUTE-112": {
+      "sourceHandle": "bottom-source",
+      "targetHandle": "top-target"
+    },
+    "FIERY-PATH-HOENN-ROUTE-111": {
+      "sourceHandle": "top-source",
+      "targetHandle": "bottom-target"
+    },
+    "ACUITY-CAVERN-LAKE-ACUITY": {
+      "sourceHandle": "bottom-source",
+      "targetHandle": "top-target"
+    },
+    "ACUITY-LAKEFRONT-SINNOH-ROUTE-217": {
+      "sourceHandle": "right-source",
+      "targetHandle": "left-target"
+    },
+    "ACUITY-LAKEFRONT-LAKE-ACUITY": {
+      "sourceHandle": "left-source",
+      "targetHandle": "right-target"
+    },
+    "ACUITY-LAKEFRONT-SNOWPOINT-CITY": {
+      "sourceHandle": "right-source",
+      "targetHandle": "left-target"
+    },
+    "AMITY-SQUARE-HEARTHOME-CITY": {
+      "sourceHandle": "left-source",
+      "targetHandle": "right-target"
+    },
+    "CANALAVE-CITY-SINNOH-ROUTE-218": {
+      "sourceHandle": "right-source",
+      "targetHandle": "left-target"
+    },
+    "CANALAVE-CITY-IRON-ISLAND": {
+      "sourceHandle": "left-source",
+      "targetHandle": "right-target"
+    },
+    "CANALAVE-CITY-FULLMOON-ISLAND": {
+      "sourceHandle": "left-source",
+      "targetHandle": "right-target"
+    },
+    "CANALAVE-CITY-NEWMOON-ISLAND": {
+      "sourceHandle": "left-source",
+      "targetHandle": "right-target"
+    },
+    "CANALAVE-CITY-SS-SINNOH": {
+      "sourceHandle": "bottom-source",
+      "targetHandle": "top-target"
+    },
+    "CELESTIC-RUINS-CELESTIC-TOWN": {
+      "sourceHandle": "bottom-source",
+      "targetHandle": "top-target"
+    },
+    "CELESTIC-TOWN-SINNOH-ROUTE-211": {
+      "sourceHandle": "left-source",
+      "targetHandle": "right-target"
+    },
+    "CELESTIC-TOWN-SINNOH-ROUTE-210": {
+      "sourceHandle": "bottom-source",
+      "targetHandle": "top-target"
+    },
+    "ETERNA-CITY-SINNOH-ROUTE-211": {
+      "sourceHandle": "right-source",
+      "targetHandle": "left-target"
+    },
+    "ETERNA-CITY-SINNOH-ROUTE-206": {
+      "sourceHandle": "bottom-source",
+      "targetHandle": "top-target"
+    },
+    "ETERNA-CITY-TG-ETERNA-BLDG": {
+      "sourceHandle": "top-source",
+      "targetHandle": "bottom-target"
+    },
+    "ETERNA-CITY-ETERNA-FOREST": {
+      "sourceHandle": "left-source",
+      "targetHandle": "right-target"
+    },
+    "ETERNA-FOREST-SINNOH-ROUTE-205": {
+      "sourceHandle": "bottom-source",
+      "targetHandle": "top-target"
+    },
+    "ETERNA-FOREST-OLD-CHATEAU": {
+      "sourceHandle": "left-source",
+      "targetHandle": "right-target"
+    },
+    "FIGHT-AREA-SINNOH-ROUTE-225": {
+      "sourceHandle": "top-source",
+      "targetHandle": "bottom-target"
+    },
+    "FIGHT-AREA-SINNOH-ROUTE-230": {
+      "sourceHandle": "right-source",
+      "targetHandle": "left-target"
+    },
+    "FLOAROMA-MEADOW-FLOAROMA-TOWN": {
+      "sourceHandle": "right-source",
+      "targetHandle": "left-target"
+    },
+    "FLOAROMA-TOWN-SINNOH-ROUTE-204": {
+      "sourceHandle": "bottom-source",
+      "targetHandle": "top-target"
+    },
+    "FLOAROMA-TOWN-SINNOH-ROUTE-205": {
+      "sourceHandle": "top-source",
+      "targetHandle": "bottom-target"
+    },
+    "FLOWER-PARADISE-SEABREAK-PATH": {
+      "sourceHandle": "bottom-source",
+      "targetHandle": "top-target"
+    },
+    "FUEGO-IRONWORKS-SINNOH-ROUTE-205": {
+      "sourceHandle": "right-source",
+      "targetHandle": "left-target"
+    },
+    "GALACTIC-HQ-VEILSTONE-CITY": {
+      "sourceHandle": "bottom-source",
+      "targetHandle": "top-target"
+    },
+    "GRAND-LAKE-SINNOH-ROUTE-213": {
+      "sourceHandle": "left-source",
+      "targetHandle": "right-target"
+    },
+    "GRAND-LAKE-SINNOH-ROUTE-222": {
+      "sourceHandle": "right-source",
+      "targetHandle": "left-target"
+    },
+    "GRAND-LAKE-LAKE-VALOR": {
+      "sourceHandle": "bottom-source",
+      "targetHandle": "top-target"
+    },
+    "GRAND-LAKE-SINNOH-ROUTE-214": {
+      "sourceHandle": "top-source",
+      "targetHandle": "bottom-target"
+    },
+    "GREAT-MARSH-PASTORIA-CITY": {
+      "sourceHandle": "top-source",
+      "targetHandle": "bottom-target"
+    },
+    "HEARTHOME-CITY-SINNOH-ROUTE-208": {
+      "sourceHandle": "left-source",
+      "targetHandle": "right-target"
+    },
+    "HEARTHOME-CITY-SINNOH-ROUTE-209": {
+      "sourceHandle": "top-source",
+      "targetHandle": "bottom-target"
+    },
+    "HEARTHOME-CITY-SINNOH-ROUTE-212": {
+      "sourceHandle": "bottom-source",
+      "targetHandle": "top-target"
+    },
+    "JUBILIFE-CITY-SINNOH-ROUTE-202": {
+      "sourceHandle": "bottom-source",
+      "targetHandle": "top-target"
+    },
+    "JUBILIFE-CITY-SINNOH-ROUTE-203": {
+      "sourceHandle": "right-source",
+      "targetHandle": "left-target"
+    },
+    "JUBILIFE-CITY-SINNOH-ROUTE-218": {
+      "sourceHandle": "left-source",
+      "targetHandle": "right-target"
+    },
+    "JUBILIFE-CITY-JUBILIFE-TV": {
+      "sourceHandle": "left-source",
+      "targetHandle": "right-target"
+    },
+    "JUBILIFE-CITY-RAVAGED-PATH": {
+      "sourceHandle": "top-source",
+      "targetHandle": "bottom-target"
+    },
+    "LAKE-VALOR-VALOR-CAVERN": {
+      "sourceHandle": "bottom-source",
+      "targetHandle": "top-target"
+    },
+    "LAKE-VALOR-SINNOH-ROUTE-214": {
+      "sourceHandle": "top-source",
+      "targetHandle": "bottom-target"
+    },
+    "LAKE-VERITY-SINNOH-ROUTE-201": {
+      "sourceHandle": "right-source",
+      "targetHandle": "left-target"
+    },
+    "LAKE-VERITY-VERITY-CAVERN": {
+      "sourceHandle": "left-source",
+      "targetHandle": "right-target"
+    },
+    "LOST-TOWER-SINNOH-ROUTE-209": {
+      "sourceHandle": "right-source",
+      "targetHandle": "left-target"
+    },
+    "MANIAC-TUNNEL-RUIN-MANIAC-CAVE": {
+      "sourceHandle": "bottom-source",
+      "targetHandle": "top-target"
+    },
+    "MANIAC-TUNNEL-SOLACEON-RUINS": {
+      "sourceHandle": "top-source",
+      "targetHandle": "bottom-target"
+    },
+    "MINING-MUSEUM-OREBURGH-CITY": {
+      "sourceHandle": "top-source",
+      "targetHandle": "bottom-target"
+    },
+    "MT-CORONET-SINNOH-ROUTE-207": {
+      "sourceHandle": "left-source",
+      "targetHandle": "right-target"
+    },
+    "MT-CORONET-SINNOH-ROUTE-208": {
+      "sourceHandle": "bottom-source",
+      "targetHandle": "top-target"
+    },
+    "MT-CORONET-SINNOH-ROUTE-211": {
+      "sourceHandle": "top-source",
+      "targetHandle": "bottom-target"
+    },
+    "MT-CORONET-SINNOH-ROUTE-216": {
+      "sourceHandle": "top-source",
+      "targetHandle": "bottom-target"
+    },
+    "MT-CORONET-SPEAR-PILLAR": {
+      "sourceHandle": "bottom-source",
+      "targetHandle": "top-target"
+    },
+    "OREBURGH-CITY-SINNOH-ROUTE-203": {
+      "sourceHandle": "left-source",
+      "targetHandle": "right-target"
+    },
+    "OREBURGH-CITY-SINNOH-ROUTE-207": {
+      "sourceHandle": "top-source",
+      "targetHandle": "bottom-target"
+    },
+    "OREBURGH-CITY-OREBURGH-MINE": {
+      "sourceHandle": "bottom-source",
+      "targetHandle": "top-target"
+    },
+    "PASTORIA-CITY-SINNOH-ROUTE-213": {
+      "sourceHandle": "right-source",
+      "targetHandle": "left-target"
+    },
+    "PASTORIA-CITY-SINNOH-ROUTE-212": {
+      "sourceHandle": "top-source",
+      "targetHandle": "bottom-target"
+    },
+    "RAVAGED-PATH-SINNOH-ROUTE-204": {
+      "sourceHandle": "top-source",
+      "targetHandle": "bottom-target"
+    },
+    "RESORT-AREA-SINNOH-ROUTE-224": {
+      "sourceHandle": "right-source",
+      "targetHandle": "left-target"
+    },
+    "RESORT-AREA-SINNOH-ROUTE-229": {
+      "sourceHandle": "top-source",
+      "targetHandle": "bottom-target"
+    },
+    "RUIN-MANIAC-CAVE-SINNOH-ROUTE-214": {
+      "sourceHandle": "right-source",
+      "targetHandle": "left-target"
+    },
+    "SANDGEM-TOWN-SINNOH-ROUTE-201": {
+      "sourceHandle": "left-source",
+      "targetHandle": "right-target"
+    },
+    "SANDGEM-TOWN-SINNOH-ROUTE-202": {
+      "sourceHandle": "top-source",
+      "targetHandle": "bottom-target"
+    },
+    "SANDGEM-TOWN-SINNOH-ROUTE-219": {
+      "sourceHandle": "bottom-source",
+      "targetHandle": "top-target"
+    },
+    "SEABREAK-PATH-SINNOH-ROUTE-224": {
+      "sourceHandle": "left-source",
+      "targetHandle": "right-target"
+    },
+    "SENDOFF-SPRING-TURNBACK-CAVE": {
+      "sourceHandle": "bottom-source",
+      "targetHandle": "top-target"
+    },
+    "SINNOH-BATTLE-TOWER-SINNOH-ROUTE-221": {
+      "sourceHandle": "left-source",
+      "targetHandle": "right-target"
+    },
+    "SINNOH-BATTLE-TOWER-SINNOH-ROUTE-229": {
+      "sourceHandle": "left-source",
+      "targetHandle": "right-target"
+    },
+    "SINNOH-POKEMON-LEAGUE-SINNOH-VICTORY-ROAD": {
+      "sourceHandle": "top-source",
+      "targetHandle": "bottom-target"
+    },
+    "SINNOH-POKEMON-LEAGUE-SINNOH-SEA-ROUTE-223": {
+      "sourceHandle": "bottom-source",
+      "targetHandle": "top-target"
+    },
+    "SINNOH-ROUTE-201-TWINLEAF-TOWN": {
+      "sourceHandle": "bottom-source",
+      "targetHandle": "top-target"
+    },
+    "SINNOH-ROUTE-205-VALLEY-WINDWORKS": {
+      "sourceHandle": "right-source",
+      "targetHandle": "left-target"
+    },
+    "SINNOH-ROUTE-206-SINNOH-ROUTE-207": {
+      "sourceHandle": "bottom-source",
+      "targetHandle": "top-target"
+    },
+    "SINNOH-ROUTE-206-WAYWARD-CAVE": {
+      "sourceHandle": "right-source",
+      "targetHandle": "left-target"
+    },
+    "SINNOH-ROUTE-209-SOLACEON-TOWN": {
+      "sourceHandle": "top-source",
+      "targetHandle": "bottom-target"
+    },
+    "SINNOH-ROUTE-210-SOLACEON-TOWN": {
+      "sourceHandle": "bottom-source",
+      "targetHandle": "top-target"
+    },
+    "SINNOH-ROUTE-210-SINNOH-ROUTE-215": {
+      "sourceHandle": "right-source",
+      "targetHandle": "left-target"
+    },
+    "SINNOH-ROUTE-212-SINNOH-VILLA": {
+      "sourceHandle": "left-source",
+      "targetHandle": "right-target"
+    },
+    "SINNOH-ROUTE-214-VEILSTONE-CITY": {
+      "sourceHandle": "top-source",
+      "targetHandle": "bottom-target"
+    },
+    "SINNOH-ROUTE-214-SPRING-PATH": {
+      "sourceHandle": "top-source",
+      "targetHandle": "bottom-target"
+    },
+    "SINNOH-ROUTE-215-VEILSTONE-CITY": {
+      "sourceHandle": "right-source",
+      "targetHandle": "left-target"
+    },
+    "SINNOH-ROUTE-216-SINNOH-ROUTE-217": {
+      "sourceHandle": "top-source",
+      "targetHandle": "bottom-target"
+    },
+    "SINNOH-ROUTE-217-SNOWPOINT-CITY": {
+      "sourceHandle": "top-source",
+      "targetHandle": "bottom-target"
+    },
+    "SINNOH-ROUTE-219-SINNOH-SEA-ROUTE-220": {
+      "sourceHandle": "right-source",
+      "targetHandle": "left-target"
+    },
+    "SINNOH-ROUTE-221-SINNOH-SEA-ROUTE-220": {
+      "sourceHandle": "left-source",
+      "targetHandle": "right-target"
+    },
+    "SINNOH-ROUTE-222-SUNYSHORE-CITY": {
+      "sourceHandle": "right-source",
+      "targetHandle": "left-target"
+    },
+    "SINNOH-ROUTE-224-SINNOH-VICTORY-ROAD": {
+      "sourceHandle": "bottom-source",
+      "targetHandle": "top-target"
+    },
+    "SINNOH-ROUTE-225-SURVIVAL-AREA": {
+      "sourceHandle": "top-source",
+      "targetHandle": "bottom-target"
+    },
+    "SINNOH-ROUTE-226-SINNOH-ROUTE-227": {
+      "sourceHandle": "top-source",
+      "targetHandle": "bottom-target"
+    },
+    "SINNOH-ROUTE-226-SINNOH-ROUTE-228": {
+      "sourceHandle": "right-source",
+      "targetHandle": "left-target"
+    },
+    "SINNOH-ROUTE-226-SURVIVAL-AREA": {
+      "sourceHandle": "left-source",
+      "targetHandle": "right-target"
+    },
+    "SINNOH-ROUTE-227-STARK-MOUNTAIN": {
+      "sourceHandle": "top-source",
+      "targetHandle": "bottom-target"
+    },
+    "SINNOH-ROUTE-228-SINNOH-ROUTE-229": {
+      "sourceHandle": "bottom-source",
+      "targetHandle": "top-target"
+    },
+    "SINNOH-ROUTE-229-SINNOH-ROUTE-230": {
+      "sourceHandle": "left-source",
+      "targetHandle": "right-target"
+    },
+    "SINNOH-SEA-ROUTE-223-SUNYSHORE-CITY": {
+      "sourceHandle": "bottom-source",
+      "targetHandle": "top-target"
+    },
+    "SINNOH-VILLA-TROPHY-GARDEN": {
+      "sourceHandle": "bottom-source",
+      "targetHandle": "top-target"
+    },
+    "SNOWPOINT-CITY-SNOWPOINT-TEMPLE": {
+      "sourceHandle": "top-source",
+      "targetHandle": "bottom-target"
+    },
+    "SNOWPOINT-CITY-SNOWPOINT-WAREHOUSE": {
+      "sourceHandle": "right-source",
+      "targetHandle": "left-target"
+    },
+    "SOLACEON-RUINS-SOLACEON-TOWN": {
+      "sourceHandle": "left-source",
+      "targetHandle": "right-target"
+    },
+    "SPRING-PATH-TURNBACK-CAVE": {
+      "sourceHandle": "top-source",
+      "targetHandle": "bottom-target"
+    },
+    "ABUNDANT-SHRINE-UNOVA-ROUTE-14": {
+      "sourceHandle": "left-source",
+      "targetHandle": "right-target"
+    },
+    "ABYSSAL-RUINS-UNDELLA-BAY": {
+      "sourceHandle": "left-source",
+      "targetHandle": "right-target"
+    },
+    "ACCUMULA-TOWN-UNOVA-ROUTE-1": {
+      "sourceHandle": "left-source",
+      "targetHandle": "right-target"
+    },
+    "ACCUMULA-TOWN-UNOVA-ROUTE-2": {
+      "sourceHandle": "top-source",
+      "targetHandle": "bottom-target"
+    },
+    "ANVILLE-TOWN-NIMBASA-CITY": {
+      "sourceHandle": "bottom-source",
+      "targetHandle": "top-target"
+    },
+    "ASPERTIA-CITY-UNOVA-ROUTE-19": {
+      "sourceHandle": "left-source",
+      "targetHandle": "right-target"
+    },
+    "BLACK-CITY-UNOVA-ROUTE-15": {
+      "sourceHandle": "top-source",
+      "targetHandle": "bottom-target"
+    },
+    "BLACK-CITY-WHITE-FOREST": {
+      "sourceHandle": "right-source",
+      "targetHandle": "left-target"
+    },
+    "CASTELIA-CITY-UNOVA-ROUTE-4": {
+      "sourceHandle": "top-source",
+      "targetHandle": "bottom-target"
+    },
+    "CASTELIA-CITY-SKYARROW-BRIDGE": {
+      "sourceHandle": "right-source",
+      "targetHandle": "left-target"
+    },
+    "CASTELIA-CITY-LIBERTY-GARDEN": {
+      "sourceHandle": "right-source",
+      "targetHandle": "left-target"
+    },
+    "CASTELIA-CITY-UNITY-TOWER": {
+      "sourceHandle": "bottom-source",
+      "targetHandle": "top-target"
+    },
+    "CASTELIA-CITY-ROYAL-UNOVA": {
+      "sourceHandle": "left-source",
+      "targetHandle": "right-target"
+    },
+    "CASTELIA-CITY-CASTELIA-SEWERS": {
+      "sourceHandle": "left-source",
+      "targetHandle": "right-target"
+    },
+    "CASTELIA-SEWERS-RELIC-PASSAGE": {
+      "sourceHandle": "left-source",
+      "targetHandle": "right-target"
+    },
+    "CAVE-OF-BEING-UNOVA-ROUTE-20": {
+      "sourceHandle": "left-source",
+      "targetHandle": "right-target"
+    },
+    "CELESTIAL-TOWER-UNOVA-ROUTE-7": {
+      "sourceHandle": "bottom-source",
+      "targetHandle": "top-target"
+    },
+    "CHALLENGERS-CAVE-UNOVA-ROUTE-9": {
+      "sourceHandle": "bottom-source",
+      "targetHandle": "top-target"
+    },
+    "CHARGESTONE-CAVE-UNOVA-ROUTE-6": {
+      "sourceHandle": "right-source",
+      "targetHandle": "left-target"
+    },
+    "CHARGESTONE-CAVE-MISTRALTON-CITY": {
+      "sourceHandle": "top-source",
+      "targetHandle": "bottom-target"
+    },
+    "CLAY-TUNNEL-TWIST-MOUNTAIN": {
+      "sourceHandle": "top-source",
+      "targetHandle": "bottom-target"
+    },
+    "CLAY-TUNNEL-DRIFTVEIL-CITY": {
+      "sourceHandle": "bottom-source",
+      "targetHandle": "top-target"
+    },
+    "CLAY-TUNNEL-UNDERGROUND-RUINS": {
+      "sourceHandle": "right-source",
+      "targetHandle": "left-target"
+    },
+    "CLAY-TUNNEL-MISTRALTON-CAVE": {
+      "sourceHandle": "left-source",
+      "targetHandle": "right-target"
+    },
+    "COLD-STORAGE-DRIFTVEIL-CITY": {
+      "sourceHandle": "top-source",
+      "targetHandle": "bottom-target"
+    },
+    "DESERT-RESORT-UNOVA-ROUTE-4": {
+      "sourceHandle": "right-source",
+      "targetHandle": "left-target"
+    },
+    "DESERT-RESORT-RELIC-CASTLE": {
+      "sourceHandle": "left-source",
+      "targetHandle": "right-target"
+    },
+    "DRAGONSPIRAL-TOWER-ICIRRUS-CITY": {
+      "sourceHandle": "top-source",
+      "targetHandle": "bottom-target"
+    },
+    "DREAMYARD-UNOVA-ROUTE-3": {
+      "sourceHandle": "left-source",
+      "targetHandle": "right-target"
+    },
+    "DREAMYARD-STRIATON-CITY": {
+      "sourceHandle": "bottom-source",
+      "targetHandle": "top-target"
+    },
+    "DRIFTVEIL-CITY-DRIFTVEIL-DRAWBRIDGE": {
+      "sourceHandle": "right-source",
+      "targetHandle": "left-target"
+    },
+    "DRIFTVEIL-CITY-UNOVA-ROUTE-6": {
+      "sourceHandle": "left-source",
+      "targetHandle": "right-target"
+    },
+    "DRIFTVEIL-DRAWBRIDGE-UNOVA-ROUTE-5": {
+      "sourceHandle": "right-source",
+      "targetHandle": "left-target"
+    },
+    "FLOCCESY-RANCH-UNOVA-ROUTE-20": {
+      "sourceHandle": "right-source",
+      "targetHandle": "left-target"
+    },
+    "FLOCCESY-TOWN-UNOVA-ROUTE-19": {
+      "sourceHandle": "right-source",
+      "targetHandle": "left-target"
+    },
+    "FLOCCESY-TOWN-UNOVA-ROUTE-20": {
+      "sourceHandle": "top-source",
+      "targetHandle": "bottom-target"
+    },
+    "FLOCCESY-TOWN-PLEDGE-GROVE": {
+      "sourceHandle": "left-source",
+      "targetHandle": "right-target"
+    },
+    "GEAR-STATION-NIMBASA-CITY": {
+      "sourceHandle": "bottom-source",
+      "targetHandle": "top-target"
+    },
+    "GIANT-CHASM-UNOVA-ROUTE-13": {
+      "sourceHandle": "bottom-source",
+      "targetHandle": "top-target"
+    },
+    "GIANT-CHASM-UNOVA-ROUTE-22": {
+      "sourceHandle": "right-source",
+      "targetHandle": "left-target"
+    },
+    "GIANT-CHASM-UNOVA-ROUTE-23": {
+      "sourceHandle": "left-source",
+      "targetHandle": "right-target"
+    },
+    "HUMILAU-CITY-UNOVA-ROUTE-21": {
+      "sourceHandle": "left-source",
+      "targetHandle": "right-target"
+    },
+    "HUMILAU-CITY-UNOVA-ROUTE-22": {
+      "sourceHandle": "left-source",
+      "targetHandle": "right-target"
+    },
+    "HUMILAU-CITY-MARINE-TUBE": {
+      "sourceHandle": "bottom-source",
+      "targetHandle": "top-target"
+    },
+    "ICIRRUS-CITY-TWIST-MOUNTAIN": {
+      "sourceHandle": "left-source",
+      "targetHandle": "right-target"
+    },
+    "ICIRRUS-CITY-UNOVA-ROUTE-8": {
+      "sourceHandle": "top-source",
+      "targetHandle": "bottom-target"
+    },
+    "CASTELIA-CITY-JOIN-AVENUE": {
+      "sourceHandle": "top-source",
+      "targetHandle": "bottom-target"
+    },
+    "LACUNOSA-TOWN-UNOVA-ROUTE-13": {
+      "sourceHandle": "right-source",
+      "targetHandle": "left-target"
+    },
+    "LACUNOSA-TOWN-UNOVA-ROUTE-12": {
+      "sourceHandle": "top-source",
+      "targetHandle": "bottom-target"
+    },
+    "LENTIMAS-TOWN-MISTRALTON-CITY": {
+      "sourceHandle": "left-source",
+      "targetHandle": "right-target"
+    },
+    "LENTIMAS-TOWN-REVERSAL-MOUNTAIN": {
+      "sourceHandle": "right-source",
+      "targetHandle": "left-target"
+    },
+    "LOSTLORN-FOREST-UNOVA-ROUTE-16": {
+      "sourceHandle": "bottom-source",
+      "targetHandle": "top-target"
+    },
+    "MARINE-TUBE-UNDELLA-TOWN": {
+      "sourceHandle": "left-source",
+      "targetHandle": "right-target"
+    },
+    "MARVELOUS-BRIDGE-UNOVA-ROUTE-15": {
+      "sourceHandle": "right-source",
+      "targetHandle": "left-target"
+    },
+    "MARVELOUS-BRIDGE-UNOVA-ROUTE-16": {
+      "sourceHandle": "left-source",
+      "targetHandle": "right-target"
+    },
+    "MISTRALTON-CAVE-UNOVA-ROUTE-6": {
+      "sourceHandle": "bottom-source",
+      "targetHandle": "top-target"
+    },
+    "MISTRALTON-CITY-UNOVA-ROUTE-7": {
+      "sourceHandle": "top-source",
+      "targetHandle": "bottom-target"
+    },
+    "MISTRALTON-CITY-NATURE-SANCTUARY": {
+      "sourceHandle": "right-source",
+      "targetHandle": "left-target"
+    },
+    "MOOR-OF-ICIRRUS-UNOVA-ROUTE-8": {
+      "sourceHandle": "bottom-source",
+      "targetHandle": "top-target"
+    },
+    "NACRENE-CITY-UNOVA-ROUTE-3": {
+      "sourceHandle": "right-source",
+      "targetHandle": "left-target"
+    },
+    "NACRENE-CITY-PINWHEEL-FOREST": {
+      "sourceHandle": "left-source",
+      "targetHandle": "right-target"
+    },
+    "NIMBASA-CITY-UNOVA-ROUTE-4": {
+      "sourceHandle": "bottom-source",
+      "targetHandle": "top-target"
+    },
+    "NIMBASA-CITY-UNOVA-ROUTE-5": {
+      "sourceHandle": "left-source",
+      "targetHandle": "right-target"
+    },
+    "NIMBASA-CITY-UNOVA-ROUTE-16": {
+      "sourceHandle": "right-source",
+      "targetHandle": "left-target"
+    },
+    "NUVEMA-TOWN-UNOVA-ROUTE-1": {
+      "sourceHandle": "bottom-source",
+      "targetHandle": "top-target"
+    },
+    "OPELUCID-CITY-UNOVA-ROUTE-9": {
+      "sourceHandle": "left-source",
+      "targetHandle": "right-target"
+    },
+    "OPELUCID-CITY-UNOVA-ROUTE-10": {
+      "sourceHandle": "top-source",
+      "targetHandle": "bottom-target"
+    },
+    "OPELUCID-CITY-UNOVA-ROUTE-11": {
+      "sourceHandle": "right-source",
+      "targetHandle": "left-target"
+    },
+    "PINWHEEL-FOREST-SKYARROW-BRIDGE": {
+      "sourceHandle": "left-source",
+      "targetHandle": "right-target"
+    },
+    "POKESTAR-STUDIOS-VIRBANK-CITY": {
+      "sourceHandle": "right-source",
+      "targetHandle": "left-target"
+    },
+    "RELIC-CASTLE-RELIC-PASSAGE": {
+      "sourceHandle": "bottom-source",
+      "targetHandle": "top-target"
+    },
+    "REVERSAL-MOUNTAIN-UNDELLA-TOWN": {
+      "sourceHandle": "right-source",
+      "targetHandle": "left-target"
+    },
+    "REVERSAL-MOUNTAIN-STRANGE-HOUSE": {
+      "sourceHandle": "bottom-source",
+      "targetHandle": "top-target"
+    },
+    "SEASIDE-CAVE-UNOVA-ROUTE-21": {
+      "sourceHandle": "top-source",
+      "targetHandle": "bottom-target"
+    },
+    "SEASIDE-CAVE-UNDELLA-BAY": {
+      "sourceHandle": "top-source",
+      "targetHandle": "bottom-target"
+    },
+    "STRIATON-CITY-UNOVA-ROUTE-2": {
+      "sourceHandle": "bottom-source",
+      "targetHandle": "top-target"
+    },
+    "TUBELINE-BRIDGE-UNOVA-ROUTE-8": {
+      "sourceHandle": "left-source",
+      "targetHandle": "right-target"
+    },
+    "TUBELINE-BRIDGE-UNOVA-ROUTE-9": {
+      "sourceHandle": "top-source",
+      "targetHandle": "bottom-target"
+    },
+    "TWIST-MOUNTAIN-UNOVA-ROUTE-7": {
+      "sourceHandle": "left-source",
+      "targetHandle": "right-target"
+    },
+    "UNDELLA-BAY-UNDELLA-TOWN": {
+      "sourceHandle": "left-source",
+      "targetHandle": "right-target"
+    },
+    "UNDELLA-TOWN-UNOVA-ROUTE-13": {
+      "sourceHandle": "top-source",
+      "targetHandle": "bottom-target"
+    },
+    "UNDELLA-TOWN-UNOVA-ROUTE-14": {
+      "sourceHandle": "bottom-source",
+      "targetHandle": "top-target"
+    },
+    "UNOVA-POKEMON-LEAGUE-UNOVA-VICTORY-ROAD": {
+      "sourceHandle": "left-source",
+      "targetHandle": "right-target"
+    },
+    "UNOVA-ROUTE-1-UNOVA-ROUTE-17": {
+      "sourceHandle": "bottom-source",
+      "targetHandle": "top-target"
+    },
+    "UNOVA-ROUTE-10-UNOVA-VICTORY-ROAD": {
+      "sourceHandle": "top-source",
+      "targetHandle": "bottom-target"
+    },
+    "UNOVA-ROUTE-11-VILLAGE-BRIDGE": {
+      "sourceHandle": "bottom-source",
+      "targetHandle": "top-target"
+    },
+    "UNOVA-ROUTE-12-VILLAGE-BRIDGE": {
+      "sourceHandle": "left-source",
+      "targetHandle": "right-target"
+    },
+    "UNOVA-ROUTE-14-WHITE-FOREST": {
+      "sourceHandle": "bottom-source",
+      "targetHandle": "top-target"
+    },
+    "UNDELLA-TOWN-UNOVA-ROUTE-17": {
+      "sourceHandle": "top-source",
+      "targetHandle": "bottom-target"
+    },
+    "UNDELLA-BAY-UNOVA-ROUTE-17": {
+      "sourceHandle": "top-source",
+      "targetHandle": "bottom-target"
+    },
+    "UNDELLA-TOWN-UNOVA-ROUTE-18": {
+      "sourceHandle": "top-source",
+      "targetHandle": "bottom-target"
+    },
+    "SEASIDE-CAVE-UNOVA-ROUTE-18": {
+      "sourceHandle": "top-source",
+      "targetHandle": "bottom-target"
+    },
+    "UNOVA-ROUTE-20-VIRBANK-CITY": {
+      "sourceHandle": "top-source",
+      "targetHandle": "bottom-target"
+    },
+    "UNDELLA-BAY-UNOVA-ROUTE-21": {
+      "sourceHandle": "bottom-source",
+      "targetHandle": "top-target"
+    },
+    "UNOVA-ROUTE-3-WELLSPRING-CAVE": {
+      "sourceHandle": "top-source",
+      "targetHandle": "bottom-target"
+    },
+    "CASTELIA-CITY-VIRBANK-CITY": {
+      "sourceHandle": "right-source",
+      "targetHandle": "left-target"
+    },
+    "VIRBANK-CITY-VIRBANK-COMPLEX": {
+      "sourceHandle": "left-source",
+      "targetHandle": "right-target"
+    },
+    "ANVILLE-TOWN-MISTRALTON-CITY": {
+      "sourceHandle": "right-source",
+      "targetHandle": "left-target"
+    },
+    "UNOVA-ROUTE-17-UNOVA-ROUTE-18": {
+      "sourceHandle": "left-source",
+      "targetHandle": "right-target"
+    },
+    "NUVEMA-TOWN-UNOVA-ROUTE-17": {
+      "sourceHandle": "top-source",
+      "targetHandle": "bottom-target"
+    }
+  }
+}

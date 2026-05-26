@@ -2484,7 +2484,7 @@
                 // Грузим все файлы параллельно
                 const [locRes, layRes, pokRes, npcsRes, pkRuRes, profRes, profAffRes, pkFormsRes, itemsRes, itemMapRes, pkUpperRes] = await Promise.all([
                     fetch('../json/locations.json'),
-                    fetch('../json/location_layout.json'),
+                    fetch('../json/kanto_xz.json'),
                     fetch('../json/pokemon_names.json'),
                     fetch('../json/npcs.json').catch(() => ({ ok: false })),
                     fetch('../json/pokemon_ru.json').catch(() => ({ ok: false })),
@@ -2496,7 +2496,15 @@
                     fetch('../json/pokemon_names_upper.json').catch(() => ({ ok: false }))
                 ]);
                 const rawLocs = await locRes.json();
-                const rawLay = await layRes.json();
+                
+                let rawLay;
+                const urlParams = new URLSearchParams(window.location.search);
+                if (urlParams.get('preview') === '1' && sessionStorage.getItem('mapPreviewData')) {
+                    rawLay = JSON.parse(sessionStorage.getItem('mapPreviewData'));
+                } else {
+                    rawLay = await layRes.json();
+                }
+
                 const rawPok = await pokRes.json();
 
                 // Дополнительные данные (с fallback)

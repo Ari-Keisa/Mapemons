@@ -52,6 +52,20 @@
         }
         .btn-export:hover { transform: scale(1.05); }
 
+        .btn-import {
+            background: linear-gradient(90deg, #44a08d, #2d7a2d);
+            color: white; border: none; padding: 10px 20px;
+            border-radius: 8px; font-weight: bold; cursor: pointer; transition: 0.3s;
+        }
+        .btn-import:hover { transform: scale(1.05); }
+
+        .btn-preview {
+            background: linear-gradient(90deg, #9370db, #5b32a8);
+            color: white; border: none; padding: 10px 20px;
+            border-radius: 8px; font-weight: bold; cursor: pointer; transition: 0.3s;
+        }
+        .btn-preview:hover { transform: scale(1.05); }
+
         /* РАБОЧАЯ ОБЛАСТЬ И КАМЕРА */
         .workspace-wrapper {
             position: absolute;
@@ -124,9 +138,9 @@
                 font-size: 1rem;
             }
             .workspace-wrapper {
-                top: 140px; /* Approximate height of stacked toolbar */
+                top: 220px; /* Approximate height of stacked toolbar */
             }
-            .btn-export {
+            .btn-export, .btn-import, .btn-preview {
                 width: 100%;
                 padding: 8px;
             }
@@ -173,6 +187,8 @@
         <select id="regionSelect" style="background:#1a1a2e; color:var(--primary); font-size:1rem; padding:5px; border:1px solid var(--primary); border-radius:5px;" onchange="changeRegion(this.value)">
         </select>
         <div class="status-counter" id="intersectionsCount">Считаем линии...</div>
+        <button class="btn-preview" onclick="openPreview()">👀 ПРЕДПРОСМОТР</button>
+        <button class="btn-import" onclick="openImportModal()">📥 ИМПОРТ</button>
         <button class="btn-export" onclick="exportData()">💾 СКОПИРОВАТЬ JSON</button>
     </div>
 
@@ -207,6 +223,28 @@
                 <button class="btn-export" style="padding: 10px; width: auto; margin: 0;" onclick="copyExportText()">📋 Скопировать</button>
                 <button class="btn-close" style="align-self: auto;" onclick="document.getElementById('exportModal').style.display='none'">Закрыть</button>
             </div>
+        </div>
+    </div>
+
+    <div class="modal" id="importModal">
+        <div class="modal-content">
+            <h2 style="margin:0; color:var(--primary);">Импорт координат</h2>
+            <p style="margin:0; color:#aaa;">Вставь сюда JSON-код с координатами, чтобы продолжить редактирование 🗺️</p>
+            <textarea id="importTextarea" placeholder="Вставь JSON сюда..."></textarea>
+            <div style="display: flex; gap: 10px; align-self: flex-end;">
+                <button class="btn-import" style="padding: 10px; width: auto; margin: 0;" onclick="applyImport()">✅ Применить</button>
+                <button class="btn-close" style="align-self: auto;" onclick="document.getElementById('importModal').style.display='none'">Отмена</button>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal" id="previewModal">
+        <div class="modal-content" style="width: 95%; height: 95%; max-width: none; max-height: none; padding: 10px;">
+            <div style="display: flex; justify-content: space-between; align-items: center;">
+                <h2 style="margin:0; color:var(--primary);">Предпросмотр</h2>
+                <button class="btn-close" onclick="document.getElementById('previewModal').style.display='none'">Закрыть</button>
+            </div>
+            <iframe id="previewFrame" style="width: 100%; flex-grow: 1; border: 2px solid var(--primary); border-radius: 10px; background: #0f0c29;"></iframe>
         </div>
     </div>
 
@@ -788,6 +826,50 @@
             const originalText = btn.innerHTML;
             btn.innerHTML = '✅ Скопировано!';
             setTimeout(() => { btn.innerHTML = originalText; }, 2000);
+        }
+
+        function openImportModal() {
+            document.getElementById('importTextarea').value = '';
+            document.getElementById('importModal').style.display = 'flex';
+        }
+
+        function applyImport() {
+            try {
+                const text = document.getElementById('importTextarea').value;
+                const newLayout = JSON.parse(text);
+                
+                if (!newLayout || !newLayout.nodes) {
+                    throw new Error("Неверный формат JSON (отсутствует nodes)");
+                }
+
+                originalLayoutData = newLayout;
+                buildMapForRegion(currentRegion);
+                
+                document.getElementById('importModal').style.display = 'none';
+                
+                const btn = document.querySelector('.toolbar .btn-import');
+                const originalText = btn.innerHTML;
+                btn.innerHTML = '✅ Загружено!';
+                setTimeout(() => { btn.innerHTML = originalText; }, 2000);
+            } catch (err) {
+                alert('Ошибка при импорте! Проверь, правильно ли скопирован код.\n' + err.message);
+            }
+        }
+
+        function openPreview() {
+            if (!originalLayoutData) return;
+            saveCurrentRegionChanges();
+            
+            // Сохраняем во временное хранилище браузера
+            const exportObj = JSON.parse(JSON.stringify(originalLayoutData));
+            sessionStorage.setItem('mapPreviewData', JSON.stringify(exportObj));
+            
+            // Открываем фрейм
+            const iframe = document.getElementById('previewFrame');
+            // Переводим регион в нижний регистр для имени файла (KANTO -> kanto.html)
+            iframe.src = currentRegion.toLowerCase() + '.html?preview=1';
+            
+            document.getElementById('previewModal').style.display = 'flex';
         }
 
         initEditor();
