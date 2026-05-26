@@ -509,17 +509,36 @@ document.addEventListener('DOMContentLoaded', function () {
 
             const isMatchItem = (itemsArray) => {
                 if (!itemsArray) return false;
-                return itemsArray.some(rawStr => {
+                // Count how many items in the array match via substring/fuzzy
+                // If more than one matches, the query is ambiguous — require exact match only
+                let exactMatch = false;
+                let fuzzyMatches = 0;
+
+                for (const rawStr of itemsArray) {
                     const cleanRaw = norm(rawStr);
-                    return targetSearchStrings.some(tsClean => {
-                        if (!tsClean) return false;
-                        if (cleanRaw === tsClean) return true;
-                        if (tsClean.length > 3 && cleanRaw.includes(tsClean)) return true;
-                        // Use fuzzy matching for substring if it's close enough
-                        if (tsClean.length > 3 && window.itemSimilarity(cleanRaw, tsClean) > 0.85) return true;
-                        return false;
-                    });
-                });
+                    for (const tsClean of targetSearchStrings) {
+                        if (!tsClean) continue;
+                        // Exact match — always valid
+                        if (cleanRaw === tsClean) {
+                            exactMatch = true;
+                            break;
+                        }
+                        // Substring or fuzzy match — count how many items it hits
+                        if (tsClean.length > 3 && (cleanRaw.includes(tsClean) || window.itemSimilarity(cleanRaw, tsClean) > 0.85)) {
+                            fuzzyMatches++;
+                        }
+                    }
+                    if (exactMatch) break;
+                }
+
+                // If exact match found — always return true
+                if (exactMatch) return true;
+
+                // If fuzzy/substring matched exactly 1 item — it's unique enough
+                if (fuzzyMatches === 1) return true;
+
+                // If fuzzy/substring matched 0 or multiple items — ambiguous, reject
+                return false;
             };
 
             const rel = window.itemsRelationsData;
@@ -643,7 +662,28 @@ document.addEventListener('DOMContentLoaded', function () {
                 if (itemObj) {
                     messageHtml = `<div style="padding:15px; border-left:5px solid #ffcc00; background:rgba(255,215,0,0.1); border-radius:10px; margin-bottom:20px; line-height:1.5;">Извините, но местонахождение <b>${titleName}</b> не найдено.</div>`;
                 } else {
-                    renderError(`Предмет "<b>${rawQuery}</b>" не найден.`);
+                    // Check if the query is ambiguous — matches multiple items
+                    const norm2 = str => str.toLowerCase().replace(/ё/g, 'е').replace(/[^а-яa-z0-9]/g, '');
+                    const qNorm2 = norm2(rawQuery);
+                    let suggestions = [];
+                    if (window.itemsData && qNorm2.length >= 3) {
+                        for (const key in window.itemsData) {
+                            const it = window.itemsData[key];
+                            const ruN = norm2(it.RuName || '');
+                            const enN = norm2(it.Name || '');
+                            if (ruN.includes(qNorm2) || enN.includes(qNorm2) ||
+                                window.itemSimilarity(qNorm2, ruN) > 0.6 ||
+                                window.itemSimilarity(qNorm2, enN) > 0.6) {
+                                suggestions.push(it.RuName || it.Name);
+                            }
+                        }
+                    }
+                    if (suggestions.length > 1) {
+                        const list = suggestions.slice(0, 10).map(s => `<b>${s}</b>`).join(', ');
+                        renderError(`Запрос "<b>${rawQuery}</b>" слишком общий — найдено несколько предметов: ${list}.<br>Пожалуйста, уточните название.`);
+                    } else {
+                        renderError(`Предмет "<b>${rawQuery}</b>" не найден.`);
+                    }
                     return;
                 }
             }

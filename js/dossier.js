@@ -26,23 +26,46 @@ window.fuzzyMatchItemKey = function(queryStr, itemsDataObj) {
     if (!queryStr || !itemsDataObj) return null;
     const norm = str => str.toLowerCase().replace(/ё/g, 'е').replace(/[^а-яa-z0-9]/g, '');
     const qNorm = norm(queryStr);
+
+    // 1. Exact match — always return immediately
     for (const key in itemsDataObj) {
         const item = itemsDataObj[key];
         if (norm(item.RuName || "") === qNorm || norm(item.Name || "") === qNorm) return key;
     }
-    let bestKey = null;
-    let bestScore = 0;
+
+    // 2. Collect ALL fuzzy candidates with their scores
+    const candidates = [];
     for (const key in itemsDataObj) {
         const item = itemsDataObj[key];
         const rScore = window.itemSimilarity(qNorm, norm(item.RuName || ""));
         const eScore = window.itemSimilarity(qNorm, norm(item.Name || ""));
         const score = Math.max(rScore, eScore);
-        if (score > bestScore) {
-            bestScore = score;
-            bestKey = key;
+        if (score > 0.55) {
+            candidates.push({ key, score });
         }
     }
-    if (bestScore > 0.70) return bestKey;
+
+    if (candidates.length === 0) return null;
+
+    // Sort by score descending
+    candidates.sort((a, b) => b.score - a.score);
+    const best = candidates[0];
+
+    // 3. If there is only ONE candidate above threshold — it's unique, return it
+    if (candidates.length === 1 && best.score > 0.55) return best.key;
+
+    // 4. If there are MULTIPLE candidates, check if the best is clearly better
+    //    than the second best (gap > 0.15). If not — the query is ambiguous, return null.
+    if (candidates.length >= 2) {
+        const secondBest = candidates[1];
+        const gap = best.score - secondBest.score;
+        // Clear winner — big gap between #1 and #2
+        if (gap > 0.15 && best.score > 0.70) return best.key;
+        // Ambiguous — multiple similar items match, don't guess
+        return null;
+    }
+
+    if (best.score > 0.70) return best.key;
     return null;
 };
 
