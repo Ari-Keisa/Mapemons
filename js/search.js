@@ -500,6 +500,48 @@ document.addEventListener('DOMContentLoaded', function () {
             let itemObj = window.itemsData && foundId ? window.itemsData[foundId] : null;
             let titleName = itemObj ? itemObj.RuName || itemObj.Name : rawQuery;
 
+            // === EARLY AMBIGUITY CHECK ===
+            // If no specific item was identified, check if the query is a generic word
+            // that matches multiple items. If so, ask the user to clarify BEFORE
+            // proceeding to the items_relations search.
+            if (!itemObj && window.itemsData) {
+                const matchingItems = [];
+                for (const key in window.itemsData) {
+                    const it = window.itemsData[key];
+                    const ruN = norm(it.RuName || '');
+                    const enN = norm(it.Name || '');
+                    if ((normQuery.length >= 3 && ruN.includes(normQuery)) ||
+                        (normQuery.length >= 3 && enN.includes(normQuery))) {
+                        matchingItems.push(it.RuName || it.Name);
+                    }
+                }
+                if (matchingItems.length > 1) {
+                    const list = matchingItems.slice(0, 15).map(s => `<b>${s}</b>`).join(', ');
+                    const trailing = matchingItems.length > 15 ? ` и ещё ${matchingItems.length - 15}...` : '';
+                    els.title.innerHTML = '<i class="fas fa-search"></i> Уточните запрос';
+                    els.content.innerHTML = `<div style="text-align:center; padding:30px; color:#ffcc00;">
+                        Пожалуйста, уточните какой именно <b>${rawQuery}</b> вас интересует?<br><br>
+                        <div style="color:#ccc; font-size:0.95em; line-height:2;">Найдено: ${list}${trailing}</div>
+                    </div>`;
+                    return;
+                }
+                // If exactly 1 match — use that item as the resolved one
+                if (matchingItems.length === 1) {
+                    for (const key in window.itemsData) {
+                        const it = window.itemsData[key];
+                        const ruN = norm(it.RuName || '');
+                        const enN = norm(it.Name || '');
+                        if ((normQuery.length >= 3 && ruN.includes(normQuery)) ||
+                            (normQuery.length >= 3 && enN.includes(normQuery))) {
+                            foundId = key;
+                            itemObj = it;
+                            titleName = it.RuName || it.Name;
+                            break;
+                        }
+                    }
+                }
+            }
+
             let targetSearchStrings = [];
             if (itemObj) {
                 if (itemObj.RuName) targetSearchStrings.push(norm(itemObj.RuName));
