@@ -387,9 +387,9 @@
         }
 
         .filter-btn.active {
-            background: var(--accent);
-            border-color: var(--accent);
-            box-shadow: 0 0 15px rgba(255, 107, 107, 0.5);
+            background: var(--btn-color, var(--accent));
+            border-color: var(--btn-color, var(--accent));
+            box-shadow: 0 0 15px var(--btn-color, rgba(255, 107, 107, 0.5));
         }
 
         .filter-btn.inactive {
@@ -2953,6 +2953,9 @@
                 const btn = document.createElement('button');
                 btn.className = 'filter-btn active';
                 btn.dataset.type = filter.type;
+                if (locationTypes[filter.type]) {
+                    btn.style.setProperty('--btn-color', locationTypes[filter.type].color);
+                }
                 btn.innerHTML = `${filter.icon} ${filter.label}`;
                 btn.addEventListener('click', () => toggleFilter(filter.type));
                 container.appendChild(btn);
