@@ -843,7 +843,7 @@ function openPokemonDossier(pkId, isShiny = false, formIndex = null) {
             bg = 'rgba(255,107,107,0.1)';
         } else {
             if (pk && pk.is_starter) {
-                message = `Покемон <b>${enName}</b> (<i>${ruName}</i>) является стартовым и в дикой природе не встречается.`;
+                message = `Покемон <b>${enName}</b> (<i>${ruName}</i>) является стартовым и в дикой природе не встречается. Его можно получить из <b>🎁 Коробки со стартовиком</b>.`;
                 color = '#FFD700';
                 bg = 'rgba(255,215,0,0.1)';
             } else {

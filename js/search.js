@@ -76,6 +76,7 @@ document.addEventListener('DOMContentLoaded', function () {
     window.pokemonNamesUpper = null;
     let searchIndex = {};
     let itemSearchIndex = {};
+    let npcSearchIndex = {};
 
     const typeIcons = {
         "grass": "🌿", "fire": "🔥", "water": "💧", "electric": "⚡️", "poison": "☠️",
@@ -108,11 +109,15 @@ document.addEventListener('DOMContentLoaded', function () {
                 fetch('json/item.json').catch(() => ({ok: false})),
                 fetch('json/items.json').catch(() => ({ok: false})),
                 fetch('json/emoji_combos.json').catch(() => ({ok: false})),
-                fetch('json/npcs.json').catch(() => ({ok: false})),
-                fetch('json/items_relations.json').catch(() => ({ok: false}))
+                fetch('json/item_locations.json').catch(() => ({ok: false})),
+                fetch('json/items_relations.json').catch(() => ({ok: false})),
+                fetch('json/npcs.json').catch(() => ({ok: false}))
             ]);
 
-            const [pRes, lRes, ruRes, prRes, affRes, fRes, uRes, itemLRes, itemsRes, comboRes, npcRes, relRes] = results;
+            const [
+                pRes, lRes, ruRes, prRes, affRes, fRes, uRes,
+                itemLegacyRes, itemsRes, comboRes, itemLocsRes, relRes, npcRes
+            ] = results;
 
             if (!pRes.ok) throw new Error(`pokemon_names.json не найден`);
             if (!lRes.ok) throw new Error(`locations.json не найден`);
@@ -130,7 +135,11 @@ document.addEventListener('DOMContentLoaded', function () {
                 window.pokemonNamesUpper = rawUpper.pokemon || rawUpper;
             }
             if (itemsRes && itemsRes.ok) window.itemsData = await itemsRes.json();
-            if (itemLRes && itemLRes.ok) window.itemLocationsData = await itemLRes.json();
+            if (itemLegacyRes && itemLegacyRes.ok) {
+                const legacyItems = await itemLegacyRes.json();
+                if(!window.itemsData) window.itemsData = legacyItems;
+            }
+            if (itemLocsRes && itemLocsRes.ok) window.itemLocationsData = await itemLocsRes.json();
             if (npcRes && npcRes.ok) window.npcsData = await npcRes.json();
             if (relRes && relRes.ok) window.itemsRelationsData = await relRes.json();
             
@@ -188,18 +197,30 @@ document.addEventListener('DOMContentLoaded', function () {
                         itemSearchIndex[it.num_id.toString()] = key;
                     }
                     if (it.RuName) {
-                        const rLow = it.RuName.toLowerCase().trim();
+                        const rLow = it.RuName.toLowerCase().trim().replace(/тм/g, 'tm').replace(/нм/g, 'hm');
                         itemSearchIndex[rLow] = key;
                         itemSearchIndex[rLow.replace(/\s+/g, '')] = key;
-                        const norm = str => str.toLowerCase().replace(/ё/g, 'е').replace(/[^а-яa-z0-9]/g, '');
+                        const norm = str => str.toLowerCase().replace(/ё/g, 'е').replace(/тм/g, 'tm').replace(/нм/g, 'hm').replace(/[^а-яa-z0-9]/g, '');
                         itemSearchIndex[norm(it.RuName)] = key;
                     }
                     if (it.Name) {
-                        const nLow = it.Name.toLowerCase().trim();
+                        const nLow = it.Name.toLowerCase().trim().replace(/тм/g, 'tm').replace(/нм/g, 'hm');
                         itemSearchIndex[nLow] = key;
                         itemSearchIndex[nLow.replace(/\s+/g, '')] = key;
-                        const norm = str => str.toLowerCase().replace(/ё/g, 'е').replace(/[^а-яa-z0-9]/g, '');
+                        const norm = str => str.toLowerCase().replace(/ё/g, 'е').replace(/тм/g, 'tm').replace(/нм/g, 'hm').replace(/[^а-яa-z0-9]/g, '');
                         itemSearchIndex[norm(it.Name)] = key;
+                    }
+                }
+            }
+            
+            // Индекс NPC
+            if (window.npcsData) {
+                for (let key in window.npcsData) {
+                    const n = window.npcsData[key];
+                    if (n.ru_name) {
+                        const rLow = n.ru_name.toLowerCase().trim();
+                        if (!npcSearchIndex[rLow]) npcSearchIndex[rLow] = [];
+                        npcSearchIndex[rLow].push({ ...n, name: n.ru_name, locId: n.location_id });
                     }
                 }
             }
@@ -440,22 +461,14 @@ document.addEventListener('DOMContentLoaded', function () {
         }
 
         const isShinySearch = rawQuery.includes('⭐️');
-        const cleanQuery = rawQuery.toLowerCase().replace('#', '').replace(/⭐️/g, '').trim();
+        let cleanQuery = rawQuery.toLowerCase().replace('#', '').replace(/⭐️/g, '').trim();
+        cleanQuery = cleanQuery.replace(/тм/g, 'tm').replace(/нм/g, 'hm');
 
         let isItemSearch = activeType === 'item';
         let foundID = null;
 
         if (!isItemSearch) {
             foundID = searchIndex[cleanQuery];
-            // If not found in pokemon search, try item search
-            if (!foundID) {
-                const checkClean = cleanQuery.replace(/\s+/g, '');
-                if (itemSearchIndex[cleanQuery] || itemSearchIndex[checkClean]) {
-                    isItemSearch = true;
-                } else if (window.fuzzyMatchItemKey && window.itemsData && window.fuzzyMatchItemKey(cleanQuery, window.itemsData)) {
-                    isItemSearch = true;
-                }
-            }
         }
 
         if (isItemSearch) {
@@ -500,9 +513,10 @@ document.addEventListener('DOMContentLoaded', function () {
                     const cleanRaw = norm(rawStr);
                     return targetSearchStrings.some(tsClean => {
                         if (!tsClean) return false;
-                        if (cleanRaw === tsClean || cleanRaw.includes(tsClean)) return true;
+                        if (cleanRaw === tsClean) return true;
+                        if (tsClean.length > 3 && cleanRaw.includes(tsClean)) return true;
                         // Use fuzzy matching for substring if it's close enough
-                        if (window.itemSimilarity(cleanRaw, tsClean) > 0.75) return true;
+                        if (tsClean.length > 3 && window.itemSimilarity(cleanRaw, tsClean) > 0.85) return true;
                         return false;
                     });
                 });
@@ -638,6 +652,69 @@ document.addEventListener('DOMContentLoaded', function () {
             return;
         }
 
+        // Внегласный поиск по NPC
+        if (!foundID) {
+            let foundNPCLocs = [];
+            let matchedNames = new Set();
+            let locSet = new Set();
+
+            for (let npcKey in npcSearchIndex) {
+                if (npcKey.includes(cleanQuery)) {
+                    npcSearchIndex[npcKey].forEach(n => {
+                        if (!locSet.has(n.locId)) {
+                            locSet.add(n.locId);
+                            foundNPCLocs.push(n);
+                        }
+                        matchedNames.add(n.name);
+                    });
+                }
+            }
+
+            if (foundNPCLocs.length > 0) {
+                const pluralPlc = ['локация', 'локации', 'локаций'];
+                function getPl(n, w) { return w[(n % 100 > 4 && n % 100 < 20) ? 2 : [2, 0, 1, 1, 1, 2][Math.min(n % 10, 5)]]; }
+                
+                els.title.innerHTML = '<i class="fas fa-users"></i> Результаты поиска NPC';
+                const namesStr = Array.from(matchedNames).join(", ");
+                
+                let html = `<div style="text-align:center;padding:20px;color:#ffcc00;font-size:1.1rem;margin-top:10px;">Персонаж(и) <b>${namesStr}</b> найден(ы) в ${foundNPCLocs.length} ${getPl(foundNPCLocs.length, pluralPlc)}:</div>`;
+                html += '<div class="habitat-list" style="margin-top: 15px;">';
+                
+                foundNPCLocs.forEach(n => {
+                    const locId = n.locId;
+                    // Ищем локацию во всех регионах
+                    let foundLoc = null;
+                    let foundRegion = '';
+                    if (window.locationData) {
+                        for (const lId in window.locationData) {
+                            if (lId === locId) {
+                                foundLoc = window.locationData[lId];
+                                foundRegion = regionNames[foundLoc.region] || foundLoc.region;
+                                break;
+                            }
+                        }
+                    }
+                    if (foundLoc) {
+                        const cleanLocName = (foundLoc.ru_name || foundLoc.name || '').replace(/^[^\p{L}\d]+/gu, '').trim();
+                        html += `
+                            <div class="habitat-item" style="margin-bottom: 10px; padding: 10px; background: rgba(0,0,0,0.1); border-radius: 4px; display: flex; align-items: center; gap: 10px;">
+                                <div style="font-size: 1.5rem;">📍</div>
+                                <div>
+                                    <div class="habitat-loc-name" style="font-weight: 500; font-size: 1.1rem; color: #fff;">${cleanLocName}</div>
+                                    <div style="font-size: 0.9rem; color: #aaa;">Регион: ${foundRegion}</div>
+                                </div>
+                            </div>`;
+                    }
+                });
+                html += '</div>';
+                els.content.innerHTML = html;
+                return;
+            }
+
+            renderError(`Не найдено: "<b>${rawQuery}</b>"`);
+            return;
+        }
+
         // Pokemon logic is handled implicitly because we check if it is item search above.
 
         // Поддержка форм: foundID может быть "baseId_formIndex"
@@ -659,21 +736,27 @@ document.addEventListener('DOMContentLoaded', function () {
         let message = "";
         let ancestorHabitats = [];
 
+        let formName = "";
+        let speciesId = pokemon.en.toUpperCase().trim();
+        if (formIndex !== null && window.formsBySpecies && window.formsBySpecies[speciesId]) {
+            const fList = window.formsBySpecies[speciesId];
+            const fObj = fList.find(f => f._FormKey === `${speciesId}-${formIndex}`) || fList[formIndex - 1];
+            if (fObj) formName = fObj.FormName || "";
+        }
+
         if (habitats.length === 0) {
-            const ancestors = getAllAncestors(actualId);
+            const ancestors = getAllAncestors(actualId, formName);
             if (ancestors.length > 0) {
                 const ancestorNames = ancestors.map(a => `<b>${a.en}</b> (<i>${a.ru || a.en}</i>)`).join(' или ');
                 message = `Покемон <b>${pokemon.en}</b> (<i>${pokemon.ru}</i>) не встречается в дикой природе, но вы можете эволюционировать его из: ${ancestorNames}.`;
                 
                 ancestors.forEach(anc => {
                     const ancLocs = findInWild(anc.en.toUpperCase().trim());
-                    if (ancLocs.length > 0) {
-                        ancestorHabitats.push({ pokemon: anc, locations: ancLocs });
-                    }
+                    ancestorHabitats.push({ pokemon: anc, locations: ancLocs });
                 });
             } else {
                 if (pokemon.is_starter) {
-                    message = `Покемон <b>${pokemon.en}</b> (<i>${pokemon.ru}</i>) является стартовым и в дикой природе не встречается.`;
+                    message = `Покемон <b>${pokemon.en}</b> (<i>${pokemon.ru}</i>) является стартовым и в дикой природе не встречается. Его можно получить из <b>🎁 Коробки со стартовиком</b>.`;
                 } else {
                     const isLegend = pokemon.is_legendary || (pokemon.rarity && pokemon.rarity >= 8);
                     message = isLegend
@@ -695,7 +778,7 @@ document.addEventListener('DOMContentLoaded', function () {
         return found;
     }
 
-    function getAllAncestors(pkId) {
+    function getAllAncestors(pkId, formName = '') {
         const ancestors = [];
         let currentId = pkId;
         const visited = new Set();
@@ -706,7 +789,28 @@ document.addEventListener('DOMContentLoaded', function () {
                 const parentId = pk.evolves_from[0];
                 const parent = pokemonDB[parentId];
                 if (parent) {
-                    ancestors.push({ id: parentId, ...parent });
+                    let ruName = parent.ru || parent.en;
+                    let enName = parent.en;
+                    
+                    if (formName && window.formsBySpecies) {
+                        const pSpecies = enName.toUpperCase().trim();
+                        const pForms = window.formsBySpecies[pSpecies];
+                        if (pForms) {
+                            const mForm = pForms.find(f => (f.FormName || '').toLowerCase() === formName.toLowerCase());
+                            if (mForm) {
+                                if (typeof translateFormName === 'function') {
+                                    const t = translateFormName(mForm.FormName, ruName, enName);
+                                    ruName = t.ru;
+                                    enName = t.en;
+                                } else {
+                                    ruName = ruName + ' (' + mForm.FormName + ')';
+                                    enName = mForm.FormName;
+                                }
+                            }
+                        }
+                    }
+                    
+                    ancestors.push({ id: parentId, ...parent, ru: ruName, en: enName });
                     currentId = parentId;
                 } else break;
             } else break;
@@ -769,14 +873,35 @@ document.addEventListener('DOMContentLoaded', function () {
         if (ancestorHabitats && ancestorHabitats.length > 0) {
             ancestorHabitats.forEach((ah, idx) => {
                 const ancName = ah.pokemon.ru || ah.pokemon.en;
+                let locsHtml = '';
+                if (ah.locations && ah.locations.length > 0) {
+                    locsHtml = renderHabitats(ah.locations, 'var(--accent)');
+                } else {
+                    let msg = `Покемон <b>${ah.pokemon.en}</b> (<i>${ah.pokemon.ru}</i>) в дикой природе не встречается.`;
+                    if (ah.pokemon.is_starter) msg = `Покемон <b>${ah.pokemon.en}</b> (<i>${ah.pokemon.ru}</i>) является стартовым и в дикой природе не встречается. Его можно получить из <b>🎁 Коробки со стартовиком</b>.`;
+                    else if (ah.pokemon.is_legendary || (ah.pokemon.rarity && ah.pokemon.rarity >= 8)) msg = `Покемон <b>${ah.pokemon.en}</b> (<i>${ah.pokemon.ru}</i>) является легендарным и не имеет конкретного места обитания.`;
+                    locsHtml = `<div style="padding:15px; color:var(--text-muted); text-align:center; background:rgba(0,0,0,0.2); border-radius:10px;">${msg}</div>`;
+                }
+
+                let ancDossierKey = ah.pokemon.en.toUpperCase();
+                if (pokemonRuData && !pokemonRuData[ancDossierKey]) {
+                    const numericId = parseInt(ah.pokemon.id || ah.pokemon.NationalId);
+                    for (let k in pokemonRuData) { if (pokemonRuData[k].NationalId === numericId) { ancDossierKey = k; break; } }
+                }
+
                 html += `
                 <div style="margin-bottom:12px;">
-                    <button onclick="document.getElementById('searchAnc${idx}').style.display = document.getElementById('searchAnc${idx}').style.display === 'none' ? 'block' : 'none'" style="width:100%; text-align:left; padding:12px 15px; background:rgba(255, 107, 107, 0.05); border:2px solid rgba(255, 107, 107, 0.6); border-radius:10px; color:white; cursor:pointer; font-size:14px; font-weight:bold; display:flex; justify-content:space-between; align-items:center; transition: all 0.3s ease; box-shadow: 0 0 15px rgba(255, 107, 107, 0.2);">
-                        <span><i class="fas fa-paw"></i> Посмотреть место жительства <b>${ancName}</b></span>
-                        <i class="fas fa-chevron-down"></i>
-                    </button>
+                    <div style="display:flex; gap:8px;">
+                        <button onclick="document.getElementById('searchAnc${idx}').style.display = document.getElementById('searchAnc${idx}').style.display === 'none' ? 'block' : 'none'" style="flex:1; text-align:left; padding:12px 15px; background:rgba(255, 107, 107, 0.05); border:2px solid rgba(255, 107, 107, 0.6); border-radius:10px; color:white; cursor:pointer; font-size:14px; font-weight:bold; display:flex; justify-content:space-between; align-items:center; transition: all 0.3s ease; box-shadow: 0 0 15px rgba(255, 107, 107, 0.2);">
+                            <span><i class="fas fa-paw"></i> Посмотреть место жительства <b>${ancName}</b></span>
+                            <i class="fas fa-chevron-down"></i>
+                        </button>
+                        <button class="poke-info-btn" onclick="openPokemonDossier('${ancDossierKey}', false, null)" title="Открыть досье" style="width:46px; height:46px; border-radius:10px; border:2px solid rgba(255, 107, 107, 0.6); background:rgba(255, 107, 107, 0.1); color:var(--accent); cursor:pointer; transition:var(--transition); display:flex; align-items:center; justify-content:center; font-size:1.1rem; flex-shrink:0; pointer-events: auto !important;">
+                            <i class="fas fa-book-open"></i>
+                        </button>
+                    </div>
                     <div id="searchAnc${idx}" style="display:none; margin-top:10px; animation: fadeIn 0.3s ease;">
-                        ${renderHabitats(ah.locations, 'var(--accent)')}
+                        ${locsHtml}
                     </div>
                 </div>`;
             });
