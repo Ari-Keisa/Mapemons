@@ -201,9 +201,12 @@
     <div class="modal" id="exportModal">
         <div class="modal-content">
             <h2 style="margin:0; color:var(--primary);">Готовые координаты</h2>
-            <p style="margin:0; color:#aaa;">Скопируй этот код и полностью замени им содержимое файла <b>location_layout.json</b></p>
+            <p style="margin:0; color:#aaa;">А теперь можно скопировать новые координаты 😊✨</p>
             <textarea id="exportTextarea" readonly></textarea>
-            <button class="btn-close" onclick="document.getElementById('exportModal').style.display='none'">Закрыть</button>
+            <div style="display: flex; gap: 10px; align-self: flex-end;">
+                <button class="btn-export" style="padding: 10px; width: auto; margin: 0;" onclick="copyExportText()">📋 Скопировать</button>
+                <button class="btn-close" style="align-self: auto;" onclick="document.getElementById('exportModal').style.display='none'">Закрыть</button>
+            </div>
         </div>
     </div>
 
@@ -774,6 +777,17 @@
 
             document.getElementById('exportTextarea').value = JSON.stringify(exportObj, null, 2);
             document.getElementById('exportModal').style.display = 'flex';
+        }
+
+        function copyExportText() {
+            const textarea = document.getElementById('exportTextarea');
+            textarea.select();
+            document.execCommand('copy');
+            // Если хочется красивое уведомление вместо alert:
+            const btn = document.querySelector('#exportModal .btn-export');
+            const originalText = btn.innerHTML;
+            btn.innerHTML = '✅ Скопировано!';
+            setTimeout(() => { btn.innerHTML = originalText; }, 2000);
         }
 
         initEditor();
