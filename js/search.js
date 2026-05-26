@@ -57,7 +57,7 @@ document.addEventListener('DOMContentLoaded', function () {
     // === ТЕКСТЫ ПОДСКАЗОК ===
     const hintTexts = {
         'pokemon': 'Например: Pikachu, Charizard, Мьюту, #025, 125',
-        'item': 'Например: Чёрный пояс, Уголёк, Травяная броня, item_996, 996',
+        'item': 'Например: Чёрный пояс, Уголёк, Амурит, item_996, 996',
         'pokecenter': 'Список локаций, где присутствует Покецентр',
         'pokemart': 'Список локаций, где присутствует Магазин'
     };
