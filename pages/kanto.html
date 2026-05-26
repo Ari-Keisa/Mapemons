@@ -1891,25 +1891,36 @@
         /* Route Warning Styles */
         .route-warning {
             margin-top: 15px;
-            padding: 12px;
-            background: rgba(255, 71, 87, 0.1);
-            border: 1px solid #ff4757;
-            border-radius: 8px;
-            color: #ff4757;
-            font-size: 0.9rem;
-            line-height: 1.4;
+            margin-bottom: 15px;
+            padding: 15px;
+            background: rgba(255, 71, 87, 0.15);
+            border: 1px solid rgba(255, 71, 87, 0.5);
+            border-radius: 10px;
+            color: rgba(255, 255, 255, 0.9);
+            font-size: 0.95rem;
+            line-height: 1.5;
+            box-shadow: 0 4px 15px rgba(255, 71, 87, 0.1);
         }
 
         .route-warning strong {
-            display: block;
-            margin-bottom: 5px;
-            font-size: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin-bottom: 8px;
+            font-size: 1.05rem;
+            color: #ffd32a;
+        }
+
+        .route-warning b {
+            color: #ff4757;
+            font-weight: 700;
         }
 
         .path-step.missing-item {
-            background: rgba(255, 71, 87, 0.2);
-            border-color: #ff4757;
-            color: #ff4757;
+            background: rgba(255, 71, 87, 0.15);
+            border: 1px solid rgba(255, 71, 87, 0.6);
+            color: #ff9f43;
+            box-shadow: inset 0 0 10px rgba(255, 71, 87, 0.2);
         }
     </style>
     <link rel="stylesheet" href="../css/dossier.css">
@@ -1979,8 +1990,10 @@
             <button id="closeResultsBtn" style="
                 background: rgba(255, 107, 107, 0.9);
                 border: none;
-                width: 36px;
-                height: 36px;
+                width: 34px;
+                height: 34px;
+                min-width: 34px;
+                flex-shrink: 0;
                 border-radius: 50%;
                 color: white;
                 cursor: pointer;
@@ -4635,9 +4648,11 @@
             };
             const types = p.type ? p.type.map(t => {
                 const tLow = t.toLowerCase().trim();
-                const textColor = '#fff';
+                const bgColor = _typeColorsLocal[tLow] || 'rgba(255,255,255,0.1)';
+                const lightBackgroundTypes = ['electric', 'fairy', 'normal'];
+                const textColor = lightBackgroundTypes.includes(tLow) ? '#000' : '#fff';
                 const iconShadow = 'filter: drop-shadow(0 0 1px rgba(255,255,255,0.8))';
-                return `<span style="background:rgba(255,255,255,0.1);padding:4px 8px;border-radius:5px;margin-right:5px;font-size:0.8rem;color:${textColor}"><span style="${iconShadow}">${_typeIconsLocal[tLow] || ''}</span> ${_typeNamesRu[tLow] || t.toUpperCase()}</span>`;
+                return `<span style="background:${bgColor};padding:4px 8px;border-radius:5px;margin-right:5px;font-size:0.8rem;color:${textColor}"><span style="${iconShadow}">${_typeIconsLocal[tLow] || ''}</span> ${_typeNamesRu[tLow] || t.toUpperCase()}</span>`;
             }).join('') : '';
 
             // Find correct key for dossier

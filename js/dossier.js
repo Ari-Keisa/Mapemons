@@ -708,7 +708,7 @@ function openPokemonDossier(pkId, isShiny = false, formIndex = null) {
         const color = typeColors[tLow] || '#888';
         const icon = typeIcons[tLow] || '';
         const nameRu = typeNamesRu[tLow] || (t.charAt(0).toUpperCase() + t.slice(1).toLowerCase());
-        const lightBackgroundTypes = ['electric', 'fairy'];
+        const lightBackgroundTypes = ['electric', 'fairy', 'normal'];
         const textColor = lightBackgroundTypes.includes(tLow) ? '#000' : '#fff';
         const iconShadow = 'filter: drop-shadow(0 0 1px rgba(255,255,255,0.8))';
         return `<span class="dossier-type-badge" style="background:${color}; color:${textColor}"><span style="${iconShadow}">${icon}</span> ${nameRu}</span>`;
@@ -837,19 +837,32 @@ function openPokemonDossier(pkId, isShiny = false, formIndex = null) {
         let color = 'var(--primary)';
         let bg = 'rgba(255,255,255,0.05)';
 
+        // Check if pk or any ancestor is starter/legendary
+        let isStarter = pk && pk.is_starter;
+        let isLegend = (pk && pk.is_legendary) || (pk && pk.rarity && pk.rarity >= 8);
         if (ancestors.length > 0) {
-            message = `Покемон <b>${enName}</b> (<i>${ruName}</i>) не встречается в дикой природе. Вы можете эволюционировать его из предыдущих форм:`;
+            ancestors.forEach(anc => {
+                if (anc.is_starter) isStarter = true;
+                if (anc.is_legendary || (anc.rarity && anc.rarity >= 8)) isLegend = true;
+            });
+        }
+
+        if (ancestors.length > 0) {
+            let specialText = '';
+            if (isStarter) specialText = ' (<b>Стартовый</b>)';
+            else if (isLegend) specialText = ' (<b>Легендарный</b>)';
+            
+            message = `Покемон <b>${enName}</b> (<i>${ruName}</i>)${specialText} не встречается в дикой природе. Вы можете эволюционировать его из предыдущих форм:`;
             color = 'var(--accent)';
             bg = 'rgba(255,107,107,0.1)';
         } else {
-            if (pk && pk.is_starter) {
-                message = `Покемон <b>${enName}</b> (<i>${ruName}</i>) является стартовым и в дикой природе не встречается. Его можно получить из <b>🎁 Коробки со стартовиком</b>.`;
+            if (isStarter) {
+                message = `Покемон <b>${enName}</b> (<i>${ruName}</i>) является <b>стартовым</b> и в дикой природе не встречается. Его можно получить из <b>🎁 Коробки со стартовиком</b>.`;
                 color = '#FFD700';
                 bg = 'rgba(255,215,0,0.1)';
             } else {
-                const isLegend = (pk && pk.is_legendary) || (pk && pk.rarity && pk.rarity >= 8);
                 if (isLegend) {
-                    message = `Покемон <b>${enName}</b> (<i>${ruName}</i>) является легендарным и не имеет конкретного места обитания.`;
+                    message = `Покемон <b>${enName}</b> (<i>${ruName}</i>) является <b>легендарным</b> и не имеет конкретного места обитания.`;
                     color = 'var(--primary)';
                     bg = 'rgba(78,205,196,0.1)';
                 } else {

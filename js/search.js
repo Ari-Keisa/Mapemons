@@ -745,10 +745,22 @@ document.addEventListener('DOMContentLoaded', function () {
         }
 
         if (habitats.length === 0) {
+            let isStarter = pokemon.is_starter;
+            let isLegend = pokemon.is_legendary || (pokemon.rarity && pokemon.rarity >= 8);
             const ancestors = getAllAncestors(actualId, formName);
+            
             if (ancestors.length > 0) {
+                ancestors.forEach(anc => {
+                    if (anc.is_starter) isStarter = true;
+                    if (anc.is_legendary || (anc.rarity && anc.rarity >= 8)) isLegend = true;
+                });
+                
+                let specialText = '';
+                if (isStarter) specialText = ' (<b>Стартовый</b>)';
+                else if (isLegend) specialText = ' (<b>Легендарный</b>)';
+
                 const ancestorNames = ancestors.map(a => `<b>${a.en}</b> (<i>${a.ru || a.en}</i>)`).join(' или ');
-                message = `Покемон <b>${pokemon.en}</b> (<i>${pokemon.ru}</i>) не встречается в дикой природе, но вы можете эволюционировать его из: ${ancestorNames}.`;
+                message = `Покемон <b>${pokemon.en}</b> (<i>${pokemon.ru}</i>)${specialText} не встречается в дикой природе, но вы можете эволюционировать его из: ${ancestorNames}.`;
                 
                 ancestors.forEach(anc => {
                     const ancLocs = findInWild(anc.en.toUpperCase().trim());
@@ -825,9 +837,11 @@ document.addEventListener('DOMContentLoaded', function () {
         const types = p.type ? p.type.map(t => {
             const tLow = t.toLowerCase().trim();
             const nameRu = typeNamesRu[tLow] || t.toUpperCase();
-            const textColor = '#fff';
+            const bgColor = typeColors[tLow] || 'rgba(255,255,255,0.1)';
+            const lightBackgroundTypes = ['electric', 'fairy', 'normal'];
+            const textColor = lightBackgroundTypes.includes(tLow) ? '#000' : '#fff';
             const iconShadow = 'filter: drop-shadow(0 0 1px rgba(255,255,255,0.8))';
-            return `<span class="type-badge" style="background:rgba(255,255,255,0.1); padding:4px 8px; border-radius:5px; margin-right:5px; font-size:0.8rem; color:${textColor}"><span style="${iconShadow}">${typeIcons[tLow] || ''}</span> ${nameRu}</span>`;
+            return `<span class="type-badge" style="background:${bgColor}; padding:4px 8px; border-radius:5px; margin-right:5px; font-size:0.8rem; color:${textColor}"><span style="${iconShadow}">${typeIcons[tLow] || ''}</span> ${nameRu}</span>`;
         }).join('') : '';
 
         // Find correct key for dossier
@@ -1061,7 +1075,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
     function renderItemOutput(rawQuery, itemObj, habitats, messageHtml = '') {
         let titleName = itemObj ? itemObj.RuName || itemObj.Name : rawQuery;
-        let engName = itemObj && itemObj.Name ? ` / ${itemObj.Name}` : '';
+        let engName = itemObj && itemObj.Name ? `<span style="display:block; font-size:0.7em; color:var(--text-muted); margin-top:4px; line-height:1.2;">${itemObj.Name}</span>` : '';
         let rawSticker = itemObj && itemObj.Sticker ? itemObj.Sticker : '🎒';
         let sticker = formatItemSticker(rawSticker);
         let desc = '';
@@ -1073,7 +1087,7 @@ document.addEventListener('DOMContentLoaded', function () {
             </div>`;
         }
 
-        els.title.innerHTML = `<i class="fas fa-search"></i> ${sticker} ${titleName}${engName}`;
+        els.title.innerHTML = `<div style="display:flex; flex-direction:column;"><div style="display:flex; align-items:center; gap:8px;"><i class="fas fa-search"></i> ${sticker} ${titleName}</div>${engName}</div>`;
 
         let html = `<div style="padding:10px;">
                         <h2 style="color:var(--primary); margin:0 0 15px 0; display:flex; align-items:center; gap:10px;">
