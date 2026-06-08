@@ -660,7 +660,7 @@ document.addEventListener('DOMContentLoaded', function () {
                 if (window.npcsData) {
                     for (let npcKey in window.npcsData) {
                         let npc = window.npcsData[npcKey];
-                        if (npc.location_id === locId && dropNPCs.includes(npc.ru_name)) {
+                        if (npc.location_id === locId && dropNPCs.some(n => npc.ru_name.includes(n))) {
                             sources.push(`NPC: ${npc.ru_name}`);
                             addedToLoc = true;
                         }
@@ -1310,7 +1310,8 @@ document.addEventListener('DOMContentLoaded', function () {
                         matches.push({
                             id: key,
                             text: it.RuName || it.Name,
-                            subtext: it.RuName && it.Name ? it.Name : (it.num_id ? 'ID: ' + it.num_id : ''),
+                            subtext: it.RuName && it.Name ? it.Name : '',
+                            idBadge: it.num_id ? 'ID: ' + it.num_id : '',
                             icon: '📦',
                             type: 'item'
                         });
@@ -1331,7 +1332,8 @@ document.addEventListener('DOMContentLoaded', function () {
                             matches.push({
                                 id: id,
                                 text: p.ru || p.en,
-                                subtext: p.ru && p.en ? p.en : '#' + numId.padStart(3, '0'),
+                                subtext: p.ru && p.en ? p.en : '',
+                                idBadge: '#' + numId.padStart(3, '0'),
                                 icon: '🐾',
                                 type: 'pokemon'
                             });
@@ -1385,7 +1387,24 @@ document.addEventListener('DOMContentLoaded', function () {
             }
         }
 
+        const isNumeric = /^\d+$/.test(val);
+        const valIntStr = isNumeric ? parseInt(val, 10).toString() : "";
         matches.sort((a, b) => {
+            if (isNumeric) {
+                const aIdNum = a.idBadge ? a.idBadge.replace(/\D/g, '') : "";
+                const aIdIntStr = aIdNum ? parseInt(aIdNum, 10).toString() : "";
+                const bIdNum = b.idBadge ? b.idBadge.replace(/\D/g, '') : "";
+                const bIdIntStr = bIdNum ? parseInt(bIdNum, 10).toString() : "";
+                
+                const aIdExact = (aIdIntStr === valIntStr) ? 1 : 0;
+                const bIdExact = (bIdIntStr === valIntStr) ? 1 : 0;
+                if (aIdExact !== bIdExact) return bIdExact - aIdExact;
+                
+                const aIdStarts = aIdIntStr.startsWith(valIntStr) ? 1 : 0;
+                const bIdStarts = bIdIntStr.startsWith(valIntStr) ? 1 : 0;
+                if (aIdStarts !== bIdStarts) return bIdStarts - aIdStarts;
+            }
+
             const aText = (a.text || "").toString().toLowerCase();
             const bText = (b.text || "").toString().toLowerCase();
             const aqText = (a.queryText || "").toString().toLowerCase();
@@ -1411,11 +1430,13 @@ document.addEventListener('DOMContentLoaded', function () {
                 
                 let descHtml = m.description ? `<div class="autocomplete-desc">${m.description}</div>` : '';
                 let regionHtml = m.region ? `<span class="region-badge badge-${m.region.toLowerCase()}">${m.region}</span>` : '';
+                let idBadgeHtml = m.idBadge ? `<span style="color: var(--primary); font-size: 0.9rem; font-weight: bold; margin-right: 8px; opacity: 0.9; white-space: nowrap;">${m.idBadge}</span>` : '';
                 
                 div.innerHTML = `
                     <div class="autocomplete-icon">${m.icon}</div>
                     <div class="autocomplete-content">
                         <div class="autocomplete-header">
+                            ${idBadgeHtml}
                             <div class="autocomplete-text">${highlightedText}</div>
                             ${regionHtml}
                             <div class="autocomplete-subtext" style="margin-left:auto;">${m.subtext}</div>

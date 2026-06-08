@@ -2155,7 +2155,7 @@
         </section>
 
         <section class="search-section">
-            <h2 class="section-title"><i class="fas fa-search"></i> Поиск в Канто</h2>
+            <h2 class="section-title"><i class="fas fa-search"></i> Поиск по региону Канто</h2>
             <div class="search-box">
                 <div class="autocomplete-container" style="flex-grow: 1;">
                     <input type="text" id="kantoSearch" class="search-input" placeholder="Покемон, предмет или персонаж (напр. Лео)..." style="width: 100%;">
@@ -2164,17 +2164,18 @@
                     <i class="fas fa-search"></i>
                 </button>
             </div>
-            <p class="search-hint">
+            <p class="search-hint" id="dynamicSearchHints">
                 Например:
                 <span class="hint-example">Pikachu</span>
                 <span class="hint-example">#025</span>
                 <span class="hint-example">Фуксия</span>
                 <span class="hint-example">Хилл</span>
                 <span class="hint-example">Маркет</span>
-                <span class="hint-example">Р7</span>
+                <span class="hint-example">Р5</span>
                 <span class="hint-example">Тёмный</span>
                 <span class="hint-example">Uber</span>
                 <span class="hint-example">Лео</span>
+                <span class="hint-example">Уголёк</span>
             </p>
             <p class="search-hint" style="font-size: 0.8rem; opacity: 0.7; margin-top: 5px;">Если вы хотите найти сразу шайни - в запросе должен присутствовать "⭐️"</p>
         </section>
@@ -2683,9 +2684,26 @@
                     });
                 }
 
+                // Сбор связей для скрытия лишних (изолированных) локаций, как в эдиторе
+                const connectedNodes = new Set();
+                for (let key in rawLocs) {
+                    if (rawLocs[key].region === 'KANTO') {
+                        let conns = rawLocs[key].connections || [];
+                        conns.forEach(target => {
+                            if (rawLocs[target] && rawLocs[target].region === 'KANTO') {
+                                connectedNodes.add(key);
+                                connectedNodes.add(target);
+                            }
+                        });
+                    }
+                }
+
                 // Фильтруем только KANTO для карты
                 for (let key in rawLocs) {
                     if (rawLocs[key].region === 'KANTO') {
+                        // Скрываем локации без связей
+                        if (!connectedNodes.has(key)) continue;
+
                         // Добавляем координаты из layout, если есть
                         const coord = rawLay.nodes ? rawLay.nodes[key] : rawLay[key];
                         if (coord) {
@@ -2717,9 +2735,12 @@
                 initCoordinateSystem();
 
                 // Обработчик закрытия результатов поиска
-                document.getElementById('closeResultsBtn').addEventListener('click', () => {
-                    document.getElementById('pokemonResultsContainer').style.display = 'none';
-                });
+                const closeResBtn = document.getElementById('closeResultsBtn');
+                if (closeResBtn) {
+                    closeResBtn.addEventListener('click', () => {
+                        document.getElementById('pokemonResultsContainer').style.display = 'none';
+                    });
+                }
 
                 // --- ЛОГИКА ФОКУСА НА ЛОКАЦИЮ ИЗ ПОИСКА ---
                 const locQuery = urlParams.get('loc');
@@ -3168,7 +3189,7 @@
             text.setAttribute('text-anchor', 'middle');
 
             const displayName = data.displayName || data.ru_name || data.name;
-            const words = displayName.split(' ');
+            const words = displayName.trim().split(/\s+/);
 
             // Улучшенный перенос по словам
             if (words.length > 1) {
@@ -3195,12 +3216,22 @@
 
         // ===== ОБРАБОТЧИКИ =====
         function initEventListeners() {
+            // Вспомогательная функция для безопасного добавления обработчиков
+            function safeAddListener(id, event, handler) {
+                const el = document.getElementById(id);
+                if (el) {
+                    el.addEventListener(event, handler);
+                } else {
+                    console.warn(`Element with ID '${id}' not found for event '${event}'`);
+                }
+            }
+
             // Зум
-            document.getElementById('zoomIn').addEventListener('click', () => zoom(0.1));
-            document.getElementById('zoomOut').addEventListener('click', () => zoom(-0.1));
+            safeAddListener('zoomIn', 'click', () => zoom(0.1));
+            safeAddListener('zoomOut', 'click', () => zoom(-0.1));
 
             // Кнопка сброса вида
-            document.getElementById('resetView').addEventListener('click', function () {
+            safeAddListener('resetView', 'click', function () {
                 // Сброс зума
                 zoomLevel = 1;
 
@@ -3226,26 +3257,28 @@
 
             // Перетаскивание
             const container = document.getElementById('graphContainer');
-            container.addEventListener('mousedown', startDrag);
-            container.addEventListener('wheel', handleWheel, { passive: false });
-
-            // При зуме обновляем координаты
-            container.addEventListener('wheel', updateCoordinates);
+            if (container) {
+                container.addEventListener('mousedown', startDrag);
+                container.addEventListener('wheel', handleWheel, { passive: false });
+                container.addEventListener('wheel', updateCoordinates);
+            }
 
             // Маршрут
-            document.getElementById('selectFromBtn').addEventListener('click', () => startSelecting('from'));
-            document.getElementById('selectToBtn').addEventListener('click', () => startSelecting('to'));
-            document.getElementById('resetRouteBtn').addEventListener('click', resetRoute);
-            document.getElementById('copyRouteBtn').addEventListener('click', copyRoute);
-            document.getElementById('openSettingsBtn').addEventListener('click', openSettings);
-            document.getElementById('highlightItemLocationsBtn').addEventListener('click', highlightItemLocations);
+            safeAddListener('selectFromBtn', 'click', () => startSelecting('from'));
+            safeAddListener('selectToBtn', 'click', () => startSelecting('to'));
+            safeAddListener('resetRouteBtn', 'click', resetRoute);
+            safeAddListener('copyRouteBtn', 'click', copyRoute);
+            safeAddListener('openSettingsBtn', 'click', openSettings);
+            safeAddListener('highlightItemLocationsBtn', 'click', highlightItemLocations);
 
             // Поиск
-            document.getElementById('kantoSearchBtn').addEventListener('click', performSearch);
+            safeAddListener('kantoSearchBtn', 'click', performSearch);
             const searchInput = document.getElementById('kantoSearch');
-            searchInput.addEventListener('keypress', (e) => {
-                if (e.key === 'Enter' && !document.querySelector('.autocomplete-active')) performSearch();
-            });
+            if (searchInput) {
+                searchInput.addEventListener('keypress', (e) => {
+                    if (e.key === 'Enter' && !document.querySelector('.autocomplete-active')) performSearch();
+                });
+            }
 
             // === АВТОДОПОЛНЕНИЕ (AUTOCOMPLETE) ===
             let autocompleteBox = document.createElement('div');
@@ -3277,7 +3310,8 @@
                                 matches.push({
                                     id: id,
                                     text: p.ru || p.en,
-                                    subtext: p.ru && p.en ? p.en : '#' + numId.padStart(3, '0'),
+                                    subtext: p.ru && p.en ? p.en : '',
+                                    idBadge: '#' + numId.padStart(3, '0'),
                                     icon: '🐾',
                                     type: 'pokemon'
                                 });
@@ -3300,7 +3334,8 @@
                                 matches.push({
                                     id: key,
                                     text: it.RuName || it.Name,
-                                    subtext: it.RuName && it.Name ? it.Name : (it.num_id ? 'ID: ' + it.num_id : ''),
+                                    subtext: it.RuName && it.Name ? it.Name : '',
+                                    idBadge: it.num_id ? 'ID: ' + it.num_id : '',
                                     icon: '📦',
                                     type: 'item'
                                 });
@@ -3355,8 +3390,25 @@
                     }
                 }
 
-                // Сортируем: сначала те, что начинаются с введенного текста (prefix match)
+                // Сортируем: сначала те, что начинаются с введенного текста (prefix match), а также приоритет по ID
+                const isNumeric = /^\d+$/.test(val);
+                const valIntStr = isNumeric ? parseInt(val, 10).toString() : "";
                 matches.sort((a, b) => {
+                    if (isNumeric) {
+                        const aIdNum = a.idBadge ? a.idBadge.replace(/\D/g, '') : "";
+                        const aIdIntStr = aIdNum ? parseInt(aIdNum, 10).toString() : "";
+                        const bIdNum = b.idBadge ? b.idBadge.replace(/\D/g, '') : "";
+                        const bIdIntStr = bIdNum ? parseInt(bIdNum, 10).toString() : "";
+                        
+                        const aIdExact = (aIdIntStr === valIntStr) ? 1 : 0;
+                        const bIdExact = (bIdIntStr === valIntStr) ? 1 : 0;
+                        if (aIdExact !== bIdExact) return bIdExact - aIdExact;
+                        
+                        const aIdStarts = aIdIntStr.startsWith(valIntStr) ? 1 : 0;
+                        const bIdStarts = bIdIntStr.startsWith(valIntStr) ? 1 : 0;
+                        if (aIdStarts !== bIdStarts) return bIdStarts - aIdStarts;
+                    }
+
                     const aText = (a.text || "").toString().toLowerCase();
                     const bText = (b.text || "").toString().toLowerCase();
                     const aqText = (a.queryText || "").toString().toLowerCase();
@@ -3381,12 +3433,14 @@
                         
                         let descHtml = m.description ? `<div class="autocomplete-desc">${m.description}</div>` : '';
                         let regionHtml = m.region ? `<span class="region-badge badge-${m.region.toLowerCase()}">${m.region}</span>` : '';
+                        let idBadgeHtml = m.idBadge ? `<span style="background:rgba(255,255,255,0.1); padding:2px 6px; border-radius:4px; font-size:0.8rem; color:#aaa; margin-left:10px; margin-right:8px; font-weight:600; white-space:nowrap;">${m.idBadge}</span>` : '';
                         
                         div.innerHTML = `
                             <div class="autocomplete-icon">${m.icon}</div>
                             <div class="autocomplete-content">
                                 <div class="autocomplete-header">
                                     <div class="autocomplete-text">${highlightedText}</div>
+                                    ${idBadgeHtml}
                                     ${regionHtml}
                                     <div class="autocomplete-subtext" style="margin-left:auto;">${m.subtext}</div>
                                 </div>
@@ -4303,6 +4357,18 @@
                     const locObj = kantoLocations[foundLocation];
                     const locName = locObj ? (locObj.ru_name || locObj.name) : query;
                     showNotification(`На карте показана локация: ${locName}`, 'success');
+
+                    if (locObj) {
+                        const container = document.getElementById('graphContainer');
+                        if (container) {
+                            const cx = container.offsetWidth / 2;
+                            const cy = container.offsetHeight / 2;
+                            zoomLevel = 1.2; 
+                            graphPos.x = cx - (locObj.x * zoomLevel);
+                            graphPos.y = cy - (locObj.y * zoomLevel);
+                            updateGraphTransform();
+                        }
+                    }
 
                     highlightTimeout = setTimeout(() => {
                         node.classList.remove('route-active');
