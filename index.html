@@ -2545,8 +2545,10 @@
             </div>
 
             <div class="search-box intro" id="searchBox">
-                <input type="text" id="pokemonSearch" class="search-input"
-                    placeholder="Введите имя покемона или номер...">
+                <div class="autocomplete-container" style="flex-grow: 1;">
+                    <input type="text" id="pokemonSearch" class="search-input"
+                        placeholder="Введите имя покемона или номер..." style="width: 100%;">
+                </div>
                 <button class="search-btn" id="searchButton">
                     <i class="fas fa-search"></i>
                 </button>

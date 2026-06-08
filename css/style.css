@@ -1,1 +1,202 @@
+/* ===== СТИЛИ ДЛЯ АВТОДОПОЛНЕНИЯ (AUTOCOMPLETE) ===== */
+.autocomplete-container {
+    position: relative;
+    width: 100%;
+}
 
+.autocomplete-items {
+    position: absolute;
+    border: 1px solid rgba(78, 205, 196, 0.3);
+    border-top: none;
+    z-index: 9999;
+    top: 100%;
+    left: 0;
+    right: 0;
+    background: linear-gradient(135deg, #302b63, #24243e);
+    border-radius: 0 0 15px 15px;
+    box-shadow: 0 15px 30px rgba(0, 0, 0, 0.5);
+    max-height: 300px;
+    overflow-y: auto;
+    overflow-x: hidden;
+    margin-top: 5px;
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(-10px);
+    transition: all 0.3s ease;
+}
+
+.autocomplete-items.active {
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(0);
+}
+
+.autocomplete-item {
+    padding: 12px 20px;
+    cursor: pointer;
+    background: transparent;
+    color: #fff;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    transition: background 0.2s;
+    font-size: 1rem;
+}
+
+.autocomplete-item:last-child {
+    border-bottom: none;
+}
+
+.autocomplete-item:hover {
+    background: rgba(78, 205, 196, 0.15);
+}
+
+.autocomplete-active {
+    background: rgba(78, 205, 196, 0.2) !important;
+}
+/* ===== СТИЛИ ДЛЯ АВТОДОПОЛНЕНИЯ (AUTOCOMPLETE) ===== */
+.autocomplete-container {
+    position: relative;
+    width: 100%;
+}
+
+.autocomplete-items {
+    position: absolute;
+    border: 1px solid rgba(78, 205, 196, 0.3);
+    border-top: none;
+    z-index: 9999;
+    top: 100%;
+    left: 0;
+    right: 0;
+    background: linear-gradient(135deg, #302b63, #24243e);
+    border-radius: 0 0 15px 15px;
+    box-shadow: 0 15px 30px rgba(0, 0, 0, 0.5);
+    max-height: 300px;
+    overflow-y: auto;
+    overflow-x: hidden;
+    margin-top: 5px;
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(-10px);
+    transition: all 0.3s ease;
+}
+
+.autocomplete-items.active {
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(0);
+}
+
+.autocomplete-item {
+    padding: 12px 20px;
+    cursor: pointer;
+    background: transparent;
+    color: #fff;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    transition: background 0.2s;
+    font-size: 1rem;
+}
+
+.autocomplete-item:last-child {
+    border-bottom: none;
+}
+
+.autocomplete-item:hover {
+    background: rgba(78, 205, 196, 0.15);
+}
+
+.autocomplete-active {
+    background: rgba(78, 205, 196, 0.2) !important;
+}
+
+.autocomplete-icon {
+    font-size: 1.2rem;
+    color: var(--primary, #4ecdc4);
+    opacity: 0.8;
+}
+
+/* Scrollbar styling for autocomplete */
+.autocomplete-items::-webkit-scrollbar {
+    width: 8px;
+}
+.autocomplete-items::-webkit-scrollbar-track {
+    background: rgba(0, 0, 0, 0.2);
+    border-radius: 0 0 15px 0;
+}
+.autocomplete-items::-webkit-scrollbar-thumb {
+    background: rgba(78, 205, 196, 0.5);
+    border-radius: 10px;
+}
+.autocomplete-items::-webkit-scrollbar-thumb:hover {
+    background: rgba(78, 205, 196, 0.8);
+}
+
+.autocomplete-content {
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    overflow: hidden;
+}
+
+.autocomplete-header {
+    display: flex;
+    align-items: center;
+    width: 100%;
+    gap: 8px;
+    flex-wrap: nowrap;
+}
+
+.autocomplete-text {
+    flex-grow: 1;
+    flex-shrink: 1;
+    min-width: 0;
+    font-weight: 500;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.autocomplete-subtext {
+    flex-shrink: 0;
+    white-space: nowrap;
+    font-size: 0.8rem;
+    color: var(--text-muted, #a0a0c0);
+    margin-left: auto;
+}
+
+.autocomplete-desc {
+    font-size: 0.8rem;
+    color: rgba(255, 255, 255, 0.6);
+    line-height: 1.3;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+}
+
+.region-badge {
+    flex-shrink: 0;
+    font-size: 0.65rem;
+    font-weight: bold;
+    text-transform: uppercase;
+    padding: 2px 6px;
+    border-radius: 4px;
+    letter-spacing: 0.5px;
+    animation: glowPulse 2s infinite alternate;
+}
+
+.badge-kanto { background: rgba(78, 205, 196, 0.2); color: #4ecdc4; border: 1px solid rgba(78, 205, 196, 0.4); }
+.badge-johto { background: rgba(255, 215, 0, 0.2); color: #ffd700; border: 1px solid rgba(255, 215, 0, 0.4); }
+.badge-hoenn { background: rgba(255, 99, 71, 0.2); color: #ff6347; border: 1px solid rgba(255, 99, 71, 0.4); }
+.badge-sinnoh { background: rgba(135, 206, 250, 0.2); color: #87cefa; border: 1px solid rgba(135, 206, 250, 0.4); }
+.badge-unova { background: rgba(147, 112, 219, 0.2); color: #9370db; border: 1px solid rgba(147, 112, 219, 0.4); }
+
+@keyframes glowPulse {
+    from { box-shadow: 0 0 2px currentColor; }
+    to { box-shadow: 0 0 8px currentColor; }
+}

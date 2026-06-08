@@ -2157,7 +2157,9 @@
         <section class="search-section">
             <h2 class="section-title"><i class="fas fa-search"></i> Поиск в Канто</h2>
             <div class="search-box">
-                <input type="text" id="kantoSearch" class="search-input" placeholder="Покемон, предмет или персонаж (напр. Лео)...">
+                <div class="autocomplete-container" style="flex-grow: 1;">
+                    <input type="text" id="kantoSearch" class="search-input" placeholder="Покемон, предмет или персонаж (напр. Лео)..." style="width: 100%;">
+                </div>
                 <button class="search-btn" id="kantoSearchBtn">
                     <i class="fas fa-search"></i>
                 </button>
@@ -2719,6 +2721,48 @@
                     document.getElementById('pokemonResultsContainer').style.display = 'none';
                 });
 
+                // --- ЛОГИКА ФОКУСА НА ЛОКАЦИЮ ИЗ ПОИСКА ---
+                const locQuery = urlParams.get('loc');
+                if (locQuery) {
+                    const normLoc = str => str ? str.toLowerCase().replace(/[^\p{L}\d]/gu, '') : '';
+                    const qLoc = normLoc(locQuery);
+                    let targetName = null;
+                    let targetData = null;
+                    
+                    for (let name in kantoLocations) {
+                        let loc = kantoLocations[name];
+                        if (normLoc(loc.ru_name) === qLoc || normLoc(loc.name) === qLoc || normLoc(loc.displayName) === qLoc) {
+                            targetName = name;
+                            targetData = loc;
+                            break;
+                        }
+                    }
+
+                    if (targetName && targetData) {
+                        setTimeout(() => {
+                            if (typeof window.openLocationModal === 'function') {
+                                window.openLocationModal(targetName);
+                            }
+                            
+                            const container = document.getElementById('graphContainer');
+                            if (container) {
+                                const cx = container.offsetWidth / 2;
+                                const cy = container.offsetHeight / 2;
+                                zoomLevel = 1.2; 
+                                graphPos.x = cx - (targetData.x * zoomLevel);
+                                graphPos.y = cy - (targetData.y * zoomLevel);
+                                updateGraphTransform();
+                            }
+                            
+                            const nodeElem = document.querySelector(`.location-node[data-location="${targetName}"]`);
+                            if (nodeElem) {
+                                nodeElem.classList.add('route-active');
+                                setTimeout(() => nodeElem.classList.remove('route-active'), 4000);
+                            }
+                        }, 500);
+                    }
+                }
+
                 showNotification('Добро пожаловать в регион Канто!', 'info');
 
             } catch (e) {
@@ -3198,8 +3242,207 @@
 
             // Поиск
             document.getElementById('kantoSearchBtn').addEventListener('click', performSearch);
-            document.getElementById('kantoSearch').addEventListener('keypress', (e) => {
-                if (e.key === 'Enter') performSearch();
+            const searchInput = document.getElementById('kantoSearch');
+            searchInput.addEventListener('keypress', (e) => {
+                if (e.key === 'Enter' && !document.querySelector('.autocomplete-active')) performSearch();
+            });
+
+            // === АВТОДОПОЛНЕНИЕ (AUTOCOMPLETE) ===
+            let autocompleteBox = document.createElement('div');
+            autocompleteBox.setAttribute('class', 'autocomplete-items');
+            searchInput.parentNode.appendChild(autocompleteBox);
+
+            let currentFocus = -1;
+
+            searchInput.addEventListener('input', function() {
+                let val = this.value.trim().toLowerCase();
+                val = val.replace(/⭐️/g, '').trim();
+                autocompleteBox.innerHTML = '';
+                autocompleteBox.classList.remove('active');
+                if (!val) return;
+
+                let matches = [];
+                let addedIds = new Set();
+
+                if (window.pokemonDB) {
+                    for (let id in window.pokemonDB) {
+                        const p = window.pokemonDB[id];
+                        const ruN = p.ru ? p.ru.toLowerCase() : '';
+                        const enN = p.en ? p.en.toLowerCase() : '';
+                        const numId = id.toString();
+                        
+                        if (ruN.includes(val) || enN.includes(val) || numId.includes(val)) {
+                            if (!addedIds.has(id)) {
+                                addedIds.add(id);
+                                matches.push({
+                                    id: id,
+                                    text: p.ru || p.en,
+                                    subtext: p.ru && p.en ? p.en : '#' + numId.padStart(3, '0'),
+                                    icon: '🐾',
+                                    type: 'pokemon'
+                                });
+                            }
+                        }
+                    }
+                }
+
+                if (window.itemsData) {
+                    const norm = str => str.toLowerCase().replace(/ё/g, 'е').replace(/тм/g, 'tm').replace(/нм/g, 'hm').replace(/[^а-яa-z0-9]/g, '');
+                    const normVal = norm(val);
+                    for (let key in window.itemsData) {
+                        const it = window.itemsData[key];
+                        const ruN = it.RuName ? norm(it.RuName) : '';
+                        const enN = it.Name ? norm(it.Name) : '';
+                        
+                        if (ruN.includes(normVal) || enN.includes(normVal) || (it.num_id && it.num_id.toString().includes(val))) {
+                            if (!addedIds.has('item_'+key)) {
+                                addedIds.add('item_'+key);
+                                matches.push({
+                                    id: key,
+                                    text: it.RuName || it.Name,
+                                    subtext: it.RuName && it.Name ? it.Name : (it.num_id ? 'ID: ' + it.num_id : ''),
+                                    icon: '📦',
+                                    type: 'item'
+                                });
+                            }
+                        }
+                    }
+                }
+
+                if (typeof npcSearchIndex !== 'undefined') {
+                    for (let key in npcSearchIndex) {
+                        if (key.includes(val)) {
+                            npcSearchIndex[key].forEach(n => {
+                                const actualName = n.npcData ? (n.npcData.ru_name || n.npcData.name) : n.name;
+                                const npcId = 'npc_' + actualName;
+                                if (!addedIds.has(npcId)) {
+                                    addedIds.add(npcId);
+                                    matches.push({
+                                        id: npcId,
+                                        text: actualName,
+                                        subtext: 'NPC',
+                                        icon: '👤',
+                                        type: 'npc',
+                                        queryText: actualName
+                                    });
+                                }
+                            });
+                        }
+                    }
+                }
+
+                if (typeof kantoLocations !== 'undefined') {
+                    for (let locId in kantoLocations) {
+                        const loc = kantoLocations[locId];
+                        const ruN = loc.ru_name ? loc.ru_name.toLowerCase() : '';
+                        const enN = loc.name ? loc.name.toLowerCase() : '';
+                        const dN = loc.displayName ? loc.displayName.toLowerCase() : '';
+                        if (ruN.includes(val) || enN.includes(val) || dN.includes(val)) {
+                            if (!addedIds.has('loc_' + locId)) {
+                                addedIds.add('loc_' + locId);
+                                matches.push({
+                                    id: 'loc_' + locId,
+                                    text: loc.displayName || loc.ru_name || loc.name,
+                                    subtext: loc.ru_name && loc.name ? loc.name : 'Локация',
+                                    icon: '🗺️',
+                                    type: 'location',
+                                    queryText: loc.ru_name || loc.name,
+                                    region: loc.region,
+                                    description: loc.description
+                                });
+                            }
+                        }
+                    }
+                }
+
+                // Сортируем: сначала те, что начинаются с введенного текста (prefix match)
+                matches.sort((a, b) => {
+                    const aText = (a.text || "").toString().toLowerCase();
+                    const bText = (b.text || "").toString().toLowerCase();
+                    const aqText = (a.queryText || "").toString().toLowerCase();
+                    const bqText = (b.queryText || "").toString().toLowerCase();
+                    
+                    const aStarts = (aText.startsWith(val) || aqText.startsWith(val)) ? 1 : 0;
+                    const bStarts = (bText.startsWith(val) || bqText.startsWith(val)) ? 1 : 0;
+                    
+                    if (aStarts !== bStarts) return bStarts - aStarts;
+                    return aText.length - bText.length || aText.localeCompare(bText);
+                });
+
+                matches = matches.slice(0, 15);
+
+                if (matches.length > 0) {
+                    matches.forEach(m => {
+                        let div = document.createElement('div');
+                        div.className = 'autocomplete-item';
+                        let regex = new RegExp("(" + val.replace(/[-\/\\^$*+?.()|[\]{}]/g, '\\$&') + ")", "gi");
+                        let safeText = (m.text || "").toString();
+                        let highlightedText = safeText.replace(regex, "<span style='color:var(--primary);font-weight:bold;'>$1</span>");
+                        
+                        let descHtml = m.description ? `<div class="autocomplete-desc">${m.description}</div>` : '';
+                        let regionHtml = m.region ? `<span class="region-badge badge-${m.region.toLowerCase()}">${m.region}</span>` : '';
+                        
+                        div.innerHTML = `
+                            <div class="autocomplete-icon">${m.icon}</div>
+                            <div class="autocomplete-content">
+                                <div class="autocomplete-header">
+                                    <div class="autocomplete-text">${highlightedText}</div>
+                                    ${regionHtml}
+                                    <div class="autocomplete-subtext" style="margin-left:auto;">${m.subtext}</div>
+                                </div>
+                                ${descHtml}
+                            </div>
+                        `;
+                        div.addEventListener('click', function() {
+                            const shinyPrefix = searchInput.value.includes('⭐️') ? '⭐️ ' : '';
+                            searchInput.value = shinyPrefix + (m.queryText || m.text);
+                            autocompleteBox.innerHTML = '';
+                            autocompleteBox.classList.remove('active');
+                            performSearch();
+                        });
+                        autocompleteBox.appendChild(div);
+                    });
+                    autocompleteBox.classList.add('active');
+                    currentFocus = -1;
+                }
+            });
+
+            searchInput.addEventListener('keydown', function(e) {
+                let items = autocompleteBox.querySelectorAll('.autocomplete-item');
+                if (e.key === 'ArrowDown') {
+                    currentFocus++;
+                    addActive(items);
+                } else if (e.key === 'ArrowUp') {
+                    currentFocus--;
+                    addActive(items);
+                } else if (e.key === 'Enter') {
+                    if (currentFocus > -1) {
+                        e.preventDefault();
+                        items[currentFocus].click();
+                    }
+                }
+            });
+
+            function addActive(items) {
+                if (!items || items.length === 0) return false;
+                removeActive(items);
+                if (currentFocus >= items.length) currentFocus = 0;
+                if (currentFocus < 0) currentFocus = (items.length - 1);
+                items[currentFocus].classList.add('autocomplete-active');
+                items[currentFocus].scrollIntoView({ block: 'nearest', behavior: 'smooth' });
+            }
+
+            function removeActive(items) {
+                for (let i = 0; i < items.length; i++) {
+                    items[i].classList.remove('autocomplete-active');
+                }
+            }
+
+            document.addEventListener('click', function(e) {
+                if (e.target !== searchInput && !autocompleteBox.contains(e.target)) {
+                    autocompleteBox.innerHTML = '';
+                    autocompleteBox.classList.remove('active');
+                }
             });
 
             // Модалка
@@ -4642,7 +4885,7 @@
             const title = document.getElementById('pokemonResultTitle');
             const content = document.getElementById('pokemonResultsContent');
 
-            const formLabel = formIndex !== null ? ` (${formsBySpecies?.[p.en?.toUpperCase()]?.[formIndex]?.FormName || 'Форма'})` : '';
+            const formLabel = formIndex !== null ? ` (${window.formsBySpecies?.[p.en?.toUpperCase()]?.[formIndex]?.FormName || 'Форма'})` : '';
             title.innerHTML = `<i class="fas fa-search"></i> ${isShinySearch ? '⭐️' : ''}${p.ru}${formLabel}${isShinySearch ? '⭐️' : ''} / ${p.en}`;
             const _typeNamesRu = {
                 normal:'Нормальный', fire:'Огненный', water:'Водный', grass:'Травяной',
@@ -4659,7 +4902,7 @@
             };
             const types = p.type ? p.type.map(t => {
                 const tLow = t.toLowerCase().trim();
-                const bgColor = _typeColorsLocal[tLow] || 'rgba(255,255,255,0.1)';
+                const bgColor = typeof typeColors !== 'undefined' ? typeColors[tLow] : 'rgba(255,255,255,0.1)';
                 const lightBackgroundTypes = ['electric', 'fairy', 'normal'];
                 const textColor = lightBackgroundTypes.includes(tLow) ? '#000' : '#fff';
                 const iconShadow = 'filter: drop-shadow(0 0 1px rgba(255,255,255,0.8))';

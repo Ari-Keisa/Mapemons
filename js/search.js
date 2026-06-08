@@ -694,6 +694,9 @@ document.addEventListener('DOMContentLoaded', function () {
             if (isDiamondDrop) {
                 msgLines.push(`Этот предмет вы можете купить в магазине за алмазы. Напишите боту <b>"/diamonds"</b>.`);
             }
+            if (itemObj && itemObj.BPPrice) {
+                msgLines.push(`Этот предмет можно приобрести за <b>${itemObj.BPPrice} BP</b> в Боевом Рубеже.`);
+            }
 
             let messageHtml = '';
             if (msgLines.length > 0) {
@@ -730,7 +733,7 @@ document.addEventListener('DOMContentLoaded', function () {
                 }
             }
 
-            renderItemOutput(rawQuery, itemObj, itemHabitats, messageHtml);
+            renderItemOutput(foundId, rawQuery, itemObj, itemHabitats, messageHtml);
             return;
         }
 
@@ -790,6 +793,37 @@ document.addEventListener('DOMContentLoaded', function () {
                 });
                 html += '</div>';
                 els.content.innerHTML = html;
+                return;
+            }
+            // Внегласный поиск по локациям
+            let foundLocObj = null;
+            if (window.locationData) {
+                const normLoc = str => str ? str.toLowerCase().replace(/[^\p{L}\d]/gu, '') : '';
+                const qLoc = normLoc(rawQuery);
+                
+                for (let locId in window.locationData) {
+                    let loc = window.locationData[locId];
+                    if (normLoc(loc.ru_name) === qLoc ||
+                        normLoc(loc.name) === qLoc ||
+                        normLoc(loc.displayName) === qLoc) {
+                        foundLocObj = loc;
+                        break;
+                    }
+                }
+            }
+
+            if (foundLocObj) {
+                // Если мы уже на странице региона, просто обновляем url
+                const currentPath = window.location.pathname;
+                const targetRegion = foundLocObj.region.toLowerCase();
+                
+                if (currentPath.includes(`/${targetRegion}.html`)) {
+                    window.location.href = `?loc=${encodeURIComponent(rawQuery)}`;
+                } else if (currentPath.includes('/pages/')) {
+                    window.location.href = `${targetRegion}.html?loc=${encodeURIComponent(rawQuery)}`;
+                } else {
+                    window.location.href = `pages/${targetRegion}.html?loc=${encodeURIComponent(rawQuery)}`;
+                }
                 return;
             }
 
@@ -1155,7 +1189,7 @@ document.addEventListener('DOMContentLoaded', function () {
         } catch(e) { console.error("Error loading emoji combos", e); }
     };
 
-    function renderItemOutput(rawQuery, itemObj, habitats, messageHtml = '') {
+    function renderItemOutput(itemKey, rawQuery, itemObj, habitats, messageHtml = '') {
         let titleName = itemObj ? itemObj.RuName || itemObj.Name : rawQuery;
         let engName = itemObj && itemObj.Name ? `<span style="display:block; font-size:0.7em; color:var(--text-muted); margin-top:4px; line-height:1.2;">${itemObj.Name}</span>` : '';
         let rawSticker = itemObj && itemObj.Sticker ? itemObj.Sticker : '🎒';
@@ -1169,13 +1203,22 @@ document.addEventListener('DOMContentLoaded', function () {
             </div>`;
         }
 
+        let infoButton = (itemKey && typeof openItemInfo === 'function') ? `
+            <button class="item-info-btn" onclick="openItemInfo('${itemKey}')" title="Открыть инфо" style="width:38px; height:38px; border-radius:50%; border:none; background:rgba(78,205,196,0.25); color:var(--primary); cursor:pointer; transition:var(--transition); display:flex; align-items:center; justify-content:center; font-size:1.1rem; flex-shrink:0;">
+                <i class="fas fa-info-circle"></i>
+            </button>
+        ` : '';
+
         els.title.innerHTML = `<div style="display:flex; flex-direction:column;"><div style="display:flex; align-items:center; gap:8px;"><i class="fas fa-search"></i> ${sticker} ${titleName}</div>${engName}</div>`;
 
         let html = `<div style="padding:10px;">
-                        <h2 style="color:var(--primary); margin:0 0 15px 0; display:flex; align-items:center; gap:10px;">
-                            <span class="item-result-sticker" style="display:inline-flex; min-width:1.5em; justify-content:center;">${sticker}</span>
-                            <span>${titleName}</span>
-                        </h2>
+                        <div style="display:flex; justify-content:space-between; align-items:flex-start; margin-bottom:15px;">
+                            <h2 style="color:var(--primary); margin:0; display:flex; align-items:center; gap:10px;">
+                                <span class="item-result-sticker" style="display:inline-flex; min-width:1.5em; justify-content:center;">${sticker}</span>
+                                <span>${titleName}</span>
+                            </h2>
+                            ${infoButton}
+                        </div>
                         ${desc}
                         ${messageHtml}
                         ${habitats.length > 0 ? `<div style="margin-bottom:15px; color:var(--text-muted);">📍 Найдено в следующих локациях:</div>` : ''}
@@ -1231,7 +1274,206 @@ document.addEventListener('DOMContentLoaded', function () {
 
     // === СОБЫТИЯ ===
     els.btn.addEventListener('click', startSearch);
-    els.input.addEventListener('keypress', (e) => { if (e.key === 'Enter') startSearch(); });
+    els.input.addEventListener('keypress', (e) => { if (e.key === 'Enter' && !document.querySelector('.autocomplete-active')) startSearch(); });
+
+    // === АВТОДОПОЛНЕНИЕ (AUTOCOMPLETE) ===
+    let autocompleteBox = document.createElement('div');
+    autocompleteBox.setAttribute('class', 'autocomplete-items');
+    els.input.parentNode.appendChild(autocompleteBox);
+
+    let currentFocus = -1;
+
+    els.input.addEventListener('input', function() {
+        let val = this.value.trim().toLowerCase();
+        val = val.replace(/⭐️/g, '').trim(); // Игнорируем шайни звездочку при автокомплите
+        autocompleteBox.innerHTML = '';
+        autocompleteBox.classList.remove('active');
+        if (!val) return;
+
+        const activeType = document.querySelector('.search-option.active')?.dataset.type || 'pokemon';
+        let matches = [];
+        let addedIds = new Set();
+
+        if (activeType === 'item') {
+            if (!window.itemsData) return;
+            const norm = str => str.toLowerCase().replace(/ё/g, 'е').replace(/тм/g, 'tm').replace(/нм/g, 'hm').replace(/[^а-яa-z0-9]/g, '');
+            const normVal = norm(val);
+            
+            for (let key in window.itemsData) {
+                const it = window.itemsData[key];
+                const ruN = it.RuName ? norm(it.RuName) : '';
+                const enN = it.Name ? norm(it.Name) : '';
+                
+                if (ruN.includes(normVal) || enN.includes(normVal) || (it.num_id && it.num_id.toString().includes(val))) {
+                    if (!addedIds.has('item_'+key)) {
+                        addedIds.add('item_'+key);
+                        matches.push({
+                            id: key,
+                            text: it.RuName || it.Name,
+                            subtext: it.RuName && it.Name ? it.Name : (it.num_id ? 'ID: ' + it.num_id : ''),
+                            icon: '📦',
+                            type: 'item'
+                        });
+                    }
+                }
+            }
+        } else {
+            if (window.pokemonDB) {
+                for (let id in window.pokemonDB) {
+                    const p = window.pokemonDB[id];
+                    const ruN = p.ru ? p.ru.toLowerCase() : '';
+                    const enN = p.en ? p.en.toLowerCase() : '';
+                    const numId = id.toString();
+                    
+                    if (ruN.includes(val) || enN.includes(val) || numId.includes(val)) {
+                        if (!addedIds.has(id)) {
+                            addedIds.add(id);
+                            matches.push({
+                                id: id,
+                                text: p.ru || p.en,
+                                subtext: p.ru && p.en ? p.en : '#' + numId.padStart(3, '0'),
+                                icon: '🐾',
+                                type: 'pokemon'
+                            });
+                        }
+                    }
+                }
+            }
+            if (typeof npcSearchIndex !== 'undefined') {
+                for (let key in npcSearchIndex) {
+                    if (key.includes(val)) {
+                        npcSearchIndex[key].forEach(n => {
+                            const npcId = 'npc_' + n.name;
+                            if (!addedIds.has(npcId)) {
+                                addedIds.add(npcId);
+                                matches.push({
+                                    id: npcId,
+                                    text: n.name,
+                                    subtext: 'NPC',
+                                    icon: '👤',
+                                    type: 'npc',
+                                    queryText: n.name
+                                });
+                            }
+                        });
+                    }
+                }
+            }
+
+            if (window.locationData) {
+                for (let locId in window.locationData) {
+                    const loc = window.locationData[locId];
+                    const ruN = loc.ru_name ? loc.ru_name.toLowerCase() : '';
+                    const enN = loc.name ? loc.name.toLowerCase() : '';
+                    const dN = loc.displayName ? loc.displayName.toLowerCase() : '';
+                    if (ruN.includes(val) || enN.includes(val) || dN.includes(val)) {
+                        if (!addedIds.has('loc_' + locId)) {
+                            addedIds.add('loc_' + locId);
+                            matches.push({
+                                id: 'loc_' + locId,
+                                text: loc.displayName || loc.ru_name || loc.name,
+                                subtext: loc.ru_name && loc.name ? loc.name : 'Локация',
+                                icon: '🗺️',
+                                type: 'location',
+                                queryText: loc.ru_name || loc.name,
+                                region: loc.region,
+                                description: loc.description
+                            });
+                        }
+                    }
+                }
+            }
+        }
+
+        matches.sort((a, b) => {
+            const aText = (a.text || "").toString().toLowerCase();
+            const bText = (b.text || "").toString().toLowerCase();
+            const aqText = (a.queryText || "").toString().toLowerCase();
+            const bqText = (b.queryText || "").toString().toLowerCase();
+            
+            const aStarts = (aText.startsWith(val) || aqText.startsWith(val)) ? 1 : 0;
+            const bStarts = (bText.startsWith(val) || bqText.startsWith(val)) ? 1 : 0;
+            
+            if (aStarts !== bStarts) return bStarts - aStarts;
+            return aText.length - bText.length || aText.localeCompare(bText);
+        });
+
+        matches = matches.slice(0, 15);
+
+        if (matches.length > 0) {
+            matches.forEach(m => {
+                let div = document.createElement('div');
+                div.className = 'autocomplete-item';
+                // Подсветка совпадений
+                let regex = new RegExp("(" + val.replace(/[-\/\\^$*+?.()|[\]{}]/g, '\\$&') + ")", "gi");
+                let safeText = (m.text || "").toString();
+                let highlightedText = safeText.replace(regex, "<span style='color:var(--primary);font-weight:bold;'>$1</span>");
+                
+                let descHtml = m.description ? `<div class="autocomplete-desc">${m.description}</div>` : '';
+                let regionHtml = m.region ? `<span class="region-badge badge-${m.region.toLowerCase()}">${m.region}</span>` : '';
+                
+                div.innerHTML = `
+                    <div class="autocomplete-icon">${m.icon}</div>
+                    <div class="autocomplete-content">
+                        <div class="autocomplete-header">
+                            <div class="autocomplete-text">${highlightedText}</div>
+                            ${regionHtml}
+                            <div class="autocomplete-subtext" style="margin-left:auto;">${m.subtext}</div>
+                        </div>
+                        ${descHtml}
+                    </div>
+                `;
+                div.addEventListener('click', function() {
+                    const shinyPrefix = els.input.value.includes('⭐️') ? '⭐️ ' : '';
+                    els.input.value = shinyPrefix + (m.queryText || m.text);
+                    autocompleteBox.innerHTML = '';
+                    autocompleteBox.classList.remove('active');
+                    startSearch();
+                });
+                autocompleteBox.appendChild(div);
+            });
+            autocompleteBox.classList.add('active');
+            currentFocus = -1;
+        }
+    });
+
+    els.input.addEventListener('keydown', function(e) {
+        let items = autocompleteBox.querySelectorAll('.autocomplete-item');
+        if (e.key === 'ArrowDown') {
+            currentFocus++;
+            addActive(items);
+        } else if (e.key === 'ArrowUp') {
+            currentFocus--;
+            addActive(items);
+        } else if (e.key === 'Enter') {
+            if (currentFocus > -1) {
+                e.preventDefault();
+                items[currentFocus].click();
+            }
+        }
+    });
+
+    function addActive(items) {
+        if (!items || items.length === 0) return false;
+        removeActive(items);
+        if (currentFocus >= items.length) currentFocus = 0;
+        if (currentFocus < 0) currentFocus = (items.length - 1);
+        items[currentFocus].classList.add('autocomplete-active');
+        items[currentFocus].scrollIntoView({ block: 'nearest', behavior: 'smooth' });
+    }
+
+    function removeActive(items) {
+        for (let i = 0; i < items.length; i++) {
+            items[i].classList.remove('autocomplete-active');
+        }
+    }
+
+    document.addEventListener('click', function(e) {
+        if (e.target !== els.input && !autocompleteBox.contains(e.target)) {
+            autocompleteBox.innerHTML = '';
+            autocompleteBox.classList.remove('active');
+        }
+    });
     els.close.addEventListener('click', () => {
         els.container.style.display = 'none';
         if (els.overlay) els.overlay.classList.remove('active');
