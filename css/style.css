@@ -202,17 +202,3 @@
     from { box-shadow: 0 0 2px currentColor; }
     to { box-shadow: 0 0 8px currentColor; }
 }
-
-/* Slider Shiny Button */
-.shiny-slider-btn {
-    right: 10px;
-    top: 50%;
-    transform: translateY(-50%);
-}
-
-@media (max-width: 768px) {
-    .shiny-slider-btn {
-        right: auto !important;
-        left: calc(50% + 120px) !important;
-    }
-}
