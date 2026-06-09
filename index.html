@@ -2524,10 +2524,15 @@
         </section>
 
         <section class="search-section intro">
-            <h2 class="section-title">
-                <i class="fas fa-search"></i>
-                Поиск и сервисы
-            </h2>
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
+                <h2 class="section-title" style="margin-bottom: 0;">
+                    <i class="fas fa-search"></i>
+                    Поиск и сервисы
+                </h2>
+                <button class="open-all-poke-btn" onclick="openAllPokemonsModal()" title="Все Покемоны">
+                    <img src="https://upload.wikimedia.org/wikipedia/commons/9/98/International_Pok%C3%A9mon_logo.svg" alt="Pokemon Logo">
+                </button>
+            </div>
 
             <div class="search-options">
                 <div class="search-option active" data-type="pokemon">
@@ -2909,6 +2914,9 @@
             }, 4000);
         });
     </script>
+    
+    <link rel="stylesheet" href="css/all_pokemons.css">
+    <script src="js/all_pokemons.js"></script>
 
     <div class="modal-overlay" id="modalOverlay"></div>
 
