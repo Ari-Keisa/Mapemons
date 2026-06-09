@@ -592,17 +592,24 @@
     .all-poke-controls {
         flex-wrap: nowrap;
         justify-content: space-between;
-        padding-right: 40px; /* Leave space for the absolute close button */
-        gap: 0; /* Remove gap since we use space-between */
+        padding-right: 0;
+        gap: 0;
         width: 100%;
+    }
+    
+    .custom-icon-btn {
+        width: 52px;
+        height: 52px;
     }
     
     #allPokeCloseBtn {
         position: absolute;
-        top: 0;
-        right: 0;
+        top: 15px;
+        right: 15px;
         margin: 0;
-        padding: 10px;
+        padding: 0;
+        width: 40px;
+        height: 40px;
     }
     
     .all-poke-grid-container {
