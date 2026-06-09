@@ -231,12 +231,19 @@ document.addEventListener('DOMContentLoaded', () => {
             }
 
             const clickAction = m.isForm 
-                ? `if(typeof openPokemonDossier === 'function') openPokemonDossier('${safeEn}', ${isShiny}, ${m.formIndex});`
-                : `if(typeof openPokemonDossier === 'function') openPokemonDossier('${safeEn}', ${isShiny});`;
+                ? `if(typeof openPokemonDossier === 'function') openPokemonDossier('${m.id}', ${isShiny}, ${m.formIndex});`
+                : `if(typeof openPokemonDossier === 'function') openPokemonDossier('${m.id}', ${isShiny});`;
+
+            const shinyStarHtml = isShiny 
+                ? `<i class="fas fa-star" style="position: absolute; color: #FFD700; font-size: 2.5rem; top: -12px; left: -12px; z-index: -1; opacity: 0.25; transform: rotate(-15deg);"></i>` 
+                : '';
 
             html += `
                 <div class="all-poke-badge" style="background: ${gradient};" onclick="${clickAction}">
-                    <div class="all-poke-badge-number">#${parseInt(m.id).toString().padStart(3, '0')}</div>
+                    <div class="all-poke-badge-number">
+                        ${shinyStarHtml}
+                        #${parseInt(m.id).toString().padStart(3, '0')}
+                    </div>
                     <div class="all-poke-badge-types">${typeIconsHtml}</div>
                     
                     <div class="all-poke-badge-img-box">
