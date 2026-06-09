@@ -165,96 +165,128 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
+    let currentRenderId = 0;
+
     // 6. Render Grid
     function renderGrid() {
+        currentRenderId++;
+        const renderId = currentRenderId;
         grid.innerHTML = '';
         
-        let html = '';
-        
-        allBadgesData.forEach(m => {
-            // Apply Filters
-            if (onlyLegendaries && !m.isLegend) return;
-            if (!onlyLegendaries && !showForms && m.isForm) return;
-            if (onlyLegendaries && m.isForm) return; // "которая автоматом вырубит формы и тд оставит ток легендарных"
-
-            // Get Colors
-            let tArr = m.p.type || [];
-            if (m.isForm && m.formObj && m.formObj.Types) {
-                tArr = m.formObj.Types.split(',').map(t => t.trim().toLowerCase());
-            }
-
-            let type1 = tArr[0] || 'normal';
-            let type2 = tArr[1] || type1;
-
-            let c1 = typeColors[type1] || '#444';
-            let c2 = typeColors[type2] || c1;
-            
-            // Adjust gradient for premium look
-            let gradient = `linear-gradient(135deg, ${c1} 0%, ${c2} 100%)`;
-
-            // Names
-            let dispRu = m.p.ru || m.p.en;
-            let dispEn = m.p.en;
-            if (m.isForm && m.formObj && m.formObj.FormName) {
-                if (typeof window.translateFormName === 'function') {
-                    let trans = window.translateFormName(m.formObj.FormName, dispRu, dispEn);
-                    dispRu = trans.ru;
-                    dispEn = trans.en;
-                } else {
-                    dispRu = `${dispRu} (${m.formObj.FormName})`;
-                    dispEn = `${dispEn} (${m.formObj.FormName})`;
-                }
-            }
-
-            const nameToShow = currentLang === 'ru' ? dispRu : dispEn;
-            const safeEn = m.p.en.replace(/'/g, "\\'");
-
-            // Image
-            let imgSrc = '';
-            if (m.isForm && m.formObj) {
-                imgSrc = isShiny && m.formObj.ShinySpritePath ? m.formObj.ShinySpritePath : m.formObj.SpritePath;
-                if (!imgSrc) imgSrc = `home/${isShiny ? 'shiny/' : ''}${parseInt(m.id)}.png`;
-                else if (imgSrc.startsWith('shared/assets/')) imgSrc = imgSrc.replace('shared/assets/', '');
-            } else {
-                imgSrc = `home/${isShiny ? 'shiny/' : ''}${parseInt(m.id)}.png`;
-            }
-
-            // Type icons
-            let typeIconsHtml = '';
-            if (typeof typeIcons !== 'undefined') {
-                tArr.forEach(t => {
-                    const iconPath = typeIcons[t];
-                    if (iconPath) {
-                        typeIconsHtml += `<span class="type-icon-emoji" style="font-size: 1.2rem; filter: drop-shadow(1px 1px 2px rgba(0,0,0,0.5));">${iconPath}</span>`;
-                    }
-                });
-            }
-
-            const clickAction = m.isForm 
-                ? `if(typeof openPokemonDossier === 'function') openPokemonDossier('${m.id}', ${isShiny}, ${m.formIndex});`
-                : `if(typeof openPokemonDossier === 'function') openPokemonDossier('${m.id}', ${isShiny});`;
-
-            const shinyStarHtml = isShiny 
-                ? `<i class="fas fa-star" style="position: absolute; color: #FFD700; font-size: 2.5rem; top: -12px; left: -12px; z-index: -1; opacity: 0.25; transform: rotate(-15deg);"></i>` 
-                : '';
-
-            html += `
-                <div class="all-poke-badge" style="background: ${gradient};" onclick="${clickAction}">
-                    <div class="all-poke-badge-number">
-                        ${shinyStarHtml}
-                        #${parseInt(m.id).toString().padStart(3, '0')}
-                    </div>
-                    <div class="all-poke-badge-types">${typeIconsHtml}</div>
-                    
-                    <div class="all-poke-badge-img-box">
-                        <img src="${imgSrc}" loading="lazy" alt="${nameToShow}">
-                    </div>
-                    
-                    <div class="all-poke-badge-name">${nameToShow}</div>
-                </div>
-            `;
+        const filteredData = allBadgesData.filter(m => {
+            if (onlyLegendaries && !m.isLegend) return false;
+            if (!onlyLegendaries && !showForms && m.isForm) return false;
+            if (onlyLegendaries && m.isForm) return false;
+            return true;
         });
 
-        grid.innerHTML = html;
+        if (filteredData.length === 0) return;
+
+        let currentBatch = 0;
+        const BATCH_SIZE = 40;
+
+        function renderNextBatch() {
+            if (renderId !== currentRenderId) return; // Сancel if a new render started
+
+            const start = currentBatch * BATCH_SIZE;
+            const end = Math.min(start + BATCH_SIZE, filteredData.length);
+            
+            let html = '';
+            
+            for (let i = start; i < end; i++) {
+                const m = filteredData[i];
+                
+                // Get Colors
+                let tArr = m.p.type || [];
+                if (m.isForm && m.formObj && m.formObj.Types) {
+                    tArr = m.formObj.Types.split(',').map(t => t.trim().toLowerCase());
+                }
+
+                let type1 = tArr[0] || 'normal';
+                let type2 = tArr[1] || type1;
+
+                let c1 = typeColors[type1] || '#444';
+                let c2 = typeColors[type2] || c1;
+                
+                // Adjust gradient for premium look
+                let gradient = `linear-gradient(135deg, ${c1} 0%, ${c2} 100%)`;
+
+                // Names
+                let dispRu = m.p.ru || m.p.en;
+                let dispEn = m.p.en;
+                if (m.isForm && m.formObj && m.formObj.FormName) {
+                    if (typeof window.translateFormName === 'function') {
+                        let trans = window.translateFormName(m.formObj.FormName, dispRu, dispEn);
+                        dispRu = trans.ru;
+                        dispEn = trans.en;
+                    } else {
+                        dispRu = `${dispRu} (${m.formObj.FormName})`;
+                        dispEn = `${dispEn} (${m.formObj.FormName})`;
+                    }
+                }
+
+                const nameToShow = currentLang === 'ru' ? dispRu : dispEn;
+
+                // Image
+                let imgSrc = '';
+                if (m.isForm && m.formObj) {
+                    imgSrc = isShiny && m.formObj.ShinySpritePath ? m.formObj.ShinySpritePath : m.formObj.SpritePath;
+                    if (!imgSrc) imgSrc = `home/${isShiny ? 'shiny/' : ''}${parseInt(m.id)}.png`;
+                    else if (imgSrc.startsWith('shared/assets/')) imgSrc = imgSrc.replace('shared/assets/', '');
+                } else {
+                    imgSrc = `home/${isShiny ? 'shiny/' : ''}${parseInt(m.id)}.png`;
+                }
+
+                // Type icons
+                let typeIconsHtml = '';
+                if (typeof typeIcons !== 'undefined') {
+                    tArr.forEach(t => {
+                        const iconPath = typeIcons[t];
+                        if (iconPath) {
+                            typeIconsHtml += `<span class="type-icon-emoji" style="font-size: 1.2rem; filter: drop-shadow(1px 1px 2px rgba(0,0,0,0.5));">${iconPath}</span>`;
+                        }
+                    });
+                }
+
+                const clickAction = m.isForm 
+                    ? `if(typeof openPokemonDossier === 'function') openPokemonDossier('${m.id}', ${isShiny}, ${m.formIndex});`
+                    : `if(typeof openPokemonDossier === 'function') openPokemonDossier('${m.id}', ${isShiny});`;
+
+                const shinyStarHtml = isShiny 
+                    ? `<i class="fas fa-star" style="position: absolute; color: #FFD700; font-size: 2.5rem; top: -12px; left: -12px; z-index: -1; opacity: 0.25; transform: rotate(-15deg);"></i>` 
+                    : '';
+
+                html += `
+                    <div class="all-poke-badge" style="background: ${gradient};" onclick="${clickAction}">
+                        <div class="all-poke-badge-number">
+                            ${shinyStarHtml}
+                            #${parseInt(m.id).toString().padStart(3, '0')}
+                        </div>
+                        <div class="all-poke-badge-types">${typeIconsHtml}</div>
+                        
+                        <div class="all-poke-badge-img-box">
+                            <img src="${imgSrc}" loading="lazy" alt="${nameToShow}">
+                        </div>
+                        
+                        <div class="all-poke-badge-name">${nameToShow}</div>
+                    </div>
+                `;
+            }
+
+            if (start === 0) {
+                grid.innerHTML = html;
+            } else {
+                grid.insertAdjacentHTML('beforeend', html);
+            }
+
+            currentBatch++;
+            if (end < filteredData.length) {
+                requestAnimationFrame(() => {
+                    setTimeout(renderNextBatch, 0);
+                });
+            }
+        }
+
+        renderNextBatch();
     }
 });
