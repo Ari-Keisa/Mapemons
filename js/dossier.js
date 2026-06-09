@@ -542,7 +542,11 @@ window.translateFormName = function(enFormName, baseRuName, baseEnName) {
         'Yellow': 'Жёлтый',
         'Orange': 'Оранжевый',
         'White': 'Белый',
-        'Eternal': 'Вечный'
+        'Eternal': 'Вечный',
+        'Average': 'Обычная',
+        'Large': 'Большая',
+        'Super': 'Огромная',
+        'Small': 'Маленькая'
     };
 
     const forms = {
