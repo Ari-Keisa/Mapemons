@@ -1073,14 +1073,16 @@ document.addEventListener('DOMContentLoaded', function () {
                 }
 
                 let html = `
-                <div class="slider-container" style="display:flex; justify-content:center; align-items:center; gap:15px; margin: 20px 0; user-select: none; position: relative; width: 100%;">
-                    <span id="slider-loc-text" style="color:#aaa; font-weight:bold; transition:0.3s; cursor:pointer;" onclick="setSliderState(-1)">Локации</span>
-                    <div id="slider-track" style="width: 80px; height: 34px; background: rgba(0,0,0,0.5); border-radius: 17px; position:relative; cursor:pointer; box-shadow: inset 0 0 5px rgba(0,0,0,0.8);">
+                <div class="slider-container" style="display:flex; justify-content:center; align-items:center; margin: 20px 0; user-select: none; position: relative; width: 100%;">
+                    <div style="flex: 1; display: flex; justify-content: flex-end; padding-right: 15px;">
+                        <span id="slider-loc-text" style="color:#aaa; font-weight:bold; transition:0.3s; cursor:pointer;" onclick="setSliderState(-1)">Локации</span>
+                    </div>
+                    <div id="slider-track" style="width: 80px; height: 34px; flex-shrink: 0; background: rgba(0,0,0,0.5); border-radius: 17px; position:relative; cursor:pointer; box-shadow: inset 0 0 5px rgba(0,0,0,0.8);">
                         <div id="slider-thumb" style="width:28px; height:28px; background: var(--text-muted); border-radius:50%; position:absolute; top:3px; left:26px; transition:left 0.3s cubic-bezier(0.68, -0.55, 0.265, 1.55), background 0.3s;"></div>
                     </div>
-                    <div style="display: flex; align-items: center; gap: 8px;">
+                    <div style="flex: 1; display: flex; justify-content: flex-start; align-items: center; padding-left: 15px; gap: 8px;">
                         <span id="slider-poke-text" style="color:#aaa; font-weight:bold; transition:0.3s; cursor:pointer;" onclick="setSliderState(1)">Покемоны</span>
-                        <button id="shinyToggleButton" class="shiny-slider-btn" onclick="toggleShinySearch(event)" title="Включить Шайни режим" style="opacity: 0; pointer-events: none; background: ${isShinySearch ? 'rgba(78, 205, 196, 0.2)' : 'rgba(255,255,255,0.05)'}; border: 1px solid ${isShinySearch ? 'var(--primary)' : 'rgba(255,255,255,0.1)'}; border-radius: 8px; width: 34px; height: 34px; cursor: pointer; transition: 0.3s; display: flex; align-items: center; justify-content: center;">
+                        <button id="shinyToggleButton" class="shiny-slider-btn" onclick="toggleShinySearch(event)" title="Включить Шайни режим" style="opacity: 0; pointer-events: none; background: ${isShinySearch ? 'rgba(78, 205, 196, 0.2)' : 'rgba(255,255,255,0.05)'}; border: 1px solid ${isShinySearch ? 'var(--primary)' : 'rgba(255,255,255,0.1)'}; border-radius: 8px; width: 34px; height: 34px; flex-shrink: 0; cursor: pointer; transition: 0.3s; display: flex; align-items: center; justify-content: center;">
                             <i class="fas fa-star" style="color: ${isShinySearch ? 'var(--primary)' : '#aaa'}; font-size: 1.1rem;"></i>
                         </button>
                     </div>
