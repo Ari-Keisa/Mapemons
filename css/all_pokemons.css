@@ -590,9 +590,19 @@
     }
     
     .all-poke-controls {
-        flex-wrap: wrap;
+        flex-wrap: nowrap;
         justify-content: center;
-        padding-right: 20px;
+        padding-right: 30px; /* Leave space for the absolute close button */
+        gap: 6px;
+    }
+    
+    .all-poke-controls .custom-icon-btn {
+        width: 45px;
+        height: 45px;
+    }
+    
+    .all-poke-controls .icon-shape {
+        transform: scale(0.75); /* Scale down the complex icon contents */
     }
     
     #allPokeCloseBtn {
