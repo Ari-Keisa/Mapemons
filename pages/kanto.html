@@ -4309,7 +4309,8 @@
                     'тёмный': 'dark', 'темный': 'dark', 'dark': 'dark',
                     'волшебный': 'fairy', 'fairy': 'fairy'
                 };
-                const typeKey = typeRuMap[query];
+                let cleanTypeQuery = query.replace(/^тип\s+/i, '').trim();
+                const typeKey = typeRuMap[cleanTypeQuery];
                 if (typeKey) {
                     highlightByType(typeKey);
                     return;
@@ -4319,8 +4320,15 @@
             // ===== ПОИСК ПО ТИРУ =====
             {
                 const validTiers = ['lc','nfe','iron','bronze','silver','gold','platinum','diamond','ascendant','uber','ultrauber'];
-                if (validTiers.includes(query.toLowerCase())) {
-                    highlightByTier(query);
+                let tierKey = null;
+                if (validTiers.includes(query.toLowerCase())) tierKey = query.toLowerCase();
+                else if (query.toLowerCase().startsWith('тир ') || query.toLowerCase().startsWith('tier ')) {
+                    const tk = query.split(' ')[1].toLowerCase();
+                    if (validTiers.includes(tk)) tierKey = tk;
+                }
+
+                if (tierKey) {
+                    highlightByTier(tierKey);
                     return;
                 }
             }

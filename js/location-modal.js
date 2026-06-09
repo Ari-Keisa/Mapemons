@@ -111,18 +111,35 @@ function showLocationInfo(locId, data) {
     const badgesHtml = badges ? `<span class="loc-modal-badges">${badges}</span>` : '';
 
     // --- NPC tab content ---
-    const npcs = window.npcByLocation[locId] || [];
+    let npcs = Array.from(window.npcByLocation[locId] || []);
+    
+    // Автоматически добавляем Джой и Продавца, если есть Центр/Магазин
+    if (data.has_pokecenter) {
+        npcs.unshift({
+            ru_name: '👩‍⚕️ Сестра Джой',
+            description: 'Заботливая медсестра Покецентра. Она с радостью вылечит ваших покемонов и вернёт им силы для новых приключений.'
+        });
+    }
+    if (data.has_pokemart) {
+        npcs.push({
+            ru_name: '🛒 Продавец Покемарта',
+            description: 'Всегда готов предложить вам лучшие товары для путешествия: покеболы, зелья и многое другое.'
+        });
+    }
+    
     let npcHtml = '';
     if (npcs.length > 0) {
-        npcHtml = '<div class="npc-list">' + npcs.map((npc, i) => `
+        npcHtml = '<div class="npc-list">' + npcs.map((npc, i) => {
+            const ext = window.extractLocationIcon ? window.extractLocationIcon(npc.ru_name, 'npc') : {icon: '👤', name: npc.ru_name};
+            return `
             <div>
                 <div class="npc-item">
-                    <span class="npc-item-name">👤 ${npc.ru_name}</span>
+                    <span class="npc-item-name">${ext.icon} ${ext.name}</span>
                     <button class="npc-info-btn" onclick="toggleNpcDesc(${i})" title="Подробнее">ℹ️</button>
                 </div>
                 <div class="npc-desc" id="npcDesc${i}">${npc.description || 'Описание отсутствует.'}</div>
             </div>
-        `).join('') + '</div>';
+        `}).join('') + '</div>';
     } else {
         npcHtml = '<div class="loc-empty"><div class="loc-empty-icon">🚫</div><div class="loc-empty-text">В этой локации нет NPC</div></div>';
     }
@@ -409,10 +426,141 @@ window.openItemInfo = function(key) {
 
 // Simple getTypeText fallback
 window.getTypeText = function(type) {
+    if (!type) return 'Локация';
     const types = {
         'city': 'Город', 'town': 'Город', 'route': 'Маршрут', 'forest': 'Лес',
         'meadow': 'Луг', 'cave': 'Пещера', 'island': 'Остров', 'mountain': 'Горы',
-        'canyon': 'Каньон', 'building': 'Строение', 'special': 'Особое место'
+        'canyon': 'Каньон', 'building': 'Строение', 'special': 'Особое место',
+        'water': 'Водоем'
     };
     return types[type.toLowerCase()] || 'Локация';
+};
+
+window.getTypeIcon = function(type) {
+    if (!type) return '📍';
+    const icons = {
+        'city': '🏙️', 'town': '🏘️', 'route': '🛣️', 'forest': '🌲',
+        'meadow': '🌸', 'cave': '🪨', 'island': '🏝️', 'mountain': '⛰️',
+        'canyon': '🏜️', 'building': '🏢', 'special': '✨', 'water': '🌊',
+        'npc': '👤'
+    };
+    return icons[type.toLowerCase()] || '📍';
+};
+
+window.extractLocationIcon = function(name, type) {
+    if (!name) return { icon: window.getTypeIcon(type), name: 'Неизвестно' };
+    
+    // Ищем символы-эмодзи в начале строки (не буквы, не цифры, не знаки препинания, не пробелы)
+    const match = name.match(/^([^\p{L}\p{N}\p{P}\p{Z}]+)\s*(.*)/u);
+    if (match && match[1].trim() !== '') {
+        return { icon: match[1], name: match[2] };
+    }
+    
+    return { icon: window.getTypeIcon(type), name: name };
+};
+
+window.openLightLocationModal = function(locId) {
+    if (!window.locationData) return;
+    const data = window.locationData[locId];
+    if (!data) return;
+
+    let overlay = document.getElementById('lightModalOverlay');
+    if (!overlay) {
+        overlay = document.createElement('div');
+        overlay.id = 'lightModalOverlay';
+        overlay.style.cssText = 'position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.8); z-index:20000; display:none; opacity:0; transition:opacity 0.3s; backdrop-filter:blur(3px);';
+        document.body.appendChild(overlay);
+        
+        const modal = document.createElement('div');
+        modal.id = 'lightLocationModal';
+        // Обновленный стиль: темный фон, подходящий под общий дизайн сайта
+        modal.style.cssText = 'position:fixed; top:50%; left:50%; transform:translate(-50%, -50%) scale(0.9); width:90%; max-width:500px; background:rgba(25, 25, 35, 0.98); border-radius:15px; padding:25px; z-index:20001; box-shadow:0 10px 40px rgba(0,0,0,0.8); border:2px solid var(--primary); display:none; opacity:0; transition:all 0.3s; color:#fff; max-height:80vh; overflow-y:auto; backdrop-filter:blur(10px);';
+        document.body.appendChild(modal);
+
+        overlay.addEventListener('click', closeLightModal);
+    }
+
+    const modal = document.getElementById('lightLocationModal');
+    
+    const regionFiles = {
+        'KANTO': 'pages/kanto.html',
+        'JOHTO': 'pages/johto.html',
+        'HOENN': 'pages/hoenn.html',
+        'SINNOH': 'pages/sinnoh.html',
+        'UNOVA': 'pages/unova.html'
+    };
+    
+    const regUrl = regionFiles[data.region] ? `${regionFiles[data.region]}?loc=${locId}` : '#';
+
+    let pokesHtml = '';
+    if (data.encounters && data.encounters.length > 0) {
+        let speciesSet = new Set();
+        data.encounters.forEach(e => {
+            if(e.species) speciesSet.add(e.species.toUpperCase());
+        });
+        
+        let pokeCards = '';
+        speciesSet.forEach(sp => {
+            if (window.pokemonDB) {
+                const pObj = Object.values(window.pokemonDB).find(x => x.en.toUpperCase() === sp);
+                if (pObj) {
+                    const pId = Object.keys(window.pokemonDB).find(k => window.pokemonDB[k].en === pObj.en);
+                    const iconExt = (pObj.en === 'Pikachu' || pObj.en === 'Eevee') ? 'gif' : 'png';
+                    const imgSrc = `shared/assets/home/${parseInt(pId)}.${iconExt}`;
+                    pokeCards += `<div style="background:rgba(0,0,0,0.3); padding:5px; border-radius:8px; text-align:center; width:65px;" title="${pObj.ru || pObj.en}">
+                        <img src="${imgSrc}" style="width:40px;height:40px;object-fit:contain;" onerror="this.src='images/items/0.png'">
+                        <div style="font-size:0.6rem; margin-top:3px; white-space:nowrap; overflow:hidden; text-overflow:ellipsis;">${pObj.ru || pObj.en}</div>
+                    </div>`;
+                }
+            }
+        });
+        
+        if (pokeCards) {
+            pokesHtml = `
+            <h4 style="margin-top:15px; margin-bottom:10px; color:#ffcc00; font-size:0.9rem;">Встречаемые покемоны:</h4>
+            <div style="display:flex; flex-wrap:wrap; gap:8px;">${pokeCards}</div>
+            `;
+        }
+    }
+
+    let badges = '';
+    if (data.has_pokecenter) badges += '<span title="Покецентр" style="margin-right:5px; font-size:1.2rem;">❤️‍🩹</span>';
+    if (data.has_pokemart) badges += '<span title="Покемарт" style="font-size:1.2rem;">🛒</span>';
+    
+    modal.innerHTML = `
+        <button onclick="closeLightModal()" style="position:absolute; top:15px; right:15px; background:none; border:none; color:#aaa; font-size:1.5rem; cursor:pointer; transition:0.2s;" onmouseover="this.style.color='#fff'" onmouseout="this.style.color='#aaa'">&times;</button>
+        <h2 style="margin-top:0; color:var(--primary); font-size:1.5rem; margin-bottom:5px;">${data.ru_name || data.name}</h2>
+        <div style="color:#ccc; font-size:0.9rem; margin-bottom:15px;">Регион: <span style="color:#fff; font-weight:bold;">${data.region}</span></div>
+        ${badges ? `<div style="margin-bottom:15px;">${badges}</div>` : ''}
+        ${data.description ? `<div style="background:rgba(0,0,0,0.2); padding:10px; border-radius:8px; font-size:0.95rem; line-height:1.4; margin-bottom:15px; border-left:3px solid var(--primary);">${data.description}</div>` : ''}
+        ${pokesHtml}
+        <div style="margin-top:25px; text-align:center;">
+            <a href="${regUrl}" style="display:inline-block; background:var(--primary); color:#000; text-decoration:none; padding:10px 20px; border-radius:25px; font-weight:bold; font-size:1rem; transition:0.2s; box-shadow:0 4px 15px rgba(78,205,196,0.4);" onmouseover="this.style.transform='scale(1.05)'; this.style.boxShadow='0 6px 20px rgba(78,205,196,0.6)';" onmouseout="this.style.transform='none'; this.style.boxShadow='0 4px 15px rgba(78,205,196,0.4)';">
+                Перейти на карту региона
+            </a>
+        </div>
+    `;
+
+    overlay.style.display = 'block';
+    modal.style.display = 'block';
+    
+    void modal.offsetWidth;
+    
+    overlay.style.opacity = '1';
+    modal.style.opacity = '1';
+    modal.style.transform = 'translate(-50%, -50%) scale(1)';
+};
+
+window.closeLightModal = function() {
+    const overlay = document.getElementById('lightModalOverlay');
+    const modal = document.getElementById('lightLocationModal');
+    if (overlay && modal) {
+        overlay.style.opacity = '0';
+        modal.style.opacity = '0';
+        modal.style.transform = 'translate(-50%, -50%) scale(0.9)';
+        setTimeout(() => {
+            overlay.style.display = 'none';
+            modal.style.display = 'none';
+        }, 300);
+    }
 };

@@ -37,8 +37,7 @@ document.addEventListener('DOMContentLoaded', function () {
         overlay: document.getElementById('modalOverlay'),
         opts: document.querySelectorAll('.search-option'),
         box: document.getElementById('searchBox'),
-        centers: document.getElementById('pokecenterList'),
-        marts: document.getElementById('pokemartList'),
+        centers: document.getElementById('centersList'),
         hint: document.getElementById('searchHint'),
         // СТАТИСТИКА
         statLocs: document.getElementById('locationCount'),
@@ -58,8 +57,8 @@ document.addEventListener('DOMContentLoaded', function () {
     const hintTexts = {
         'pokemon': 'Например: Pikachu, Charizard, Мьюту, #025, 125',
         'item': 'Например: Чёрный пояс, Уголёк, Амурит, item_996, 996',
-        'pokecenter': 'Список локаций, где присутствует Покецентр',
-        'pokemart': 'Список локаций, где присутствует Магазин'
+        'centers': 'Список локаций, где присутствует Покецентр и Магазин',
+        'other': 'Например: Имя_NPC, Тип_покемона, Тир_покемона, Редкость ( О | Р_ ), Название_Локации'
     };
 
     // === ДАННЫЕ (Экспортируем в глобальную область для dossier.js) ===
@@ -737,6 +736,240 @@ document.addEventListener('DOMContentLoaded', function () {
             return;
         }
 
+        // ===== ВНЕГЛАСНЫЙ ПОИСК ПО ТИПУ И ТИРУ ПОКЕМОНОВ =====
+        if (!isItemSearch && !foundID) {
+            const validTiers = ['lc','nfe','iron','bronze','silver','gold','platinum','diamond','ascendant','uber','ultrauber'];
+            const validRarities = ['о', 'р1', 'р2', 'р3', 'р4', 'р5', 'р6', 'р7', 'р8', 'р9', 'р10'];
+            
+            let typeKey = null;
+            let tierKey = null;
+            let rarityKey = null;
+            
+            const qTypeRaw = cleanQuery.replace(/^тип\s+/i, '').trim();
+            const qType = qTypeRaw.replace(/ё/g, 'е');
+            if (cleanQuery.startsWith('тип ')) typeKey = Object.keys(typeNamesRu).find(k => typeNamesRu[k].toLowerCase().replace(/ё/g, 'е') === qType || k === qTypeRaw) || qTypeRaw;
+            else typeKey = Object.keys(typeNamesRu).find(k => typeNamesRu[k].toLowerCase().replace(/ё/g, 'е') === qType || k === qTypeRaw);
+
+            if (!typeKey) {
+                if (validTiers.includes(cleanQuery)) tierKey = cleanQuery;
+                else if (cleanQuery.startsWith('тир ')) {
+                    const tk = cleanQuery.split(' ')[1];
+                    if (validTiers.includes(tk)) tierKey = tk;
+                }
+            }
+
+            if (!typeKey && !tierKey) {
+                if (validRarities.includes(cleanQuery)) rarityKey = cleanQuery;
+                else if (cleanQuery.startsWith('редкость ')) {
+                    const rk = cleanQuery.split(' ')[1];
+                    if (validRarities.includes(rk)) rarityKey = rk;
+                }
+                else if (cleanQuery === 'обычный') rarityKey = 'о';
+                else if (cleanQuery.startsWith('обычный')) rarityKey = 'о';
+                else {
+                    const rMatch = cleanQuery.match(/^редкость\s+(р\d{1,2}|о)$/);
+                    if (rMatch) rarityKey = rMatch[1];
+                }
+            }
+
+            if (typeKey || tierKey || rarityKey) {
+                let pokemonMatches = [];
+                let locationMatches = {}; // Grouped by region
+
+                // --- 1. Сбор подходящих покемонов ---
+                for (let id in pokemonDB) {
+                    const p = pokemonDB[id];
+                    if (!p || !p.en) continue;
+                    let pType = typeKey && p.type && p.type.includes(typeKey);
+                    let pTier = false;
+                    if (tierKey && window.pokemonRuData) {
+                        const ruEntry = window.pokemonRuData[p.en.toUpperCase()];
+                        if (ruEntry && ruEntry.Format && ruEntry.Format.toLowerCase() === tierKey) pTier = true;
+                    }
+                    if (pType || pTier) {
+                        pokemonMatches.push({id, p});
+                    }
+                }
+
+                // --- 2. Сбор локаций и редкостей ---
+                if (window.locationData) {
+                    for (let locId in window.locationData) {
+                        const loc = window.locationData[locId];
+                        let matchedSpecies = new Set();
+                        if (loc.encounters) {
+                            loc.encounters.forEach(e => {
+                                if (!e.species) return;
+                                const p = Object.values(pokemonDB).find(x => x.en.toUpperCase() === e.species.toUpperCase());
+                                if (!p) return;
+                                
+                                if (typeKey && p.type && p.type.includes(typeKey)) matchedSpecies.add(p.ru || p.en);
+                                if (tierKey && window.pokemonRuData) {
+                                    const ruEntry = window.pokemonRuData[p.en.toUpperCase()];
+                                    if (ruEntry && ruEntry.Format && ruEntry.Format.toLowerCase() === tierKey) matchedSpecies.add(p.ru || p.en);
+                                }
+                                if (rarityKey) {
+                                    const rarityStrMap = {0: 'о', 1: 'р1', 2: 'р2', 3: 'р3', 4: 'р4', 5: 'р5', 6: 'р6', 7: 'р7', 8: 'р8', 9: 'р9', 10: 'р10'};
+                                    if (rarityStrMap[e.rarity] === rarityKey) {
+                                        matchedSpecies.add(p.ru || p.en);
+                                        if (!pokemonMatches.find(pm => pm.p.en === p.en)) {
+                                            const pId = Object.keys(pokemonDB).find(k => pokemonDB[k].en === p.en);
+                                            if(pId) pokemonMatches.push({id: pId, p: p});
+                                        }
+                                    }
+                                }
+                            });
+                        }
+                        if (matchedSpecies.size > 0) {
+                            const reg = loc.region || 'UNKNOWN';
+                            if (!locationMatches[reg]) locationMatches[reg] = [];
+                            locationMatches[reg].push({locId, loc, speciesCount: matchedSpecies.size, speciesNames: Array.from(matchedSpecies)});
+                        }
+                    }
+                }
+
+                // --- 3. Генерация UI ---
+                let titleText = typeKey ? `Поиск по типу: ${typeNamesRu[typeKey] || typeKey}` : (tierKey ? `Поиск по тиру: ${tierKey.toUpperCase()}` : `Поиск по редкости: ${rarityKey.toUpperCase()}`);
+                els.title.innerHTML = `<i class="fas fa-search"></i> ${titleText}`;
+
+                // Локации HTML
+                let locsHtml = `<div style="display:flex; flex-direction:column; gap: 20px;">`;
+                if (Object.keys(locationMatches).length === 0) {
+                    locsHtml += `<div style="text-align:center; color:#aaa; padding:20px;">В этой категории не найдено ни одной локации.</div>`;
+                } else {
+                    for (let reg in locationMatches) {
+                        locsHtml += `<div style="background: rgba(0,0,0,0.3); border-radius: 12px; padding: 15px;">
+                            <h3 style="color: var(--primary); margin-top:0; margin-bottom: 15px; border-bottom: 1px solid rgba(255,255,255,0.1); padding-bottom: 10px;">${regionNames[reg] || reg}</h3>
+                            <div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 10px;">`;
+                        locationMatches[reg].forEach(l => {
+                            const ext = window.extractLocationIcon ? window.extractLocationIcon(l.loc.ru_name || l.loc.name, l.loc.type) : {icon: '📍', name: l.loc.ru_name || l.loc.name};
+                            locsHtml += `<div class="loc-clickable" data-loc="${l.locId}" style="background: rgba(255,255,255,0.05); padding: 12px; border-radius: 8px; border-left: 4px solid var(--primary); cursor: pointer; transition: 0.2s; position:relative;" onmouseover="this.style.background='rgba(255,255,255,0.1)'; this.style.transform='translateX(3px)';" onmouseout="this.style.background='rgba(255,255,255,0.05)'; this.style.transform='none';" onclick="if(typeof openLightLocationModal==='function') openLightLocationModal('${l.locId}')">
+                                <div style="font-weight: bold; color: #fff; margin-bottom: 5px;"><span style="font-size:1.2rem; margin-right:5px;">${ext.icon}</span>${ext.name}</div>
+                                <div style="font-size: 0.8rem; color: #aaa;">Найдено видов: <span style="color:#ffcc00; font-weight:bold;">${l.speciesCount}</span></div>
+                            </div>`;
+                        });
+                        locsHtml += `</div></div>`;
+                    }
+                }
+                locsHtml += `</div>`;
+
+                // Покемоны HTML
+                let pokesHtml = `<div style="display:flex; flex-wrap:wrap; gap:15px; justify-content:center;">`;
+                if (pokemonMatches.length === 0) {
+                    pokesHtml += `<div style="text-align:center; color:#aaa; padding:20px;">В этой категории не найдено покемонов.</div>`;
+                } else {
+                    const badgeText = typeKey ? (typeIcons[typeKey] || '✨') : (tierKey ? tierKey.toUpperCase() : (rarityKey ? rarityKey.toUpperCase() : ''));
+                    pokemonMatches.forEach(m => {
+                        const iconExt = (m.p.en === 'Pikachu' || m.p.en === 'Eevee') ? 'gif' : 'png';
+                        const imgSrc = `shared/assets/home/${parseInt(m.id)}.${iconExt}`;
+                        pokesHtml += `<div class="poke-trading-card" style="background: linear-gradient(135deg, rgba(40,40,60,0.9), rgba(20,20,30,0.9)); border: 2px solid rgba(255,255,255,0.1); border-radius: 12px; padding: 10px; width: 140px; text-align: center; position: relative; cursor: pointer; transition: 0.2s;" 
+                             onmouseover="this.style.transform='scale(1.05)'; this.style.borderColor='var(--primary)';" 
+                             onmouseout="this.style.transform='none'; this.style.borderColor='rgba(255,255,255,0.1)';" 
+                             onclick="typeof openPokemonDossier === 'function' ? openPokemonDossier('${m.p.en}') : (document.getElementById('pokemonSearch').value='${m.p.en}', document.getElementById('searchButton').click())">
+                            <div style="position: absolute; top: 8px; left: 8px; background: rgba(0,0,0,0.6); padding: 2px 6px; border-radius: 10px; font-size: 0.75rem; font-weight: bold; color: #fff;">#${m.id.padStart(3, '0')}</div>
+                            <div style="position: absolute; top: 8px; right: 8px; background: rgba(255,215,0,0.2); padding: 2px 6px; border-radius: 10px; font-size: 0.8rem; font-weight: bold; color: #ffd700;">${badgeText}</div>
+                            <img src="${imgSrc}" style="width: 80px; height: 80px; object-fit: contain; margin-top: 20px; filter: drop-shadow(0 4px 6px rgba(0,0,0,0.5));" onerror="this.src='images/items/0.png'">
+                            <div style="margin-top: 10px; font-weight: bold; color: #fff; font-size: 0.95rem; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">${m.p.ru || m.p.en}</div>
+                            <div style="font-size: 0.75rem; color: #aaa; margin-top: 2px;">${m.p.en}</div>
+                        </div>`;
+                    });
+                }
+                pokesHtml += `</div>`;
+
+                let html = `
+                <div class="slider-container" style="display:flex; justify-content:center; align-items:center; gap:15px; margin: 20px 0; user-select: none;">
+                    <span id="slider-loc-text" style="color:#aaa; font-weight:bold; transition:0.3s; cursor:pointer;" onclick="setSliderState(-1)">Локации</span>
+                    <div id="slider-track" style="width: 80px; height: 34px; background: rgba(0,0,0,0.5); border-radius: 17px; position:relative; cursor:pointer; box-shadow: inset 0 0 5px rgba(0,0,0,0.8);">
+                        <div id="slider-thumb" style="width:28px; height:28px; background: var(--text-muted); border-radius:50%; position:absolute; top:3px; left:26px; transition:left 0.3s cubic-bezier(0.68, -0.55, 0.265, 1.55), background 0.3s;"></div>
+                    </div>
+                    <span id="slider-poke-text" style="color:#aaa; font-weight:bold; transition:0.3s; cursor:pointer;" onclick="setSliderState(1)">Покемоны</span>
+                </div>
+                
+                <div id="slider-view-neutral" style="text-align:center; color:#aaa; font-size:1.1rem; padding: 40px 20px; animation: fadeIn 0.3s;">
+                    <i class="fas fa-arrows-alt-h" style="font-size:2rem; opacity:0.5; margin-bottom:15px; display:block;"></i>
+                    Перетяните ползунок, чтобы выбрать категорию
+                </div>
+                
+                <div id="slider-view-loc" style="display:none; padding:10px; animation: fadeIn 0.3s;">${locsHtml}</div>
+                <div id="slider-view-poke" style="display:none; padding:10px; animation: fadeIn 0.3s;">${pokesHtml}</div>
+                `;
+
+                els.content.innerHTML = html;
+                els.container.style.display = 'block';
+                if (els.overlay) els.overlay.classList.add('active');
+                document.body.style.overflow = 'hidden';
+
+                // Slider Logic
+                window.setSliderState = function(state) {
+                    const thumb = document.getElementById('slider-thumb');
+                    const tLoc = document.getElementById('slider-loc-text');
+                    const tPoke = document.getElementById('slider-poke-text');
+                    const vNeutral = document.getElementById('slider-view-neutral');
+                    const vLoc = document.getElementById('slider-view-loc');
+                    const vPoke = document.getElementById('slider-view-poke');
+                    
+                    if(!thumb) return;
+                    
+                    vNeutral.style.display = 'none';
+                    vLoc.style.display = 'none';
+                    vPoke.style.display = 'none';
+                    tLoc.style.color = '#aaa';
+                    tPoke.style.color = '#aaa';
+                    
+                    if (state === -1) {
+                        thumb.style.left = '3px';
+                        thumb.style.background = 'var(--primary)';
+                        tLoc.style.color = 'var(--primary)';
+                        vLoc.style.display = 'block';
+                    } else if (state === 1) {
+                        thumb.style.left = '49px';
+                        thumb.style.background = '#ffcc00';
+                        tPoke.style.color = '#ffcc00';
+                        vPoke.style.display = 'block';
+                    } else {
+                        thumb.style.left = '26px';
+                        thumb.style.background = 'var(--text-muted)';
+                        vNeutral.style.display = 'block';
+                    }
+                };
+
+                const track = document.getElementById('slider-track');
+                let isDragging = false;
+                
+                track.addEventListener('mousedown', (e) => { isDragging = true; handleSliderDrag(e); });
+                document.addEventListener('mousemove', (e) => { if(isDragging) handleSliderDrag(e); });
+                document.addEventListener('mouseup', () => { isDragging = false; });
+                
+                track.addEventListener('touchstart', (e) => { isDragging = true; handleSliderDrag(e.touches[0]); });
+                document.addEventListener('touchmove', (e) => { if(isDragging) handleSliderDrag(e.touches[0]); });
+                document.addEventListener('touchend', () => { isDragging = false; });
+                
+                function handleSliderDrag(e) {
+                    const rect = track.getBoundingClientRect();
+                    const x = e.clientX - rect.left;
+                    if (x < 26) setSliderState(-1);
+                    else if (x > 54) setSliderState(1);
+                    else setSliderState(0);
+                }
+
+                // Smart tap logic for slider locations
+                els.content.querySelectorAll('.loc-clickable').forEach(el => {
+                    let isScrolling = false;
+                    el.addEventListener('mousedown', () => isScrolling = false);
+                    el.addEventListener('mousemove', () => isScrolling = true);
+                    el.addEventListener('mouseup', () => {
+                        if (!isScrolling && typeof openLightLocationModal === 'function') openLightLocationModal(el.dataset.loc);
+                    });
+                    el.addEventListener('touchstart', () => isScrolling = false);
+                    el.addEventListener('touchmove', () => isScrolling = true);
+                    el.addEventListener('touchend', () => {
+                        if (!isScrolling && typeof openLightLocationModal === 'function') openLightLocationModal(el.dataset.loc);
+                    });
+                });
+
+                return;
+            }
+        }
+
         // Внегласный поиск по NPC
         if (!foundID) {
             let foundNPCLocs = [];
@@ -782,12 +1015,12 @@ document.addEventListener('DOMContentLoaded', function () {
                     if (foundLoc) {
                         const cleanLocName = (foundLoc.ru_name || foundLoc.name || '').replace(/^[^\p{L}\d]+/gu, '').trim();
                         html += `
-                            <div class="habitat-item" style="margin-bottom: 10px; padding: 10px; background: rgba(0,0,0,0.1); border-radius: 4px; display: flex; align-items: center; gap: 10px;">
-                                <div style="font-size: 1.5rem;">📍</div>
+                            <div class="habitat-item loc-clickable" data-loc="${locId}" style="margin-bottom: 10px; padding: 15px; background: rgba(255,255,255,0.05); border-radius: 12px; border-left: 4px solid var(--primary); display: flex; align-items: center; gap: 15px; cursor: pointer; transition: 0.2s; position: relative; overflow: hidden;" onmouseover="this.style.background='rgba(255,255,255,0.1)'; this.style.transform='translateX(5px)';" onmouseout="this.style.background='rgba(255,255,255,0.05)'; this.style.transform='none';" onclick="if(typeof openLightLocationModal==='function') openLightLocationModal('${locId}')">
+                                <div style="font-size: 1.8rem; background: rgba(0,0,0,0.3); width: 45px; height: 45px; display: flex; align-items: center; justify-content: center; border-radius: 50%; box-shadow: 0 4px 10px rgba(0,0,0,0.5); flex-shrink: 0;">🗺️</div>
                                 <div>
-                                    <div class="habitat-loc-name" style="font-weight: 500; font-size: 1.1rem; color: #fff;">${cleanLocName}</div>
-                                    <div style="font-size: 0.9rem; color: #aaa;">Регион: ${foundRegion}</div>
+                                    <div class="habitat-loc-name" style="font-weight: bold; font-size: 1.15rem; color: #fff; margin-bottom: 3px;">${cleanLocName}</div>
                                 </div>
+                                <div style="position: absolute; bottom: 8px; right: 10px; font-size: 0.75rem; font-weight: bold; background: rgba(0,0,0,0.5); padding: 3px 8px; border-radius: 12px; color: #aaa;">Регион: <span style="color:#ffcc00">${foundRegion}</span></div>
                             </div>`;
                     }
                 });
@@ -1237,16 +1470,16 @@ document.addEventListener('DOMContentLoaded', function () {
             <div class="region-section" style="margin-bottom:15px; padding:15px; background:rgba(40,40,80,0.4); border-radius:10px;">
                 <h5 style="margin:0 0 10px 0; color:var(--primary);"><i class="fas fa-map-marker-alt"></i> ${regionNames[reg] || reg}</h5>
                 <div style="display:grid; gap:8px;">
-                    ${byReg[reg].map(l => `
-                        <div style="padding:10px; background:rgba(255,255,255,0.05); border-radius:8px; border-left:3px solid #ffcc00; display:flex; justify-content:space-between; align-items:center;">
+                    ${byReg[reg].map(l => {
+                        const ext = window.extractLocationIcon ? window.extractLocationIcon(l.ru_name || l.name || 'Неизвестно', l.type) : {icon: '📍', name: l.ru_name || l.name || 'Неизвестно'};
+                        return `
+                        <div class="loc-clickable" data-loc="${l.name}" style="padding:10px; background:rgba(255,255,255,0.05); border-radius:8px; border-left:3px solid #ffcc00; display:flex; justify-content:space-between; align-items:center; cursor:pointer; transition:0.2s;" onmouseover="this.style.background='rgba(255,255,255,0.1)'; this.style.transform='translateX(3px)';" onmouseout="this.style.background='rgba(255,255,255,0.05)'; this.style.transform='none';" onclick="if(typeof openLightLocationModal==='function') openLightLocationModal('${l.name}')">
                             <div style="display:flex; flex-direction:column; gap:4px;">
-                                <strong style="color:white;">${l.ru_name || l.name || 'Неизвестно'}</strong>
+                                <strong style="color:white; display:flex; align-items:center; gap:6px;"><span style="font-size:1.2rem;">${ext.icon}</span> ${ext.name}</strong>
                                 <div style="font-size:0.85rem; color:var(--text-muted);">${window.formatItemStringWithFlip(l.rawItemString)}</div>
                             </div>
-                            <button class="loc-info-btn" onclick="openLocationModal('${l.name}')" title="Информация о локации" style="width:34px; height:34px; border-radius:50%; border:none; background:rgba(255,215,0,0.15); color:#ffd700; cursor:pointer; transition:var(--transition); display:flex; align-items:center; justify-content:center; font-size:1rem; flex-shrink:0;">
-                                📍
-                            </button>
-                        </div>`).join('')}
+                        </div>`;
+                    }).join('')}
                 </div>
             </div>`;
         }
@@ -1261,15 +1494,33 @@ document.addEventListener('DOMContentLoaded', function () {
 
     function buildServiceLists() {
         if (!locationData) return;
-        const c = {}, m = {};
+        const c = {};
         for (const id in locationData) {
             const l = locationData[id];
-            if (l.has_pokecenter) (c[l.region] = c[l.region] || []).push(l.ru_name);
-            if (l.has_pokemart) (m[l.region] = m[l.region] || []).push(l.ru_name);
+            if (l.has_pokecenter && l.has_pokemart) {
+                (c[l.region] = c[l.region] || []).push({name: l.ru_name, rawName: id, type: l.type});
+            }
         }
-        const render = (d) => { let h = ''; for (const r in d) h += `<div class="region-locations"><h4>${regionNames[r] || r}</h4><div class="locations-grid">${d[r].map(x => `<div class="location-item">${x}</div>`).join('')}</div></div>`; return h; };
-        if (els.centers) els.centers.innerHTML = render(c);
-        if (els.marts) els.marts.innerHTML = render(m);
+
+        const render = (d) => { 
+            let h = ''; 
+            for (const r in d) {
+                h += `<div class="region-locations"><h4>${regionNames[r] || r}</h4><div class="locations-grid" style="display:grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap:10px;">`;
+                h += d[r].map(x => {
+                    const ext = window.extractLocationIcon ? window.extractLocationIcon(x.name, x.type) : {icon: '📍', name: x.name};
+                    return `
+                    <div class="location-item loc-clickable" data-loc="${x.rawName}" style="cursor:pointer; display:flex; align-items:center; gap:15px; position:relative; overflow:hidden; transition:0.2s; padding:12px 15px; background:rgba(255,255,255,0.05); border-left:4px solid #ffcc00; border-radius:12px;" onmouseover="this.style.background='rgba(255,255,255,0.1)'; this.style.transform='translateX(5px)';" onmouseout="this.style.background='rgba(255,255,255,0.05)'; this.style.transform='none';" onclick="if(typeof openLightLocationModal==='function') openLightLocationModal('${x.rawName}')">
+                        <div style="font-size: 1.5rem; background: rgba(0,0,0,0.3); width: 40px; height: 40px; display: flex; align-items: center; justify-content: center; border-radius: 50%; box-shadow: 0 4px 10px rgba(0,0,0,0.5); flex-shrink: 0;">${ext.icon}</div>
+                        <div style="font-weight: bold; font-size: 1.05rem; color: #fff;">${ext.name}</div>
+                    </div>
+                `}).join('');
+                h += `</div></div>`; 
+            }
+            return h; 
+        };
+        if (els.centers) {
+            els.centers.innerHTML = render(c);
+        }
     }
 
     // === СОБЫТИЯ ===
@@ -1282,13 +1533,17 @@ document.addEventListener('DOMContentLoaded', function () {
     els.input.parentNode.appendChild(autocompleteBox);
 
     let currentFocus = -1;
+    let autocompleteTimeout = null;
 
     els.input.addEventListener('input', function() {
+        if (autocompleteTimeout) clearTimeout(autocompleteTimeout);
         let val = this.value.trim().toLowerCase();
         val = val.replace(/⭐️/g, '').trim(); // Игнорируем шайни звездочку при автокомплите
         autocompleteBox.innerHTML = '';
         autocompleteBox.classList.remove('active');
         if (!val) return;
+
+        autocompleteTimeout = setTimeout(() => {
 
         const activeType = document.querySelector('.search-option.active')?.dataset.type || 'pokemon';
         let matches = [];
@@ -1318,7 +1573,7 @@ document.addEventListener('DOMContentLoaded', function () {
                     }
                 }
             }
-        } else {
+        } else if (activeType === 'pokemon') {
             if (window.pokemonDB) {
                 for (let id in window.pokemonDB) {
                     const p = window.pokemonDB[id];
@@ -1341,6 +1596,7 @@ document.addEventListener('DOMContentLoaded', function () {
                     }
                 }
             }
+        } else if (activeType === 'other') {
             if (typeof npcSearchIndex !== 'undefined') {
                 for (let key in npcSearchIndex) {
                     if (key.includes(val)) {
@@ -1361,7 +1617,6 @@ document.addEventListener('DOMContentLoaded', function () {
                     }
                 }
             }
-
             if (window.locationData) {
                 for (let locId in window.locationData) {
                     const loc = window.locationData[locId];
@@ -1385,6 +1640,47 @@ document.addEventListener('DOMContentLoaded', function () {
                     }
                 }
             }
+            for(let tKey in typeNamesRu) {
+                if(typeNamesRu[tKey].toLowerCase().includes(val) || tKey.toLowerCase().includes(val)) {
+                    if (!addedIds.has('type_' + tKey)) {
+                        addedIds.add('type_' + tKey);
+                        matches.push({
+                            id: 'type_' + tKey,
+                            text: 'Тип: ' + typeNamesRu[tKey],
+                            subtext: '', icon: typeIcons[tKey] || '✨', type: 'type',
+                            queryText: 'тип ' + typeNamesRu[tKey]
+                        });
+                    }
+                }
+            }
+            const validTiers = ['lc','nfe','iron','bronze','silver','gold','platinum','diamond','ascendant','uber','ultrauber'];
+            validTiers.forEach(tier => {
+                if(tier.includes(val) || ('тир ' + tier).includes(val)) {
+                    if(!addedIds.has('tier_' + tier)) {
+                        addedIds.add('tier_' + tier);
+                        matches.push({
+                            id: 'tier_' + tier,
+                            text: 'Тир: ' + tier.toUpperCase(),
+                            subtext: '', icon: '🏆', type: 'tier',
+                            queryText: 'тир ' + tier
+                        });
+                    }
+                }
+            });
+            const validRarities = ['о', 'р1', 'р2', 'р3', 'р4', 'р5', 'р6', 'р7', 'р8', 'р9', 'р10'];
+            validRarities.forEach(r => {
+                if(r.includes(val) || ('редкость ' + r).includes(val)) {
+                    if(!addedIds.has('rarity_' + r)) {
+                        addedIds.add('rarity_' + r);
+                        matches.push({
+                            id: 'rarity_' + r,
+                            text: 'Редкость: ' + r.toUpperCase(),
+                            subtext: '', icon: '✨', type: 'rarity',
+                            queryText: 'редкость ' + r
+                        });
+                    }
+                }
+            });
         }
 
         const isNumeric = /^\d+$/.test(val);
@@ -1456,6 +1752,7 @@ document.addEventListener('DOMContentLoaded', function () {
             autocompleteBox.classList.add('active');
             currentFocus = -1;
         }
+        }, 150); // задержка в 150мс
     });
 
     els.input.addEventListener('keydown', function(e) {
@@ -1513,13 +1810,22 @@ document.addEventListener('DOMContentLoaded', function () {
             this.classList.add('active');
             const t = this.dataset.type;
 
-            if (t === 'pokemon' || t === 'item') els.box.classList.remove('hidden');
-            else els.box.classList.add('hidden');
+            if (t === 'pokemon' || t === 'item' || t === 'other') {
+                if (els.box) els.box.classList.remove('hidden');
+            } else {
+                if (els.box) els.box.classList.add('hidden');
+            }
+            
+            const hintsContainer = document.getElementById('searchHintsContainer');
+            if (hintsContainer) hintsContainer.classList.remove('hidden');
 
-            els.centers.classList.toggle('active', t === 'pokecenter');
-            els.marts.classList.toggle('active', t === 'pokemart');
+            if (els.centers) els.centers.classList.toggle('active', t === 'centers');
 
             if (els.hint) els.hint.textContent = hintTexts[t] || '';
+            const shinyHint = document.getElementById('shinyHint');
+            if(shinyHint) {
+                 shinyHint.style.display = (t === 'pokemon') ? 'block' : 'none';
+            }
         });
     });
 });
