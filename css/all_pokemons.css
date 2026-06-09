@@ -578,6 +578,10 @@
 }
 
 @media (max-width: 768px) {
+    .open-all-poke-btn {
+        height: 45px;
+    }
+
     .all-poke-header {
         flex-direction: column;
         padding: 15px;

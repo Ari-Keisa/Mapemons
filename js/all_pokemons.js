@@ -18,13 +18,6 @@ document.addEventListener('DOMContentLoaded', () => {
                             <span class="lang-text" id="allPokeLangText">RU</span>
                         </div>
                     </button>
-                    <button id="allPokeFormsToggle" class="custom-icon-btn form-btn active-toggle" title="Показывать формы">
-                        <div class="icon-shape pokeball-f">
-                            <div class="pokeball-top"></div>
-                            <div class="pokeball-bottom"></div>
-                            <div class="pokeball-center"><span class="pokeball-letter">ℱ</span><span class="pokeball-flower">🌸</span></div>
-                        </div>
-                    </button>
                     <button id="allPokeLegendToggle" class="custom-icon-btn legend-btn" title="Только легендарные">
                         <div class="icon-shape crown-l">
                             <i class="fas fa-crown crown-icon"></i>
@@ -36,6 +29,13 @@ document.addEventListener('DOMContentLoaded', () => {
                         <div class="icon-shape star-w">
                             <i class="fas fa-star main-star"></i>
                             <span class="w-letter">Ш</span>
+                        </div>
+                    </button>
+                    <button id="allPokeFormsToggle" class="custom-icon-btn form-btn active-toggle" title="Показывать формы">
+                        <div class="icon-shape pokeball-f">
+                            <div class="pokeball-top"></div>
+                            <div class="pokeball-bottom"></div>
+                            <div class="pokeball-center"><span class="pokeball-letter">ℱ</span><span class="pokeball-flower">🌸</span></div>
                         </div>
                     </button>
                     <button id="allPokeCloseBtn" class="custom-icon-btn close-btn" title="Закрыть">
