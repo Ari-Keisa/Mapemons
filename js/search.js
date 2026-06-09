@@ -2018,12 +2018,14 @@ document.addEventListener('DOMContentLoaded', function () {
     els.close.addEventListener('click', () => {
         els.container.style.display = 'none';
         if (els.overlay) els.overlay.classList.remove('active');
+        document.body.style.overflow = '';
     });
 
     if (els.overlay) {
         els.overlay.addEventListener('click', () => {
             els.container.style.display = 'none';
             els.overlay.classList.remove('active');
+            document.body.style.overflow = '';
         });
     }
 
