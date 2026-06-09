@@ -1080,7 +1080,7 @@ document.addEventListener('DOMContentLoaded', function () {
                     </div>
                     <span id="slider-poke-text" style="color:#aaa; font-weight:bold; transition:0.3s; cursor:pointer;" onclick="setSliderState(1)">Покемоны</span>
                     
-                    <button id="shinyToggleButton" onclick="toggleShinySearch(event)" title="Включить Шайни режим" style="position: absolute; right: 10px; top: 50%; transform: translateY(-50%); opacity: 0; pointer-events: none; background: ${isShinySearch ? 'rgba(78, 205, 196, 0.2)' : 'rgba(255,255,255,0.05)'}; border: 1px solid ${isShinySearch ? 'var(--primary)' : 'rgba(255,255,255,0.1)'}; border-radius: 8px; width: 34px; height: 34px; cursor: pointer; transition: 0.3s; display: flex; align-items: center; justify-content: center;">
+                    <button id="shinyToggleButton" class="shiny-slider-btn" onclick="toggleShinySearch(event)" title="Включить Шайни режим" style="position: absolute; opacity: 0; pointer-events: none; background: ${isShinySearch ? 'rgba(78, 205, 196, 0.2)' : 'rgba(255,255,255,0.05)'}; border: 1px solid ${isShinySearch ? 'var(--primary)' : 'rgba(255,255,255,0.1)'}; border-radius: 8px; width: 34px; height: 34px; cursor: pointer; transition: 0.3s; display: flex; align-items: center; justify-content: center;">
                         <i class="fas fa-star" style="color: ${isShinySearch ? 'var(--primary)' : '#aaa'}; font-size: 1.1rem;"></i>
                     </button>
                 </div>

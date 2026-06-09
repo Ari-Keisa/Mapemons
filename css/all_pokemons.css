@@ -586,11 +586,20 @@
         flex-direction: column;
         padding: 15px;
         gap: 15px;
+        position: relative;
     }
     
     .all-poke-controls {
         flex-wrap: wrap;
         justify-content: center;
+        padding-right: 20px;
+    }
+    
+    #allPokeCloseBtn {
+        position: absolute;
+        top: 15px;
+        right: 15px;
+        margin: 0;
     }
     
     .all-poke-grid-container {
