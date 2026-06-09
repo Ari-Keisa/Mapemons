@@ -61,6 +61,19 @@
     pointer-events: auto;
     min-width: 50px;
     text-align: center;
+    transition: all 0.3s ease;
+}
+
+/* Modal Open state for Clicker */
+body.all-poke-modal-open .meow-button {
+    border-color: #ff8e53;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3), 0 0 20px rgba(255, 142, 83, 0.4);
+}
+
+body.all-poke-modal-open .meow-counter {
+    color: #ff8e53;
+    border-color: rgba(255, 142, 83, 0.3);
+    text-shadow: 0 0 10px rgba(255, 142, 83, 0.5);
 }
 
 /* Particle Styles */

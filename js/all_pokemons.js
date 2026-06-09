@@ -5,24 +5,48 @@ document.addEventListener('DOMContentLoaded', () => {
             <div class="all-poke-header">
                 <img src="https://upload.wikimedia.org/wikipedia/commons/9/98/International_Pok%C3%A9mon_logo.svg" alt="Pokemon Logo" class="all-poke-logo">
                 <div class="all-poke-controls">
-                    <button id="allPokeLangToggle" class="all-poke-control-btn" title="Сменить язык">
-                        <i class="fas fa-language"></i> <span id="allPokeLangText">RU</span>
+                    <button id="allPokeStyleToggle" class="custom-icon-btn style-btn" title="Сменить стиль">
+                        <div class="icon-shape three-stars-icon">
+                            <i class="fas fa-star ts-1"></i>
+                            <i class="fas fa-star ts-2"></i>
+                            <i class="fas fa-star ts-3"></i>
+                        </div>
                     </button>
-                    <button id="allPokeFormsToggle" class="all-poke-control-btn active-toggle" title="Показывать формы">
-                        <i class="fas fa-shapes"></i> Ф
+                    <button id="allPokeLangToggle" class="custom-icon-btn lang-btn" title="Сменить язык">
+                        <div class="icon-shape lang-icon">
+                            <i class="fas fa-globe globe-icon"></i>
+                            <span class="lang-text" id="allPokeLangText">RU</span>
+                        </div>
                     </button>
-                    <button id="allPokeLegendToggle" class="all-poke-control-btn" title="Только легендарные">
-                        <i class="fas fa-crown"></i> Легенды
+                    <button id="allPokeFormsToggle" class="custom-icon-btn form-btn active-toggle" title="Показывать формы">
+                        <div class="icon-shape pokeball-f">
+                            <div class="pokeball-top"></div>
+                            <div class="pokeball-bottom"></div>
+                            <div class="pokeball-center"><span class="pokeball-letter">ℱ</span><span class="pokeball-flower">🌸</span></div>
+                        </div>
                     </button>
-                    <button id="allPokeShinyToggle" class="all-poke-control-btn" title="Шайни режим">
-                        <i class="fas fa-star"></i> Шайни
+                    <button id="allPokeLegendToggle" class="custom-icon-btn legend-btn" title="Только легендарные">
+                        <div class="icon-shape crown-l">
+                            <i class="fas fa-crown crown-icon"></i>
+                            <span class="l-letter">ℒ</span>
+                            <span class="thumbs-up">👍</span>
+                        </div>
                     </button>
-                    <button id="allPokeCloseBtn" class="all-poke-control-btn all-poke-close-btn" title="Закрыть">
-                        <i class="fas fa-times"></i>
+                    <button id="allPokeShinyToggle" class="custom-icon-btn shiny-btn" title="Шайни режим">
+                        <div class="icon-shape star-w">
+                            <i class="fas fa-star main-star"></i>
+                            <span class="w-letter">Ш</span>
+                        </div>
+                    </button>
+                    <button id="allPokeCloseBtn" class="custom-icon-btn close-btn" title="Закрыть">
+                        <div class="icon-shape cross-bones">
+                            <div class="thin-bone bone-1"></div>
+                            <div class="thin-bone bone-2"></div>
+                        </div>
                     </button>
                 </div>
             </div>
-            <div class="all-poke-grid-container" id="allPokeGridContainer">
+            <div class="all-poke-grid-container style-emblem" id="allPokeGridContainer">
                 <div class="all-poke-grid" id="allPokeGrid"></div>
             </div>
         </div>
@@ -36,11 +60,14 @@ document.addEventListener('DOMContentLoaded', () => {
     let onlyLegendaries = false;
     let isModalOpen = false;
     let allBadgesData = []; // To store pre-calculated badge data
+    let currentGridStyle = 1; // 1 = emblem, 2 = glass, 3 = classic
 
     const modal = document.getElementById('allPokeModal');
+    const gridContainer = document.getElementById('allPokeGridContainer');
     const grid = document.getElementById('allPokeGrid');
     
     // Controls
+    const btnStyle = document.getElementById('allPokeStyleToggle');
     const btnLang = document.getElementById('allPokeLangToggle');
     const langText = document.getElementById('allPokeLangText');
     const btnForms = document.getElementById('allPokeFormsToggle');
@@ -49,6 +76,15 @@ document.addEventListener('DOMContentLoaded', () => {
     const btnClose = document.getElementById('allPokeCloseBtn');
 
     // 3. Attach Events to controls
+    btnStyle.addEventListener('click', () => {
+        currentGridStyle = currentGridStyle === 3 ? 1 : currentGridStyle + 1;
+        gridContainer.className = 'all-poke-grid-container'; // reset
+        if (currentGridStyle === 1) gridContainer.classList.add('style-emblem');
+        if (currentGridStyle === 2) gridContainer.classList.add('style-glass');
+        if (currentGridStyle === 3) gridContainer.classList.add('style-classic');
+        // trigger re-render if needed, but CSS might be enough!
+        // renderGrid(); // Actually we don't need to re-render DOM, just change class!
+    });
     btnLang.addEventListener('click', () => {
         currentLang = currentLang === 'ru' ? 'en' : 'ru';
         langText.textContent = currentLang.toUpperCase();
@@ -64,7 +100,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     btnLegend.addEventListener('click', () => {
         onlyLegendaries = !onlyLegendaries;
-        btnLegend.classList.toggle('active-legend', onlyLegendaries);
+        btnLegend.classList.toggle('active-toggle', onlyLegendaries);
         
         if (onlyLegendaries) {
             btnForms.style.opacity = '0.5';
@@ -101,12 +137,14 @@ document.addEventListener('DOMContentLoaded', () => {
         renderGrid();
         modal.classList.add('active');
         document.body.style.overflow = 'hidden';
+        document.body.classList.add('all-poke-modal-open');
         isModalOpen = true;
     };
 
     function closeModal() {
         modal.classList.remove('active');
         document.body.style.overflow = '';
+        document.body.classList.remove('all-poke-modal-open');
         isModalOpen = false;
     }
 
@@ -182,111 +220,130 @@ document.addEventListener('DOMContentLoaded', () => {
 
         if (filteredData.length === 0) return;
 
-        let currentBatch = 0;
-        const BATCH_SIZE = 40;
-
-        function renderNextBatch() {
-            if (renderId !== currentRenderId) return; // Сancel if a new render started
-
-            const start = currentBatch * BATCH_SIZE;
-            const end = Math.min(start + BATCH_SIZE, filteredData.length);
-            
-            let html = '';
-            
-            for (let i = start; i < end; i++) {
-                const m = filteredData[i];
-                
-                // Get Colors
-                let tArr = m.p.type || [];
-                if (m.isForm && m.formObj && m.formObj.Types) {
-                    tArr = m.formObj.Types.split(',').map(t => t.trim().toLowerCase());
-                }
-
-                let type1 = tArr[0] || 'normal';
-                let type2 = tArr[1] || type1;
-
-                let c1 = typeColors[type1] || '#444';
-                let c2 = typeColors[type2] || c1;
-                
-                // Adjust gradient for premium look
-                let gradient = `linear-gradient(135deg, ${c1} 0%, ${c2} 100%)`;
-
-                // Names
-                let dispRu = m.p.ru || m.p.en;
-                let dispEn = m.p.en;
-                if (m.isForm && m.formObj && m.formObj.FormName) {
-                    if (typeof window.translateFormName === 'function') {
-                        let trans = window.translateFormName(m.formObj.FormName, dispRu, dispEn);
-                        dispRu = trans.ru;
-                        dispEn = trans.en;
-                    } else {
-                        dispRu = `${dispRu} (${m.formObj.FormName})`;
-                        dispEn = `${dispEn} (${m.formObj.FormName})`;
-                    }
-                }
-
-                const nameToShow = currentLang === 'ru' ? dispRu : dispEn;
-
-                // Image
-                let imgSrc = '';
-                if (m.isForm && m.formObj) {
-                    imgSrc = isShiny && m.formObj.ShinySpritePath ? m.formObj.ShinySpritePath : m.formObj.SpritePath;
-                    if (!imgSrc) imgSrc = `home/${isShiny ? 'shiny/' : ''}${parseInt(m.id)}.png`;
-                    else if (imgSrc.startsWith('shared/assets/')) imgSrc = imgSrc.replace('shared/assets/', '');
-                } else {
-                    imgSrc = `home/${isShiny ? 'shiny/' : ''}${parseInt(m.id)}.png`;
-                }
-
-                // Type icons
-                let typeIconsHtml = '';
-                if (typeof typeIcons !== 'undefined') {
-                    tArr.forEach(t => {
-                        const iconPath = typeIcons[t];
-                        if (iconPath) {
-                            typeIconsHtml += `<span class="type-icon-emoji" style="font-size: 1.2rem; filter: drop-shadow(1px 1px 2px rgba(0,0,0,0.5));">${iconPath}</span>`;
-                        }
-                    });
-                }
-
-                const clickAction = m.isForm 
-                    ? `if(typeof openPokemonDossier === 'function') openPokemonDossier('${m.id}', ${isShiny}, ${m.formIndex});`
-                    : `if(typeof openPokemonDossier === 'function') openPokemonDossier('${m.id}', ${isShiny});`;
-
-                const shinyStarHtml = isShiny 
-                    ? `<i class="fas fa-star" style="position: absolute; color: #FFD700; font-size: 2.5rem; top: -12px; left: -12px; z-index: -1; opacity: 0.25; transform: rotate(-15deg);"></i>` 
-                    : '';
-
-                html += `
-                    <div class="all-poke-badge" style="background: ${gradient};" onclick="${clickAction}">
-                        <div class="all-poke-badge-number">
-                            ${shinyStarHtml}
-                            #${parseInt(m.id).toString().padStart(3, '0')}
-                        </div>
-                        <div class="all-poke-badge-types">${typeIconsHtml}</div>
-                        
-                        <div class="all-poke-badge-img-box">
-                            <img src="${imgSrc}" loading="lazy" alt="${nameToShow}">
-                        </div>
-                        
-                        <div class="all-poke-badge-name">${nameToShow}</div>
-                    </div>
-                `;
-            }
-
-            if (start === 0) {
-                grid.innerHTML = html;
-            } else {
-                grid.insertAdjacentHTML('beforeend', html);
-            }
-
-            currentBatch++;
-            if (end < filteredData.length) {
-                requestAnimationFrame(() => {
-                    setTimeout(renderNextBatch, 0);
-                });
-            }
+        if (window.allPokeObserver) {
+            window.allPokeObserver.disconnect();
         }
 
-        renderNextBatch();
+        window.allPokeObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                const idx = entry.target.dataset.idx;
+                if (entry.isIntersecting) {
+                    if (!entry.target.innerHTML) {
+                        entry.target.innerHTML = generateBadgeContent(filteredData[idx]);
+                    }
+                } else {
+                    // Виртуализация: удаляем контент, когда он уходит за экран
+                    // Это сильно экономит память для 1200 карточек!
+                    entry.target.innerHTML = '';
+                }
+            });
+        }, { 
+            root: gridContainer, 
+            rootMargin: '1000px' // Грузим примерно 50 покемонов вокруг (на 2 экрана вперед/назад)
+        });
+
+        let html = '';
+        filteredData.forEach((m, i) => {
+            let tArr = m.p.type || [];
+            if (m.isForm && m.formObj && m.formObj.Types) {
+                tArr = m.formObj.Types.split(',').map(t => t.trim().toLowerCase());
+            }
+            let type1 = tArr[0] || 'normal';
+            let type2 = tArr[1] || type1;
+            let c1 = typeColors[type1] || '#444';
+            let c2 = typeColors[type2] || c1;
+            let gradient = `linear-gradient(135deg, ${c1} 0%, ${c2} 100%)`;
+
+            const clickAction = m.isForm 
+                ? `if(typeof openPokemonDossier === 'function') openPokemonDossier('${m.id}', ${isShiny}, ${m.formIndex});`
+                : `if(typeof openPokemonDossier === 'function') openPokemonDossier('${m.id}', ${isShiny});`;
+
+            // Рисуем пустые "коробки" нужного размера (они заполнятся при приближении)
+            html += `<div class="all-poke-badge" data-idx="${i}" style="background: ${gradient};" onclick="${clickAction}"></div>`;
+        });
+        
+        grid.innerHTML = html;
+
+        // Запускаем наблюдение за всеми пустышками
+        Array.from(grid.children).forEach(child => window.allPokeObserver.observe(child));
+
+        // Функция генерации внутренностей (вызывается только для тех, кто на экране)
+        function generateBadgeContent(m) {
+            let tArr = m.p.type || [];
+            if (m.isForm && m.formObj && m.formObj.Types) {
+                tArr = m.formObj.Types.split(',').map(t => t.trim().toLowerCase());
+            }
+
+            let dispRu = m.p.ru || m.p.en;
+            let dispEn = m.p.en;
+            if (m.isForm && m.formObj && m.formObj.FormName) {
+                if (typeof window.translateFormName === 'function') {
+                    let trans = window.translateFormName(m.formObj.FormName, dispRu, dispEn);
+                    dispRu = trans.ru;
+                    dispEn = trans.en;
+                } else {
+                    dispRu = `${dispRu} (${m.formObj.FormName})`;
+                    dispEn = `${dispEn} (${m.formObj.FormName})`;
+                }
+            }
+
+            const nameToShowMain = currentLang === 'ru' ? dispRu : dispEn;
+            const nameToShowSub = currentLang === 'ru' ? dispEn : dispRu;
+
+            let imgSrc = '';
+            if (m.isForm && m.formObj) {
+                imgSrc = isShiny && m.formObj.ShinySpritePath ? m.formObj.ShinySpritePath : m.formObj.SpritePath;
+                if (!imgSrc) imgSrc = `home/${isShiny ? 'shiny/' : ''}${parseInt(m.id)}.png`;
+                else if (imgSrc.startsWith('shared/assets/')) imgSrc = imgSrc.replace('shared/assets/', '');
+            } else {
+                imgSrc = `home/${isShiny ? 'shiny/' : ''}${parseInt(m.id)}.png`;
+            }
+
+            let typeIconsHtml = '';
+            if (typeof typeIcons !== 'undefined') {
+                tArr.forEach(t => {
+                    const iconPath = typeIcons[t];
+                    if (iconPath) {
+                        typeIconsHtml += `<span class="type-icon-emoji" style="font-size: 1.2rem; filter: drop-shadow(1px 1px 2px rgba(0,0,0,0.5));">${iconPath}</span>`;
+                    }
+                });
+            }
+
+            const shinyStarHtml = isShiny 
+                ? `<i class="fas fa-star" style="position: absolute; color: #FFD700; font-size: 2.5rem; top: -12px; left: -12px; z-index: -1; opacity: 0.1; transform: rotate(-15deg);"></i>` 
+                : '';
+
+            const uniqueSvgId = `curve-${m.id}-${m.isForm ? m.formIndex : 'base'}`;
+
+            return `
+                <div class="all-poke-badge-number">
+                    ${shinyStarHtml}
+                    #${parseInt(m.id).toString().padStart(3, '0')}
+                </div>
+                <div class="all-poke-badge-types">${typeIconsHtml}</div>
+                
+                <div class="all-poke-badge-img-box">
+                    <img src="${imgSrc}" loading="lazy" alt="${nameToShowMain}">
+                </div>
+                
+                <div class="all-poke-badge-name">${nameToShowMain}</div>
+                <div class="all-poke-badge-name-en" style="font-size: 0.75rem; color: #aaa; margin-top: 2px;">${nameToShowSub}</div>
+
+                <div class="all-poke-emblem-svg">
+                    <svg viewBox="0 0 200 200" width="100%" height="100%">
+                        <!-- Token/Coin Border Layers -->
+                        <circle cx="100" cy="100" r="97" fill="none" stroke="#DAA520" stroke-width="4" filter="drop-shadow(0 2px 4px rgba(0,0,0,0.5))" />
+                        <circle cx="100" cy="100" r="90" fill="none" stroke="#FFD700" stroke-width="1.5" stroke-dasharray="3 4" />
+                        <circle cx="100" cy="100" r="86" fill="none" stroke="rgba(255,215,0,0.5)" stroke-width="1" />
+                        <path id="${uniqueSvgId}" d="M 15, 100 A 85 85 0 0 0 185, 100" fill="transparent" />
+                        <text width="200" text-anchor="middle" class="svg-curved-text">
+                            <textPath href="#${uniqueSvgId}" startOffset="50%">
+                                ${nameToShowMain.toUpperCase()}
+                            </textPath>
+                        </text>
+                    </svg>
+                </div>
+            `;
+        }
     }
 });

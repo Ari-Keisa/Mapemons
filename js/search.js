@@ -11,7 +11,7 @@ window.onerror = function (msg, url, line) {
     const box = document.getElementById('pokemonResultsContent');
     const cont = document.getElementById('pokemonResultsContainer');
     if (box && cont) {
-        cont.style.display = 'block';
+        cont.style.display = 'flex';
         box.innerHTML = `<div style="color:#ff6b6b; padding:15px; border:2px solid red; background:rgba(0,0,0,0.9); border-radius:10px;">
             <h3 style="margin-top:0;">💥 КРИТИЧЕСКАЯ ОШИБКА:</h3>
             <p>${msg}</p>
@@ -519,7 +519,7 @@ document.addEventListener('DOMContentLoaded', function () {
         if (!rawQuery) return;
 
         if (els.overlay) els.overlay.classList.add('active');
-        els.container.style.display = 'block';
+        els.container.style.display = 'flex';
         els.content.innerHTML = '<div class="loading-spinner"></div>';
         els.title.innerHTML = 'Ищем...';
 
@@ -1095,7 +1095,7 @@ document.addEventListener('DOMContentLoaded', function () {
                 `;
 
                 els.content.innerHTML = html;
-                els.container.style.display = 'block';
+                els.container.style.display = 'flex';
                 if (els.overlay) els.overlay.classList.add('active');
                 document.body.style.overflow = 'hidden';
 
@@ -1892,7 +1892,22 @@ document.addEventListener('DOMContentLoaded', function () {
 
         const isNumeric = /^\d+$/.test(val);
         const valIntStr = isNumeric ? parseInt(val, 10).toString() : "";
+        
+        const typePriority = {
+            'type': 1,
+            'tier': 2,
+            'rarity': 3,
+            'npc': 4,
+            'location': 5,
+            'pokemon': 6,
+            'item': 7
+        };
+
         matches.sort((a, b) => {
+            const pA = typePriority[a.type] || 99;
+            const pB = typePriority[b.type] || 99;
+            if (pA !== pB) return pA - pB;
+
             if (isNumeric) {
                 const aIdNum = a.idBadge ? a.idBadge.replace(/\D/g, '') : "";
                 const aIdIntStr = aIdNum ? parseInt(aIdNum, 10).toString() : "";
@@ -1931,7 +1946,7 @@ document.addEventListener('DOMContentLoaded', function () {
                 let safeText = (m.text || "").toString();
                 let highlightedText = safeText.replace(regex, "<span style='color:var(--primary);font-weight:bold;'>$1</span>");
                 
-                let descHtml = m.description ? `<div class="autocomplete-desc">${m.description}</div>` : '';
+                let descHtml = m.description ? `<div class="autocomplete-desc" style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis; font-size: 0.8rem; color: rgba(255,255,255,0.6); margin-top: 2px; max-width: 100%;">${m.description}</div>` : '';
                 let regionHtml = m.region ? `<span class="region-badge badge-${m.region.toLowerCase()}">${m.region}</span>` : '';
                 let idBadgeHtml = m.idBadge ? `<span style="color: var(--primary); font-size: 0.9rem; font-weight: bold; margin-right: 8px; opacity: 0.9; white-space: nowrap;">${m.idBadge}</span>` : '';
                 

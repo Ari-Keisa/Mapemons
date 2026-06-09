@@ -32,14 +32,15 @@
 }
 
 .all-poke-logo {
-    height: 60px;
+    height: 50px;
+    transform: translateY(-2px);
     filter: drop-shadow(0 0 10px rgba(255, 203, 5, 0.6));
     animation: pulseLogo 3s infinite alternate;
 }
 
 @keyframes pulseLogo {
-    0% { filter: drop-shadow(0 0 10px rgba(255, 203, 5, 0.4)); transform: scale(1); }
-    100% { filter: drop-shadow(0 0 20px rgba(255, 203, 5, 0.8)); transform: scale(1.02); }
+    0% { filter: drop-shadow(0 0 10px rgba(255, 203, 5, 0.4)); transform: translateY(-2px) scale(1); }
+    100% { filter: drop-shadow(0 0 20px rgba(255, 203, 5, 0.8)); transform: translateY(-2px) scale(1.02); }
 }
 
 .all-poke-controls {
@@ -48,55 +49,129 @@
     align-items: center;
 }
 
-.all-poke-control-btn {
-    background: rgba(255, 255, 255, 0.1);
-    border: 1px solid rgba(255, 255, 255, 0.2);
+.custom-icon-btn {
+    box-sizing: border-box;
+    background: rgba(255, 255, 255, 0.05);
+    border: 2px solid rgba(255, 255, 255, 0.1);
     color: white;
-    border-radius: 12px;
-    padding: 10px 15px;
-    font-size: 1.1rem;
+    border-radius: 50%;
+    width: 60px;
+    height: 60px;
+    margin: 0 !important;
+    padding: 0 !important;
     cursor: pointer;
-    transition: all 0.3s ease;
+    transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
     display: flex;
     align-items: center;
-    gap: 8px;
-    font-weight: bold;
-}
-
-.all-poke-control-btn:hover {
-    background: rgba(255, 255, 255, 0.2);
-    transform: translateY(-2px);
-}
-
-.all-poke-control-btn.active-toggle {
-    background: rgba(78, 205, 196, 0.3);
-    border-color: var(--primary);
-    color: var(--primary);
-    box-shadow: 0 0 15px rgba(78, 205, 196, 0.4);
-}
-
-.all-poke-control-btn.active-legend {
-    background: rgba(255, 215, 0, 0.3);
-    border-color: #ffd700;
-    color: #ffd700;
-    box-shadow: 0 0 15px rgba(255, 215, 0, 0.4);
-}
-
-.all-poke-close-btn {
-    background: rgba(255, 85, 85, 0.2);
-    border-color: rgba(255, 85, 85, 0.4);
-    color: #ff5555;
-    width: 45px;
-    height: 45px;
-    padding: 0;
     justify-content: center;
-    border-radius: 50%;
+    position: relative;
+    overflow: hidden;
+    box-shadow: inset 0 0 10px rgba(0,0,0,0.5);
+    padding: 0;
 }
 
-.all-poke-close-btn:hover {
-    background: rgba(255, 85, 85, 0.4);
-    color: white;
+.custom-icon-btn:hover {
+    transform: translateY(-5px) scale(1.1);
+    border-color: rgba(255, 255, 255, 0.5);
+    background: rgba(255, 255, 255, 0.15);
+    box-shadow: 0 10px 20px rgba(0,0,0,0.5), inset 0 0 15px rgba(255,255,255,0.2);
 }
+
+.custom-icon-btn.active-toggle {
+    border-color: #ffd700;
+    box-shadow: 0 0 20px rgba(255, 215, 0, 0.6), inset 0 0 15px rgba(255, 215, 0, 0.3);
+}
+
+.icon-shape {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.5rem;
+}
+
+/* Three Stars Icon */
+.three-stars-icon { position: relative; width: 100%; height: 100%; color: #ff6b6b; filter: drop-shadow(0 0 5px #ff6b6b); }
+.ts-1 { position: absolute; font-size: 1.2rem; top: 12px; left: 12px; transform: rotate(-15deg); }
+.ts-2 { position: absolute; font-size: 1.6rem; top: 15px; left: 25px; z-index: 2; color: #ff8e53; }
+.ts-3 { position: absolute; font-size: 1rem; top: 32px; left: 18px; transform: rotate(20deg); }
+
+/* Globe Icon (Lang) */
+.globe-icon {
+    font-size: 1.5rem;
+    color: #ff8e53;
+    text-shadow: 0 0 5px rgba(255, 142, 83, 0.5);
+    margin-right: 5px;
+}
+.lang-text {
+    font-weight: 900;
+    font-size: 1rem;
+    color: #ff8e53;
+}
+
+/* Pokeball F (Forms) */
+.pokeball-f { border-radius: 50%; overflow: hidden; position: absolute; width: 80%; height: 80%; border: 2px solid #333; background: #fff; }
+.pokeball-top { position: absolute; top: 0; left: 0; width: 100%; height: 50%; background: #ff5555; border-bottom: 2px solid #333; }
+.pokeball-bottom { position: absolute; bottom: 0; left: 0; width: 100%; height: 50%; background: #fff; }
+.pokeball-center { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); width: 24px; height: 24px; background: white; border: 2px solid #333; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-family: serif; font-weight: bold; font-size: 0.9rem; color: #333; z-index: 2; }
+.pokeball-letter { font-size: 1.1rem; }
+.pokeball-flower { position: absolute; top: -12px; left: -12px; font-size: 1rem; filter: drop-shadow(1px 1px 1px rgba(0,0,0,0.5)); z-index: 3; }
+
+/* Crown L (Legendaries) */
+.crown-l { flex-direction: column; color: #ffd700; text-shadow: 0 0 10px rgba(255,215,0,0.5); }
+.crown-icon { font-size: 1rem; position: absolute; top: 5px; left: 18px; transform: rotate(-15deg); }
+.l-letter { font-family: serif; font-size: 1.8rem; font-weight: bold; position: relative; top: 2px; }
+.thumbs-up { position: absolute; bottom: 5px; right: 5px; font-size: 1rem; }
+
+/* Star W (Shiny) */
+.star-w { color: #ffd700; }
+.main-star { font-size: 2.5rem; filter: drop-shadow(0 0 10px rgba(255,215,0,0.8)); }
+.w-letter { position: absolute; color: #333; font-weight: 900; font-size: 1.2rem; text-shadow: none; top: 50%; left: 50%; transform: translate(-50%, -50%); }
+
+/* Close Cross / Bones */
+.close-btn { 
+    background: transparent !important; 
+    border: none !important; 
+    box-shadow: none !important; 
+}
+.close-btn:hover { 
+    transform: scale(1.2) rotate(90deg); 
+}
+.cross-bones { 
+    position: relative; 
+    width: 40px;
+    height: 40px;
+}
+.thin-bone {
+    position: absolute;
+    width: 4px;
+    height: 24px;
+    background: #ff5555;
+    border-radius: 2px;
+    top: 50%; left: 50%;
+    margin-top: -12px;
+    margin-left: -2px;
+    box-shadow: 0 0 5px rgba(255, 85, 85, 0.5);
+}
+.thin-bone::before, .thin-bone::after {
+    content: ''; 
+    position: absolute; 
+    width: 10px; height: 5px; 
+    background: #ff5555; 
+    border-radius: 5px;
+    left: -3px;
+}
+.thin-bone::before { 
+    top: -3px; 
+}
+.thin-bone::after { 
+    bottom: -3px; 
+}
+
+.bone-1 { transform: rotate(45deg); }
+.bone-2 { transform: rotate(-45deg); }
 
 /* Grid Container */
 .all-poke-grid-container {
@@ -115,7 +190,7 @@
     background: rgba(0, 0, 0, 0.2);
 }
 .all-poke-grid-container::-webkit-scrollbar-thumb {
-    background: var(--primary);
+    background: linear-gradient(to bottom, #ff8e53, #ff5555);
     border-radius: 5px;
 }
 
@@ -153,6 +228,125 @@
     border-radius: 20px;
     z-index: 1;
     pointer-events: none;
+}
+
+/* Style 1: Emblem (Round, Watermark Types) */
+.style-emblem .all-poke-grid {
+    grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+    gap: 35px;
+}
+.style-emblem .all-poke-badge {
+    border-radius: 0;
+    clip-path: polygon(50% 0%, 75% 6.7%, 93.3% 25%, 100% 50%, 93.3% 75%, 75% 93.3%, 50% 100%, 25% 93.3%, 6.7% 75%, 0% 50%, 6.7% 25%, 25% 6.7%);
+    width: 220px;
+    height: 220px;
+    padding: 0;
+    overflow: hidden;
+    box-shadow: none; /* box-shadow is clipped by clip-path, we use SVG for border */
+    border: none;
+    justify-content: flex-start;
+}
+/* We use the SVG for the inner border because clip-path hides normal borders */
+.style-emblem .all-poke-badge:hover {
+    transform: translateY(-10px) scale(1.05);
+    box-shadow: 0 20px 40px rgba(0,0,0,0.6), inset 0 0 0 6px rgba(255,255,255,0.4);
+}
+.style-emblem .all-poke-badge-number {
+    top: 6%;
+    left: 50%;
+    transform: translateX(-50%);
+    background: transparent;
+    padding: 0;
+    border: none;
+    color: #ffd700;
+    font-family: 'Georgia', serif;
+    font-style: italic;
+    font-weight: bold;
+    font-size: 1.1rem;
+    text-shadow: 0 2px 4px rgba(0,0,0,0.8), 0 0 10px rgba(0,0,0,0.5);
+    opacity: 1;
+    z-index: 10;
+}
+.style-emblem .all-poke-badge-name {
+    display: none; /* Скрываем обычное имя, так как мы используем SVG текст по дуге */
+}
+.style-emblem .all-poke-emblem-svg {
+    display: block;
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 10;
+    pointer-events: none;
+}
+.svg-curved-text {
+    font-family: 'Georgia', serif;
+    font-weight: bold;
+    font-size: 18px;
+    letter-spacing: 2px;
+    fill: #ffd700;
+    filter: drop-shadow(1px 2px 3px rgba(0,0,0,0.8));
+}
+.all-poke-emblem-svg {
+    display: none; /* Скрыт по умолчанию для других стилей */
+}
+.style-emblem .all-poke-badge-img-box {
+    background: none;
+    box-shadow: none;
+    width: 130px;
+    height: 130px;
+    margin-top: 20px; /* Немного поднял из-за текста снизу */
+    z-index: 5;
+}
+.style-emblem .all-poke-badge-types {
+    /* Instead of normal small icons, we make them massive background watermarks */
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    top: 0;
+    left: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+}
+.style-emblem .type-icon-emoji {
+    position: absolute;
+    font-size: 5rem !important;
+    opacity: 0.15;
+    z-index: 1;
+    /* Убрал filter: drop-shadow чтобы починить жуткие лаги GPU! */
+}
+.style-emblem .type-icon-emoji:nth-child(1) {
+    top: 15%;
+    left: 10%;
+    transform: rotate(-15deg);
+}
+.style-emblem .type-icon-emoji:nth-child(2) {
+    bottom: 15%;
+    right: 10%;
+    transform: rotate(15deg);
+}
+/* If only 1 type, place it bottom right */
+.style-emblem .type-icon-emoji:only-child {
+    top: auto;
+    left: auto;
+    bottom: 15%;
+    right: 15%;
+    font-size: 6rem !important;
+}
+
+/* Style 2: Glass (Current Default, now moved to its class) */
+.style-glass .all-poke-badge {
+    /* Keeps all the default styles we already wrote above */
+}
+
+/* Style 3: Search Cards Premium */
+.style-classic .all-poke-grid {
+    grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+    max-width: 1600px;
+    gap: 20px;
+    justify-items: center;
 }
 
 .all-poke-badge:hover {
@@ -221,6 +415,138 @@
     margin-top: 5px;
     word-break: break-word;
     line-height: 1.2;
+}
+
+/* Style 3: Search Cards Premium */
+.style-classic {
+    gap: 20px;
+}
+.style-classic .all-poke-badge {
+    border-radius: 12px;
+    width: 150px;
+    height: 220px;
+    padding: 10px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    transition: transform 0.2s, box-shadow 0.2s;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.5);
+    position: relative;
+    border: none;
+    overflow: visible; /* we clip backgrounds via border-radius */
+    /* background: linear-gradient comes from JS */
+}
+
+/* Dark inner background leaving 1px border of parent gradient */
+.style-classic .all-poke-badge::before {
+    content: '';
+    position: absolute;
+    inset: 1px;
+    background: #252538; /* dark bluish-gray */
+    border-radius: 11px;
+    z-index: 0;
+}
+
+/* Soft colored glow inside, matching the parent gradient */
+.style-classic .all-poke-badge::after {
+    content: '';
+    position: absolute;
+    inset: 1px;
+    background: inherit;
+    opacity: 0.15;
+    border-radius: 11px;
+    z-index: 0;
+}
+
+.style-classic .all-poke-badge:hover {
+    transform: translateY(-5px) scale(1.02);
+    box-shadow: 0 10px 25px rgba(0,0,0,0.8);
+}
+
+.style-classic .all-poke-badge-number {
+    position: absolute;
+    top: 8px;
+    left: 8px;
+    background: rgba(0,0,0,0.4);
+    padding: 2px 8px;
+    border-radius: 10px;
+    font-size: 0.8rem;
+    font-weight: 800;
+    color: #fff;
+    z-index: 2;
+    transform: none;
+    border: none;
+    font-family: inherit;
+}
+
+.style-classic .all-poke-badge-types {
+    position: absolute;
+    top: 8px;
+    right: 8px;
+    display: flex;
+    flex-direction: row;
+    gap: 4px;
+    background: rgba(0,0,0,0.4);
+    padding: 3px 6px;
+    border-radius: 10px;
+    z-index: 2;
+}
+
+.style-classic .type-icon-emoji {
+    font-size: 0.8rem !important;
+    filter: drop-shadow(0 2px 2px rgba(0,0,0,0.5));
+}
+
+.style-classic .all-poke-badge-img-box {
+    background: transparent;
+    box-shadow: none;
+    width: 90px;
+    height: 90px;
+    margin-top: 35px;
+    border-radius: 0;
+    z-index: 2;
+}
+
+.style-classic .all-poke-badge-img-box img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    filter: drop-shadow(0 4px 6px rgba(0,0,0,0.6));
+}
+
+.style-classic .all-poke-badge-name {
+    margin-top: auto;
+    font-weight: 800;
+    color: #fff;
+    font-size: 1.05rem;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    width: 100%;
+    text-align: center;
+    z-index: 2;
+    text-shadow: none;
+    font-family: inherit;
+    letter-spacing: normal;
+    text-transform: none;
+}
+
+.style-classic .all-poke-badge-name-en {
+    display: block !important;
+    font-size: 0.75rem;
+    color: rgba(255,255,255,0.6);
+    margin-top: 2px;
+    margin-bottom: 5px;
+    z-index: 2;
+    text-align: center;
+}
+
+.style-classic .all-poke-emblem-svg {
+    display: none !important;
+}
+.style-emblem .all-poke-badge-name-en,
+.style-glass .all-poke-badge-name-en {
+    display: none;
 }
 
 /* Button in main UI (Styled like Pokemon Logo) */
