@@ -139,7 +139,18 @@ document.addEventListener('DOMContentLoaded', function () {
                 if(!window.itemsData) window.itemsData = legacyItems;
             }
             if (itemLocsRes && itemLocsRes.ok) window.itemLocationsData = await itemLocsRes.json();
-            if (npcRes && npcRes.ok) window.npcsData = await npcRes.json();
+            if (npcRes && npcRes.ok) {
+                window.npcsData = await npcRes.json();
+                try {
+                    const customNpcRes = await fetch('json/custom_npcs.json');
+                    if (customNpcRes.ok) {
+                        const customNpcs = await customNpcRes.json();
+                        Object.assign(window.npcsData, customNpcs);
+                    }
+                } catch(e) {
+                    console.error('Could not load custom NPCs', e);
+                }
+            }
             if (relRes && relRes.ok) window.itemsRelationsData = await relRes.json();
             
             window.emojiCombosData = null;
@@ -518,7 +529,7 @@ document.addEventListener('DOMContentLoaded', function () {
                     const list = matchingItems.slice(0, 15).map(s => `<b>${s}</b>`).join(', ');
                     const trailing = matchingItems.length > 15 ? ` и ещё ${matchingItems.length - 15}...` : '';
                     els.title.innerHTML = '<i class="fas fa-search"></i> Уточните запрос';
-                    els.content.innerHTML = `<div style="text-align:center; padding:30px; color:#ffcc00;">
+                    els.content.innerHTML = `<div style="text-align:center; padding:30px; color:var(--primary);">
                         Пожалуйста, уточните какой именно <b>${rawQuery}</b> вас интересует?<br><br>
                         <div style="color:#ccc; font-size:0.95em; line-height:2;">Найдено: ${list}${trailing}</div>
                     </div>`;
@@ -704,7 +715,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
             if (itemHabitats.length === 0 && !isDiamondDrop && msgLines.length === 0) {
                 if (itemObj) {
-                    messageHtml = `<div style="padding:15px; border-left:5px solid #ffcc00; background:rgba(255,215,0,0.1); border-radius:10px; margin-bottom:20px; line-height:1.5;">Извините, но местонахождение <b>${titleName}</b> не найдено.</div>`;
+                    messageHtml = `<div style="padding:15px; border-left:5px solid var(--primary); background:rgba(0,0,0,0.2); border-radius:10px; margin-bottom:20px; line-height:1.5;">Извините, но местонахождение <b>${titleName}</b> не найдено.</div>`;
                 } else {
                     // Check if the query is ambiguous — matches multiple items
                     const norm2 = str => str.toLowerCase().replace(/ё/g, 'е').replace(/[^а-яa-z0-9]/g, '');
@@ -844,7 +855,7 @@ document.addEventListener('DOMContentLoaded', function () {
                             const ext = window.extractLocationIcon ? window.extractLocationIcon(l.loc.ru_name || l.loc.name, l.loc.type) : {icon: '📍', name: l.loc.ru_name || l.loc.name};
                             locsHtml += `<div class="loc-clickable" data-loc="${l.locId}" style="background: rgba(255,255,255,0.05); padding: 12px; border-radius: 8px; border-left: 4px solid var(--primary); cursor: pointer; transition: 0.2s; position:relative;" onmouseover="this.style.background='rgba(255,255,255,0.1)'; this.style.transform='translateX(3px)';" onmouseout="this.style.background='rgba(255,255,255,0.05)'; this.style.transform='none';" onclick="if(typeof openLightLocationModal==='function') openLightLocationModal('${l.locId}')">
                                 <div style="font-weight: bold; color: #fff; margin-bottom: 5px;"><span style="font-size:1.2rem; margin-right:5px;">${ext.icon}</span>${ext.name}</div>
-                                <div style="font-size: 0.8rem; color: #aaa;">Найдено видов: <span style="color:#ffcc00; font-weight:bold;">${l.speciesCount}</span></div>
+                                <div style="font-size: 0.8rem; color: #aaa;">Найдено видов: <span style="color:var(--primary); font-weight:bold;">${l.speciesCount}</span></div>
                             </div>`;
                         });
                         locsHtml += `</div></div>`;
@@ -859,8 +870,8 @@ document.addEventListener('DOMContentLoaded', function () {
                 } else {
                     const badgeText = typeKey ? (typeIcons[typeKey] || '✨') : (tierKey ? tierKey.toUpperCase() : (rarityKey ? rarityKey.toUpperCase() : ''));
                     pokemonMatches.forEach(m => {
-                        const iconExt = (m.p.en === 'Pikachu' || m.p.en === 'Eevee') ? 'gif' : 'png';
-                        const imgSrc = `shared/assets/home/${parseInt(m.id)}.${iconExt}`;
+                        const isInPages = window.location.pathname.includes('/pages/');
+                        const imgSrc = `${isInPages ? '../' : ''}home/${parseInt(m.id)}.png`;
                         pokesHtml += `<div class="poke-trading-card" style="background: linear-gradient(135deg, rgba(40,40,60,0.9), rgba(20,20,30,0.9)); border: 2px solid rgba(255,255,255,0.1); border-radius: 12px; padding: 10px; width: 140px; text-align: center; position: relative; cursor: pointer; transition: 0.2s;" 
                              onmouseover="this.style.transform='scale(1.05)'; this.style.borderColor='var(--primary)';" 
                              onmouseout="this.style.transform='none'; this.style.borderColor='rgba(255,255,255,0.1)';" 
@@ -922,8 +933,8 @@ document.addEventListener('DOMContentLoaded', function () {
                         vLoc.style.display = 'block';
                     } else if (state === 1) {
                         thumb.style.left = '49px';
-                        thumb.style.background = '#ffcc00';
-                        tPoke.style.color = '#ffcc00';
+                        thumb.style.background = 'var(--primary)';
+                        tPoke.style.color = 'var(--primary)';
                         vPoke.style.display = 'block';
                     } else {
                         thumb.style.left = '26px';
@@ -995,7 +1006,7 @@ document.addEventListener('DOMContentLoaded', function () {
                 els.title.innerHTML = '<i class="fas fa-users"></i> Результаты поиска NPC';
                 const namesStr = Array.from(matchedNames).join(", ");
                 
-                let html = `<div style="text-align:center;padding:20px;color:#ffcc00;font-size:1.1rem;margin-top:10px;">Персонаж(и) <b>${namesStr}</b> найден(ы) в ${foundNPCLocs.length} ${getPl(foundNPCLocs.length, pluralPlc)}:</div>`;
+                let html = `<div style="text-align:center;padding:20px;color:var(--primary);font-size:1.1rem;margin-top:10px;">Персонаж(и) <b>${namesStr}</b> найден(ы) в ${foundNPCLocs.length} ${getPl(foundNPCLocs.length, pluralPlc)}:</div>`;
                 html += '<div class="habitat-list" style="margin-top: 15px;">';
                 
                 foundNPCLocs.forEach(n => {
@@ -1020,7 +1031,7 @@ document.addEventListener('DOMContentLoaded', function () {
                                 <div>
                                     <div class="habitat-loc-name" style="font-weight: bold; font-size: 1.15rem; color: #fff; margin-bottom: 3px;">${cleanLocName}</div>
                                 </div>
-                                <div style="position: absolute; bottom: 8px; right: 10px; font-size: 0.75rem; font-weight: bold; background: rgba(0,0,0,0.5); padding: 3px 8px; border-radius: 12px; color: #aaa;">Регион: <span style="color:#ffcc00">${foundRegion}</span></div>
+                                <div style="position: absolute; bottom: 8px; right: 10px; font-size: 0.75rem; font-weight: bold; background: rgba(0,0,0,0.5); padding: 3px 8px; border-radius: 12px; color: #aaa;">Регион: <span style="color:var(--primary)">${foundRegion}</span></div>
                             </div>`;
                     }
                 });
@@ -1473,7 +1484,7 @@ document.addEventListener('DOMContentLoaded', function () {
                     ${byReg[reg].map(l => {
                         const ext = window.extractLocationIcon ? window.extractLocationIcon(l.ru_name || l.name || 'Неизвестно', l.type) : {icon: '📍', name: l.ru_name || l.name || 'Неизвестно'};
                         return `
-                        <div class="loc-clickable" data-loc="${l.name}" style="padding:10px; background:rgba(255,255,255,0.05); border-radius:8px; border-left:3px solid #ffcc00; display:flex; justify-content:space-between; align-items:center; cursor:pointer; transition:0.2s;" onmouseover="this.style.background='rgba(255,255,255,0.1)'; this.style.transform='translateX(3px)';" onmouseout="this.style.background='rgba(255,255,255,0.05)'; this.style.transform='none';" onclick="if(typeof openLightLocationModal==='function') openLightLocationModal('${l.name}')">
+                        <div class="loc-clickable" data-loc="${l.name}" style="padding:10px; background:rgba(255,255,255,0.05); border-radius:8px; border-left:3px solid var(--primary); display:flex; justify-content:space-between; align-items:center; cursor:pointer; transition:0.2s;" onmouseover="this.style.background='rgba(255,255,255,0.1)'; this.style.transform='translateX(3px)';" onmouseout="this.style.background='rgba(255,255,255,0.05)'; this.style.transform='none';" onclick="if(typeof openLightLocationModal==='function') openLightLocationModal('${l.name}')">
                             <div style="display:flex; flex-direction:column; gap:4px;">
                                 <strong style="color:white; display:flex; align-items:center; gap:6px;"><span style="font-size:1.2rem;">${ext.icon}</span> ${ext.name}</strong>
                                 <div style="font-size:0.85rem; color:var(--text-muted);">${window.formatItemStringWithFlip(l.rawItemString)}</div>
@@ -1509,7 +1520,7 @@ document.addEventListener('DOMContentLoaded', function () {
                 h += d[r].map(x => {
                     const ext = window.extractLocationIcon ? window.extractLocationIcon(x.name, x.type) : {icon: '📍', name: x.name};
                     return `
-                    <div class="location-item loc-clickable" data-loc="${x.rawName}" style="cursor:pointer; display:flex; align-items:center; gap:15px; position:relative; overflow:hidden; transition:0.2s; padding:12px 15px; background:rgba(255,255,255,0.05); border-left:4px solid #ffcc00; border-radius:12px;" onmouseover="this.style.background='rgba(255,255,255,0.1)'; this.style.transform='translateX(5px)';" onmouseout="this.style.background='rgba(255,255,255,0.05)'; this.style.transform='none';" onclick="if(typeof openLightLocationModal==='function') openLightLocationModal('${x.rawName}')">
+                    <div class="location-item loc-clickable" data-loc="${x.rawName}" style="cursor:pointer; display:flex; align-items:center; gap:15px; position:relative; overflow:hidden; transition:0.2s; padding:12px 15px; background:rgba(255,255,255,0.05); border-left:4px solid var(--primary); border-radius:12px;" onmouseover="this.style.background='rgba(255,255,255,0.1)'; this.style.transform='translateX(5px)';" onmouseout="this.style.background='rgba(255,255,255,0.05)'; this.style.transform='none';" onclick="if(typeof openLightLocationModal==='function') openLightLocationModal('${x.rawName}')">
                         <div style="font-size: 1.5rem; background: rgba(0,0,0,0.3); width: 40px; height: 40px; display: flex; align-items: center; justify-content: center; border-radius: 50%; box-shadow: 0 4px 10px rgba(0,0,0,0.5); flex-shrink: 0;">${ext.icon}</div>
                         <div style="font-weight: bold; font-size: 1.05rem; color: #fff;">${ext.name}</div>
                     </div>

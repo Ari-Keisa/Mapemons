@@ -1,0 +1,162 @@
+{
+    "master_celadon": {
+        "location_id": "CELADON-CITY",
+        "ru_name": "🎖️ Мастер битв",
+        "en_name": "🎖️ Мастер битв",
+        "description": "Опытный тренер, закаленный в множестве сражений. Он готов поделиться своей мудростью и редкими предметами за победу.",
+        "photo_path": "shared/assets/npcs/Мастер битв.jpg",
+        "type": "npc"
+    },
+    "master_blackthorn": {
+        "location_id": "BLACKTHORN-CITY",
+        "ru_name": "🎖️ Мастер битв",
+        "en_name": "🎖️ Мастер битв",
+        "description": "Опытный тренер, закаленный в множестве сражений. Он готов поделиться своей мудростью и редкими предметами за победу.",
+        "photo_path": "shared/assets/npcs/Мастер битв.jpg",
+        "type": "npc"
+    },
+    "master_evergrande": {
+        "location_id": "EVER-GRANDE-CITY",
+        "ru_name": "🎖️ Мастер битв",
+        "en_name": "🎖️ Мастер битв",
+        "description": "Опытный тренер, закаленный в множестве сражений. Он готов поделиться своей мудростью и редкими предметами за победу.",
+        "photo_path": "shared/assets/npcs/Мастер битв.jpg",
+        "type": "npc"
+    },
+    "master_sunyshore": {
+        "location_id": "SUNYSHORE-CITY",
+        "ru_name": "🎖️ Мастер битв",
+        "en_name": "🎖️ Мастер битв",
+        "description": "Опытный тренер, закаленный в множестве сражений. Он готов поделиться своей мудростью и редкими предметами за победу.",
+        "photo_path": "shared/assets/npcs/Мастер битв.jpg",
+        "type": "npc"
+    },
+    "auction_celadon": {
+        "location_id": "CELADON-CITY",
+        "ru_name": "🎩 Аукционист",
+        "en_name": "🎩 Аукционист",
+        "description": "Харизматичный ведущий аукционов, предлагающий уникальные и редкие лоты для самых щедрых покупателей.",
+        "photo_path": "shared/assets/npcs/Аукционист.jpg",
+        "type": "npc"
+    },
+    "auction_goldenrod": {
+        "location_id": "GOLDENROD-CITY",
+        "ru_name": "🎩 Аукционист",
+        "en_name": "🎩 Аукционист",
+        "description": "Харизматичный ведущий аукционов, предлагающий уникальные и редкие лоты для самых щедрых покупателей.",
+        "photo_path": "shared/assets/npcs/Аукционист.jpg",
+        "type": "npc"
+    },
+    "auction_lilycove": {
+        "location_id": "LILYCOVE-CITY",
+        "ru_name": "🎩 Аукционист",
+        "en_name": "🎩 Аукционист",
+        "description": "Харизматичный ведущий аукционов, предлагающий уникальные и редкие лоты для самых щедрых покупателей.",
+        "photo_path": "shared/assets/npcs/Аукционист.jpg",
+        "type": "npc"
+    },
+    "auction_hearthome": {
+        "location_id": "HEARTHOME-CITY",
+        "ru_name": "🎩 Аукционист",
+        "en_name": "🎩 Аукционист",
+        "description": "Харизматичный ведущий аукционов, предлагающий уникальные и редкие лоты для самых щедрых покупателей.",
+        "photo_path": "shared/assets/npcs/Аукционист.jpg",
+        "type": "npc"
+    },
+    "elite_saffron": {
+        "location_id": "SAFFRON-CITY",
+        "ru_name": "🧑‍🏫 Элитный продавец",
+        "en_name": "🧑‍🏫 Элитный продавец",
+        "description": "Продавец эксклюзивных и дорогих товаров, которые невозможно найти в обычном Покемарте.",
+        "photo_path": "shared/assets/npcs/Элитный продавец.jpg",
+        "type": "npc"
+    },
+    "elite_goldenrod": {
+        "location_id": "GOLDENROD-CITY",
+        "ru_name": "🧑‍🏫 Элитный продавец",
+        "en_name": "🧑‍🏫 Элитный продавец",
+        "description": "Продавец эксклюзивных и дорогих товаров, которые невозможно найти в обычном Покемарте.",
+        "photo_path": "shared/assets/npcs/Элитный продавец.jpg",
+        "type": "npc"
+    },
+    "elite_mauville": {
+        "location_id": "MAUVILLE-CITY",
+        "ru_name": "🧑‍🏫 Элитный продавец",
+        "en_name": "🧑‍🏫 Элитный продавец",
+        "description": "Продавец эксклюзивных и дорогих товаров, которые невозможно найти в обычном Покемарте.",
+        "photo_path": "shared/assets/npcs/Элитный продавец.jpg",
+        "type": "npc"
+    },
+    "elite_veilstone": {
+        "location_id": "VEILSTONE-CITY",
+        "ru_name": "🧑‍🏫 Элитный продавец",
+        "en_name": "🧑‍🏫 Элитный продавец",
+        "description": "Продавец эксклюзивных и дорогих товаров, которые невозможно найти в обычном Покемарте.",
+        "photo_path": "shared/assets/npcs/Элитный продавец.jpg",
+        "type": "npc"
+    },
+    "exotic_vermilion": {
+        "location_id": "VERMILION-CITY",
+        "ru_name": "👳🏻‍♂️ Торговец экзотикой",
+        "en_name": "👳🏻‍♂️ Торговец экзотикой",
+        "description": "Загадочный путешественник, привозящий диковинные товары из дальних уголков мира.",
+        "photo_path": "shared/assets/npcs/Торговец экзотикой.jpg",
+        "type": "npc"
+    },
+    "exotic_olivine": {
+        "location_id": "OLIVINE-CITY",
+        "ru_name": "👳🏻‍♂️ Торговец экзотикой",
+        "en_name": "👳🏻‍♂️ Торговец экзотикой",
+        "description": "Загадочный путешественник, привозящий диковинные товары из дальних уголков мира.",
+        "photo_path": "shared/assets/npcs/Торговец экзотикой.jpg",
+        "type": "npc"
+    },
+    "exotic_slateport": {
+        "location_id": "SLATEPORT-CITY",
+        "ru_name": "👳🏻‍♂️ Торговец экзотикой",
+        "en_name": "👳🏻‍♂️ Торговец экзотикой",
+        "description": "Загадочный путешественник, привозящий диковинные товары из дальних уголков мира.",
+        "photo_path": "shared/assets/npcs/Торговец экзотикой.jpg",
+        "type": "npc"
+    },
+    "exotic_canalave": {
+        "location_id": "CANALAVE-CITY",
+        "ru_name": "👳🏻‍♂️ Торговец экзотикой",
+        "en_name": "👳🏻‍♂️ Торговец экзотикой",
+        "description": "Загадочный путешественник, привозящий диковинные товары из дальних уголков мира.",
+        "photo_path": "shared/assets/npcs/Торговец экзотикой.jpg",
+        "type": "npc"
+    },
+    "resource_vermilion": {
+        "location_id": "VERMILION-CITY",
+        "ru_name": "🧑‍🌾 Торговец ресурсами",
+        "en_name": "🧑‍🌾 Торговец ресурсами",
+        "description": "Трудолюбивый торговец, предлагающий базовые ресурсы и материалы для крафта.",
+        "photo_path": "shared/assets/npcs/Торговец ресурсами.jpg",
+        "type": "npc"
+    },
+    "resource_olivine": {
+        "location_id": "OLIVINE-CITY",
+        "ru_name": "🧑‍🌾 Торговец ресурсами",
+        "en_name": "🧑‍🌾 Торговец ресурсами",
+        "description": "Трудолюбивый торговец, предлагающий базовые ресурсы и материалы для крафта.",
+        "photo_path": "shared/assets/npcs/Торговец ресурсами.jpg",
+        "type": "npc"
+    },
+    "resource_slateport": {
+        "location_id": "SLATEPORT-CITY",
+        "ru_name": "🧑‍🌾 Торговец ресурсами",
+        "en_name": "🧑‍🌾 Торговец ресурсами",
+        "description": "Трудолюбивый торговец, предлагающий базовые ресурсы и материалы для крафта.",
+        "photo_path": "shared/assets/npcs/Торговец ресурсами.jpg",
+        "type": "npc"
+    },
+    "resource_canalave": {
+        "location_id": "CANALAVE-CITY",
+        "ru_name": "🧑‍🌾 Торговец ресурсами",
+        "en_name": "🧑‍🌾 Торговец ресурсами",
+        "description": "Трудолюбивый торговец, предлагающий базовые ресурсы и материалы для крафта.",
+        "photo_path": "shared/assets/npcs/Торговец ресурсами.jpg",
+        "type": "npc"
+    }
+}

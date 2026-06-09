@@ -113,20 +113,6 @@ function showLocationInfo(locId, data) {
     // --- NPC tab content ---
     let npcs = Array.from(window.npcByLocation[locId] || []);
     
-    // Автоматически добавляем Джой и Продавца, если есть Центр/Магазин
-    if (data.has_pokecenter) {
-        npcs.unshift({
-            ru_name: '👩‍⚕️ Сестра Джой',
-            description: 'Заботливая медсестра Покецентра. Она с радостью вылечит ваших покемонов и вернёт им силы для новых приключений.'
-        });
-    }
-    if (data.has_pokemart) {
-        npcs.push({
-            ru_name: '🛒 Продавец Покемарта',
-            description: 'Всегда готов предложить вам лучшие товары для путешествия: покеболы, зелья и многое другое.'
-        });
-    }
-    
     let npcHtml = '';
     if (npcs.length > 0) {
         npcHtml = '<div class="npc-list">' + npcs.map((npc, i) => {
@@ -505,8 +491,8 @@ window.openLightLocationModal = function(locId) {
                 const pObj = Object.values(window.pokemonDB).find(x => x.en.toUpperCase() === sp);
                 if (pObj) {
                     const pId = Object.keys(window.pokemonDB).find(k => window.pokemonDB[k].en === pObj.en);
-                    const iconExt = (pObj.en === 'Pikachu' || pObj.en === 'Eevee') ? 'gif' : 'png';
-                    const imgSrc = `shared/assets/home/${parseInt(pId)}.${iconExt}`;
+                    const isInPages = window.location.pathname.includes('/pages/');
+                    const imgSrc = `${isInPages ? '../' : ''}home/${parseInt(pId)}.png`;
                     pokeCards += `<div style="background:rgba(0,0,0,0.3); padding:5px; border-radius:8px; text-align:center; width:65px;" title="${pObj.ru || pObj.en}">
                         <img src="${imgSrc}" style="width:40px;height:40px;object-fit:contain;" onerror="this.src='images/items/0.png'">
                         <div style="font-size:0.6rem; margin-top:3px; white-space:nowrap; overflow:hidden; text-overflow:ellipsis;">${pObj.ru || pObj.en}</div>
@@ -517,7 +503,7 @@ window.openLightLocationModal = function(locId) {
         
         if (pokeCards) {
             pokesHtml = `
-            <h4 style="margin-top:15px; margin-bottom:10px; color:#ffcc00; font-size:0.9rem;">Встречаемые покемоны:</h4>
+            <h4 style="margin-top:15px; margin-bottom:10px; color:var(--primary); font-size:0.9rem;">Встречаемые покемоны:</h4>
             <div style="display:flex; flex-wrap:wrap; gap:8px;">${pokeCards}</div>
             `;
         }
