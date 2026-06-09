@@ -21,6 +21,64 @@ window.onerror = function (msg, url, line) {
     return false;
 };
 
+// === ГЛОБАЛЬНЫЙ СТЕЙТ ДЛЯ ШАЙНИ И ПОЛЗУНКА ===
+window.isShinyToggleActive = false;
+window.currentSliderState = 0;
+
+window.toggleShinySearch = function(e) {
+    if (e) e.stopPropagation();
+    window.isShinyToggleActive = !window.isShinyToggleActive;
+    const isShiny = window.isShinyToggleActive;
+
+    const btn = document.getElementById('shinyToggleButton');
+    if (btn) {
+        btn.style.background = isShiny ? 'rgba(78, 205, 196, 0.2)' : 'rgba(255,255,255,0.05)';
+        btn.style.border = `1px solid ${isShiny ? 'var(--primary)' : 'rgba(255,255,255,0.1)'}`;
+        btn.style.boxShadow = isShiny ? '0 0 10px rgba(78, 205, 196, 0.5)' : 'none';
+        const icon = btn.querySelector('i');
+        if (icon) icon.style.color = isShiny ? 'var(--primary)' : '#aaa';
+    }
+
+    const cards = document.querySelectorAll('.poke-trading-card');
+    cards.forEach(card => {
+        const isInPages = card.getAttribute('data-inpages') === 'true';
+        const isForm = card.getAttribute('data-isform') === 'true';
+        const rawEn = card.getAttribute('data-en');
+        const rawRu = card.getAttribute('data-ru');
+        const mId = card.getAttribute('data-id');
+        const normalSprite = card.getAttribute('data-sprite');
+        const shinySprite = card.getAttribute('data-shinysprite');
+        
+        const img = card.querySelector('.poke-card-img');
+        if (img) {
+            if (isForm && (normalSprite || shinySprite)) {
+                let sPath = isShiny ? shinySprite : normalSprite;
+                if (sPath) {
+                    if (isInPages && sPath.startsWith('shared/assets/')) sPath = '../' + sPath.replace('shared/assets/', '');
+                    else if (!isInPages && sPath.startsWith('shared/assets/')) sPath = sPath.replace('shared/assets/', '');
+                    img.src = sPath;
+                } else {
+                    img.src = `${isInPages ? '../' : ''}home/${isShiny ? 'shiny/' : ''}${parseInt(mId)}.png`;
+                }
+            } else {
+                img.src = `${isInPages ? '../' : ''}home/${isShiny ? 'shiny/' : ''}${parseInt(mId)}.png`;
+            }
+        }
+        
+        const ruDiv = card.querySelector('.poke-card-name-ru');
+        if (ruDiv) {
+            ruDiv.textContent = isShiny ? `⭐️${rawRu}⭐️` : rawRu;
+        }
+        
+        const enDiv = card.querySelector('.poke-card-name-en');
+        if (enDiv) {
+            // Un-uppercase the EN name for display purposes to match original behavior loosely, or just show as is
+            const displayEn = rawEn.charAt(0) + rawEn.slice(1).toLowerCase();
+            enDiv.textContent = isShiny ? `⭐️${displayEn}⭐️` : displayEn;
+        }
+    });
+};
+
 // ==========================================
 // ГЛОБАЛЬНЫЕ ФУНКЦИИ (Перенесены в dossier.js)
 // ==========================================
@@ -58,7 +116,7 @@ document.addEventListener('DOMContentLoaded', function () {
         'pokemon': 'Например: Pikachu, Charizard, Мьюту, #025, 125',
         'item': 'Например: Чёрный пояс, Уголёк, Амурит, item_996, 996',
         'centers': 'Список локаций, где присутствует Покецентр и Магазин',
-        'other': 'Например: Имя_NPC, Тип_покемона, Тир_покемона, Редкость ( О | Р_ ), Название_Локации'
+        'other': 'Например: Имя_NPC, Тип_покемона, Тир_покемона, Редкость ( О | Р_ ), Название_Локации, или добавьте ⭐️ для шайни'
     };
 
     // === ДАННЫЕ (Экспортируем в глобальную область для dossier.js) ===
@@ -470,7 +528,8 @@ document.addEventListener('DOMContentLoaded', function () {
             return;
         }
 
-        const isShinySearch = rawQuery.includes('⭐️');
+        window.isShinyToggleActive = rawQuery.includes('⭐️');
+        const isShinySearch = window.isShinyToggleActive;
         let cleanQuery = rawQuery.toLowerCase().replace('#', '').replace(/⭐️/g, '').trim();
         cleanQuery = cleanQuery.replace(/тм/g, 'tm').replace(/нм/g, 'hm');
 
@@ -793,12 +852,51 @@ document.addEventListener('DOMContentLoaded', function () {
                     if (!p || !p.en) continue;
                     let pType = typeKey && p.type && p.type.includes(typeKey);
                     let pTier = false;
-                    if (tierKey && window.pokemonRuData) {
-                        const ruEntry = window.pokemonRuData[p.en.toUpperCase()];
-                        if (ruEntry && ruEntry.Format && ruEntry.Format.toLowerCase() === tierKey) pTier = true;
-                    }
+                    const ruEntry = window.pokemonRuData && window.pokemonRuData[p.en.toUpperCase()];
+                    if (tierKey && ruEntry && ruEntry.Format && ruEntry.Format.toLowerCase() === tierKey) pTier = true;
+                    
                     if (pType || pTier) {
-                        pokemonMatches.push({id, p});
+                        pokemonMatches.push({id, p, isForm: false, formIndex: null, formObj: null});
+                    }
+
+                    // --- Сбор форм ---
+                    if (window.formsBySpecies && window.formsBySpecies[p.en.toUpperCase()]) {
+                        window.formsBySpecies[p.en.toUpperCase()].forEach((form, fIdx) => {
+                            // Пропускаем технические пустышки-эволюции (у которых нет ни названия формы, ни спрайта)
+                            if (!form.FormName && !form.SpritePath) return;
+
+                            let formType = false;
+                            let formTypeArr = p.type;
+                            if (form.Types) {
+                                formTypeArr = form.Types.split(',').map(t=>t.trim().toLowerCase());
+                                if (typeKey && formTypeArr.includes(typeKey.toLowerCase())) formType = true;
+                            } else if (pType) {
+                                formType = true;
+                            }
+                            
+                            let fTier = false;
+                            if (tierKey) {
+                                if (form.Format && form.Format.toLowerCase() === tierKey) fTier = true;
+                                else if (!form.Format && pTier) fTier = true; // Fallback to base tier
+                            }
+
+                            if (formType || fTier) {
+                                let mockP = {
+                                    en: p.en,
+                                    ru: p.ru,
+                                    type: formTypeArr,
+                                    formEn: form.FormName || p.en,
+                                    formRu: form.FormName || p.ru
+                                };
+                                pokemonMatches.push({
+                                    id: id, 
+                                    p: mockP, 
+                                    isForm: true, 
+                                    formIndex: fIdx,
+                                    formObj: form
+                                });
+                            }
+                        });
                     }
                 }
 
@@ -868,31 +966,123 @@ document.addEventListener('DOMContentLoaded', function () {
                 if (pokemonMatches.length === 0) {
                     pokesHtml += `<div style="text-align:center; color:#aaa; padding:20px;">В этой категории не найдено покемонов.</div>`;
                 } else {
-                    const badgeText = typeKey ? (typeIcons[typeKey] || '✨') : (tierKey ? tierKey.toUpperCase() : (rarityKey ? rarityKey.toUpperCase() : ''));
                     pokemonMatches.forEach(m => {
+                        let badgeText = '';
+                        let type1 = '', type2 = '';
+                        if (m.p.type && m.p.type.length > 0) {
+                            badgeText = m.p.type.map(t => typeIcons[t] || '✨').join(' ');
+                            type1 = m.p.type[0].toLowerCase();
+                            if (m.p.type.length > 1) type2 = m.p.type[1].toLowerCase();
+                        } else if (typeKey) {
+                            badgeText = typeIcons[typeKey] || '✨';
+                            type1 = typeKey.toLowerCase();
+                        } else {
+                            badgeText = '✨';
+                        }
+                        
+                        let glowStyle = `background: linear-gradient(135deg, rgba(40,40,60,0.9), rgba(20,20,30,0.9)); border: 2px solid rgba(255,255,255,0.1);`;
+                        let hoverStyle = `this.style.borderColor='var(--primary)';`;
+                        let hoverOutStyle = `this.style.borderColor='rgba(255,255,255,0.1)';`;
+
+                        if (type1 && typeof typeColors !== 'undefined') {
+                            let c1 = typeColors[type1] || '#aaaaaa';
+                            if (type1 === 'dark') c1 = '#6a5a75'; // Lighter color for dark type to be visible
+                            if (c1.length === 9) c1 = c1.substring(0, 7); // Remove alpha if it exists
+                            
+                            if (type2) {
+                                let c2 = typeColors[type2] || '#aaaaaa';
+                                if (type2 === 'dark') c2 = '#6a5a75';
+                                if (c2.length === 9) c2 = c2.substring(0, 7);
+                                
+                                glowStyle = `background: linear-gradient(135deg, ${c1}33, ${c2}33, rgba(20,20,30,0.95)); border: 2px solid ${c1}40; box-shadow: 0 0 10px ${c1}15, inset 0 0 15px ${c2}15;`;
+                                hoverStyle = `this.style.borderColor='${c1}'; this.style.boxShadow='0 0 20px ${c1}66, inset 0 0 20px ${c2}66';`;
+                                hoverOutStyle = `this.style.borderColor='${c1}40'; this.style.boxShadow='0 0 10px ${c1}15, inset 0 0 15px ${c2}15';`;
+                            } else {
+                                glowStyle = `background: linear-gradient(135deg, ${c1}44, rgba(20,20,30,0.95)); border: 2px solid ${c1}40; box-shadow: 0 0 10px ${c1}15, inset 0 0 15px ${c1}15;`;
+                                hoverStyle = `this.style.borderColor='${c1}'; this.style.boxShadow='0 0 20px ${c1}66, inset 0 0 20px ${c1}66';`;
+                                hoverOutStyle = `this.style.borderColor='${c1}40'; this.style.boxShadow='0 0 10px ${c1}15, inset 0 0 15px ${c1}15';`;
+                            }
+                        }
+                        
+                        const safeEn = m.p.en.toUpperCase().replace(/'/g, "\\'");
+                        const safeRu = (m.p.ru || m.p.en).replace(/'/g, "\\'");
                         const isInPages = window.location.pathname.includes('/pages/');
-                        const imgSrc = `${isInPages ? '../' : ''}home/${parseInt(m.id)}.png`;
-                        pokesHtml += `<div class="poke-trading-card" style="background: linear-gradient(135deg, rgba(40,40,60,0.9), rgba(20,20,30,0.9)); border: 2px solid rgba(255,255,255,0.1); border-radius: 12px; padding: 10px; width: 140px; text-align: center; position: relative; cursor: pointer; transition: 0.2s;" 
-                             onmouseover="this.style.transform='scale(1.05)'; this.style.borderColor='var(--primary)';" 
-                             onmouseout="this.style.transform='none'; this.style.borderColor='rgba(255,255,255,0.1)';" 
-                             onclick="typeof openPokemonDossier === 'function' ? openPokemonDossier('${m.p.en}') : (document.getElementById('pokemonSearch').value='${m.p.en}', document.getElementById('searchButton').click())">
+                        
+                        let imgSrc = '';
+                        if (m.isForm && m.formObj) {
+                            imgSrc = isShinySearch ? m.formObj.ShinySpritePath : m.formObj.SpritePath;
+                            if (imgSrc) {
+                                if (isInPages && imgSrc.startsWith('shared/assets/')) imgSrc = '../' + imgSrc.replace('shared/assets/', '');
+                                else if (!isInPages && imgSrc.startsWith('shared/assets/')) imgSrc = imgSrc.replace('shared/assets/', '');
+                            } else {
+                                imgSrc = `${isInPages ? '../' : ''}home/${isShinySearch ? 'shiny/' : ''}${parseInt(m.id)}.png`;
+                            }
+                        } else {
+                            imgSrc = `${isInPages ? '../' : ''}home/${isShinySearch ? 'shiny/' : ''}${parseInt(m.id)}.png`;
+                        }
+
+                        let dispRu = m.p.ru || m.p.en;
+                        let dispEn = m.p.en;
+                        if (m.isForm && m.p.formRu) {
+                            if (typeof window.translateFormName === 'function') {
+                                let trans = window.translateFormName(m.p.formRu, dispRu, dispEn);
+                                dispRu = trans.ru;
+                                dispEn = trans.en;
+                            } else {
+                                if (m.p.formRu.toLowerCase().includes(m.p.en.toLowerCase())) {
+                                    dispRu = m.p.formRu.replace(new RegExp(m.p.en, 'ig'), dispRu);
+                                    dispEn = m.p.formRu;
+                                    dispRu = dispRu.replace(/^Mega\b/i, 'Мега-').replace(/^Alolan\b/i, 'Алола').replace(/^Galarian\b/i, 'Галар');
+                                } else {
+                                    dispRu = `${dispRu} (${m.p.formRu})`;
+                                    dispEn = `${dispEn} (${m.p.formRu})`;
+                                }
+                            }
+                        }
+                        
+                        const pNameRu = isShinySearch ? `⭐️${dispRu}⭐️` : dispRu;
+                        const pNameEn = isShinySearch ? `⭐️${dispEn}⭐️` : dispEn;
+                        
+                        const onClickCode = m.isForm 
+                            ? `typeof openPokemonDossier === 'function' ? openPokemonDossier('${safeEn}', window.isShinyToggleActive, ${m.formIndex}) : (document.getElementById('pokemonSearch').value='${safeEn}', document.getElementById('searchButton').click())`
+                            : `typeof openPokemonDossier === 'function' ? openPokemonDossier('${safeEn}', window.isShinyToggleActive) : (document.getElementById('pokemonSearch').value='${safeEn}', document.getElementById('searchButton').click())`;
+                        
+                        pokesHtml += `<div class="poke-trading-card" data-id="${m.id}" data-en="${safeEn}" data-ru="${safeRu}" data-inpages="${isInPages}" data-isform="${m.isForm ? 'true' : 'false'}" data-sprite="${m.formObj ? m.formObj.SpritePath : ''}" data-shinysprite="${m.formObj ? m.formObj.ShinySpritePath : ''}" style="${glowStyle} border-radius: 12px; padding: 10px; width: 140px; text-align: center; position: relative; cursor: pointer; transition: 0.2s;" 
+                             onmouseover="this.style.transform='scale(1.05)'; ${hoverStyle}" 
+                             onmouseout="this.style.transform='none'; ${hoverOutStyle}" 
+                             onclick="${onClickCode}">
                             <div style="position: absolute; top: 8px; left: 8px; background: rgba(0,0,0,0.6); padding: 2px 6px; border-radius: 10px; font-size: 0.75rem; font-weight: bold; color: #fff;">#${m.id.padStart(3, '0')}</div>
-                            <div style="position: absolute; top: 8px; right: 8px; background: rgba(255,215,0,0.2); padding: 2px 6px; border-radius: 10px; font-size: 0.8rem; font-weight: bold; color: #ffd700;">${badgeText}</div>
-                            <img src="${imgSrc}" style="width: 80px; height: 80px; object-fit: contain; margin-top: 20px; filter: drop-shadow(0 4px 6px rgba(0,0,0,0.5));" onerror="this.src='images/items/0.png'">
-                            <div style="margin-top: 10px; font-weight: bold; color: #fff; font-size: 0.95rem; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">${m.p.ru || m.p.en}</div>
-                            <div style="font-size: 0.75rem; color: #aaa; margin-top: 2px;">${m.p.en}</div>
+                            <div style="position: absolute; top: 8px; right: 8px; background: rgba(255,215,0,0.2); padding: 2px 6px; border-radius: 10px; font-size: 0.8rem; font-weight: bold; color: #ffd700; filter: drop-shadow(0 2px 4px rgba(0,0,0,0.5));">${badgeText}</div>
+                            <img class="poke-card-img" src="${imgSrc}" style="width: 80px; height: 80px; object-fit: contain; margin-top: 20px; filter: drop-shadow(0 4px 6px rgba(0,0,0,0.5));" onerror="this.src='images/items/0.png'">
+                            <div class="poke-card-name-ru" style="margin-top: 10px; font-weight: bold; color: #fff; font-size: 0.95rem; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">${pNameRu}</div>
+                            <div class="poke-card-name-en" style="font-size: 0.75rem; color: #aaa; margin-top: 2px;">${pNameEn}</div>
                         </div>`;
                     });
                 }
                 pokesHtml += `</div>`;
+                
+                if (pokemonMatches.length > 0) {
+                    let totalText = "Всего найдено покемонов";
+                    if (typeKey && typeNamesRu[typeKey.toLowerCase()]) {
+                        totalText = `Всего покемонов типа «${typeNamesRu[typeKey.toLowerCase()]}»`;
+                    }
+                    let tColor = (typeKey && typeof typeColors !== 'undefined' && typeColors[typeKey.toLowerCase()]) ? typeColors[typeKey.toLowerCase()] : 'var(--primary)';
+                    pokesHtml += `<div style="text-align:center; margin-top:30px; font-size:1.1rem; color:#ccc; font-weight:bold; background:rgba(0,0,0,0.3); border-radius:10px; padding:15px; border-bottom:3px solid ${tColor};">
+                        ${totalText}: <span style="color:${tColor}; font-size:1.3rem;">${pokemonMatches.length}</span> шт.
+                    </div>`;
+                }
 
                 let html = `
-                <div class="slider-container" style="display:flex; justify-content:center; align-items:center; gap:15px; margin: 20px 0; user-select: none;">
+                <div class="slider-container" style="display:flex; justify-content:center; align-items:center; gap:15px; margin: 20px 0; user-select: none; position: relative;">
                     <span id="slider-loc-text" style="color:#aaa; font-weight:bold; transition:0.3s; cursor:pointer;" onclick="setSliderState(-1)">Локации</span>
                     <div id="slider-track" style="width: 80px; height: 34px; background: rgba(0,0,0,0.5); border-radius: 17px; position:relative; cursor:pointer; box-shadow: inset 0 0 5px rgba(0,0,0,0.8);">
                         <div id="slider-thumb" style="width:28px; height:28px; background: var(--text-muted); border-radius:50%; position:absolute; top:3px; left:26px; transition:left 0.3s cubic-bezier(0.68, -0.55, 0.265, 1.55), background 0.3s;"></div>
                     </div>
                     <span id="slider-poke-text" style="color:#aaa; font-weight:bold; transition:0.3s; cursor:pointer;" onclick="setSliderState(1)">Покемоны</span>
+                    
+                    <button id="shinyToggleButton" onclick="toggleShinySearch(event)" title="Включить Шайни режим" style="position: absolute; right: 10px; top: 50%; transform: translateY(-50%); opacity: 0; pointer-events: none; background: ${isShinySearch ? 'rgba(78, 205, 196, 0.2)' : 'rgba(255,255,255,0.05)'}; border: 1px solid ${isShinySearch ? 'var(--primary)' : 'rgba(255,255,255,0.1)'}; border-radius: 8px; width: 34px; height: 34px; cursor: pointer; transition: 0.3s; display: flex; align-items: center; justify-content: center;">
+                        <i class="fas fa-star" style="color: ${isShinySearch ? 'var(--primary)' : '#aaa'}; font-size: 1.1rem;"></i>
+                    </button>
                 </div>
                 
                 <div id="slider-view-neutral" style="text-align:center; color:#aaa; font-size:1.1rem; padding: 40px 20px; animation: fadeIn 0.3s;">
@@ -911,6 +1101,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
                 // Slider Logic
                 window.setSliderState = function(state) {
+                    window.currentSliderState = state;
                     const thumb = document.getElementById('slider-thumb');
                     const tLoc = document.getElementById('slider-loc-text');
                     const tPoke = document.getElementById('slider-poke-text');
@@ -926,20 +1117,25 @@ document.addEventListener('DOMContentLoaded', function () {
                     tLoc.style.color = '#aaa';
                     tPoke.style.color = '#aaa';
                     
+                    const shinyBtn = document.getElementById('shinyToggleButton');
+                    
                     if (state === -1) {
                         thumb.style.left = '3px';
                         thumb.style.background = 'var(--primary)';
                         tLoc.style.color = 'var(--primary)';
                         vLoc.style.display = 'block';
+                        if (shinyBtn) { shinyBtn.style.opacity = '0'; shinyBtn.style.pointerEvents = 'none'; }
                     } else if (state === 1) {
                         thumb.style.left = '49px';
                         thumb.style.background = 'var(--primary)';
                         tPoke.style.color = 'var(--primary)';
                         vPoke.style.display = 'block';
+                        if (shinyBtn) { shinyBtn.style.opacity = '1'; shinyBtn.style.pointerEvents = 'auto'; }
                     } else {
                         thumb.style.left = '26px';
                         thumb.style.background = 'var(--text-muted)';
                         vNeutral.style.display = 'block';
+                        if (shinyBtn) { shinyBtn.style.opacity = '0'; shinyBtn.style.pointerEvents = 'none'; }
                     }
                 };
 

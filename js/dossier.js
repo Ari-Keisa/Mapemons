@@ -510,7 +510,7 @@ window.loadEmojiCombos();
 /**
  * Translates English form names to Russian and formats them properly.
  */
-function translateFormName(enFormName, baseRuName, baseEnName) {
+window.translateFormName = function(enFormName, baseRuName, baseEnName) {
     if (!enFormName) return { ru: baseRuName, en: baseEnName };
 
     // Standardize base English name
@@ -690,7 +690,7 @@ function openPokemonDossier(pkId, isShiny = false, formIndex = null) {
         if (activeForm.Pokedex) ruData.Pokedex = activeForm.Pokedex;
         if (activeForm.PowerCategory != null) ruData.PowerCategory = activeForm.PowerCategory;
         if (activeForm.FormName) {
-            const translated = translateFormName(activeForm.FormName, ruName, enName);
+            const translated = window.translateFormName(activeForm.FormName, ruName, enName);
             ruName = translated.ru;
             enName = translated.en;
         }
@@ -1047,6 +1047,7 @@ function openPokemonDossier(pkId, isShiny = false, formIndex = null) {
         overlay = document.createElement('div');
         overlay.className = 'dossier-overlay';
         overlay.id = 'dossierOverlay';
+        overlay.style.zIndex = '999999';
         document.body.appendChild(overlay);
         overlay.addEventListener('click', (e) => { if (e.target === overlay) closeDossier(); });
     }

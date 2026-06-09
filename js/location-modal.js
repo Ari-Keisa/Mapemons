@@ -493,7 +493,10 @@ window.openLightLocationModal = function(locId) {
                     const pId = Object.keys(window.pokemonDB).find(k => window.pokemonDB[k].en === pObj.en);
                     const isInPages = window.location.pathname.includes('/pages/');
                     const imgSrc = `${isInPages ? '../' : ''}home/${parseInt(pId)}.png`;
-                    pokeCards += `<div style="background:rgba(0,0,0,0.3); padding:5px; border-radius:8px; text-align:center; width:65px;" title="${pObj.ru || pObj.en}">
+                    pokeCards += `<div style="background:rgba(0,0,0,0.3); padding:5px; border-radius:8px; text-align:center; width:65px; cursor:pointer; transition:0.2s;" title="${pObj.ru || pObj.en}" 
+                        onmouseover="this.style.background='rgba(0,0,0,0.6)'; this.style.transform='scale(1.05)';" 
+                        onmouseout="this.style.background='rgba(0,0,0,0.3)'; this.style.transform='none';" 
+                        onclick="if(typeof openPokemonDossier === 'function') openPokemonDossier('${pObj.en.toUpperCase().replace(/'/g, "\\'")}')">
                         <img src="${imgSrc}" style="width:40px;height:40px;object-fit:contain;" onerror="this.src='images/items/0.png'">
                         <div style="font-size:0.6rem; margin-top:3px; white-space:nowrap; overflow:hidden; text-overflow:ellipsis;">${pObj.ru || pObj.en}</div>
                     </div>`;
