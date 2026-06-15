@@ -145,7 +145,7 @@ document.addEventListener('DOMContentLoaded', function () {
         'pokemon': 'Например: Pikachu, Charizard, Мьюту, #025, 125',
         'item': 'Например: Чёрный пояс, Уголёк, Амурит, item_996, 996',
         'centers': 'Список локаций, где присутствует Покецентр и Магазин',
-        'other': 'Например: Имя_NPC, Тип_покемона, Тир_покемона, Редкость ( О | Р_ ), Способность_покемона, Профессия_покемона, Название_Локации, или добавьте ⭐️ для шайни'
+        'other': 'Например: Имя_NPC, Тип_покемона, Тир_покемона, Редкость ( О | Р_ ), Способность_покемона, Профессия_покемона, Название_Локации, или допишите название Региона для более конкретного поиска, или добавьте ⭐️ для поиска сразу шайни'
     };
 
     // === ДАННЫЕ (Экспортируем в глобальную область для dossier.js) ===
@@ -944,24 +944,59 @@ document.addEventListener('DOMContentLoaded', function () {
             let rarityKey = null;
             let abilityKey = null;
             let professionKey = null;
-            
+            let regionKey = null;
+
             const spacedQuery = rawQuery.toLowerCase().trim();
-            const qTypeRaw = spacedQuery.replace(/^тип\s+/i, '').replace(/[^\p{L}\d\s]/gu, '').trim();
+
+            const regionAliases = {
+                'kanto': 'KANTO', 'канто': 'KANTO',
+                'johto': 'JOHTO', 'джото': 'JOHTO',
+                'hoenn': 'HOENN', 'хоэнн': 'HOENN', 'хоенн': 'HOENN',
+                'sinnoh': 'SINNOH', 'синно': 'SINNOH',
+                'unova': 'UNOVA', 'юнова': 'UNOVA', 'унова': 'UNOVA'
+            };
+
+            let words = spacedQuery.split(/\s+/);
+            let newWords = [];
+            for (let w of words) {
+                let cw = w.replace(/[^\p{L}\d]/gu, '');
+                if (regionAliases[cw] && activeType === 'other') {
+                    regionKey = regionAliases[cw];
+                } else {
+                    newWords.push(w);
+                }
+            }
+            let qWithoutRegion = newWords.join(' ').trim();
+
+            if (regionKey && !qWithoutRegion) {
+                els.title.innerHTML = '<i class="fas fa-search"></i> Уточните запрос';
+                els.content.innerHTML = `<div style="text-align:center; padding:30px; color:var(--primary);">
+                    Вы выбрали регион <b>${regionNames[regionKey] || regionKey}</b>.<br><br>
+                    <div style="color:#ccc; font-size:0.95em; line-height:1.5;">
+                        Пожалуйста, добавьте к поиску что именно вы ищете в этом регионе.<br>
+                        Например: <b>${regionNames[regionKey] || regionKey} Огненный</b> или <b>${regionNames[regionKey] || regionKey} Редкость О</b>
+                    </div>
+                </div>`;
+                return;
+            }
+
+            const qTypeRaw = qWithoutRegion.replace(/^тип\s+/i, '').replace(/[^\p{L}\d\s]/gu, '').trim();
             const qType = qTypeRaw.replace(/ё/g, 'е');
             
-            if (spacedQuery.startsWith('тип ')) typeKey = Object.keys(typeNamesRu).find(k => typeNamesRu[k].toLowerCase().replace(/ё/g, 'е') === qType || k === qTypeRaw) || qTypeRaw;
+            if (qWithoutRegion.startsWith('тип ')) typeKey = Object.keys(typeNamesRu).find(k => typeNamesRu[k].toLowerCase().replace(/ё/g, 'е') === qType || k === qTypeRaw) || qTypeRaw;
             else typeKey = Object.keys(typeNamesRu).find(k => typeNamesRu[k].toLowerCase().replace(/ё/g, 'е') === qType || k === qTypeRaw);
 
             if (!typeKey) {
-                if (validTiers.includes(cleanQuery)) tierKey = cleanQuery;
-                else if (spacedQuery.startsWith('тир ')) {
-                    const tk = spacedQuery.split(' ')[1];
+                let cleanNoReg = qWithoutRegion.replace(/[^\p{L}\d]/gu, '');
+                if (validTiers.includes(cleanNoReg)) tierKey = cleanNoReg;
+                else if (qWithoutRegion.startsWith('тир ')) {
+                    const tk = qWithoutRegion.split(' ')[1];
                     if (validTiers.includes(tk)) tierKey = tk;
                 }
             }
             
             if (!typeKey && !tierKey && window.abilitiesData) {
-                let qAbil = spacedQuery.replace(/^способность\s+/i, '').replace(/[^\p{L}\d\s_]/gu, '').trim();
+                let qAbil = qWithoutRegion.replace(/^способность\s+/i, '').replace(/[^\p{L}\d\s_]/gu, '').trim();
                 let qAbilNorm = qAbil.replace(/\s+/g, '').replace(/ё/g, 'е');
                 const abKey = Object.keys(window.abilitiesData).find(k => {
                     const ab = window.abilitiesData[k];
@@ -973,18 +1008,20 @@ document.addEventListener('DOMContentLoaded', function () {
             }
             
             if (!typeKey && !tierKey && !abilityKey && window.professionsData) {
-                let qProf = spacedQuery.replace(/^профессия\s+/i, '').replace(/[^\p{L}\d\s]/gu, '').trim();
-                const prKey = Object.keys(window.professionsData).find(k => {
-                    const pr = window.professionsData[k];
-                    let prName = pr.ru_name.replace(/^[^\p{L}]+/gu, '').trim().toLowerCase();
-                    return k.toLowerCase() === qProf || prName === qProf || pr.ru_name.toLowerCase().includes(qProf);
-                });
-                if (prKey) professionKey = prKey;
+                let qProf = qWithoutRegion.replace(/^профессия\s+/i, '').replace(/[^\p{L}\d\s]/gu, '').trim();
+                if (qProf) {
+                    const prKey = Object.keys(window.professionsData).find(k => {
+                        const pr = window.professionsData[k];
+                        let prName = pr.ru_name.replace(/^[^\p{L}]+/gu, '').trim().toLowerCase();
+                        return k.toLowerCase() === qProf || prName === qProf || pr.ru_name.toLowerCase().includes(qProf);
+                    });
+                    if (prKey) professionKey = prKey;
+                }
             }
 
             if (!typeKey && !tierKey && !abilityKey && !professionKey) {
                 // Заменяем английскую 'p' на русскую 'р'
-                let qRarity = spacedQuery.replace(/p/g, 'р').replace(/[^\p{L}\d\s]/gu, '').trim();
+                let qRarity = qWithoutRegion.replace(/p/g, 'р').replace(/[^\p{L}\d\s]/gu, '').trim();
                 
                 if (qRarity.startsWith('редкость ')) {
                     qRarity = qRarity.replace(/^редкость\s+/i, '').trim();
@@ -1000,19 +1037,44 @@ document.addEventListener('DOMContentLoaded', function () {
                 }
             }
 
-            if (typeKey || tierKey || rarityKey || abilityKey || professionKey) {
+            if (typeKey || tierKey || rarityKey || abilityKey || professionKey || regionKey) {
                 let pokemonMatches = [];
                 let locationMatches = {}; // Grouped by region
+
+                let regionAllowedSpecies = null;
+                if (regionKey && window.locationData) {
+                    regionAllowedSpecies = new Set();
+                    for (let locId in window.locationData) {
+                        const loc = window.locationData[locId];
+                        if (loc.region === regionKey && loc.encounters) {
+                            loc.encounters.forEach(e => {
+                                if (e.species) regionAllowedSpecies.add(e.species.toUpperCase());
+                            });
+                        }
+                    }
+                }
 
                 // --- 1. Сбор подходящих покемонов ---
                 for (let id in pokemonDB) {
                     const p = pokemonDB[id];
                     if (!p || !p.en) continue;
-                    let pType = typeKey && p.type && p.type.includes(typeKey);
+                    
+                    if (regionAllowedSpecies && !regionAllowedSpecies.has(p.en.toUpperCase())) continue;
+                    
+                    let hasOtherFilters = typeKey || tierKey || abilityKey || professionKey || rarityKey;
+                    
+                    let pType = false;
                     let pTier = false;
                     let pAbil = false;
                     let pAbilHidden = false;
                     let pProf = false;
+                    
+                    if (!hasOtherFilters) {
+                        pType = true;
+                    } else {
+                        if (typeKey && p.type && p.type.includes(typeKey)) pType = true;
+                    }
+                    
                     const ruEntry = window.pokemonRuData && window.pokemonRuData[p.en.toUpperCase()];
                     if (tierKey && ruEntry && ruEntry.Format && ruEntry.Format.toLowerCase() === tierKey) pTier = true;
                     if (abilityKey && ruEntry) {
@@ -1038,11 +1100,15 @@ document.addEventListener('DOMContentLoaded', function () {
 
                             let formType = false;
                             let formTypeArr = p.type;
-                            if (form.Types) {
-                                formTypeArr = form.Types.split(',').map(t=>t.trim().toLowerCase());
-                                if (typeKey && formTypeArr.includes(typeKey.toLowerCase())) formType = true;
-                            } else if (pType) {
+                            if (!hasOtherFilters) {
                                 formType = true;
+                            } else {
+                                if (form.Types) {
+                                    formTypeArr = form.Types.split(',').map(t=>t.trim().toLowerCase());
+                                    if (typeKey && formTypeArr.includes(typeKey.toLowerCase())) formType = true;
+                                } else if (pType) {
+                                    formType = true;
+                                }
                             }
                             
                             let fTier = false;
@@ -1098,6 +1164,7 @@ document.addEventListener('DOMContentLoaded', function () {
                 if (window.locationData) {
                     for (let locId in window.locationData) {
                         const loc = window.locationData[locId];
+                        if (regionKey && loc.region !== regionKey) continue;
                         let matchedSpecies = new Set();
                         if (loc.encounters) {
                             loc.encounters.forEach(e => {
@@ -1305,7 +1372,20 @@ document.addEventListener('DOMContentLoaded', function () {
                     </div>`;
                 }
 
-                let html = `
+                let regionHeaderHtml = '';
+                if (regionKey) {
+                    const rName = regionNames[regionKey] || regionKey;
+                    regionHeaderHtml = `
+                    <div style="background: linear-gradient(90deg, rgba(78, 205, 196, 0.2), rgba(0,0,0,0)); padding: 15px 20px; border-radius: 12px; margin-bottom: 20px; border-left: 5px solid var(--primary); display: flex; align-items: center; gap: 15px; box-shadow: 0 4px 15px rgba(0,0,0,0.3);">
+                        <i class="fas fa-map-marked-alt" style="font-size: 2rem; color: var(--primary);"></i>
+                        <div>
+                            <h2 style="margin: 0; color: #fff; font-size: 1.5rem; text-shadow: 0 2px 4px rgba(0,0,0,0.5);">Регион: ${rName}</h2>
+                            <div style="color: #aaa; margin-top: 3px; font-size: 0.85rem;">Отображаются покемоны и локации только из этого региона</div>
+                        </div>
+                    </div>`;
+                }
+
+                let html = regionHeaderHtml + `
                 <div class="slider-container" style="display:flex; justify-content:center; align-items:center; margin: 20px 0; user-select: none; position: relative; width: 100%;">
                     <div style="flex: 1 1 0; min-width: 0; display: flex; justify-content: flex-end; padding-right: 15px;">
                         <span id="slider-loc-text" style="color:#aaa; font-weight:bold; transition:0.3s; cursor:pointer; font-size: 0.95rem; white-space: nowrap;" onclick="setSliderState(-1)">Локации</span>
