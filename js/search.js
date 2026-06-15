@@ -223,6 +223,103 @@ document.addEventListener('DOMContentLoaded', function () {
                 window.pokemonNamesUpper = rawUpper.pokemon || rawUpper;
             }
             if (itemsRes && itemsRes.ok) window.itemsData = await itemsRes.json();
+
+            // Экспортируем функцию расчета эффективности профессий для повсеместного использования
+            window.calculateProfessionEfficiency = function(pk, formObj, professionId, abilitiesData) {
+                if (!window.profAffinityData) return [];
+                let types = [];
+                if (formObj && formObj.Types) {
+                    types = Array.isArray(formObj.Types) 
+                        ? formObj.Types.map(t=>t.trim().toUpperCase()) 
+                        : formObj.Types.split(',').map(t=>t.trim().toUpperCase());
+                } else {
+                    types = (pk.type || []).map(t=>t.toUpperCase());
+                }
+
+                let speciesKey = pk.en.toUpperCase();
+                let ruEntry = window.pokemonRuData ? window.pokemonRuData[speciesKey] : null;
+                
+                let baseAbilities = [];
+                if (formObj) {
+                    if (formObj.Abilities) {
+                        let ab = Array.isArray(formObj.Abilities) ? formObj.Abilities : formObj.Abilities.split(',').map(a=>a.trim());
+                        baseAbilities.push(...ab);
+                    }
+                    if (formObj.HiddenAbilities) {
+                        let hab = Array.isArray(formObj.HiddenAbilities) ? formObj.HiddenAbilities : formObj.HiddenAbilities.split(',').map(a=>a.trim());
+                        baseAbilities.push(...hab);
+                    }
+                } else if (ruEntry) {
+                    if (ruEntry.Abilities) {
+                        let ab = Array.isArray(ruEntry.Abilities) ? ruEntry.Abilities : [ruEntry.Abilities];
+                        baseAbilities.push(...ab);
+                    }
+                    if (ruEntry.HiddenAbilities) {
+                        let hab = Array.isArray(ruEntry.HiddenAbilities) ? ruEntry.HiddenAbilities : [ruEntry.HiddenAbilities];
+                        baseAbilities.push(...hab);
+                    }
+                }
+                
+                let uniqueAbilities = [...new Set(baseAbilities)];
+                if (uniqueAbilities.length === 0) uniqueAbilities.push(null);
+                
+                let results = [];
+                
+                uniqueAbilities.forEach(abil => {
+                    let currentTotal = 0;
+                    let reasons = [];
+                    
+                    for (const affKey in window.profAffinityData) {
+                        const aff = window.profAffinityData[affKey];
+                        if (!aff.bonuses || !aff.conditions) continue;
+                        
+                        const b = aff.bonuses.find(b => b.profession === professionId);
+                        if (!b) continue;
+                        
+                        let pct = b.value ? Math.round((b.value - 1) * 100) : 0;
+                        if (pct === 0) continue;
+                        
+                        let matched = false;
+                        let matchReason = '';
+                        
+                        if (aff.conditions.types && types.some(t => aff.conditions.types.includes(t))) {
+                            matched = true;
+                            matchReason = `${aff.ru_name || affKey}`;
+                        }
+                        if (!matched && aff.conditions.species && aff.conditions.species.includes(speciesKey)) {
+                            matched = true;
+                            matchReason = `${aff.ru_name || affKey}`;
+                        }
+                        if (!matched && abil && aff.conditions.abilities && aff.conditions.abilities.some(a => a.toUpperCase() === abil.toUpperCase())) {
+                            matched = true;
+                            let abilRu = abil;
+                            if (abilitiesData) {
+                                let abilObj = Object.values(abilitiesData).find(a => a.Name.toUpperCase() === abil.toUpperCase());
+                                if (abilObj && abilObj.RuName) abilRu = abilObj.RuName;
+                            }
+                            matchReason = `Талант: ${abilRu}`;
+                        }
+                        if (!matched && aff.conditions.shapes && ruEntry && ruEntry.Shape && aff.conditions.shapes.includes(ruEntry.Shape.toUpperCase())) {
+                            matched = true;
+                            matchReason = `${aff.ru_name || affKey}`;
+                        }
+                        
+                        if (matched) {
+                            currentTotal += pct;
+                            reasons.push(`${matchReason}: +${pct}%`);
+                        }
+                    }
+                    
+                    results.push({
+                        ability: abil,
+                        total: currentTotal,
+                        reasons: reasons
+                    });
+                });
+                
+                return results;
+            };
+
             if (itemLegacyRes && itemLegacyRes.ok) {
                 const legacyItems = await itemLegacyRes.json();
                 if(!window.itemsData) window.itemsData = legacyItems;
@@ -865,11 +962,12 @@ document.addEventListener('DOMContentLoaded', function () {
             
             if (!typeKey && !tierKey && window.abilitiesData) {
                 let qAbil = spacedQuery.replace(/^способность\s+/i, '').replace(/[^\p{L}\d\s_]/gu, '').trim();
+                let qAbilNorm = qAbil.replace(/\s+/g, '').replace(/ё/g, 'е');
                 const abKey = Object.keys(window.abilitiesData).find(k => {
                     const ab = window.abilitiesData[k];
-                    return ab.Name.toLowerCase() === qAbil || 
-                           (ab.RuName && ab.RuName.toLowerCase().replace(/ё/g, 'е') === qAbil.replace(/ё/g, 'е')) ||
-                           qAbil === `ability_${ab.num_id}`;
+                    const enNorm = ab.Name.toLowerCase().replace(/\s+/g, '');
+                    const ruNorm = ab.RuName ? ab.RuName.toLowerCase().replace(/\s+/g, '').replace(/ё/g, 'е') : '';
+                    return enNorm === qAbilNorm || ruNorm === qAbilNorm || qAbilNorm === `ability_${ab.num_id}`;
                 });
                 if (abKey) abilityKey = abKey;
             }
@@ -1066,10 +1164,17 @@ document.addEventListener('DOMContentLoaded', function () {
                                         }
                                     }
                                 }
-                                if (professionKey) {
-                                    if (window.pokemonRuData) {
-                                        const ruEntry = window.pokemonRuData[p.en.toUpperCase()];
-                                        if (ruEntry && ruEntry.AptitudePool && ruEntry.AptitudePool.includes(professionKey)) {
+                                if (professionKey && window.calculateProfessionEfficiency) {
+                                    let locFormObj = null;
+                                    if (e.form > 0 && window.formsBySpecies && window.formsBySpecies[p.en.toUpperCase()]) {
+                                        const forms = window.formsBySpecies[p.en.toUpperCase()];
+                                        locFormObj = forms.find(f => f._FormKey === `${p.en.toUpperCase()}-${e.form}`);
+                                        if (!locFormObj && forms.length >= e.form) locFormObj = forms[e.form - 1];
+                                    }
+                                    let effs = window.calculateProfessionEfficiency(p, locFormObj, professionKey, window.abilitiesData);
+                                    if (effs && effs.length > 0) {
+                                        let maxEff = effs.reduce((prev, current) => (prev.total > current.total) ? prev : current);
+                                        if (maxEff.total + (window.isShinyToggleActive ? 10 : 0) > 0) {
                                             matchedSpecies.add(finalRuName);
                                         }
                                     }
@@ -1158,123 +1263,34 @@ document.addEventListener('DOMContentLoaded', function () {
                 }
                 locsHtml += `</div>`;
 
-                // Покемоны HTML
-                let pokesHtml = `<div style="display:flex; flex-wrap:wrap; gap:15px; justify-content:center;">`;
-                if (pokemonMatches.length === 0) {
-                    pokesHtml += `<div style="text-align:center; color:#aaa; padding:20px;">В этой категории не найдено покемонов.</div>`;
-                } else {
-                    pokemonMatches.forEach(m => {
-                        let badgeText = '';
-                        let type1 = '', type2 = '';
-                        if (m.p.type && m.p.type.length > 0) {
-                            badgeText = m.p.type.map(t => typeIcons[t] || '✨').join(' ');
-                            type1 = m.p.type[0].toLowerCase();
-                            if (m.p.type.length > 1) type2 = m.p.type[1].toLowerCase();
-                        } else if (typeKey) {
-                            badgeText = typeIcons[typeKey] || '✨';
-                            type1 = typeKey.toLowerCase();
-                        } else {
-                            badgeText = '✨';
-                        }
-                        
-                        let glowStyle = `background: linear-gradient(135deg, rgba(40,40,60,0.9), rgba(20,20,30,0.9)); border: 2px solid rgba(255,255,255,0.1);`;
-                        let hoverStyle = `this.style.borderColor='var(--primary)';`;
-                        let hoverOutStyle = `this.style.borderColor='rgba(255,255,255,0.1)';`;
+                // Сохраняем глобально для сортировки
+                window.currentPokemonMatches = pokemonMatches;
+                window.currentLocationMatches = locationMatches;
+                window.currentProfessionKey = professionKey;
+                window.currentTypeKey = typeKey;
 
-                        if (type1 && typeof typeColors !== 'undefined') {
-                            let c1 = typeColors[type1] || '#aaaaaa';
-                            if (type1 === 'dark') c1 = '#6a5a75'; // Lighter color for dark type to be visible
-                            if (c1.length === 9) c1 = c1.substring(0, 7); // Remove alpha if it exists
-                            
-                            if (type2) {
-                                let c2 = typeColors[type2] || '#aaaaaa';
-                                if (type2 === 'dark') c2 = '#6a5a75';
-                                if (c2.length === 9) c2 = c2.substring(0, 7);
-                                
-                                glowStyle = `background: linear-gradient(135deg, ${c1}33, ${c2}33, rgba(20,20,30,0.95)); border: 2px solid ${c1}40; box-shadow: 0 0 10px ${c1}15, inset 0 0 15px ${c2}15;`;
-                                hoverStyle = `this.style.borderColor='${c1}'; this.style.boxShadow='0 0 20px ${c1}66, inset 0 0 20px ${c2}66';`;
-                                hoverOutStyle = `this.style.borderColor='${c1}40'; this.style.boxShadow='0 0 10px ${c1}15, inset 0 0 15px ${c2}15';`;
-                            } else {
-                                glowStyle = `background: linear-gradient(135deg, ${c1}44, rgba(20,20,30,0.95)); border: 2px solid ${c1}40; box-shadow: 0 0 10px ${c1}15, inset 0 0 15px ${c1}15;`;
-                                hoverStyle = `this.style.borderColor='${c1}'; this.style.boxShadow='0 0 20px ${c1}66, inset 0 0 20px ${c1}66';`;
-                                hoverOutStyle = `this.style.borderColor='${c1}40'; this.style.boxShadow='0 0 10px ${c1}15, inset 0 0 15px ${c1}15';`;
-                            }
-                        }
-                        
-                        const safeEn = m.p.en.toUpperCase().replace(/'/g, "\\'");
-                        const safeRu = (m.p.ru || m.p.en).replace(/'/g, "\\'");
-                        const isInPages = window.location.pathname.includes('/pages/');
-                        
-                        let imgSrc = '';
-                        if (m.isForm && m.formObj) {
-                            imgSrc = isShinySearch ? m.formObj.ShinySpritePath : m.formObj.SpritePath;
-                            if (imgSrc) {
-                                if (isInPages && imgSrc.startsWith('shared/assets/')) imgSrc = '../' + imgSrc.replace('shared/assets/', '');
-                                else if (!isInPages && imgSrc.startsWith('shared/assets/')) imgSrc = imgSrc.replace('shared/assets/', '');
-                            } else {
-                                imgSrc = `${isInPages ? '../' : ''}home/${isShinySearch ? 'shiny/' : ''}${parseInt(m.id)}.png`;
-                            }
-                        } else {
-                            imgSrc = `${isInPages ? '../' : ''}home/${isShinySearch ? 'shiny/' : ''}${parseInt(m.id)}.png`;
-                        }
-
-                        let dispRu = m.p.ru || m.p.en;
-                        let dispEn = m.p.en;
-                        if (m.isForm && m.p.formRu) {
-                            if (typeof window.translateFormName === 'function') {
-                                let trans = window.translateFormName(m.p.formRu, dispRu, dispEn);
-                                dispRu = trans.ru;
-                                dispEn = trans.en;
-                            } else {
-                                if (m.p.formRu.toLowerCase().includes(m.p.en.toLowerCase())) {
-                                    dispRu = m.p.formRu.replace(new RegExp(m.p.en, 'ig'), dispRu);
-                                    dispEn = m.p.formRu;
-                                    dispRu = dispRu.replace(/^Mega\b/i, 'Мега-').replace(/^Alolan\b/i, 'Алола').replace(/^Galarian\b/i, 'Галар');
-                                } else {
-                                    dispRu = `${dispRu} (${m.p.formRu})`;
-                                    dispEn = `${dispEn} (${m.p.formRu})`;
-                                }
-                            }
-                        } else {
-                            const ruEntry = window.pokemonRuData && window.pokemonRuData[m.p.en.toUpperCase()];
-                            if (ruEntry && ruEntry.FormName) {
-                                if (typeof window.translateFormName === 'function') {
-                                    let trans = window.translateFormName(ruEntry.FormName, dispRu, dispEn);
-                                    dispRu = trans.ru;
-                                    dispEn = trans.en;
-                                } else {
-                                    dispRu = `${dispRu} (${ruEntry.FormName})`;
-                                    dispEn = `${dispEn} (${ruEntry.FormName})`;
-                                }
-                            }
-                        }
-                        
-                        const pNameRu = isShinySearch ? `⭐️${dispRu}⭐️` : dispRu;
-                        const pNameEn = isShinySearch ? `⭐️${dispEn}⭐️` : dispEn;
-                        
-                        const onClickCode = m.isForm 
-                            ? `typeof openPokemonDossier === 'function' ? openPokemonDossier('${safeEn}', window.isShinyToggleActive, ${m.formIndex}) : (document.getElementById('pokemonSearch').value='${safeEn}', document.getElementById('searchButton').click())`
-                            : `typeof openPokemonDossier === 'function' ? openPokemonDossier('${safeEn}', window.isShinyToggleActive) : (document.getElementById('pokemonSearch').value='${safeEn}', document.getElementById('searchButton').click())`;
-                        
-                        let haBadge = '';
-                        if (m.isHA) {
-                            haBadge = `<div style="position: absolute; top: -8px; left: 50%; transform: translateX(-50%); background: rgba(255, 71, 87, 0.9); color: white; padding: 2px 8px; border-radius: 12px; font-size: 0.65rem; font-weight: bold; border: 1px solid rgba(255,255,255,0.3); z-index: 5; white-space: nowrap; box-shadow: 0 2px 4px rgba(0,0,0,0.5);" title="Скрытая способность">Скрытая</div>`;
-                        }
-
-                        pokesHtml += `<div class="poke-trading-card" data-id="${m.id}" data-en="${safeEn}" data-ru="${safeRu}" data-inpages="${isInPages}" data-isform="${m.isForm ? 'true' : 'false'}" data-sprite="${m.formObj ? m.formObj.SpritePath : ''}" data-shinysprite="${m.formObj ? m.formObj.ShinySpritePath : ''}" style="${glowStyle} border-radius: 12px; padding: 10px; width: 140px; text-align: center; position: relative; cursor: pointer; transition: 0.2s;" 
-                             onmouseover="this.style.transform='scale(1.05)'; ${hoverStyle}" 
-                             onmouseout="this.style.transform='none'; ${hoverOutStyle}" 
-                             onclick="${onClickCode}">
-                            ${haBadge}
-                            <div style="position: absolute; top: 8px; left: 8px; background: rgba(0,0,0,0.6); padding: 2px 6px; border-radius: 10px; font-size: 0.75rem; font-weight: bold; color: #fff;">#${m.id.padStart(3, '0')}</div>
-                            <div style="position: absolute; top: 8px; right: 8px; background: rgba(255,215,0,0.2); padding: 2px 6px; border-radius: 10px; font-size: 0.8rem; font-weight: bold; color: #ffd700; filter: drop-shadow(0 2px 4px rgba(0,0,0,0.5));">${badgeText}</div>
-                            <img class="poke-card-img" src="${imgSrc}" style="width: 80px; height: 80px; object-fit: contain; margin-top: 20px; filter: drop-shadow(0 4px 6px rgba(0,0,0,0.5));" onerror="this.src='images/items/0.png'">
-                            <div class="poke-card-name-ru" style="margin-top: 10px; font-weight: bold; color: #fff; font-size: 0.95rem; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; line-height: 1.1;">${pNameRu}</div>
-                            <div class="poke-card-name-en" style="font-size: 0.75rem; color: #aaa; margin-top: 2px; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; line-height: 1.1;">${pNameEn}</div>
-                        </div>`;
-                    });
+                if (typeof window.profSortState === 'undefined') {
+                    window.profSortState = 0; // 0=ID, 1=Best, 2=Worst, 3=Alpha
+                    window.profLocState = 0; // 0=All, 1=LocsOnly
+                    window.profAbilState = false; // false=Max, true=Combos
                 }
-                pokesHtml += `</div>`;
+
+                // Покемоны HTML
+                let pokesHtml = '';
+                if (professionKey && window.calculateProfessionEfficiency) {
+                    pokesHtml = window.generateProfessionHTML();
+                } else {
+                    pokesHtml = `<div style="display:flex; flex-wrap:wrap; gap:15px; justify-content:center;">`;
+                    if (pokemonMatches.length === 0) {
+                        pokesHtml += `<div style="text-align:center; color:#aaa; padding:20px;">В этой категории не найдено покемонов.</div>`;
+                    } else {
+                        pokemonMatches.forEach(m => {
+                            pokesHtml += window.generatePokemonCardHTML(m, isShinySearch);
+                        });
+                    }
+                    pokesHtml += `</div>`;
+                }
+
                 
                 if (pokemonMatches.length > 0) {
                     let totalText = "Всего найдено покемонов";
@@ -1303,9 +1319,9 @@ document.addEventListener('DOMContentLoaded', function () {
                             <button id="shinyToggleButton" class="shiny-slider-btn" onclick="toggleShinySearch(event)" title="Включить Шайни режим" style="opacity: 0; pointer-events: none; background: ${isShinySearch ? 'rgba(78, 205, 196, 0.2)' : 'rgba(255,255,255,0.05)'}; border: 1px solid ${isShinySearch ? 'var(--primary)' : 'rgba(255,255,255,0.1)'}; border-radius: 8px; width: 34px; height: 34px; flex-shrink: 0; cursor: pointer; transition: 0.3s; display: flex; align-items: center; justify-content: center;">
                                 <i class="fas fa-star" style="color: ${isShinySearch ? 'var(--primary)' : '#aaa'}; font-size: 1.1rem;"></i>
                             </button>
-                            <button id="hiddenAbilityToggleButton" class="shiny-slider-btn" onclick="toggleHiddenAbilitySearch(event)" title="Учитывать скрытые способности" style="opacity: 0; pointer-events: none; background: ${window.isHiddenAbilitySearch ? 'rgba(78, 205, 196, 0.2)' : 'rgba(255,255,255,0.05)'}; border: 1px solid ${window.isHiddenAbilitySearch ? 'var(--primary)' : 'rgba(255,255,255,0.1)'}; border-radius: 8px; width: 34px; height: 34px; flex-shrink: 0; cursor: pointer; transition: 0.3s; display: flex; align-items: center; justify-content: center;">
+                            ${abilityKey ? `<button id="hiddenAbilityToggleButton" class="shiny-slider-btn" onclick="toggleHiddenAbilitySearch(event)" title="Учитывать скрытые способности" style="opacity: 0; pointer-events: none; background: ${window.isHiddenAbilitySearch ? 'rgba(78, 205, 196, 0.2)' : 'rgba(255,255,255,0.05)'}; border: 1px solid ${window.isHiddenAbilitySearch ? 'var(--primary)' : 'rgba(255,255,255,0.1)'}; border-radius: 8px; width: 34px; height: 34px; flex-shrink: 0; cursor: pointer; transition: 0.3s; display: flex; align-items: center; justify-content: center;">
                                 <i class="fas fa-eye-slash" style="color: ${window.isHiddenAbilitySearch ? 'var(--primary)' : '#aaa'}; font-size: 1.1rem;"></i>
-                            </button>
+                            </button>` : ''}
                         </div>
                     </div>
                 </div>
@@ -1969,8 +1985,16 @@ document.addEventListener('DOMContentLoaded', function () {
     }
 
     // === СОБЫТИЯ ===
-    els.btn.addEventListener('click', startSearch);
-    els.input.addEventListener('keypress', (e) => { if (e.key === 'Enter' && !document.querySelector('.autocomplete-active')) startSearch(); });
+    els.btn.addEventListener('click', (e) => { 
+        if(e.isTrusted) window.currentSliderState = 0; 
+        startSearch(); 
+    });
+    els.input.addEventListener('keypress', (e) => { 
+        if (e.key === 'Enter' && !document.querySelector('.autocomplete-active')) { 
+            if(e.isTrusted) window.currentSliderState = 0; 
+            startSearch(); 
+        } 
+    });
 
     // === АВТОДОПОЛНЕНИЕ (AUTOCOMPLETE) ===
     let autocompleteBox = document.createElement('div');
@@ -2126,6 +2150,42 @@ document.addEventListener('DOMContentLoaded', function () {
                     }
                 }
             });
+            if (window.abilitiesData) {
+                for (let aKey in window.abilitiesData) {
+                    const ab = window.abilitiesData[aKey];
+                    const ruN = ab.RuName ? ab.RuName.toLowerCase() : '';
+                    const enN = ab.Name ? ab.Name.toLowerCase() : '';
+                    if (ruN.includes(val) || enN.includes(val)) {
+                        if (!addedIds.has('ability_' + aKey)) {
+                            addedIds.add('ability_' + aKey);
+                            matches.push({
+                                id: 'ability_' + aKey,
+                                text: 'Способность: ' + (ab.RuName || ab.Name),
+                                subtext: ab.RuName && ab.Name ? ab.Name : '',
+                                icon: '🌟', type: 'ability',
+                                queryText: 'способность ' + (ab.RuName || ab.Name)
+                            });
+                        }
+                    }
+                }
+            }
+            if (window.professionsData) {
+                for (let pKey in window.professionsData) {
+                    const pr = window.professionsData[pKey];
+                    const ruN = pr.ru_name ? pr.ru_name.toLowerCase() : '';
+                    if (ruN.includes(val) || pKey.toLowerCase().includes(val)) {
+                        if (!addedIds.has('prof_' + pKey)) {
+                            addedIds.add('prof_' + pKey);
+                            matches.push({
+                                id: 'prof_' + pKey,
+                                text: 'Профессия: ' + pr.ru_name,
+                                subtext: '', icon: '💼', type: 'profession',
+                                queryText: 'профессия ' + pr.ru_name.replace(/^[^\p{L}]+/gu, '').trim()
+                            });
+                        }
+                    }
+                }
+            }
         }
 
         const isNumeric = /^\d+$/.test(val);
@@ -2205,6 +2265,7 @@ document.addEventListener('DOMContentLoaded', function () {
                     els.input.value = shinyPrefix + (m.queryText || m.text);
                     autocompleteBox.innerHTML = '';
                     autocompleteBox.classList.remove('active');
+                    window.currentSliderState = 0; // Сбрасываем ползунок по центру при новом поиске
                     startSearch();
                 });
                 autocompleteBox.appendChild(div);
@@ -2296,3 +2357,281 @@ document.addEventListener('DOMContentLoaded', function () {
 const s = document.createElement('style');
 s.textContent = `.loading-spinner { width: 50px; height: 50px; border: 5px solid rgba(78,205,196,0.2); border-top-color: var(--primary); border-radius: 50%; animation: spin 1s linear infinite; margin: 30px auto; } @keyframes spin { to { transform: rotate(360deg); } } .hidden { display: none !important; }`;
 document.head.appendChild(s);
+
+window.toggleProfSort = function() {
+    window.profSortState = (window.profSortState + 1) % 5;
+    document.getElementById('profResultsContainer').innerHTML = window.generateProfessionHTML();
+};
+
+window.toggleProfLoc = function() {
+    window.profLocState = (window.profLocState + 1) % 2;
+    document.getElementById('profResultsContainer').innerHTML = window.generateProfessionHTML();
+};
+
+window.toggleProfAbil = function() {
+    window.profAbilState = !window.profAbilState;
+    document.getElementById('profResultsContainer').innerHTML = window.generateProfessionHTML();
+};
+
+window.generatePokemonCardHTML = function(m, isShinySearch, customBadgeHtml = null) {
+    let badgeText = '';
+    let type1 = '', type2 = '';
+    if (m.p.type && m.p.type.length > 0) {
+        badgeText = m.p.type.map(t => typeIcons && typeIcons[t.toLowerCase()] ? typeIcons[t.toLowerCase()] : '✨').join(' ');
+        type1 = m.p.type[0].toLowerCase();
+        if (m.p.type.length > 1) type2 = m.p.type[1].toLowerCase();
+    } else {
+        badgeText = '✨';
+    }
+    
+    let glowStyle = `background: linear-gradient(135deg, rgba(40,40,60,0.9), rgba(20,20,30,0.9)); border: 2px solid rgba(255,255,255,0.1);`;
+    let hoverStyle = `this.style.borderColor='var(--primary)';`;
+    let hoverOutStyle = `this.style.borderColor='rgba(255,255,255,0.1)';`;
+
+    if (type1 && typeof typeColors !== 'undefined') {
+        let c1 = typeColors[type1] || '#aaaaaa';
+        if (type1 === 'dark') c1 = '#6a5a75';
+        if (c1.length === 9) c1 = c1.substring(0, 7);
+        
+        if (type2) {
+            let c2 = typeColors[type2] || '#aaaaaa';
+            if (type2 === 'dark') c2 = '#6a5a75';
+            if (c2.length === 9) c2 = c2.substring(0, 7);
+            
+            glowStyle = `background: linear-gradient(135deg, ${c1}33, ${c2}33, rgba(20,20,30,0.95)); border: 2px solid ${c1}40; box-shadow: 0 0 10px ${c1}15, inset 0 0 15px ${c2}15;`;
+            hoverStyle = `this.style.borderColor='${c1}'; this.style.boxShadow='0 0 20px ${c1}66, inset 0 0 20px ${c2}66';`;
+            hoverOutStyle = `this.style.borderColor='${c1}40'; this.style.boxShadow='0 0 10px ${c1}15, inset 0 0 15px ${c2}15';`;
+        } else {
+            glowStyle = `background: linear-gradient(135deg, ${c1}44, rgba(20,20,30,0.95)); border: 2px solid ${c1}40; box-shadow: 0 0 10px ${c1}15, inset 0 0 15px ${c1}15;`;
+            hoverStyle = `this.style.borderColor='${c1}'; this.style.boxShadow='0 0 20px ${c1}66, inset 0 0 20px ${c1}66';`;
+            hoverOutStyle = `this.style.borderColor='${c1}40'; this.style.boxShadow='0 0 10px ${c1}15, inset 0 0 15px ${c1}15';`;
+        }
+    }
+    
+    const safeEn = m.p.en.toUpperCase().replace(/'/g, "\\'");
+    const safeRu = (m.p.ru || m.p.en).replace(/'/g, "\\'");
+    const isInPages = window.location.pathname.includes('/pages/');
+    
+    let imgSrc = '';
+    if (m.isForm && m.formObj) {
+        imgSrc = isShinySearch ? m.formObj.ShinySpritePath : m.formObj.SpritePath;
+        if (imgSrc) {
+            if (isInPages && imgSrc.startsWith('shared/assets/')) imgSrc = '../' + imgSrc.replace('shared/assets/', '');
+            else if (!isInPages && imgSrc.startsWith('shared/assets/')) imgSrc = imgSrc.replace('shared/assets/', '');
+        } else {
+            imgSrc = `${isInPages ? '../' : ''}home/${isShinySearch ? 'shiny/' : ''}${parseInt(m.id)}.png`;
+        }
+    } else {
+        imgSrc = `${isInPages ? '../' : ''}home/${isShinySearch ? 'shiny/' : ''}${parseInt(m.id)}.png`;
+    }
+
+    let dispRu = m.p.ru || m.p.en;
+    let dispEn = m.p.en;
+    if (m.isForm && m.p.formRu) {
+        if (typeof window.translateFormName === 'function') {
+            let trans = window.translateFormName(m.p.formRu, dispRu, dispEn);
+            dispRu = trans.ru;
+            dispEn = trans.en;
+        } else {
+            if (m.p.formRu.toLowerCase().includes(m.p.en.toLowerCase())) {
+                dispRu = m.p.formRu.replace(new RegExp(m.p.en, 'ig'), dispRu);
+                dispEn = m.p.formRu;
+                dispRu = dispRu.replace(/^Mega\b/i, 'Мега-').replace(/^Alolan\b/i, 'Алола').replace(/^Galarian\b/i, 'Галар');
+            } else {
+                dispRu = `${dispRu} (${m.p.formRu})`;
+                dispEn = `${dispEn} (${m.p.formRu})`;
+            }
+        }
+    } else {
+        const ruEntry = window.pokemonRuData && window.pokemonRuData[m.p.en.toUpperCase()];
+        if (ruEntry && ruEntry.FormName) {
+            if (typeof window.translateFormName === 'function') {
+                let trans = window.translateFormName(ruEntry.FormName, dispRu, dispEn);
+                dispRu = trans.ru;
+                dispEn = trans.en;
+            } else {
+                dispRu = `${dispRu} (${ruEntry.FormName})`;
+                dispEn = `${dispEn} (${ruEntry.FormName})`;
+            }
+        }
+    }
+    
+    const pNameRu = isShinySearch ? `⭐️${dispRu}⭐️` : dispRu;
+    const pNameEn = isShinySearch ? `⭐️${dispEn}⭐️` : dispEn;
+    
+    const onClickCode = m.isForm 
+        ? `typeof openPokemonDossier === 'function' ? openPokemonDossier('${safeEn}', window.isShinyToggleActive, ${m.formIndex}) : (document.getElementById('pokemonSearch').value='${safeEn}', document.getElementById('searchButton').click())`
+        : `typeof openPokemonDossier === 'function' ? openPokemonDossier('${safeEn}', window.isShinyToggleActive) : (document.getElementById('pokemonSearch').value='${safeEn}', document.getElementById('searchButton').click())`;
+    
+    let haBadge = '';
+    if (m.isHA) {
+        haBadge = `<div style="position: absolute; top: -8px; left: 50%; transform: translateX(-50%); background: rgba(255, 71, 87, 0.9); color: white; padding: 2px 8px; border-radius: 12px; font-size: 0.65rem; font-weight: bold; border: 1px solid rgba(255,255,255,0.3); z-index: 5; white-space: nowrap; box-shadow: 0 2px 4px rgba(0,0,0,0.5);" title="Скрытая способность">Скрытая</div>`;
+    }
+
+    return `<div class="poke-trading-card" data-id="${m.id}" data-en="${safeEn}" data-ru="${safeRu}" data-inpages="${isInPages}" data-isform="${m.isForm ? 'true' : 'false'}" data-sprite="${m.formObj ? m.formObj.SpritePath : ''}" data-shinysprite="${m.formObj ? m.formObj.ShinySpritePath : ''}" style="${glowStyle} border-radius: 12px; padding: 10px; width: 140px; text-align: center; position: relative; cursor: pointer; transition: 0.2s; display: flex; flex-direction: column;" 
+         onmouseover="this.style.transform='scale(1.05)'; ${hoverStyle}" 
+         onmouseout="this.style.transform='none'; ${hoverOutStyle}" 
+         onclick="${onClickCode}">
+        ${haBadge}
+        <div style="position: absolute; top: 8px; left: 8px; background: rgba(0,0,0,0.6); padding: 2px 6px; border-radius: 10px; font-size: 0.75rem; font-weight: bold; color: #fff; z-index: 2;">#${m.id.padStart(3, '0')}</div>
+        <div style="position: absolute; top: 8px; right: 8px; background: rgba(0,0,0,0.6); padding: 2px 6px; border-radius: 10px; font-size: 0.8rem; z-index: 2;">${badgeText}</div>
+        <img class="poke-card-img" src="${imgSrc}" style="width: 80px; height: 80px; object-fit: contain; margin: 20px auto 0 auto; filter: drop-shadow(0 4px 6px rgba(0,0,0,0.5)); z-index: 1;" onerror="this.src='images/items/0.png'">
+        ${customBadgeHtml || ''}
+        <div class="poke-card-name-ru" style="margin-top: auto; padding-top: 10px; font-weight: bold; color: #fff; font-size: 0.95rem; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; line-height: 1.1;">${pNameRu}</div>
+        <div class="poke-card-name-en" style="font-size: 0.75rem; color: #aaa; margin-top: 2px; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; line-height: 1.1;">${pNameEn}</div>
+    </div>`;
+};
+
+window.generateProfessionHTML = function() {
+    const isShiny = window.isShinyToggleActive;
+    let list = [];
+    
+    // Получаем список разрешенных видов с локаций, если включен фильтр
+    let allowedSpecies = new Set();
+    if (window.profLocState === 1 && window.currentLocationMatches) {
+        for (const reg in window.currentLocationMatches) {
+            window.currentLocationMatches[reg].forEach(locItem => {
+                locItem.speciesNames.forEach(sName => allowedSpecies.add(sName));
+            });
+        }
+    }
+
+    // Собираем данные
+    window.currentPokemonMatches.forEach(m => {
+        let dispRu = m.p.ru || m.p.en;
+        let dispEn = m.p.en;
+        if (m.isForm && m.p.formRu) {
+            if (typeof window.translateFormName === 'function') {
+                let trans = window.translateFormName(m.p.formRu, dispRu, dispEn);
+                dispRu = trans.ru;
+            } else {
+                dispRu = m.p.formRu.toLowerCase().includes(m.p.en.toLowerCase()) ? m.p.formRu.replace(new RegExp(m.p.en, 'ig'), dispRu) : `${dispRu} (${m.p.formRu})`;
+            }
+        } else {
+            const ruEntry = window.pokemonRuData && window.pokemonRuData[m.p.en.toUpperCase()];
+            if (ruEntry && ruEntry.FormName) {
+                if (typeof window.translateFormName === 'function') {
+                    dispRu = window.translateFormName(ruEntry.FormName, dispRu, dispEn).ru;
+                } else {
+                    dispRu = `${dispRu} (${ruEntry.FormName})`;
+                }
+            }
+        }
+
+        if (window.profLocState === 1 && !allowedSpecies.has(dispRu)) return;
+
+        let effs = window.calculateProfessionEfficiency(m.p, m.formObj, window.currentProfessionKey, window.abilitiesData);
+        
+        if (effs.length === 0) return;
+
+        if (window.profAbilState) {
+            // Комбо способностей вкл
+            effs.forEach(eff => {
+                let cloneM = JSON.parse(JSON.stringify(m));
+                let total = eff.total + (isShiny ? 10 : 0);
+                list.push({ m: cloneM, total: total, eff: eff, name: dispRu });
+            });
+        } else {
+            // Только максимум
+            let maxEff = effs.reduce((prev, current) => (prev.total > current.total) ? prev : current);
+            let total = maxEff.total + (isShiny ? 10 : 0);
+            list.push({ m: m, total: total, eff: maxEff, name: dispRu });
+        }
+    });
+
+    // Сортировка (0=ID, 1=Best, 2=Worst, 3=Alpha, 4=Availability)
+    if (window.profSortState === 1) {
+        list.sort((a, b) => b.total - a.total || a.m.id - b.m.id);
+    } else if (window.profSortState === 2) {
+        list.sort((a, b) => a.total - b.total || a.m.id - b.m.id);
+    } else if (window.profSortState === 3) {
+        list.sort((a, b) => a.name.localeCompare(b.name, 'ru'));
+    } else if (window.profSortState === 4) {
+        list.forEach(item => {
+            if (item.minR === undefined) {
+                let sp = item.m.p.en.toUpperCase();
+                let fIdx = item.m.formIndex;
+                let minR = 99;
+                if (window.locationData) {
+                    for (const locId in window.locationData) {
+                        const l = window.locationData[locId];
+                        if (l.encounters) {
+                            l.encounters.forEach(e => {
+                                if (e.species && e.species.toUpperCase() === sp) {
+                                    let eForm = e.form || 0;
+                                    let targetForm = fIdx === null ? 0 : fIdx + 1;
+                                    if (eForm === targetForm) {
+                                        let r = e.rarity !== undefined ? e.rarity : 0;
+                                        if (r < minR) minR = r;
+                                    }
+                                }
+                            });
+                        }
+                    }
+                }
+                item.minR = minR;
+            }
+        });
+        list.sort((a, b) => a.minR - b.minR || b.total - a.total || a.m.id - b.m.id);
+    } else {
+        list.sort((a, b) => parseInt(a.m.id) - parseInt(b.m.id));
+    }
+
+    // UI сортировки
+    const sortIcons = ['🔢 По номеру', '⬇️💪 От сильных', '⬆️💪 От слабых', '🔠 По имени', '🟢 По доступности'];
+    const locIcons = ['🌐 Все покемоны', '📍 Из дикой природы'];
+    
+    let uiHtml = `<div id="profResultsContainer"><div style="display:flex; flex-wrap:wrap; gap:10px; justify-content:center; margin-bottom: 20px; background: rgba(0,0,0,0.2); padding: 15px; border-radius: 12px; border: 1px solid rgba(255,255,255,0.05);">
+        <button onclick="window.toggleProfSort()" style="background: rgba(255,255,255,0.1); border: none; padding: 8px 15px; color: #fff; border-radius: 8px; cursor: pointer; transition: 0.2s; font-weight: bold; box-shadow: 0 4px 6px rgba(0,0,0,0.3);" onmouseover="this.style.background='rgba(255,255,255,0.2)'" onmouseout="this.style.background='rgba(255,255,255,0.1)'">
+            ${sortIcons[window.profSortState]}
+        </button>
+        <button onclick="window.toggleProfLoc()" style="background: rgba(255,255,255,0.1); border: none; padding: 8px 15px; color: #fff; border-radius: 8px; cursor: pointer; transition: 0.2s; font-weight: bold; box-shadow: 0 4px 6px rgba(0,0,0,0.3);" onmouseover="this.style.background='rgba(255,255,255,0.2)'" onmouseout="this.style.background='rgba(255,255,255,0.1)'">
+            ${locIcons[window.profLocState]}
+        </button>
+        <div style="display:flex; align-items:center; gap:8px; background: rgba(255,255,255,0.05); padding: 5px 15px; border-radius: 8px; border: 1px solid rgba(255,255,255,0.1);">
+            <span style="color:#ccc; font-size:0.9rem; font-weight:bold;">✨ Комбо способностей</span>
+            <label style="position:relative; display:inline-block; width:40px; height:20px; margin:0;">
+                <input type="checkbox" ${window.profAbilState ? 'checked' : ''} onchange="window.toggleProfAbil()" style="opacity:0; width:0; height:0;">
+                <span style="position:absolute; cursor:pointer; top:0; left:0; right:0; bottom:0; background-color:${window.profAbilState ? 'var(--primary)' : '#555'}; transition:.4s; border-radius:34px;">
+                    <span style="position:absolute; content:''; height:14px; width:14px; left:3px; bottom:3px; background-color:white; transition:.4s; border-radius:50%; transform:${window.profAbilState ? 'translateX(20px)' : 'translateX(0)'};"></span>
+                </span>
+            </label>
+        </div>
+    </div>`;
+
+    uiHtml += `<div style="display:flex; flex-wrap:wrap; gap:15px; justify-content:center;">`;
+    if (list.length === 0) {
+        uiHtml += `<div style="text-align:center; color:#aaa; padding:20px;">Покемонов не найдено.</div>`;
+    } else {
+        list.forEach(item => {
+            let reasonsTitle = item.eff.reasons.join(' | ');
+            if (isShiny) reasonsTitle += ' | Шайни: +10%';
+            if (!reasonsTitle) reasonsTitle = 'Нет бонусов';
+            
+            let color = item.total > 0 ? 'var(--primary)' : '#888';
+            let bg = item.total > 0 ? 'rgba(78, 205, 196, 0.2)' : 'rgba(0,0,0,0.5)';
+            
+            let customBadge = `<div title="${reasonsTitle}" style="align-self: flex-end; margin-top: -10px; margin-right: -5px; position: relative; z-index: 10; background: ${bg}; color: ${color}; padding: 4px 10px; border-radius: 20px; font-size: 0.8rem; font-weight: bold; border: 2px solid ${color}; box-shadow: 0 2px 5px rgba(0,0,0,0.5);">
+                +${item.total}%
+            </div>`;
+            
+            if (window.profAbilState) {
+                let abilName = item.eff.ability;
+                if (abilName && window.abilitiesData) {
+                    let cAbil = abilName.replace(/\s+/g, '').toUpperCase();
+                    let aObj = Object.values(window.abilitiesData).find(a => 
+                        (a.Name||'').replace(/\s+/g, '').toUpperCase() === cAbil || 
+                        (a.en_name||'').replace(/\s+/g, '').toUpperCase() === cAbil || 
+                        (a.Name||'').toUpperCase() === abilName.toUpperCase()
+                    );
+                    if (aObj && aObj.RuName) abilName = aObj.RuName;
+                }
+                customBadge += `<div style="position:absolute; bottom: -8px; left: 50%; transform: translateX(-50%); background: rgba(0,0,0,0.8); color: #fff; padding: 2px 8px; border-radius: 10px; font-size: 0.65rem; border: 1px solid rgba(255,255,255,0.2); white-space: nowrap; z-index: 5;">${abilName || 'Без таланта'}</div>`;
+            }
+
+            uiHtml += window.generatePokemonCardHTML(item.m, isShiny, customBadge);
+        });
+    }
+    uiHtml += `</div></div>`;
+    return uiHtml;
+};

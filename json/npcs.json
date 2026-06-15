@@ -48,7 +48,7 @@
         "photo_path": "shared/assets/npcs/Лео маршрут 1.jpg",
         "dialogue_nodes": {
             "intro": {
-                "text": "Ого, привет! Я Лео, тоже начинающий тренер. Вижу, у тебя был тяжёлый бой! Твоему покемону нужно срочно к Сестре Джой. Она в следующем городе, Виридиане. Скорее туда! Я тоже туда направляюсь, увидимся!",
+                "text": "Ого, привет! Я Лео, тоже начинающий тренер. Вижу, у тебя был тяжелый бой! Твоему покемону нужно срочно к Сестре Джой. Я буду направлять тебя. Делай строго по шагам:\n\n1. Нажми <b>[🌟 🗺️ Карта]</b>.\n2. Выбери город <b>[🌟 Виридиан]</b>.\n3. Прибыв на место, нажми <b>[🌟 ❌ Закрыть карту]</b>.\n4. В городе нажми <b>[🌟 🗣️ Жители]</b> и выбери <b>[Сестра Джой]</b>.\n5. Попроси её <b>[❤️ Вылечить покемонов]</b>.\n\nВстретимся в Покецентре!",
                 "actions": [
                     { "text": "Спасибо за совет!", "script_id": "ADVANCE_QUEST:TUTORIAL_QUEST:40" }
                 ]
@@ -84,64 +84,141 @@
             },
             "reminder_heal": { "text": "Твои покемоны выглядят уставшими. Тебе стоит поговорить с Сестрой Джой в Виридиане.", "actions": [{"text": "Хорошо", "script_id": "END_DIALOGUE"}] },
             "give_potions": {
-                "text": "Отлично! Теперь твои покемоны здоровы. Вот, держи от меня небольшой подарок - 5 Зелий и 10 Покеболов. Зельями тоже можно лечиться! Покеболы понадобятся для ловли покемонов. Чтобы поймать покемона, в бою нажми на Покебол. Помни правила: чем меньше HP у дикого покемона, тем выше шанс поимки. Также шансы повышаются, если покемон под статусом, например, парализован или уснул. А теперь попробуй поймать покемона на Маршруте 1 и загляни в Покедекс. Чтобы посмотреть информацию о покемоне в Покедексе, зайди в меню - информация - покедекс, или введи команду /pokemon pikachu.",
-                "actions": [ { "text": "Спасибо!",  "script_id": "GIVE_MULTIPLE_ITEMS_AND_ADVANCE_QUEST:POTION,5;POKEBALL,10:TUTORIAL_QUEST:60" } ]
+                "text": "Отлично! Теперь твои покемоны здоровы. Я даю тебе 5 Зелий и 5 <b>Мастерболлов</b>.\n\nМастерболл — это невероятный предмет, он ловит дикого покемона со 100% вероятностью! Давай проверим это на практике. Делай строго по шагам:\n\n1. Нажми <b>[🌟 🗺️ Карта]</b> и вернись на <b>[🌟 Маршрут 1]</b>.\n2. Нажми <b>[🌟 ⚔️ Найти бой]</b>.\n3. В самом бою нажми <b>[🌟 ⚪ Покебол]</b>, а затем выбери <b>[🌟 Мастерболл]</b>.\n\nЖду тебя здесь с новым покемоном!",
+                "actions": [ { "text": "Спасибо!",  "script_id": "GIVE_MULTIPLE_ITEMS_AND_ADVANCE_QUEST:POTION,5;MASTERBALL,5:TUTORIAL_QUEST:60" } ]
             },
             "reminder_catch": { "text": "Покеболы понадобятся для ловли покемонов. Чтобы поймать покемона, в бою нажми на Покебол. Помни правила: чем меньше HP у дикого покемона, тем выше шанс поимки. Также шансы повышаются, если покемон под статусом, например, парализован или уснул. А теперь попробуй поймать покемона на Маршруте 1 и загляни в Покедекс. Чтобы посмотреть информацию о покемоне в Покедексе, зайди в меню - информация - покедекс, или введи команду /pokemon pikachu.", "actions": [{"text": "Понял", "script_id": "END_DIALOGUE"}] },
             "turn_in_catch": {
-                "text": "Отличный улов! Теперь у тебя два покемона. Знаешь, что в команде может быть только шесть? Загляни в PC в Покецентре, чтобы научиться менять состав команды. Тебе нужно положить покемона в PC, а потом взять его обратно. И помни: без нажатия кнопки 'Выйти и сохранить' изменения в партии не применятся.",
+                "text": "Отличный улов! Кстати, запомни важный трюк: если встретишь сильного покемона, которого никак не можешь победить, ты можешь просто поймать его в Мастерболл и сразу начать им сражаться!\n\nТеперь у тебя два покемона. В команде может быть только шесть, поэтому важно уметь пользоваться хранилищем (PC). Делай строго по шагам:\n\n1. Нажми <b>[🌟 🗣️ Жители]</b> и выбери <b>[🌟 👩‍⚕️ Сестра Джой]</b>.\n2. Попроси у неё <b>[🌟 🖥️ Доступ к PC]</b>.\n3. В меню PC нажми <b>[🌟 📥 Положить покемона]</b>, выбери покемона и нажми <b>[🌟 📥 Положить]</b>.\n4. Затем в главном меню PC нажми <b>[🌟 📤 Взять покемона]</b>, выбери его в коробке и верни в команду, нажав <b>[🌟 📤 Взять]</b>.\n5. В самом конце обязательно нажми текстовую кнопку <b>[🌟 Выйти]</b> на клавиатуре.\n\nЖду тебя здесь, как закончишь!",
                 "actions": [ { "text": "Хорошо.", "script_id": "ADVANCE_QUEST:TUTORIAL_QUEST:80" } ]
             },
             "reminder_pc": { "text": "Тебе нужно зайти в PC у Сестры Джой и попробовать положить, а затем забрать покемона.", "actions": [{"text": "Сейчас сделаю", "script_id": "END_DIALOGUE"}] },
             "turn_in_pc": {
-                 "text": "Теперь ты умеешь управлять командой! Думаю, Бабушка Агата будет рада это слышать. Кажется, я видел её где-то здесь, в городе. Также ты можешь всегда спросить совета у других тренеров если тебе что-то не понятно. А я ухожу дальше в своё путешествие, но мы ещё обязательно встретимся!",
-                 "actions": [
-                     { "text": "Спасибо, Лео!", "script_id": "ADVANCE_QUEST:TUTORIAL_QUEST:100" },
-                     { "text": "Посмотреть Чат!", "script_id": "ADVANCE_QUEST:TUTORIAL_QUEST:100" }
-                 ]
-            }
+             "text": "Теперь ты умеешь управлять командой! Бабушка Агата будет рада это слышать. Кажется, я видел её где-то здесь, в Виридиане. Найди её и расскажи о своих успехах. А я ухожу дальше в своё путешествие, но мы ещё обязательно встретимся!",
+             "actions": [
+                 { "text": "До встречи, Лео!", "script_id": "LEO_TO_AGATHA" }
+             ]
+        }
         }
     },
     "GRANDMA_AGATHA_VIRIDIAN": {
         "ru_name": "👵 Бабушка Агата",
         "location_id": "VIRIDIAN-CITY",
         "description": "Бабушка Агата - отошедший от дел элитный тренер покемонов, чьи легендарные битвы до сих пор вдохновляют молодых искателей приключений. С теплотой и мудростью она делится секретами мастерства, помогая новичкам преодолевать первые трудности на пути к величию.",
-        "condition_quest_stage_in": ["TUTORIAL_QUEST:100", "TUTORIAL_QUEST:110", "TUTORIAL_QUEST:120", "TUTORIAL_QUEST:130", "TUTORIAL_QUEST:140"],
+        "condition_quest_stage_in": ["TUTORIAL_QUEST:100", "TUTORIAL_QUEST:110", "TUTORIAL_QUEST:120", "TUTORIAL_QUEST:130", "TUTORIAL_QUEST:131", "TUTORIAL_QUEST:132", "TUTORIAL_QUEST:133", "TUTORIAL_QUEST:134", "TUTORIAL_QUEST:140"],
         "start_node": "check_stage",
         "photo_path": "shared/assets/npcs/agatha_viridian.png",
         "dialogue_nodes": {
-             "check_stage": {
+            "check_stage": {
                 "text": "Рада видеть твой прогресс!",
                 "actions": [
-                    { "text": "Поговорить", "next_node_conditional": [
-                        { "condition": "quest_stage:TUTORIAL_QUEST:100", "node_id": "give_amulet_task" },
-                        { "condition": "quest_stage:TUTORIAL_QUEST:120", "node_id": "give_final_task" },
-                        { "condition": "quest_stage:TUTORIAL_QUEST:110", "node_id": "reminder_amulet" },
-                        { "condition": "quest_stage:TUTORIAL_QUEST:140", "node_id": "turn_in_final" },
-                        { "condition": "quest_stage:TUTORIAL_QUEST:130", "node_id": "reminder_final" }
-
-                    ]}
+                    {
+                        "text": "Поговорить",
+                        "next_node_conditional": [
+                            {
+                                "condition": "quest_stage:TUTORIAL_QUEST:100",
+                                "node_id": "give_amulet_task"
+                            },
+                            {
+                                "condition": "quest_stage:TUTORIAL_QUEST:120",
+                                "node_id": "give_final_task"
+                            },
+                            {
+                                "condition": "quest_stage:TUTORIAL_QUEST:110",
+                                "node_id": "reminder_amulet"
+                            },
+                            {
+                                "condition": "quest_stage:TUTORIAL_QUEST:131",
+                                "node_id": "turn_in_final"
+                            },
+                            {
+                                "condition": "quest_stage:TUTORIAL_QUEST:130",
+                                "node_id": "reminder_final"
+                            },
+                            {
+                                "condition": "quest_stage:TUTORIAL_QUEST:132",
+                                "node_id": "post_starter_chat"
+                            },
+                            {
+                                "condition": "quest_stage:TUTORIAL_QUEST:133",
+                                "node_id": "pvp_warning"
+                            },
+                            {
+                                "condition": "quest_stage:TUTORIAL_QUEST:134",
+                                "node_id": "final_advice"
+                            }
+                        ]
+                    }
                 ]
             },
             "give_amulet_task": {
-                "text": "Твои знания уже не сравнятся с прошлым, спасибо Лео. Он хороший парень. А теперь давай проверим твои навыки на деле: попробуй добыть Амулет Монеты с дикого Рататы и прокачай любого своего покемона до 12 уровня. Это сделает тебя ещё сильнее!",
+                "text": "Твои знания уже не сравнятся с прошлым! А теперь давай проверим твои навыки в бою: тебе нужно добыть предмет «Монета-амулет». Он увеличивает количество получаемых денег после боя.\n\nНе переживай об усталости — на время этого испытания я буду автоматически лечить твою команду после каждой битвы. Делай строго по шагам:\n\n1. Нажми <b>[🌟 🗺️ Карта]</b> и вернись на <b>[🌟 Маршрут 1]</b>.\n2. Закрой карту кнопкой <b>[🌟 Назад]</b>.\n3. Нажимай <b>[🌟 ⚔️ Найти бой]</b> и сражайся с дикими Раттатами, пока с одной из них не выпадет Амулет Монеты.\n4. Как только выбьешь предмет, открой карту, вернись в <b>[🌟 Виридиан]</b> и найди меня через <b>[🌟 🗣️ Жители]</b>.\n\nВозвращайся ко мне с добычей!",
                 "actions": [ { "text": "Будет сделано!", "script_id": "ADVANCE_QUEST:TUTORIAL_QUEST:110" } ]
             },
-            "reminder_amulet": { "text": "Тебе нужно найти Амулет Монеты и прокачать покемона до 12 уровня.", "actions": [{"text": "Я в процессе!", "script_id": "END_DIALOGUE"}] },
+            "reminder_amulet": {
+                "text": "Тебе нужно найти Амулет Монеты и прокачать покемона до 12 уровня.",
+                "actions": [
+                    {
+                        "text": "Я в процессе!",
+                        "script_id": "END_DIALOGUE"
+                    }
+                ]
+            },
             "give_final_task": {
-                "text": "Великолепно! Амулет одетый на покемона будет увеличивать количество монет после боя. Осталось последнее: научиться управлять арсеналом своего покемона. Зайди в меню персонажа, выбери 'Покемоны' и изучи новую атаку. А после загляни в настройки игры из главного меню, это тоже полезно знать для комфортной игры.",
+                "text": "Великолепно! Амулет, надетый на покемона, будет увеличивать количество монет после каждого боя. Осталось последнее: научиться управлять боевым арсеналом своего друга.\n\nТвой Пикачу наверняка уже готов выучить новый прием. Делай строго по шагам:\n\n1. Нажми текстовую кнопку <b>[🌟 👤 Персонаж]</b> в меню локации.\n2. В открывшемся меню выбери <b>[🌟 Команда]</b> и нажми на своего <b>[🌟 Пикачу]</b>.\n3. Выбери пункт <b>[🌟 Изучить атаку]</b>.\n4. Нажми на любую доступную новую атаку и замени ей старую, просто нажимая на подсвеченные кнопки <b>[🌟]</b>.\n5. Как только закончишь, закрой меню и снова найди меня через <b>[🌟 🗣️ Жители]</b>.\n\nЯ буду ждать тебя здесь!",
                 "actions": [ { "text": "Я всё сделаю!", "script_id": "ADVANCE_QUEST:TUTORIAL_QUEST:130" } ]
             },
-            "reminder_final": { "text": "Нужно изучить новую атаку и заглянуть в меню настроек.", "actions": [{"text": "Почти готово!", "script_id": "END_DIALOGUE"}] },
+            "reminder_final": {
+                "text": "Тебе нужно поменять атаку! Открой <b>[🌟 👤 Персонаж]</b> -> <b>[🌟 Команда]</b>, выбери Пикачу и нажми <b>[🌟 Изучить атаку]</b>, чтобы заменить старый прием на новый. Я жду здесь!",
+                "actions": [{"text": "Почти готово!", "script_id": "END_DIALOGUE"}]
+            },
             "turn_in_final": {
-                 "text": "Твои испытания закончены, и я так горжусь тобой! В моих старых приключениях, когда я была в расцвете сил, мне достались эти предметы после эпических битв. В качестве награды я даю их тебе. Удачи тебе!",
-                 "actions":[
-                     { "text": "Спасибо за всё, Бабушка!", "script_id": "COMPLETE_QUEST_AND_GIVE_REWARDS:TUTORIAL_QUEST" }
-                 ]
+                "text": "Умница! Ты освоил все базовые навыки управления своей командой. Твое обучение официально завершено!\n\nИ, как я и обещала, у меня для тебя есть особый подарок. Я приготовила для тебя несколько редких покемонов из разных регионов. Выбирай с умом!",
+                "actions": [
+                    {
+                        "text": "Выбрать стартового покемона!",
+                        "script_id": "START_STARTER_SELECTION"
+                    }
+                ]
+            },
+            "post_starter_chat": {
+                "text": "Отличный выбор! Этот покемон станет тебе верным другом на долгие годы.\n\nВпереди тебя ждет огромный мир, полный приключений. Но путешествовать одному бывает тяжело. Присоединяйся к нашему чату тренеров — там ты сможешь найти друзей, обменяться опытом и попросить совета у бывалых мастеров!\n\nКстати, в канале с гайдами тебя ждёт особый промокод для новичков, а ссылку на чат и другие полезные ресурсы всегда можно найти по команде /links.",
+                "actions": [
+                    {
+                        "text": "Посмотреть Чат!"
+                    },
+                    {
+                        "text": "Понятно!",
+                        "script_id": "ADVANCE_QUEST_AND_REDRAW:TUTORIAL_QUEST:133"
+                    }
+                ]
+            },
+            "pvp_warning": {
+                "text": "И последнее, но самое важное: мир за пределами города опасен. Там рыщут другие тренеры, готовые вызвать тебя на PvP-дуэль в любой момент.\n\nЧтобы ты мог спокойно освоиться, я накладываю на тебя автоматическую Защиту Новичка на 48 часов. Кроме того, я даю тебе в подарок предмет «Защита новичка на 7 дней» — обязательно найди его в инвентаре и активируй как можно раньше!\n\nПостарайся использовать это время с умом, иначе в большом мире тебя быстро раздавят.",
+                "actions": [
+                    {
+                        "text": "Что мне делать дальше?",
+                        "script_id": "ADVANCE_QUEST_AND_REDRAW:TUTORIAL_QUEST:134"
+                    }
+                ]
+            },
+            "final_advice": {
+                "text": "О, этот мир поистине огромен и открыт для тебя! Ты можешь исследовать неизведанные маршруты, ловить редких покемонов, собирать непобедимую команду и бросать вызов сильнейшим тренерам.\n\nНо если ты ищешь, с чего начать — советую заглянуть в меню квестов (раздел «Квесты» -> «Доступные квесты»). Там тебя уже дожидаются три особых поручения, выполнив которые ты сможешь получить классических стартовых покемонов: Чармандера, Сквиртла и Бульбазавра!\n\nУдачи тебе, юный тренер. Пусть твой путь будет великим!",
+                "actions": [
+                    {
+                        "text": "Я готов!",
+                        "script_id": "COMPLETE_QUEST_AND_GIVE_REWARDS:TUTORIAL_QUEST"
+                    }
+                ]
             },
             "quest_completed": {
                 "text": "Ты уже получил свою награду. Удачи в твоих приключениях!",
-                "actions": [ { "text": "Спасибо!", "script_id": "END_DIALOGUE" } ]
+                "actions": [
+                    {
+                        "text": "Спасибо!",
+                        "script_id": "END_DIALOGUE"
+                    }
+                ]
             }
         }
     },
@@ -162,176 +239,7 @@
             }
         }
     },
-     "COINS_SELLER_VERMILION": {
-        "ru_name": "\uD83D\uDC73\uD83C\uDFFB\u200D♂\uFE0F Торговец экзотикой",
-        "location_id": "VERMILION-CITY",
-         "description": "Путешественник, обменивающий особые монеты на уникальные товары.",
-        "shop_id": "EKZOTIK",
-        "start_node": "intro",
-         "photo_path": "shared/assets/npcs/Торговец экзотикой.jpg",
-        "dialogue_nodes": {
-            "intro": {
-                "text": "Я путешествую по миру и у меня много интересных товаров! Я принимаю оплату в \uD83E\uDE99Монетах. Чем я могу помочь?",
-                "actions": [
-                    {"text": "🛒 Открыть магазин", "script_id": "OPEN_EKZOTIK_SHOP"},
-                    { "text": "👋 Уйти", "script_id": "END_DIALOGUE" }
-                ]
-            }
-        }
-    },
-    "COINS_SELLER_OLIVINE": {
-        "ru_name": "\uD83D\uDC73\uD83C\uDFFB\u200D♂\uFE0F Торговец экзотикой",
-        "location_id": "OLIVINE-CITY",
-         "description": "Путешественник, обменивающий особые монеты на уникальные товары.",
-        "shop_id": "EKZOTIK",
-        "start_node": "intro",
-         "photo_path": "shared/assets/npcs/Торговец экзотикой.jpg",
-        "dialogue_nodes": {
-            "intro": {
-                "text": "Я путешествую по миру и у меня много интересных товаров! Я принимаю оплату в \uD83E\uDE99Монетах. Чем я могу помочь?",
-                "actions": [
-                    {"text": "🛒 Открыть магазин", "script_id": "OPEN_EKZOTIK_SHOP"},
-                    { "text": "👋 Уйти", "script_id": "END_DIALOGUE" }
-                ]
-            }
-        }
-    },
-    "COINS_SELLER_SLATEPORT": {
-        "ru_name": "\uD83D\uDC73\uD83C\uDFFB\u200D♂\uFE0F Торговец экзотикой",
-        "location_id": "SLATEPORT-CITY",
-         "description": "Путешественник, обменивающий особые монеты на уникальные товары.",
-        "shop_id": "EKZOTIK",
-        "start_node": "intro",
-         "photo_path": "shared/assets/npcs/Торговец экзотикой.jpg",
-        "dialogue_nodes": {
-            "intro": {
-                "text": "Я путешествую по миру и у меня много интересных товаров! Я принимаю оплату в \uD83E\uDE99Монетах. Чем я могу помочь?",
-                "actions": [
-                    {"text": "🛒 Открыть магазин", "script_id": "OPEN_EKZOTIK_SHOP"},
-                    { "text": "👋 Уйти", "script_id": "END_DIALOGUE" }
-                ]
-            }
-        }
-    },
-    "COINS_SELLER_CANALAVE": {
-        "ru_name": "\uD83D\uDC73\uD83C\uDFFB\u200D♂\uFE0F Торговец экзотикой",
-        "location_id": "CANALAVE-CITY",
-         "description": "Путешественник, обменивающий особые монеты на уникальные товары.",
-        "shop_id": "EKZOTIK",
-        "start_node": "intro",
-         "photo_path": "shared/assets/npcs/Торговец экзотикой.jpg",
-        "dialogue_nodes": {
-            "intro": {
-                "text": "Я путешествую по миру и у меня много интересных товаров! Я принимаю оплату в \uD83E\uDE99Монетах. Чем я могу помочь?",
-                "actions": [
-                    {"text": "🛒 Открыть магазин", "script_id": "OPEN_EKZOTIK_SHOP"},
-                    { "text": "👋 Уйти", "script_id": "END_DIALOGUE" }
-                ]
-            }
-        }
-    },
-    "COINS_SELLER_CASTELIA": {
-        "ru_name": "\uD83D\uDC73\uD83C\uDFFB\u200D♂\uFE0F Торговец экзотикой",
-        "location_id": "CASTELIA-CITY",
-         "description": "Путешественник, обменивающий особые монеты на уникальные товары.",
-        "shop_id": "EKZOTIK",
-        "start_node": "intro",
-         "photo_path": "shared/assets/npcs/Торговец экзотикой.jpg",
-        "dialogue_nodes": {
-            "intro": {
-                "text": "Я путешествую по миру и у меня много интересных товаров! Я принимаю оплату в \uD83E\uDE99Монетах. Чем я могу помочь?",
-                "actions": [
-                    {"text": "🛒 Открыть магазин", "script_id": "OPEN_EKZOTIK_SHOP"},
-                    { "text": "👋 Уйти", "script_id": "END_DIALOGUE" }
-                ]
-            }
-        }
-    },
-    "RESOURCEMAN_VERMILION": {
-        "ru_name": "\uD83D\uDC68\u200D\uD83C\uDF3EТорговец ресурсами",
-        "location_id": "VERMILION-CITY",
-         "description": "Торговец, продающий различные ресурсы для крафта.",
-        "shop_id": "RESOURCE",
-        "start_node": "intro",
-         "photo_path": "",
-        "dialogue_nodes": {
-            "intro": {
-                "text": "У меня здесь много всяких ресурсов. Чем я могу помочь?",
-                "actions": [
-                    {"text": "🛒 Открыть магазин", "script_id": "OPEN_SHOP"},
-                    { "text": "👋 Уйти", "script_id": "END_DIALOGUE" }
-                ]
-            }
-        }
-    },
-    "RESOURCEMAN_OLIVINE": {
-        "ru_name": "\uD83D\uDC68\u200D\uD83C\uDF3EТорговец ресурсами",
-        "location_id": "OLIVINE-CITY",
-         "description": "Торговец, продающий различные ресурсы для крафта.",
-        "shop_id": "RESOURCE",
-        "start_node": "intro",
-         "photo_path": "",
-        "dialogue_nodes": {
-            "intro": {
-                "text": "У меня здесь много всяких ресурсов. Чем я могу помочь?",
-                "actions": [
-                    {"text": "🛒 Открыть магазин", "script_id": "OPEN_SHOP"},
-                    { "text": "👋 Уйти", "script_id": "END_DIALOGUE" }
-                ]
-            }
-        }
-    },
-    "RESOURCEMAN_SLATEPORT": {
-        "ru_name": "\uD83D\uDC68\u200D\uD83C\uDF3EТорговец ресурсами",
-        "location_id": "SLATEPORT-CITY",
-         "description": "Торговец, продающий различные ресурсы для крафта.",
-        "shop_id": "RESOURCE",
-        "start_node": "intro",
-         "photo_path": "",
-        "dialogue_nodes": {
-            "intro": {
-                "text": "У меня здесь много всяких ресурсов. Чем я могу помочь?",
-                "actions": [
-                    {"text": "🛒 Открыть магазин", "script_id": "OPEN_SHOP"},
-                    { "text": "👋 Уйти", "script_id": "END_DIALOGUE" }
-                ]
-            }
-        }
-    },
-    "RESOURCEMAN_CANALAVE": {
-        "ru_name": "\uD83D\uDC68\u200D\uD83C\uDF3EТорговец ресурсами",
-        "location_id": "CANALAVE-CITY",
-         "description": "Торговец, продающий различные ресурсы для крафта.",
-        "shop_id": "RESOURCE",
-        "start_node": "intro",
-         "photo_path": "",
-        "dialogue_nodes": {
-            "intro": {
-                "text": "У меня здесь много всяких ресурсов. Чем я могу помочь?",
-                "actions": [
-                    {"text": "🛒 Открыть магазин", "script_id": "OPEN_SHOP"},
-                    { "text": "👋 Уйти", "script_id": "END_DIALOGUE" }
-                ]
-            }
-        }
-    },
-    "RESOURCEMAN_CASTELIA": {
-        "ru_name": "\uD83D\uDC68\u200D\uD83C\uDF3EТорговец ресурсами",
-        "location_id": "CASTELIA-CITY",
-         "description": "Торговец, продающий различные ресурсы для крафта.",
-        "shop_id": "RESOURCE",
-        "start_node": "intro",
-         "photo_path": "",
-        "dialogue_nodes": {
-            "intro": {
-                "text": "У меня здесь много всяких ресурсов. Чем я могу помочь?",
-                "actions": [
-                    {"text": "🛒 Открыть магазин", "script_id": "OPEN_SHOP"},
-                    { "text": "👋 Уйти", "script_id": "END_DIALOGUE" }
-                ]
-            }
-        }
-    },
+
      "NURSE_JOY_GENERIC": {
         "ru_name": "👩‍⚕️ Сестра Джой",
         "location_id": null,
@@ -363,91 +271,152 @@
         }
     },
 
-    "TM_SALESMAN_SAFFRON": {
-        "ru_name": "👨‍🏫 Элитный Продавец",
-        "location_id": "SAFFRON-CITY",
-        "description": "Элитный продавец - загадочный и искушенный торговец, известный своей уникальной коллекцией редких артефактов и сокровищ, которые трудно найти где-либо еще. Его знания о скрытых сокровищах мира покемонов притягивают опытных тренеров в поисках чего-то по-настоящему эксклюзивного.",
-        "shop_id": "SAFFRON_TM_SHOP",
-        "start_node": "intro",
-        "photo_path": "shared/assets/npcs/elite_shopper.jpg",
-        "dialogue_nodes": {
-            "intro": {
-                "text": "Привет! Я продаю редкие предметы. Взгляни на мой ассортимент!",
-                "actions": [
-                    {"text": "🛒 Открыть магазин", "script_id": "OPEN_SHOP"},
-                    { "text": "👋 Уйти", "script_id": "END_DIALOGUE" }
-                ]
-            }
-        }
+    "COINS_SELLER_GENERIC": {
+    "ru_name": "👳🏻‍♂️ Торговец экзотикой",
+    "location_id": null,
+    "locations": [
+      "VERMILION-CITY",
+      "OLIVINE-CITY",
+      "SLATEPORT-CITY",
+      "CANALAVE-CITY",
+      "CASTELIA-CITY"
+    ],
+    "description": "Путешественник, обменивающий особые монеты на уникальные товары.",
+    "shop_id": "EKZOTIK",
+    "start_node": "intro",
+    "photo_path": "shared/assets/npcs/Торговец экзотикой.jpg",
+    "dialogue_nodes": {
+      "intro": {
+        "text": "Я путешествую по миру и у меня много интересных товаров! Я принимаю оплату в 🪙Монетах. Чем я могу помочь?",
+        "actions": [
+          { "text": "🛒 Открыть магазин", "script_id": "OPEN_SHOP" },
+          { "text": "👋 Уйти", "script_id": "END_DIALOGUE" }
+        ]
+      }
+    }
+  },
+
+  "RESOURCEMAN_GENERIC": {
+    "ru_name": "👨‍🌾 Торговец ресурсами",
+    "location_id": null,
+    "locations": [
+      "VERMILION-CITY",
+      "OLIVINE-CITY",
+      "SLATEPORT-CITY",
+      "CANALAVE-CITY",
+      "CASTELIA-CITY"
+    ],
+    "description": "Торговец, продающий различные ресурсы для крафта.",
+    "shop_id": "RESOURCE",
+    "start_node": "intro",
+    "photo_path": "shared/assets/npcs/resourceman.png",
+    "dialogue_nodes": {
+      "intro": {
+        "text": "У меня здесь много всяких ресурсов. Чем я могу помочь?",
+        "actions": [
+          { "text": "🛒 Открыть магазин", "script_id": "OPEN_SHOP" },
+          { "text": "👋 Уйти", "script_id": "END_DIALOGUE" }
+        ]
+      }
+    }
+  },
+
+  "TM_SALESMAN_GENERIC": {
+    "ru_name": "👨‍🏫 Элитный Продавец",
+    "location_id": null,
+    "locations": [
+      "SAFFRON-CITY",
+      "GOLDENROD-CITY",
+      "MAUVILLE-CITY",
+      "VEILSTONE-CITY",
+      "CASTELIA-CITY"
+    ],
+    "description": "Элитный продавец - загадочный и искушенный торговец, известный своей уникальной коллекцией редких артефактов и сокровищ.",
+    "shop_id": "SAFFRON_TM_SHOP",
+    "start_node": "intro",
+    "photo_path": "shared/assets/npcs/elite_shopper.jpg",
+    "dialogue_nodes": {
+      "intro": {
+        "text": "Привет! Я продаю редкие предметы. Взгляни на мой ассортимент!",
+        "actions": [
+          { "text": "🛒 Открыть магазин", "script_id": "OPEN_SHOP" },
+          { "text": "👋 Уйти", "script_id": "END_DIALOGUE" }
+        ]
+      }
+    }
+  },
+
+  "BP_EXCHANGER_GENERIC": {
+  "ru_name": "🎖 Мастер Битв",
+  "location_id": null,
+  "locations": [
+    "CELADON-CITY",
+    "BLACKTHORN-CITY",
+    "EVER-GRANDE-CITY",
+    "SUNYSHORE-CITY",
+    "NIMBASA-CITY"
+  ],
+  "description": "Ветеран покемон-лиг, который заведует обменом Боевых Очков (BP) на ценные предметы для соревнований.",
+  "shop_id": "BATTLE_FRONTIER_SHOP",
+  "start_node": "intro",
+  "photo_path": "shared/assets/npcs/battle_master.png",
+  "dialogue_nodes": {
+    "intro": {
+      "text": "Твои покемоны выглядят закаленными в боях! Заработал немного Боевых Очков (BP) на Арене? Я готов обменять их на отличную экипировку, или могу сдать в аренду профессиональную боевую команду.",
+      "actions": [
+        { "text": "📜 Квест", "next_node": "check_quest_stage" },
+        { "text": "🛒 Открыть обменник (BP)", "script_id": "OPEN_SHOP" },
+        { "text": "🤝 Аренда боевых команд", "script_id": "OPEN_RENTAL_SHOP" },
+        { "text": "🌟 Показать популярность (25000💰)", "script_id": "SHOW_POPULARITY_STATS" },
+        { "text": "👋 Позже", "script_id": "END_DIALOGUE" }
+      ]
     },
-    "TM_SALESMAN_GOLDENROD": {
-        "ru_name": "👨‍🏫 Элитный Продавец",
-        "location_id": "GOLDENROD-CITY",
-        "description": "Элитный продавец - загадочный и искушенный торговец, известный своей уникальной коллекцией редких артефактов и сокровищ, которые трудно найти где-либо еще. Его знания о скрытых сокровищах мира покемонов притягивают опытных тренеров в поисках чего-то по-настоящему эксклюзивного.",
-        "shop_id": "SAFFRON_TM_SHOP",
-        "start_node": "intro",
-        "photo_path": "shared/assets/npcs/elite_shopper.jpg",
-        "dialogue_nodes": {
-            "intro": {
-                "text": "Привет! Я продаю редкие предметы. Взгляни на мой ассортимент!",
-                "actions": [
-                    {"text": "🛒 Открыть магазин", "script_id": "OPEN_SHOP"},
-                    { "text": "👋 Уйти", "script_id": "END_DIALOGUE" }
-                ]
-            }
+    "check_quest_stage": {
+      "text": "Посмотрим, как идут твои дела...",
+      "actions": [
+        {
+          "text": "Поговорить",
+          "next_node_conditional": [
+              { "condition": "quest_stage:RENTAL_TUTORIAL_QUEST:10", "node_id": "quest_offer" },
+              { "condition": "quest_not_started:RENTAL_TUTORIAL_QUEST", "node_id": "quest_offer" },
+              { "condition": "quest_stage:RENTAL_TUTORIAL_QUEST:20", "node_id": "quest_reminder_rent" },
+              { "condition": "quest_stage:RENTAL_TUTORIAL_QUEST:30", "node_id": "quest_equip_task" },
+              { "condition": "quest_stage:RENTAL_TUTORIAL_QUEST:40", "node_id": "quest_reminder_equip" },
+              { "condition": "quest_stage:RENTAL_TUTORIAL_QUEST:50", "node_id": "quest_finish" }
+          ],
+          "next_node": "default_talk"
         }
+      ]
     },
-    "TM_SALESMAN_MAUVILLE": {
-        "ru_name": "👨‍🏫 Элитный Продавец",
-        "location_id": "MAUVILLE-CITY",
-        "description": "Элитный продавец - загадочный и искушенный торговец, известный своей уникальной коллекцией редких артефактов и сокровищ, которые трудно найти где-либо еще. Его знания о скрытых сокровищах мира покемонов притягивают опытных тренеров в поисках чего-то по-настоящему эксклюзивного.",
-        "shop_id": "SAFFRON_TM_SHOP",
-        "start_node": "intro",
-        "photo_path": "shared/assets/npcs/elite_shopper.jpg",
-        "dialogue_nodes": {
-            "intro": {
-                "text": "Привет! Я продаю редкие предметы. Взгляни на мой ассортимент!",
-                "actions": [
-                    {"text": "🛒 Открыть магазин", "script_id": "OPEN_SHOP"},
-                    { "text": "👋 Уйти", "script_id": "END_DIALOGUE" }
-                ]
-            }
-        }
+    "default_talk": {
+      "text": "Аренда команд - отличный способ попробовать новые тактики перед тем, как собирать свою собственную команду мечты.",
+      "actions": [ { "text": "Понятно", "script_id": "END_DIALOGUE" } ]
     },
-    "TM_SALESMAN_VEILSTONE": {
-        "ru_name": "👨‍🏫 Элитный Продавец",
-        "location_id": "VEILSTONE-CITY",
-        "description": "Элитный продавец - загадочный и искушенный торговец, известный своей уникальной коллекцией редких артефактов и сокровищ, которые трудно найти где-либо еще. Его знания о скрытых сокровищах мира покемонов притягивают опытных тренеров в поисках чего-то по-настоящему эксклюзивного.",
-        "shop_id": "SAFFRON_TM_SHOP",
-        "start_node": "intro",
-        "photo_path": "shared/assets/npcs/elite_shopper.jpg",
-        "dialogue_nodes": {
-            "intro": {
-                "text": "Привет! Я продаю редкие предметы. Взгляни на мой ассортимент!",
-                "actions": [
-                    {"text": "🛒 Открыть магазин", "script_id": "OPEN_SHOP"},
-                    { "text": "👋 Уйти", "script_id": "END_DIALOGUE" }
-                ]
-            }
-        }
+    "quest_offer": {
+      "text": "Вижу, ты амбициозный тренер. Но чтобы побеждать сильных противников, одного желания мало — нужна грамотная команда с идеальной синергией. У меня есть такие команды, и я сдаю их в аренду.\n\nХочешь попробовать себя в роли стратега? Я дам тебе один Купон аренды. Используй его в моем меню, чтобы арендовать любую сборку.",
+      "actions": [ {
+              "text": "Я готов!",
+              "script_id": "GIVE_ITEM_AND_ADVANCE_QUEST:RENTALCOUPON:1:RENTAL_TUTORIAL_QUEST:20"
+          } ]
     },
-    "TM_SALESMAN_CASTELIA": {
-        "ru_name": "👨‍🏫 Элитный Продавец",
-        "location_id": "CASTELIA-CITY",
-        "description": "Элитный продавец - загадочный и искушенный торговец, известный своей уникальной коллекцией редких артефактов и сокровищ, которые трудно найти где-либо еще. Его знания о скрытых сокровищах мира покемонов притягивают опытных тренеров в поисках чего-то по-настоящему эксклюзивного.",
-        "shop_id": "SAFFRON_TM_SHOP",
-        "start_node": "intro",
-        "photo_path": "shared/assets/npcs/elite_shopper.jpg",
-        "dialogue_nodes": {
-            "intro": {
-                "text": "Привет! Я продаю редкие предметы. Взгляни на мой ассортимент!",
-                "actions": [
-                    {"text": "🛒 Открыть магазин", "script_id": "OPEN_SHOP"},
-                    { "text": "👋 Уйти", "script_id": "END_DIALOGUE" }
-                ]
-            }
-        }
+    "quest_reminder_rent": {
+      "text": "Я же дал тебе купон! Нажми 'Аренда боевых команд' в моем меню и выбери формат, а затем команду, которая тебе по душе.",
+      "actions": [ { "text": "Сейчас сделаю", "script_id": "END_DIALOGUE" } ]
     },
+    "quest_equip_task": {
+      "text": "Отличный выбор! Эта команда не раз приносила победы на турнирах. Но просто взять её в аренду мало. Тебе нужно установить её в свою Боевую Коробку.\n\nЗайди в Покецентр к Сестре Джой, открой <b>Доступ к PC</b>. Там перейди в раздел 'Боевые Коробки' и установи эту команду в слот. Возвращайся, как всё сделаешь.",
+      "actions": [ { "text": "Понял, иду к PC!", "script_id": "ADVANCE_QUEST:RENTAL_TUTORIAL_QUEST:40" } ]
+    },
+    "quest_reminder_equip": {
+      "text": "Тебе нужно установить арендованную команду. Зайди к Сестре Джой, открой Доступ к PC и установи команду в слот Боевых Коробок.",
+      "actions": [ { "text": "Хорошо", "script_id": "END_DIALOGUE" } ]
+    },
+    "quest_finish": {
+      "text": "Превосходно! Теперь эта команда готова к бою на Арене. Чем выше будет твой ранг Популярности, тем больше мощных сборок я смогу тебе доверить.\n\nА пока — вот твоя награда за упорство. Дерзай, тренер!",
+      "actions": [ { "text": "Спасибо!", "script_id": "COMPLETE_QUEST_AND_GIVE_REWARDS:RENTAL_TUTORIAL_QUEST" } ]
+    }
+  }
+},
      "ARCHIBALD_VERMILION": {
         "ru_name": "👨‍🦳 Антиквар Арчибальд",
         "location_id": "VERMILION-CITY",
@@ -1618,7 +1587,7 @@
         "actions": [
           {
             "text": "Он больше не твой! (Начать битву)",
-            "script_id": "START_TRAINER_BATTLE_SCALED:TRAINER_DEREK"
+            "script_id": "START_QUEST_BATTLE_SCALED:TRAINER_DEREK"
           },
           {
              "text": "Мне нужно подготовиться",
@@ -1758,7 +1727,7 @@
       "intro": {
         "text": "Что?! Ты потушил мой пожар? И вылечил этих глупых черепах? Я хотел украсть их! Ну всё, ты меня разозлил!",
         "actions": [
-          { "text": "Сразиться!", "script_id": "START_TRAINER_BATTLE_SCALED:TEAM_ROCKET_AGENT_SQUIRTLE" },
+          { "text": "Сразиться!", "script_id": "START_QUEST_BATTLE_SCALED:TEAM_ROCKET_AGENT_SQUIRTLE" },
           { "text": "Я подготовлюсь", "script_id": "END_DIALOGUE" }
         ]
       }
@@ -1841,7 +1810,7 @@
       "intro": {
         "text": "Эй! Отойди! Я нашел это место первым! Тут куча редких покемонов, я заработаю миллионы!",
         "actions": [
-          { "text": "Уходи отсюда!", "script_id": "START_TRAINER_BATTLE_SCALED:POACHER_JACK" },
+          { "text": "Уходи отсюда!", "script_id": "START_QUEST_BATTLE_SCALED:POACHER_JACK" },
           { "text": "Нужно подготовиться", "script_id": "END_DIALOGUE" }
         ]
       }
@@ -1938,7 +1907,7 @@
     "intro": {
       "text": "Глупцы... Праздники, радость... Это всё лишь слабость! Я заморожу этот жалкий регион. Мой 'Абсолютный Ноль' покроет Канто вечным льдом, и тогда никто не сможет сопротивляться Команде Плазма! Ты смеешь мне мешать?",
       "actions": [
-        { "text": "Твои планы растают! (Бой)", "script_id": "START_TRAINER_BATTLE_SCALED:GHETSIS_BOSS" },
+        { "text": "Твои планы растают! (Бой)", "script_id": "START_QUEST_BATTLE_SCALED:GHETSIS_BOSS" },
         { "text": "Мне нужно подготовиться", "script_id": "END_DIALOGUE" }
       ]
     }
@@ -2025,7 +1994,7 @@
         "actions": [
           {
             "text": "Успокоить силой! (Бой)",
-            "script_id": "START_TRAINER_BATTLE_SCALED:BOSS_INSOMNIA_NOCTOWL"
+            "script_id": "START_QUEST_BATTLE_SCALED:BOSS_INSOMNIA_NOCTOWL"
           },
           {
             "text": "Тихо отойти...",
@@ -2170,7 +2139,7 @@
       "start_fight": {
         "text": "Тогда покажи мне свой поток силы! В бой!",
         "actions": [
-          { "text": "К бою!", "script_id": "START_TRAINER_BATTLE_SCALED:MINIBOSS_NINJA_WATER" },
+          { "text": "К бою!", "script_id": "START_QUEST_BATTLE_SCALED:MINIBOSS_NINJA_WATER" },
           { "text": "Нужна подготовка...", "script_id": "END_DIALOGUE" }
         ]
       },
@@ -2198,7 +2167,7 @@
         "actions": [
           {
             "text": "Изгнать духа силой! (Бой)",
-            "script_id": "START_TRAINER_BATTLE_SCALED:BOSS_POSSESSED_CYNDAQUIL"
+            "script_id": "START_QUEST_BATTLE_SCALED:BOSS_POSSESSED_CYNDAQUIL"
           },
           {
             "text": "Нужна подготовка...",
@@ -2393,7 +2362,7 @@
       "intro": {
         "text": "ТОТО-ДАЙЛ!!! (Он клацает челюстями перед вашим носом. Он не отдаст сокровище Капитана без боя!)",
         "actions": [
-          { "text": "Сразиться! (Бой)", "script_id": "START_TRAINER_BATTLE_SCALED:BOSS_GUARDIAN_TOTODILE" },
+          { "text": "Сразиться! (Бой)", "script_id": "START_QUEST_BATTLE_SCALED:BOSS_GUARDIAN_TOTODILE" },
           { "text": "Отойти", "script_id": "END_DIALOGUE" }
         ]
       }
@@ -2551,7 +2520,7 @@
         "actions": [
           {
             "text": "Дорогу! (Бой)",
-            "script_id": "START_TRAINER_BATTLE_SCALED:ELITE_GUARD_GRASS"
+            "script_id": "START_QUEST_BATTLE_SCALED:ELITE_GUARD_GRASS"
           },
           { "text": "Мне нужно подготовиться", "script_id": "END_DIALOGUE" }
         ]
@@ -2641,7 +2610,7 @@
       "default": { "text": "Уважай покой мертвых.", "actions": [ { "text": "...", "script_id": "END_DIALOGUE" } ] },
 
       "intro": {
-        "text": "Я ждала тебя. Технологии людей нарушили покой этого места. Злые люди спрятались в тени, и духи леса в ярости. Они закрыли проход туманом. Чтобы пройти, нужно их задобрить. Принеси мне 15 лоскутов 'Призрачной Ткани'. Их носят Даскуллы.",
+        "text": "Я ждала тебя. Технологии людей нарушили покой этого места. Злые люди спрятались в тени, и духи леса в ярости. Они закрыли проход туманом. Чтобы пройти, нужно их задобрить. Принеси мне 15 лоскутов 'Призрачной Ткани'. Их носят призрачные покемоны.",
         "actions": [
           {
             "text": "Я соберу ткань.",
@@ -2692,7 +2661,7 @@
         "actions": [
           {
             "text": "Я пройду силой! (Бой)",
-            "script_id": "START_TRAINER_BATTLE_SCALED:BOSS_NINJA_KAGE"
+            "script_id": "START_QUEST_BATTLE_SCALED:BOSS_NINJA_KAGE"
           },
           { "text": "Надо подготовиться...", "script_id": "END_DIALOGUE" }
         ]
@@ -2822,7 +2791,7 @@
         "actions": [
           {
             "text": "На куски его! (Бой)",
-            "script_id": "START_TRAINER_BATTLE_SCALED:BOSS_MECHA_CACTURNE"
+            "script_id": "START_QUEST_BATTLE_SCALED:BOSS_MECHA_CACTURNE"
           },
           { "text": "Подготовиться", "script_id": "END_DIALOGUE" }
         ]
@@ -2842,7 +2811,7 @@
         "actions": [
           {
             "text": "Доказать силу! (Бой)",
-            "script_id": "START_TRAINER_BATTLE_SCALED:BOSS_SHADOW_SCEPTILE"
+            "script_id": "START_QUEST_BATTLE_SCALED:BOSS_SHADOW_SCEPTILE"
           },
           { "text": "Собраться с мыслями", "script_id": "END_DIALOGUE" }
         ]
@@ -3039,7 +3008,7 @@
         "actions": [
           {
             "text": "Покажи свою силу! (Бой)",
-            "script_id": "START_TRAINER_BATTLE_SCALED:BOSS_TORCHIC_PRIZE"
+            "script_id": "START_QUEST_BATTLE_SCALED:BOSS_TORCHIC_PRIZE"
           },
           {
             "text": "Нужно подготовиться",
@@ -3062,7 +3031,7 @@
         "actions": [
           {
             "text": "Охладить пыл! (Бой)",
-            "script_id": "START_TRAINER_BATTLE_SCALED:BOSS_OVEN_SPIRIT"
+            "script_id": "START_QUEST_BATTLE_SCALED:BOSS_OVEN_SPIRIT"
           },
           {
             "text": "Слишком горячо...",
@@ -3218,7 +3187,7 @@
         "actions": [
           {
             "text": "Уголь останется у меня! (Бой)",
-            "script_id": "START_TRAINER_BATTLE_SCALED:RIVAL_CHEF_PIERRE"
+            "script_id": "START_QUEST_BATTLE_SCALED:RIVAL_CHEF_PIERRE"
           },
           {
             "text": "Мне нужно подготовиться...",
@@ -3304,7 +3273,7 @@
         "actions": [
           {
             "text": "Отойди от плиты! (Бой)",
-            "script_id": "START_TRAINER_BATTLE_SCALED:MAGMA_GRUNT_COOK"
+            "script_id": "START_QUEST_BATTLE_SCALED:MAGMA_GRUNT_COOK"
           },
           {
             "text": "Мне нужно подготовиться...",
@@ -3327,7 +3296,7 @@
         "actions": [
           {
             "text": "Еда только для судей! (Бой)",
-            "script_id": "START_TRAINER_BATTLE_SCALED:GOURMET_JACQUES"
+            "script_id": "START_QUEST_BATTLE_SCALED:GOURMET_JACQUES"
           },
           {
             "text": "Нужно подготовиться...",
@@ -3378,7 +3347,7 @@
         "actions": [
           {
             "text": "Отдай соус! (Бой)",
-            "script_id": "START_TRAINER_BATTLE_SCALED:ADMIN_TABITHA_BOSS"
+            "script_id": "START_QUEST_BATTLE_SCALED:ADMIN_TABITHA_BOSS"
           }
         ]
       },
@@ -3549,7 +3518,7 @@
         "actions": [
           {
             "text": "Попробуй! (Бой)",
-            "script_id": "START_TRAINER_BATTLE_SCALED:AQUA_SCOUT_JIMMY"
+            "script_id": "START_QUEST_BATTLE_SCALED:AQUA_SCOUT_JIMMY"
           }
         ]
       },
@@ -3577,7 +3546,7 @@
         "actions": [
           {
             "text": "Прочь с дороги! (Бой)",
-            "script_id": "START_TRAINER_BATTLE_SCALED:ADMIN_MATT_BOSS"
+            "script_id": "START_QUEST_BATTLE_SCALED:ADMIN_MATT_BOSS"
           },
           {
             "text": "Мне нужно подготовиться...",
@@ -3616,7 +3585,7 @@
         "actions": [
           {
             "text": "Я не отдам друга! (Бой)",
-            "script_id": "START_TRAINER_BATTLE_SCALED:LEADER_ARCHIE_BOSS"
+            "script_id": "START_QUEST_BATTLE_SCALED:LEADER_ARCHIE_BOSS"
           },
           {
             "text": "Мне нужно время...",
@@ -3728,7 +3697,7 @@
         "actions": [
           {
             "text": "Отбиться! (Бой)",
-            "script_id": "START_TRAINER_BATTLE_SCALED:BOSS_ALPHA_SHARPEDO"
+            "script_id": "START_QUEST_BATTLE_SCALED:BOSS_ALPHA_SHARPEDO"
           },
           {
             "text": "Отступить на берег",
@@ -3921,7 +3890,7 @@
         "actions": [
           {
             "text": "Изгнать тьму! (Бой)",
-            "script_id": "START_TRAINER_BATTLE_SCALED:BOSS_ANCIENT_SPIRITOMB"
+            "script_id": "START_QUEST_BATTLE_SCALED:BOSS_ANCIENT_SPIRITOMB"
           }
         ]
       }
@@ -3996,7 +3965,7 @@
       "intro_battle": {
         "text": "Ты еще кто? Мы только что поймали редкий экземпляр для Командира Марс! Я не позволю никому сорвать транспортировку!",
         "actions": [
-          { "text": "Верните Тортвига! (Бой)", "script_id": "START_TRAINER_BATTLE_SCALED:GALACTIC_GRUNT_MINER" },
+          { "text": "Верните Тортвига! (Бой)", "script_id": "START_QUEST_BATTLE_SCALED:GALACTIC_GRUNT_MINER" },
           { "text": "Подготовиться", "script_id": "END_DIALOGUE" }
         ]
       },
@@ -4087,7 +4056,7 @@
       "intro_battle": {
         "text": "Снова ты? Надоедаешь. Этот Тортвиг - ключ к Новому Миру Сайруса. Его связь с землей напитает нашу бомбу! Я не позволю тебе прервать эксперимент!",
         "actions": [
-          { "text": "Отпусти его! (Бой)", "script_id": "START_TRAINER_BATTLE_SCALED:COMMANDER_MARS_BOSS" },
+          { "text": "Отпусти его! (Бой)", "script_id": "START_QUEST_BATTLE_SCALED:COMMANDER_MARS_BOSS" },
           { "text": "Нужно подготовиться", "script_id": "END_DIALOGUE" }
         ]
       },
@@ -4289,7 +4258,7 @@
         "actions": [
           {
             "text": "Прочь с дороги! (Бой)",
-            "script_id": "START_TRAINER_BATTLE_SCALED:BODYGUARD_BRUTUS"
+            "script_id": "START_QUEST_BATTLE_SCALED:BODYGUARD_BRUTUS"
           },
           { "text": "Подготовиться", "script_id": "END_DIALOGUE" }
         ]
@@ -4310,7 +4279,7 @@
         "actions": [
           {
             "text": "На металлолом! (Бой)",
-            "script_id": "START_TRAINER_BATTLE_SCALED:BOSS_FAKE_REGISTEEL"
+            "script_id": "START_QUEST_BATTLE_SCALED:BOSS_FAKE_REGISTEEL"
           },
           { "text": "Подготовиться", "script_id": "END_DIALOGUE" }
         ]
@@ -4424,7 +4393,7 @@
       "intro": {
         "text": "Мистер Джейкоб платит. Мы бьем. Ничего личного.",
         "actions": [
-          { "text": "Прочь с дороги! (Бой)", "script_id": "START_TRAINER_BATTLE_SCALED:MERCENARY_TRAINER" },
+          { "text": "Прочь с дороги! (Бой)", "script_id": "START_QUEST_BATTLE_SCALED:MERCENARY_TRAINER" },
           { "text": "Подготовиться", "script_id": "END_DIALOGUE" }
         ]
       }
@@ -4464,7 +4433,7 @@
         "actions": [
           {
             "text": "Покажем нашу силу! (Бой)",
-            "script_id": "START_TRAINER_BATTLE_SCALED:BOSS_TITAN_TORTERRA"
+            "script_id": "START_QUEST_BATTLE_SCALED:BOSS_TITAN_TORTERRA"
           }
         ]
       }
@@ -4504,7 +4473,7 @@
         "actions": [
           {
             "text": "Конец твоей тирании! (Бой)",
-            "script_id": "START_TRAINER_BATTLE_SCALED:BOSS_COLLECTOR_JACOB"
+            "script_id": "START_QUEST_BATTLE_SCALED:BOSS_COLLECTOR_JACOB"
           }
         ]
       }
@@ -4618,7 +4587,7 @@
       },
       "final_spar": {
         "text": "Чимчар... посмотри на него. Он больше не прячется за моей спиной. Он стоит рядом с тобой. Он выбрал свой путь. Но я должен быть уверен. Сразись со мной! Покажи мне Огонь вашей дружбы!",
-        "actions": [{ "text": "Хаджимэ! (Бой)", "script_id": "START_TRAINER_BATTLE_SCALED:SENSEI_HIKO_VEILSTONE" }]
+        "actions": [{ "text": "Хаджимэ! (Бой)", "script_id": "START_QUEST_BATTLE_SCALED:SENSEI_HIKO_VEILSTONE" }]
       },
 
       "finish_quest": {
@@ -4662,7 +4631,7 @@
         "actions": [
           {
             "text": "В бой!",
-            "script_id": "START_TRAINER_BATTLE_SCALED:TRAINER_BUCK_TEST"
+            "script_id": "START_QUEST_BATTLE_SCALED:TRAINER_BUCK_TEST"
           },
           { "text": "Я подготовлюсь.", "script_id": "END_DIALOGUE" }
         ]
@@ -4871,7 +4840,7 @@
         "actions": [
           {
             "text": "С дороги! (Бой)",
-            "script_id": "START_TRAINER_BATTLE_SCALED:GALACTIC_GRUNT_FUEGO"
+            "script_id": "START_QUEST_BATTLE_SCALED:GALACTIC_GRUNT_FUEGO"
           },
           { "text": "Подготовиться", "script_id": "END_DIALOGUE" }
         ]
@@ -4904,7 +4873,7 @@
         "actions": [
           {
             "text": "Останови это безумие! (Бой)",
-            "script_id": "START_TRAINER_BATTLE_SCALED:COMMANDER_JUPITER_BOSS"
+            "script_id": "START_QUEST_BATTLE_SCALED:COMMANDER_JUPITER_BOSS"
           },
           { "text": "Мне нужно остыть...", "script_id": "END_DIALOGUE" }
         ]
@@ -4962,7 +4931,7 @@
         "actions": [
           {
             "text": "Мы остановим тебя вместе!",
-            "script_id": "START_TRAINER_BATTLE_SCALED:BOSS_KURO_FINAL"
+            "script_id": "START_QUEST_BATTLE_SCALED:BOSS_KURO_FINAL"
           }
         ]
       }
@@ -5001,7 +4970,7 @@
       "actions": [
         {
           "text": "К бою!",
-          "script_id": "START_TRAINER_BATTLE_SCALED:ELITE_GALACTIC_GRUNT"
+          "script_id": "START_QUEST_BATTLE_SCALED:ELITE_GALACTIC_GRUNT"
         }
       ]
     }
@@ -5136,7 +5105,7 @@
       "final_duel": {
         "text": "Пип-луп! (Он готов. Покажите всё, на что способны!)",
         "actions": [
-          { "text": "К бою!", "script_id": "START_TRAINER_BATTLE_SCALED:PRINCE_PIPLUP_CANALAVE" },
+          { "text": "К бою!", "script_id": "START_QUEST_BATTLE_SCALED:PRINCE_PIPLUP_CANALAVE" },
           { "text": "Минутку...", "script_id": "END_DIALOGUE" }
         ]
       }
@@ -5186,7 +5155,7 @@
       "start_battle": {
         "text": "Хорошо. Я и мой Лукарио станем вашими соперниками. Покажи мне, как этот малыш сражается под твоим началом. Не сдерживайся!",
         "actions": [
-            { "text": "К бою! (Начать спарринг)", "script_id": "START_TRAINER_BATTLE_SCALED:RILEY_IRON_ISLAND" },
+            { "text": "К бою! (Начать спарринг)", "script_id": "START_QUEST_BATTLE_SCALED:RILEY_IRON_ISLAND" },
             { "text": "Нужна подготовка.", "script_id": "END_DIALOGUE" }
         ]
       },
@@ -5305,7 +5274,7 @@
         "actions": [
           {
             "text": "В атаку! (Начать бой)",
-            "script_id": "START_TRAINER_BATTLE_SCALED:COMMANDER_SATURN_TEMPLE"
+            "script_id": "START_QUEST_BATTLE_SCALED:COMMANDER_SATURN_TEMPLE"
           },
           { "text": "Подготовиться", "script_id": "END_DIALOGUE" }
         ]
@@ -5334,7 +5303,7 @@
       "actions": [
         {
           "text": "Я вижу, что вы загрязняете море! (Бой)",
-          "script_id": "START_TRAINER_BATTLE_SCALED:GALACTIC_GRUNT_IRON"
+          "script_id": "START_QUEST_BATTLE_SCALED:GALACTIC_GRUNT_IRON"
         },
         {
           "text": "Я подготовлюсь.",
@@ -5492,7 +5461,7 @@
         "actions": [
           {
             "text": "В атаку! (Начать бой)",
-            "script_id": "START_TRAINER_BATTLE_SCALED:BOSS_SATURN_REMATCH"
+            "script_id": "START_QUEST_BATTLE_SCALED:BOSS_SATURN_REMATCH"
           },
           { "text": "Подготовиться", "script_id": "END_DIALOGUE" }
         ]
@@ -5543,7 +5512,7 @@
         "actions": [
           {
             "text": "В атаку! (Бой)",
-            "script_id": "START_TRAINER_BATTLE_SCALED:BOSS_ELDER_WALREIN"
+            "script_id": "START_QUEST_BATTLE_SCALED:BOSS_ELDER_WALREIN"
           },
           { "text": "Минутку...", "script_id": "END_DIALOGUE" }
         ]
@@ -5671,7 +5640,7 @@
         "actions": [
           {
             "text": "Защитить город! (Бой)",
-            "script_id": "START_TRAINER_BATTLE_SCALED:BOSS_MECHA_GYARADOS"
+            "script_id": "START_QUEST_BATTLE_SCALED:BOSS_MECHA_GYARADOS"
           },
           {
             "text": "Подготовиться",
@@ -5692,6 +5661,1661 @@
       "intro": {
         "text": "Пип! Пип-луп! (Он сыт и доволен. Он прыгает к вам в рюкзак. Теперь вы неразлучны.)",
         "actions": [{ "text": "Забрать Пиплапа.", "script_id": "COMPLETE_QUEST_AND_GIVE_REWARDS:PIPLUP_PRINCE_QUEST" }]
+      }
+    }
+  },
+  "VALENTINE_CUPID": {
+    "ru_name": "👷‍♂️ Архитектор Любви",
+    "location_id": "VERMILION-CITY",
+      "locations": [
+     "CHERRYGROVE-CITY",
+     "LILYCOVE-CITY",
+     "HEARTHOME-CITY",
+     "NIMBASA-CITY"
+  ],
+    "event_active": "VALENTINE_DAY",
+    "description": "Элегантный прораб с чертежами в руках. Он руководит главной стройкой года.",
+    "start_node": "intro",
+    "photo_path": "shared/assets/npcs/cupid.png",
+    "dialogue_nodes": {
+      "intro": {
+        "text": "Мы строим будущее! Дворец Единения станет жемчужиной региона. Чем могу служить?",
+        "actions": [
+          {
+            "text": "🎁 Внести вклад",
+            "script_id": "OPEN_VALENTINE_DONATION"
+          },
+          {
+            "text": "🛍 Получить награды",
+            "script_id": "OPEN_VALENTINE_REWARDS"
+          },
+          {
+            "text": "🏆 Доска почета",
+            "script_id": "OPEN_VALENTINE_TOPS"
+          },
+          {
+            "text": "📜 Помочь стройке (Квест)",
+            "next_node_conditional": [
+              { "condition": "quest_completed:VALENTINE_EVENT_QUEST", "node_id": "quest_completed_dialogue" },
+              { "condition": "quest_stage:VALENTINE_EVENT_QUEST:25", "node_id": "finish_construction" },
+              { "condition": "quest_stage:VALENTINE_EVENT_QUEST:20", "node_id": "reminder_materials" },
+              { "condition": "quest_stage:VALENTINE_EVENT_QUEST:15", "node_id": "dialogue_after_battle" },
+              { "condition": "quest_stage:VALENTINE_EVENT_QUEST:10", "node_id": "reminder_luvdisc" },
+              { "condition": "quest_not_started:VALENTINE_EVENT_QUEST", "node_id": "offer_quest" }
+            ],
+            "next_node": "offer_quest"
+          },
+          {
+            "text": "👋 Уйти",
+            "script_id": "END_DIALOGUE"
+          }
+        ]
+      },
+
+      "offer_quest": {
+        "text": "Приветствую! Проект 'Дворец Единения' переходит в активную фазу. Это будет место для свадеб и торжеств! \n\nНо у нас ЧП на площадке. Дикие Luvdisc, привлеченные шумом, мешают закладывать фундамент. Они буквально лезут под бетономешалки! Разгони их (30 штук), чтобы мы могли начать.",
+        "actions": [
+          {
+            "text": "Я помогу с Лавдисками! (Начать)",
+            "script_id": "START_QUEST:VALENTINE_EVENT_QUEST:10"
+          }
+        ]
+      },
+
+      "reminder_luvdisc": {
+        "text": "Эти Лавдиски слишком навязчивы! Нам нужно победить 30 штук, чтобы освободить стройплощадку. Поторопись!",
+        "actions": [
+          { "text": "Уже иду.", "script_id": "END_DIALOGUE" }
+        ]
+      },
+
+      "dialogue_after_battle": {
+        "text": "Ух, спасибо! Строители вернулись к работе, но... Ох, беда не приходит одна! \n\nПока мы гоняли покемонов, выяснилось, что старые доски отсырели, а фундамент рассыпался. Нам срочно нужны новые материалы! Ты ведь знаешь, где достать дерево и камень? Нам нужно 100 досок и 100 обтесанных блоков.",
+        "actions": [
+          {
+            "text": "Хорошо, я принесу.",
+            "script_id": "ADVANCE_QUEST:VALENTINE_EVENT_QUEST:20"
+          }
+        ]
+      },
+
+      "reminder_materials": {
+        "text": "Стройка стоит! Без 100 Блоков и 100 Досок мы не зальем фундамент Дворца.",
+        "actions": [
+          { "text": "Я еще собираю.", "script_id": "END_DIALOGUE" }
+        ]
+      },
+
+      "finish_construction": {
+        "text": "Материалы здесь! Отлично. Работа закипела! \n\n(Вы видите, как рабочие возводят стены). \n\nКаркас готов! Но... посмотри внутрь. Голые стены. Чтобы здесь можно было проводить свадьбы, нужен интерьер. Декор, цветы, атмосферный свет...",
+        "actions": [
+          {
+            "text": "Вот материалы! (Завершить)",
+            "script_id": "TAKE_ITEMS_AND_COMPLETE_QUEST:ROUGHBLOCK,100;WOODPLANK,100:VALENTINE_EVENT_QUEST"
+          }
+        ]
+      },
+
+      "quest_completed_dialogue": {
+        "text": "Скелет здания готов благодаря тебе! Теперь мы занимаемся интерьером. Если у тебя есть украшения — ленты, свечи или статуэтки — приноси их мне. Каждый вклад приближает открытие Дворца!",
+        "actions": [ { "text": "Отлично!", "next_node": "intro" } ]
+      }
+    }
+  },
+    "VALENTINE_CUPID_FINISHED": {
+  "ru_name": "👷‍♂️ Архитектор Любви",
+  "location_id": "VERMILION-CITY",
+  "locations": [
+    "CHERRYGROVE-CITY",
+    "LILYCOVE-CITY",
+    "HEARTHOME-CITY",
+    "NIMBASA-CITY"
+  ],
+  "event_active": "AFTER_VALENTINE_DAY",
+  "description": "Прораб радостно осматривает готовый Дворец Единения. Работа завершена!",
+  "start_node": "intro",
+  "photo_path": "shared/assets/npcs/cupid_happy.png",
+  "dialogue_nodes": {
+    "intro": {
+      "text": "Мы сделали это! Дворец Единения построен и сияет великолепием. Совсем скоро здесь зазвучат свадебные клятвы. Спасибо всем, кто внес свой вклад!",
+      "actions": [
+        {
+          "text": "🏆 Итоговая Доска почета",
+          "script_id": "OPEN_VALENTINE_TOPS"
+        },
+        {
+          "text": "👋 Уйти",
+          "script_id": "END_DIALOGUE"
+        }
+      ]
+    }
+  }
+},
+    "FLORIST_MARGARITA": {
+    "ru_name": "🌸 Флористка Маргарита",
+    "location_id": "CELADON-CITY",
+    "locations": [
+      "CELADON-CITY",
+      "GOLDENROD-CITY",
+      "RUSTBORO-CITY",
+      "FLOAROMA-TOWN",
+      "CASTELIA-CITY"
+    ],
+    "event_active": "MARCH_8_ENCOUNTER",
+    "description": "Девушка в фартуке, перепачканном пыльцой. Она суетится вокруг огромной, но пока еще пустой цветочной корзины.",
+    "start_node": "check_stage",
+    "photo_path": "shared/assets/npcs/florist_margarita.jpg",
+    "dialogue_nodes": {
+      "check_stage": {
+        "text": "Ох, столько дел, столько дел! Весна не ждет!",
+        "actions": [
+          {
+            "text": "Поговорить",
+            "next_node_conditional": [
+              { "condition": "quest_stage:MARCH_8_EVENT_QUEST:70", "node_id": "finish_quest" },
+              { "condition": "quest_stage:MARCH_8_EVENT_QUEST:50", "node_id": "turn_in_petals" },
+              { "condition": "quest_stage:MARCH_8_EVENT_QUEST:40", "node_id": "reminder_petals" },
+              { "condition": "quest_stage:MARCH_8_EVENT_QUEST:30", "node_id": "turn_in_bugs" },
+              { "condition": "quest_stage:MARCH_8_EVENT_QUEST:20", "node_id": "reminder_bugs" },
+              { "condition": "quest_stage:MARCH_8_EVENT_QUEST:10", "node_id": "give_bugs_task" },
+              { "condition": "quest_not_started:MARCH_8_EVENT_QUEST", "node_id": "offer_quest" }
+            ],
+            "next_node": "default"
+          }
+        ]
+      },
+      "default": {
+        "text": "С 8 Марта! Пусть каждый день цветет яркими красками!",
+        "actions": [ { "text": "Спасибо!", "script_id": "END_DIALOGUE" } ]
+      },
+      "offer_quest": {
+        "text": "С наступающим 8 Марта! Я готовлю грандиозную цветочную инсталляцию для всех тренеров города. Но природа решила иначе: то вредители налетят, то материалы разлетятся... Мне срочно нужен надежный помощник, иначе мы останемся без весеннего чуда! Ты поможешь?",
+        "actions": [
+          { "text": "С радостью помогу!", "script_id": "START_QUEST:MARCH_8_EVENT_QUEST:10" }
+        ]
+      },
+      "give_bugs_task": {
+        "text": "Отлично! Для начала нужно спасти свежую рассаду. Сладкий аромат приманил целые стаи диких покемонов-насекомых. Пожалуйста, прогони 100 Combee. И постарайся не сильно их обижать, они просто любят сладкое!",
+        "actions": [
+          { "text": "Я защищу рассаду!", "script_id": "ADVANCE_QUEST:MARCH_8_EVENT_QUEST:20" }
+        ]
+      },
+      "reminder_bugs": {
+        "text": "Жужжание всё еще мешает мне сосредоточиться! Нам нужно прогнать 100 Combee.",
+        "actions": [ { "text": "Я в процессе.", "script_id": "END_DIALOGUE" } ]
+      },
+      "turn_in_bugs": {
+        "text": "Уф, стало намного тише. Спасибо! Но теперь другая проблема. Для основы букета мне нужны особые 'Волшебные Лепестки'. Обычные цветы не подойдут. Выбивай лепестки у покемонов. Мне нужно ровно 100 штук, чтобы заполнить корзину!",
+        "actions": [
+          { "text": "Соберу лучший букет!", "script_id": "ADVANCE_QUEST:MARCH_8_EVENT_QUEST:40" }
+        ]
+      },
+      "reminder_petals": {
+        "text": "Без 100 Волшебных Лепестков инсталляция будет выглядеть пустой. Ищи весенних покемонов!",
+        "actions": [ { "text": "Продолжаю собирать.", "script_id": "END_DIALOGUE" } ]
+      },
+      "turn_in_petals": {
+        "text": "Какая красота! И как ароматно пахнет... (Маргарита быстро укладывает лепестки). Почти готово! \n\nОстался лишь один штрих. Верхушку букета должен украшать легендарный Хрустальный Бутон. Но его забрала дикая Роузрейд. Говорят, её видели в самых крупных лесах и парках (например, в Виридианском лесу, Национальном парке или лесу Этерна). Она считает себя королевой цветов и не отдаст его просто так. Брось ей вызов!",
+        "actions": [
+          { "text": "Я добуду Хрустальный Бутон!", "script_id": "TAKE_ITEM_AND_ADVANCE_QUEST:MAGIC_PETAL:100:MARCH_8_EVENT_QUEST:60:NONE" }
+        ]
+      },
+      "finish_quest": {
+        "text": "Хрустальный Бутон! Он идеален! \n\n(Маргарита торжественно водружает бутон на самый верх. Инсталляция вспыхивает нежным розовым светом). \n\nМы успели! Спасибо тебе за помощь. В честь женского дня и праздника весны, я хочу подарить тебе кое-что особенное. С праздником!",
+        "actions": [
+          { "text": "С 8 Марта!", "script_id": "COMPLETE_QUEST_AND_GIVE_REWARDS:MARCH_8_EVENT_QUEST" }
+        ]
+      }
+    }
+  },
+
+  "BOSS_ROSERADE_MARCH": {
+    "ru_name": "🌹 Королева Роузрейд",
+    "location_id": "NATIONAL-PARK",
+    "locations": [
+      "VIRIDIAN-FOREST",
+      "NATIONAL-PARK",
+      "PETALBURG-WOODS",
+      "ETERNA-FOREST",
+      "PINWHEEL-FOREST"
+    ],
+    "event_active": "MARCH_8_ENCOUNTER",
+    "description": "Гордая Роузрейд. В одной из её роз спрятан сияющий Хрустальный Бутон.",
+    "condition_quest_stage": "MARCH_8_EVENT_QUEST:60",
+    "start_node": "intro",
+    "photo_path": "shared/assets/npcs/roserade_boss.jpg",
+    "dialogue_nodes": {
+      "intro": {
+        "text": "Роуз! Ре-е-ейд! (Она изящно кланяется, но тут же выпускает град острых листьев. Она защищает титул самой красивой в Парке и не отдаст бутон без красивой дуэли!)",
+        "actions": [
+          {
+            "text": "Покажем красоту в битве! (Бой)",
+            "script_id": "START_QUEST_BATTLE_SCALED:BOSS_ROSERADE_MARCH"
+          },
+          {
+            "text": "Мне нужно припудриться...",
+            "script_id": "END_DIALOGUE"
+          }
+        ]
+      }
+    }
+  },
+  "CIRCUS_DIRECTOR_HARLEQUIN": {
+  "ru_name": "🎪 Директор Арлекин",
+  "location_id": "CELADON-CITY",
+    "locations": [
+      "CELADON-CITY",
+      "GOLDENROD-CITY",
+      "RUSTBORO-CITY",
+      "HEARTHOME-CITY",
+      "CASTELIA-CITY"
+    ],
+  "event_active": "APRIL_1_ENCOUNTER",
+  "shop_id": "APRIL_FOOLS_SHOP",
+  "description": "Эксцентричный мужчина в ярком цилиндре и фраке. Он рвет на себе волосы от паники, но при этом умудряется приторговывать реквизитом.",
+  "start_node": "intro",
+  "photo_path": "shared/assets/npcs/harlequin_director.png",
+  "dialogue_nodes": {
+    "intro": {
+      "text": "Добро пожаловать под купол нашего... кхм... слегка разрушенного шапито! У меня тут есть отличные первоапрельские сундуки, если у тебя найдутся нужные ресурсы. Или ты пришел помочь нам с этой катастрофой?!",
+      "actions": [
+        {
+          "text": "🛒 Открыть магазин",
+          "script_id": "OPEN_SHOP"
+        },
+        {
+          "text": "🎭 Помочь с катастрофой (Квест)",
+          "next_node": "check_stage"
+        },
+        {
+          "text": "👋 Уйти",
+          "script_id": "END_DIALOGUE"
+        }
+      ]
+    },
+    "check_stage": {
+      "text": "Ох, катастрофа! Грандиозный провал!",
+      "actions": [
+        {
+          "text": "Поговорить",
+          "next_node_conditional": [
+            { "condition": "quest_stage:APRIL_FOOLS_CIRCUS_QUEST:80", "node_id": "finish_quest" },
+            { "condition": "quest_stage:APRIL_FOOLS_CIRCUS_QUEST:65", "node_id": "mrmime_turn_in" },
+            { "condition": "quest_stage:APRIL_FOOLS_CIRCUS_QUEST:60", "node_id": "mrmime_reminder" },
+            { "condition": "quest_stage:APRIL_FOOLS_CIRCUS_QUEST:50", "node_id": "items_turn_in" },
+            { "condition": "quest_stage:APRIL_FOOLS_CIRCUS_QUEST:40", "node_id": "items_reminder" },
+            { "condition": "quest_stage:APRIL_FOOLS_CIRCUS_QUEST:30", "node_id": "spinda_done" },
+            { "condition": "quest_stage:APRIL_FOOLS_CIRCUS_QUEST:20", "node_id": "spinda_reminder" },
+            { "condition": "quest_not_started:APRIL_FOOLS_CIRCUS_QUEST", "node_id": "offer_quest" }
+          ],
+          "next_node": "default"
+        }
+      ]
+    },
+    "default": {
+      "text": "С 1 апреля! Но мне сейчас не до смеха...",
+      "actions": [ { "text": "Понятно.", "script_id": "END_DIALOGUE" } ]
+    },
+    "offer_quest": {
+      "text": "Тренер! Умоляю, помоги! У нас сегодня премьера величайшего первоапрельского шоу, но кто-то впустил на арену диких Спинд! Они устроили свой гипнотический танец, и теперь вся труппа в панике! Пожалуйста, усмири 100 Спинд, пока они не заразили головокружением весь город!",
+      "actions": [
+        { "text": "Я спасу шоу!", "script_id": "START_QUEST:APRIL_FOOLS_CIRCUS_QUEST:20" }
+      ]
+    },
+    "spinda_reminder": {
+      "text": "Моя голова кружится только от мысли об этом... Усмири 30 Спинд, прошу!",
+      "actions": [ { "text": "Бегу!", "script_id": "END_DIALOGUE" } ]
+    },
+    "spinda_done": {
+      "text": "Спинды отступили? Слава Аркеусу! Но шоу всё равно не начать. Хитрые Эйпомы, пользуясь суматохой, растащили весь наш реквизит! Без клоунских носов и мячиков мы не сможем выступать. Отбери у них 100 Клоунских носов!",
+      "actions": [
+        { "text": "Соберу реквизит.", "script_id": "ADVANCE_QUEST:APRIL_FOOLS_CIRCUS_QUEST:40" }
+      ]
+    },
+    "items_reminder": {
+      "text": "Без 100 Клоунских носов клоуны отказываются выходить на манеж! Ищи у Эйпомов и диких Мистеров Маймов.",
+      "actions": [ { "text": "Уже в процессе.", "script_id": "END_DIALOGUE" } ]
+    },
+    "items_turn_in": {
+      "text": "Реквизит спасен! Ты просто чудо! (Забирает носы). Но... главная катастрофа! Наш ведущий Мистер Майм забился в угол, нарисовал вокруг себя невидимую стену и не хочет выходить! У нас нет звезды! Принеси Mr. Mime 100 уровня или выше. Только он вытянет программу!",
+      "actions": [
+        { "text": "Я найду новую звезду!", "script_id": "TAKE_ITEM_AND_ADVANCE_QUEST:CLOWN_NOSE:100:APRIL_FOOLS_CIRCUS_QUEST:60:NONE" }
+      ]
+    },
+    "mrmime_reminder": {
+      "text": "Где же Мистер Майм? Зрители уже занимают места! Мне нужен покемон 100 уровня!",
+      "actions": [
+        { "text": "Проверь мою команду!", "script_id": "CHECK_POKEMON_AND_ADVANCE_QUEST:MRMIME:1:50:APRIL_FOOLS_CIRCUS_QUEST:65" },
+        { "text": "Еще ищу.", "script_id": "END_DIALOGUE" }
+      ]
+    },
+    "mrmime_turn_in": {
+      "text": "Какой талант! Какая пантомима! Он идеален для манежа. Забираю его на сцену! Шоу спас... \n\n(Внезапно во всем цирке гаснет свет. Вспыхивают фейерверки, и посреди арены появляется странная, пугающая фигура!). \n\nЧ-что это?! Это он подстроил весь этот хаос!",
+      "actions": [
+        { "text": "Осторожно!", "script_id": "TAKE_POKEMON_AND_ADVANCE_QUEST:MRMIME:100:APRIL_FOOLS_CIRCUS_QUEST:70:NONE" }
+      ]
+    },
+    "finish_quest": {
+      "text": "Ты не только нашел нам новую звезду, но и прогнал этого жуткого пранкера! Зрители в восторге, они думают, что битва с боссом была частью сценария! Ты спас 1 апреля. Прими этот подарок от всего нашего шапито!",
+      "actions": [
+        { "text": "Это было весело!", "script_id": "COMPLETE_QUEST_AND_GIVE_REWARDS:APRIL_FOOLS_CIRCUS_QUEST" }
+      ]
+    }
+  }
+},
+
+   "CIRCUS_DIRECTOR_HARLEQUIN_AFTER": {
+  "ru_name": "🎪 Директор Арлекин",
+  "location_id": "CELADON-CITY",
+    "locations": [
+      "CELADON-CITY",
+      "GOLDENROD-CITY",
+      "RUSTBORO-CITY",
+      "HEARTHOME-CITY",
+      "CASTELIA-CITY"
+    ],
+  "shop_id": "APRIL_FOOLS_SHOP",
+  "description": "Эксцентричный мужчина в ярком цилиндре и фраке. Он рвет на себе волосы от паники, но при этом умудряется приторговывать реквизитом.",
+  "start_node": "intro",
+  "photo_path": "shared/assets/npcs/harlequin_director.png",
+  "dialogue_nodes": {
+    "intro": {
+      "text": "Добро пожаловать под купол нашего шапито! У меня тут есть отличные первоапрельские сундуки, если у тебя найдутся нужные ресурсы.",
+      "actions": [
+        {
+          "text": "🛒 Открыть магазин",
+          "script_id": "OPEN_SHOP"
+        },
+        {
+          "text": "👋 Уйти",
+          "script_id": "END_DIALOGUE"
+        }
+      ]
+    },
+    "check_stage": {
+      "text": "Ох, катастрофа! Грандиозный провал!",
+      "actions": [
+        {
+          "text": "Поговорить",
+          "next_node_conditional": [
+            { "condition": "quest_stage:APRIL_FOOLS_CIRCUS_QUEST:80", "node_id": "finish_quest" },
+            { "condition": "quest_stage:APRIL_FOOLS_CIRCUS_QUEST:65", "node_id": "mrmime_turn_in" },
+            { "condition": "quest_stage:APRIL_FOOLS_CIRCUS_QUEST:60", "node_id": "mrmime_reminder" },
+            { "condition": "quest_stage:APRIL_FOOLS_CIRCUS_QUEST:50", "node_id": "items_turn_in" },
+            { "condition": "quest_stage:APRIL_FOOLS_CIRCUS_QUEST:40", "node_id": "items_reminder" },
+            { "condition": "quest_stage:APRIL_FOOLS_CIRCUS_QUEST:30", "node_id": "spinda_done" },
+            { "condition": "quest_stage:APRIL_FOOLS_CIRCUS_QUEST:20", "node_id": "spinda_reminder" },
+            { "condition": "quest_not_started:APRIL_FOOLS_CIRCUS_QUEST", "node_id": "offer_quest" }
+          ],
+          "next_node": "default"
+        }
+      ]
+    },
+    "default": {
+      "text": "С 1 апреля! Но мне сейчас не до смеха...",
+      "actions": [ { "text": "Понятно.", "script_id": "END_DIALOGUE" } ]
+    },
+    "offer_quest": {
+      "text": "Тренер! Умоляю, помоги! У нас сегодня премьера величайшего первоапрельского шоу, но кто-то впустил на арену диких Спинд! Они устроили свой гипнотический танец, и теперь вся труппа в панике! Пожалуйста, усмири 100 Спинд, пока они не заразили головокружением весь город!",
+      "actions": [
+        { "text": "Я спасу шоу!", "script_id": "START_QUEST:APRIL_FOOLS_CIRCUS_QUEST:20" }
+      ]
+    },
+    "spinda_reminder": {
+      "text": "Моя голова кружится только от мысли об этом... Усмири 30 Спинд, прошу!",
+      "actions": [ { "text": "Бегу!", "script_id": "END_DIALOGUE" } ]
+    },
+    "spinda_done": {
+      "text": "Спинды отступили? Слава Аркеусу! Но шоу всё равно не начать. Хитрые Эйпомы, пользуясь суматохой, растащили весь наш реквизит! Без клоунских носов и мячиков мы не сможем выступать. Отбери у них 100 Клоунских носов!",
+      "actions": [
+        { "text": "Соберу реквизит.", "script_id": "ADVANCE_QUEST:APRIL_FOOLS_CIRCUS_QUEST:40" }
+      ]
+    },
+    "items_reminder": {
+      "text": "Без 100 Клоунских носов клоуны отказываются выходить на манеж! Ищи у Эйпомов и диких Мистеров Маймов.",
+      "actions": [ { "text": "Уже в процессе.", "script_id": "END_DIALOGUE" } ]
+    },
+    "items_turn_in": {
+      "text": "Реквизит спасен! Ты просто чудо! (Забирает носы). Но... главная катастрофа! Наш ведущий Мистер Майм забился в угол, нарисовал вокруг себя невидимую стену и не хочет выходить! У нас нет звезды! Принеси Mr. Mime 100 уровня или выше. Только он вытянет программу!",
+      "actions": [
+        { "text": "Я найду новую звезду!", "script_id": "TAKE_ITEM_AND_ADVANCE_QUEST:CLOWN_NOSE:100:APRIL_FOOLS_CIRCUS_QUEST:60:NONE" }
+      ]
+    },
+    "mrmime_reminder": {
+      "text": "Где же Мистер Майм? Зрители уже занимают места! Мне нужен покемон 100 уровня!",
+      "actions": [
+        { "text": "Проверь мою команду!", "script_id": "CHECK_POKEMON_AND_ADVANCE_QUEST:MRMIME:1:50:APRIL_FOOLS_CIRCUS_QUEST:65" },
+        { "text": "Еще ищу.", "script_id": "END_DIALOGUE" }
+      ]
+    },
+    "mrmime_turn_in": {
+      "text": "Какой талант! Какая пантомима! Он идеален для манежа. Забираю его на сцену! Шоу спас... \n\n(Внезапно во всем цирке гаснет свет. Вспыхивают фейерверки, и посреди арены появляется странная, пугающая фигура!). \n\nЧ-что это?! Это он подстроил весь этот хаос!",
+      "actions": [
+        { "text": "Осторожно!", "script_id": "TAKE_POKEMON_AND_ADVANCE_QUEST:MRMIME:100:APRIL_FOOLS_CIRCUS_QUEST:70:NONE" }
+      ]
+    },
+    "finish_quest": {
+      "text": "Ты не только нашел нам новую звезду, но и прогнал этого жуткого пранкера! Зрители в восторге, они думают, что битва с боссом была частью сценария! Ты спас 1 апреля. Прими этот подарок от всего нашего шапито!",
+      "actions": [
+        { "text": "Это было весело!", "script_id": "COMPLETE_QUEST_AND_GIVE_REWARDS:APRIL_FOOLS_CIRCUS_QUEST" }
+      ]
+    }
+  }
+},
+  "BOSS_ILLUSIONIST_APRIL": {
+    "ru_name": "🤡 Магистр Иллюзий",
+    "location_id": "CELADON-CITY",
+    "locations": [
+      "CELADON-CITY",
+      "GOLDENROD-CITY",
+      "RUSTBORO-CITY",
+      "HEARTHOME-CITY",
+      "CASTELIA-CITY"
+    ],
+    "event_active": "APRIL_1_ENCOUNTER",
+    "description": "Загадочный тренер в маске, окруженный искрами и конфетти. Он пришел украсть шоу.",
+    "condition_quest_stage": "APRIL_FOOLS_CIRCUS_QUEST:70",
+    "start_node": "intro",
+    "photo_path": "shared/assets/npcs/illusionist_boss.png",
+    "dialogue_nodes": {
+      "intro": {
+        "text": "ХА-ХА-ХА! Вы думали, какой-то Мистер Майм сможет заменить МЕНЯ? Я — истинный король комедии и страха! Мой Бласефалон покажет вам, что такое настоящий 'взрывной' юмор! Приготовьтесь к финальному акту!",
+        "actions": [
+          {
+            "text": "Смеяться последним буду я! (Бой)",
+            "script_id": "START_QUEST_BATTLE_SCALED:BOSS_ILLUSIONIST_APRIL"
+          },
+          {
+            "text": "Мне нужен антракт (Подготовиться)",
+            "script_id": "END_DIALOGUE"
+          }
+        ]
+      }
+    }
+  },
+  "MAYOR_OLIVER_EVENT": {
+  "ru_name": "🎩 Мэр Оливер",
+  "location_id": null,
+  "locations": [
+    "CELADON-CITY",
+    "GOLDENROD-CITY",
+    "LILYCOVE-CITY",
+    "HEARTHOME-CITY",
+    "CASTELIA-CITY"
+  ],
+  "event_active": "EASTER_GLOBAL_SPAWN",
+  "description": "Эксцентричный градоначальник в ярком весеннем костюме. Он то и дело хватается за сердце и обмахивается шелковым платком.",
+  "start_node": "check_quest",
+  "photo_path": "shared/assets/npcs/mayor_oliver.png",
+  "dialogue_nodes": {
+    "check_quest": {
+      "text": "О, мои нервы! Мое сердце! Мой идеальный праздник!",
+      "actions": [
+        {
+          "text": "🎁 Сдать яйца",
+          "script_id": "OPEN_EASTER_DONATION"
+        },
+        {
+          "text": "🛍 Получить награды",
+          "script_id": "OPEN_EASTER_REWARDS"
+        },
+        {
+          "text": "🏆 Доска почета",
+          "script_id": "OPEN_EASTER_TOPS"
+        },
+        {
+          "text": "📜 Помочь фестивалю (Квест)",
+          "next_node_conditional": [
+            { "condition": "quest_stage:EASTER_EGG_HEIST_QUEST:110", "node_id": "egg_returned" },
+            { "condition": "quest_stage:EASTER_EGG_HEIST_QUEST:85", "node_id": "report_diggersby" },
+            { "condition": "quest_stage:EASTER_EGG_HEIST_QUEST:70", "node_id": "egg_stolen_panic" },
+            { "condition": "quest_stage:EASTER_EGG_HEIST_QUEST:30", "node_id": "buneary_cleared" },
+            { "condition": "quest_stage:EASTER_EGG_HEIST_QUEST:20", "node_id": "buneary_reminder" },
+            { "condition": "quest_not_started:EASTER_EGG_HEIST_QUEST", "node_id": "offer_quest" }
+          ],
+          "next_node": "quest_completed_dialogue"
+        },
+        {
+          "text": "👋 Уйти",
+          "script_id": "END_DIALOGUE"
+        }
+      ]
+    },
+    "quest_completed_dialogue": {
+      "text": "Спасибо тебе! Золотое Яйцо в безопасности. Теперь мы можем спокойно наполнять Корзину Изобилия! Если найдешь раскрашенные или шоколадные яйца — неси их мне!",
+      "actions": [ { "text": "Понятно!", "next_node": "check_quest" } ]
+    },
+    "default": { "text": "Праздники — это такой стресс...", "actions": [{"text": "Уйти", "script_id": "END_DIALOGUE"}] },
+    "offer_quest": {
+      "text": "Кошмар! Катастрофа регионального масштаба! Наш прекрасный Весенний Фестиваль уничтожен! Эти пушистые вандалы, эти Buneary... они носятся по всему свету как обезумевшие, топчут клумбы и сбивают с ног моих избирателей! Прошу, отправляйся на маршруты и сделай с этим что-нибудь, пока мой рейтинг не упал до нуля! Усмири хотя бы 50 этих хулиганов!",
+      "actions": [
+        { "text": "Я наведу порядок!", "script_id": "START_QUEST:EASTER_EGG_HEIST_QUEST:20" }
+      ]
+    },
+    "buneary_reminder": {
+      "text": "Buneary всё ещё сеют хаос за пределами города! Скорее, выходи на маршруты и останови их!",
+      "actions": [ { "text": "Уже бегу!", "script_id": "END_DIALOGUE" } ]
+    },
+    "buneary_cleared": {
+      "text": "Уф... сообщения о погромах прекратились. Спасибо тебе! Но последствия ужасны! Многие горожане и их покемоны пострадали в этой давке. Обычные медикаменты тут не справятся. Найди Доктора Клару в полевом госпитале, она знает толк в весенней медицине!",
+      "actions": [
+        { "text": "Я найду доктора.", "script_id": "ADVANCE_QUEST:EASTER_EGG_HEIST_QUEST:40" }
+      ]
+    },
+    "egg_stolen_panic": {
+      "text": "Ты спас горожан?! О, ты мой герой! Я прикажу воздвигнуть тебе статую... ПОДОЖДИ! ГДЕ ОНО?! \n\n(Мэр с ужасом смотрит на пустой пьедестал в центре площади). \n\nЗОЛОТОЕ ЯЙЦО ТОГЕПИ! Наша главная святыня! Его украли! Смотри, под пьедесталом зияет огромная свежая нора! Эти мелкие кролики на поверхности были лишь отвлекающим маневром! Настоящие похитители ушли под землю и разбежались по всему региону. Ищи этих ушастых экскаваторов — Diggersby — на любых маршрутах! Выбей из них информацию о том, куда они унесли наше Яйцо!",
+      "actions": [
+        { "text": "Я найду их!", "script_id": "ADVANCE_QUEST:EASTER_EGG_HEIST_QUEST:80" }
+      ]
+    },
+    "report_diggersby": {
+      "text": "Ты прогнал этих ушастых землекопов? Нашел какие-нибудь зацепки? ...Что это у тебя? Обгоревшая красная шерсть?! И огромные следы от лап, ведущие прямо к нам?! О нет!\n\nОхрана как раз доложила, что кто-то невероятно быстрый и источающий жар проскользнул в закрытый переулок прямо за праздничной площадью! Это наверняка Альфа Синдерейс! Он просто использовал Диггерсби, чтобы украсть Яйцо из-под земли!\n\nПоторопись туда, тренер, пока он не сделал из нашей святыни гигантскую яичницу!",
+      "actions": [
+        { "text": "Я остановлю его!", "script_id": "ADVANCE_QUEST:EASTER_EGG_HEIST_QUEST:100" }
+      ]
+    },
+    "egg_returned": {
+      "text": "Ты нашел его! Золотое Яйцо вернулось! (Мэр бережно берет яйцо и ставит на пьедестал). \n\nО... посмотри! Оно светится! Трескается! \n\n(Скорлупа разлетается в стороны, и оттуда появляется счастливый Тогепи. Он подбегает к вам и радостно пищит). \n\nНевероятно! Этот малыш признал в тебе своего защитника. Это лучшее завершение фестиваля в истории! Забирай героя с собой и прими нашу бесконечную благодарность!",
+      "actions": [
+        { "text": "Счастливой весны, Мэр!", "script_id": "COMPLETE_QUEST_AND_GIVE_REWARDS:EASTER_EGG_HEIST_QUEST" }
+      ]
+    }
+  }
+},
+
+"DOCTOR_CLARA_EVENT": {
+  "ru_name": "🩺 Доктор Клара",
+  "location_id": null,
+  "locations": [
+    "CELADON-CITY",
+    "GOLDENROD-CITY",
+    "LILYCOVE-CITY",
+    "HEARTHOME-CITY",
+    "CASTELIA-CITY"
+  ],
+  "event_active": "EASTER_GLOBAL_SPAWN",
+  "description": "Странноватая женщина-врач. Она носит стетоскоп набекрень и постоянно что-то записывает в блокнот.",
+  "condition_quest_stage_in": ["EASTER_EGG_HEIST_QUEST:40", "EASTER_EGG_HEIST_QUEST:50", "EASTER_EGG_HEIST_QUEST:60"],
+  "start_node": "check_stage",
+  "photo_path": "shared/assets/npcs/doctor_clara.png",
+  "dialogue_nodes": {
+    "check_stage": {
+      "text": "Хм... Бледный цвет лица. Явный недостаток кальция. Скорлупа была бы очень хрупкой...",
+      "actions": [
+        {
+          "text": "Эм, здравствуйте?",
+          "next_node_conditional": [
+            { "condition": "quest_stage:EASTER_EGG_HEIST_QUEST:60", "node_id": "turn_in_eggs" },
+            { "condition": "quest_stage:EASTER_EGG_HEIST_QUEST:50", "node_id": "reminder_eggs" },
+            { "condition": "quest_stage:EASTER_EGG_HEIST_QUEST:40", "node_id": "give_task" }
+          ]
+        }
+      ]
+    },
+    "give_task": {
+      "text": "А, герой-усмиритель! У нас тут куча ушибов и растяжений после этих кроличьих бегов. Зелья — это скучно и долго. Настоящее весеннее исцеление требует натурального протеина! Мне срочно нужны 'Целебные Весенние Яйца'. Благо, сейчас начался сезон миграции Chansey, они появляются повсюду. Выходи на любые маршруты и собери 10 штук. И постарайся не разбить их по дороге!",
+      "actions": [
+        { "text": "Я добуду целебные яйца.", "script_id": "ADVANCE_QUEST:EASTER_EGG_HEIST_QUEST:50" }
+      ]
+    },
+    "reminder_eggs": {
+      "text": "Где яйца? Мои пациенты нуждаются в качественном уходе! Ищи Chansey на маршрутах!",
+      "actions": [ { "text": "Уже ищу.", "script_id": "END_DIALOGUE" } ]
+    },
+    "turn_in_eggs": {
+      "text": "О, какой блеск скорлупы! Идеальный размер! (Доктор ловко жонглирует яйцами). Отличная работа. Я приготовлю из них лучшую заживляющую мазь. Возвращайся к Мэру, скажи ему, что кризис со здоровьем миновал.",
+      "actions": [
+        { "text": "Отличные новости!", "script_id": "TAKE_ITEM_AND_ADVANCE_QUEST:SPRING_HEALING_EGG:10:EASTER_EGG_HEIST_QUEST:70:NONE" }
+      ]
+    }
+  }
+},
+
+"BOSS_ALPHA_CINDERACE_EVENT": {
+  "ru_name": "🔥 Альфа Синдерейс",
+  "location_id": null,
+  "locations": [
+    "CELADON-CITY",
+    "GOLDENROD-CITY",
+    "LILYCOVE-CITY",
+    "HEARTHOME-CITY",
+    "CASTELIA-CITY"
+  ],
+  "event_active": "EASTER_GLOBAL_SPAWN",
+  "description": "В скрытом переулке за праздничной площадью стоит огромный кролик с пылающими глазами. Он держит лапу на Золотом Яйце и ухмыляется.",
+  "condition_quest_stage_in": ["EASTER_EGG_HEIST_QUEST:90", "EASTER_EGG_HEIST_QUEST:100"],
+  "start_node": "intro",
+  "photo_path": "shared/assets/npcs/alpha_cinderace.png",
+  "dialogue_nodes": {
+    "intro": {
+      "text": "СИНДЕР!!! \n\n(По информации от Диггерсби вы нашли логово их главаря! Босс подкидывает Золотое Яйцо ногой, словно футбольный мяч, и ловит его. Энергия украденного яйца делает его огонь нестерпимо горячим. Он готов испепелить любого, кто попытается отнять добычу!)",
+      "actions": [
+        {
+          "text": "Отдай яйцо по-хорошему! (Бой)",
+          "script_id": "START_QUEST_BATTLE_SCALED:BOSS_ALPHA_CINDERACE_EVENT"
+        },
+        {
+          "text": "Слишком горячо, нужно подготовиться...",
+          "script_id": "END_DIALOGUE"
+        }
+      ]
+    }
+  }
+},
+  "STELLA_ASTRONOMER_EVENT": {
+    "ru_name": "🔭 Девочка Стелла",
+    "location_id": null,
+    "locations": ["CELADON-CITY", "GOLDENROD-CITY", "LILYCOVE-CITY", "HEARTHOME-CITY", "CASTELIA-CITY"],
+    "event_active": "SPACE_DAY_GLOBAL_SPAWN",
+    "description": "Маленькая девочка, обнимающая огромный телескоп. ",
+    "condition_quest_stage_in": [
+      "SPACE_EVENT_QUEST:0",
+      "SPACE_EVENT_QUEST:10",
+      "SPACE_EVENT_QUEST:20",
+      "SPACE_EVENT_QUEST:130"
+    ],
+    "start_node": "check_quest",
+    "photo_path": "shared/assets/npcs/stella_telescope.png",
+    "dialogue_nodes": {
+      "check_quest": {
+        "text": "Звездочке больно...",
+        "actions": [
+          {
+            "text": "Поговорить",
+            "next_node_conditional": [
+              { "condition": "quest_stage:SPACE_EVENT_QUEST:130", "node_id": "finale_stella" },
+              { "condition": "quest_stage:SPACE_EVENT_QUEST:20", "node_id": "turn_in_lunatone" },
+              { "condition": "quest_stage:SPACE_EVENT_QUEST:10", "node_id": "lunatone_reminder" },
+              { "condition": "quest_not_started:SPACE_EVENT_QUEST", "node_id": "offer_quest" }
+            ],
+            "next_node": "default"
+          }
+        ]
+      },
+      "default": { "text": "Я так волнуюсь...", "actions": [{"text": "Всё будет хорошо.", "script_id": "END_DIALOGUE"}] },
+      "offer_quest": {
+        "text": "Тренер, пожалуйста, помоги! Вчера ночью я смотрела в телескоп и видела падающую звезду. Но она летела некрасиво... она дрожала, словно ей было очень больно! Она упала где-то в горах, но когда люди попытались подойти, путь преградили злые камни с красными глазами. Умоляю, прогони 50 Lunatone и узнай, что со звездочкой!",
+        "actions": [ { "text": "Я разберусь с ними!", "script_id": "START_QUEST:SPACE_EVENT_QUEST:10" } ]
+      },
+      "lunatone_reminder": {
+        "text": "Lunatone всё еще там. Пожалуйста, поторопись, звездочка может погаснуть!",
+        "actions": [ { "text": "Уже бегу.", "script_id": "END_DIALOGUE" } ]
+      },
+      "turn_in_lunatone": {
+        "text": "Ты прогнал их? Спасибо! Но ты говоришь... там странное силовое поле? О нет! Я читала в научном журнале, что Профессор Козмо сейчас в нашем городе, он изучает метеориты. Пожалуйста, найди его, он точно знает, что делать!",
+        "actions": [ { "text": "Я найду Профессора.", "script_id": "ADVANCE_QUEST:SPACE_EVENT_QUEST:30" } ]
+      },
+      "finale_stella": {
+        "text": "Тренер! Я видела в телескоп вспышку! Силовое поле исчезло! Значит, звездочка спасена? О, я так счастлива! Спасибо тебе огромное! \n\nСходи расскажи Профессору Козмо, он там места себе не находит от волнения!",
+        "actions": [ { "text": "Обязательно!", "script_id": "ADVANCE_QUEST:SPACE_EVENT_QUEST:140" } ]
+      }
+    }
+  },
+
+  "PROFESSOR_COZMO_SPACE_EVENT": {
+    "ru_name": "🔬 Профессор Козмо",
+    "location_id": null,
+    "locations": ["CELADON-CITY", "GOLDENROD-CITY", "LILYCOVE-CITY", "HEARTHOME-CITY", "CASTELIA-CITY"],
+    "event_active": "SPACE_DAY_GLOBAL_SPAWN",
+    "description": "Ученый в помятом халате, окруженный пикающими приборами.",
+    "condition_quest_stage_in": [
+      "SPACE_EVENT_QUEST:30",
+      "SPACE_EVENT_QUEST:34",
+      "SPACE_EVENT_QUEST:36",
+      "SPACE_EVENT_QUEST:40",
+      "SPACE_EVENT_QUEST:50",
+      "SPACE_EVENT_QUEST:140"
+    ],
+    "start_node": "check_quest",
+    "photo_path": "shared/assets/npcs/cozmo.png",
+    "dialogue_nodes": {
+      "check_quest": {
+        "text": "Эти показатели... невероятно!",
+        "actions": [
+          {
+            "text": "Профессор?",
+            "next_node_conditional": [
+              { "condition": "quest_stage:SPACE_EVENT_QUEST:140", "node_id": "finale_cozmo" },
+              { "condition": "quest_stage:SPACE_EVENT_QUEST:50", "node_id": "turn_in_porygon" },
+              { "condition": "quest_stage:SPACE_EVENT_QUEST:40", "node_id": "porygon_reminder" },
+              { "condition": "quest_stage:SPACE_EVENT_QUEST:36", "node_id": "turn_in_parts" },
+              { "condition": "quest_stage:SPACE_EVENT_QUEST:34", "node_id": "parts_reminder" },
+              { "condition": "quest_stage:SPACE_EVENT_QUEST:30", "node_id": "intro_cozmo" }
+            ],
+            "next_node": "default"
+          }
+        ]
+      },
+      "default": { "text": "Наука не стоит на месте!", "actions": [{"text": "Именно так.", "script_id": "END_DIALOGUE"}] },
+      "intro_cozmo": {
+        "text": "Силовое поле неземного происхождения в горах? Поразительно! Я могу собрать Импульсный Пробиватель, чтобы мы прошли внутрь. Но мне не хватает сверхпрочных деталей. \n\nОткрывай Космические капсулы, которые падают с пришельцев, и принеси мне 1 Титановый болт и 1 Плазменную батарею!",
+        "actions": [
+          { "text": "Я добуду эти детали!", "script_id": "ADVANCE_QUEST:SPACE_EVENT_QUEST:34" }
+        ]
+      },
+      "parts_reminder": {
+        "text": "Мне всё ещё нужны 1 Титановый болт и 1 Плазменная батарея для Импульсного Пробивателя. Поторопись, пока поле не стабилизировалось!",
+        "actions": [
+          { "text": "Я в процессе.", "script_id": "END_DIALOGUE" }
+        ]
+      },
+      "turn_in_parts": {
+        "text": "Ага, вот и детали! (Профессор быстро соединяет их). Готово! Но подожди...\n\nПрибор выдает ошибку. Эфир забит плотным цифровым мусором — инопланетные программы блокируют частоты. Виновники — дикие Porygon! Пока ты не зачистишь маршруты от них, Пробиватель не сработает!",
+        "actions": [
+          { "text": "Отдать детали и пойти бить Поригонов", "script_id": "TAKE_ITEMS_AND_ADVANCE_QUEST:TITANIUM_BOLT,1;PLASMA_BATTERY,1:SPACE_EVENT_QUEST:40" }
+        ]
+      },
+      "porygon_reminder": {
+        "text": "Эфир всё ещё забит! Ищи диких Porygon, нужно победить 10 штук, иначе Пробиватель не сработает!",
+        "actions": [ { "text": "Работаю.", "script_id": "END_DIALOGUE" } ]
+      },
+      "turn_in_porygon": {
+        "text": "Сигнал чист! Поле отключено! Я перехватил радиопередачу из кратера, но... это не человеческий язык. Сплошные щелчки и треск. \n\nНаука здесь бессильна. Найди Уфолога Фокса, он помешан на теориях заговора и утверждает, что знает язык марсиан. Отправляйся в кратер, он наверняка уже разбил там лагерь!",
+        "actions": [ { "text": "Иду к Фоксу.", "script_id": "ADVANCE_QUEST:SPACE_EVENT_QUEST:60" } ]
+      },
+      "finale_cozmo": {
+        "text": "Мутировавший космический вирус, питающийся плазмой?! О Аркеус, это тянет на Нобелевскую премию! Я немедленно сажусь писать диссертацию! \n\nТы совершил великое открытие, мой мальчик. Иди, обрадуй Фокса, хотя он наверняка уже придумал новую теорию.",
+        "actions": [ { "text": "Пойду проверю.", "script_id": "ADVANCE_QUEST:SPACE_EVENT_QUEST:150" } ]
+      }
+    }
+  },
+
+  "UFOLOGIST_FOX_EVENT": {
+    "ru_name": "🛸 Уфолог Фокс",
+    "location_id": null,
+    "locations": ["MT-MOON", "RUINS-OF-ALPH", "METEOR-FALLS", "MT-CORONET", "GIANT-CHASM"],
+    "event_active": "SPACE_DAY_GLOBAL_SPAWN",
+    "description": "Парень в шапочке из фольги, с самодельным радаром, сделанным из дуршлага.",
+    "condition_quest_stage_in": [
+      "SPACE_EVENT_QUEST:60",
+      "SPACE_EVENT_QUEST:70",
+      "SPACE_EVENT_QUEST:80",
+      "SPACE_EVENT_QUEST:100",
+      "SPACE_EVENT_QUEST:150"
+    ],
+    "start_node": "check_quest",
+    "photo_path": "shared/assets/npcs/ufologist_fox.png",
+    "dialogue_nodes": {
+      "check_quest": {
+        "text": "Истина где-то рядом...",
+        "actions": [
+          {
+            "text": "Эй, Фокс!",
+            "next_node_conditional": [
+              { "condition": "quest_stage:SPACE_EVENT_QUEST:150", "node_id": "finale_fox" },
+              { "condition": "quest_stage:SPACE_EVENT_QUEST:100", "node_id": "turn_in_orbeetle" },
+              { "condition": "quest_stage:SPACE_EVENT_QUEST:80", "node_id": "turn_in_beheeyem" },
+              { "condition": "quest_stage:SPACE_EVENT_QUEST:70", "node_id": "beheeyem_reminder" },
+              { "condition": "quest_stage:SPACE_EVENT_QUEST:60", "node_id": "intro_fox" }
+            ],
+            "next_node": "default"
+          }
+        ]
+      },
+      "default": { "text": "Они следят за нами...", "actions": [{"text": "Конечно.", "script_id": "END_DIALOGUE"}] },
+      "intro_fox": {
+        "text": "ОНИ ЗДЕСЬ! Дай послушать сигнал... Ага... (надевает дуршлаг на голову). \n\nПеревожу: 'Внимание, флот! Размечаем посадочную полосу'. О нет! Дикие Beheeyem гипнотизируют камни и рисуют посадочные символы прямо у нас под носом! Разгони 20 этих большеголовых, пока они не вызвали флот вторжения!",
+        "actions": [ { "text": "Бегу спасать планету!", "script_id": "ADVANCE_QUEST:SPACE_EVENT_QUEST:70" } ]
+      },
+      "beheeyem_reminder": {
+        "text": "Посадочные символы всё еще появляются! 20 Beheeyem, не меньше!",
+        "actions": [ { "text": "В процессе.", "script_id": "END_DIALOGUE" } ]
+      },
+      "turn_in_beheeyem": {
+        "text": "Ты прогнал их? Молодец! Но... почему небо потемнело? \n\n(Фокс с ужасом показывает наверх). \n\nМАТЕРЬ БОЖЬЯ! ЭТО ЖЕ КОРАБЛЬ-МАТКА! Она спускается прямо над нами! Это Альфа Орбитл! Скорее, останови его!",
+        "actions": [ { "text": "В бой!", "script_id": "ADVANCE_QUEST:SPACE_EVENT_QUEST:90" } ]
+      },
+      "turn_in_orbeetle": {
+        "text": "Орбитл улетел! Ты настоящий Герой Земли! \n\nНо постой... мой радар показывает, что настоящий источник сигнала всегда был на самом дне кратера. Кто-то звал на помощь, а инопланетяне просто хотели его похитить! Спускайся в кратер, быстрее!",
+        "actions": [ { "text": "Спускаюсь!", "script_id": "ADVANCE_QUEST:SPACE_EVENT_QUEST:110" } ]
+      },
+      "finale_fox": {
+        "text": "Гигантский космический мутант?! И ты сражался с ним?! А-а-а-а! И почему я забыл снять крышку с объектива фотоаппарата?! Никто мне не поверит! Опять скажут, что Фокс сумасшедший! \n\nЭх... ну и ладно. Главное, что мы спасли планету. Беги на дно кратера, кажется, та звездочка ждет именно тебя.",
+        "actions": [ { "text": "Увидимся, Фокс!", "script_id": "ADVANCE_QUEST:SPACE_EVENT_QUEST:160" } ]
+      }
+    }
+  },
+
+  "BOSS_ALPHA_ORBEETLE_SPACE": {
+    "ru_name": "🛸 Альфа Орбитл",
+    "location_id": null,
+    "locations": ["MT-MOON", "RUINS-OF-ALPH", "METEOR-FALLS", "MT-CORONET", "GIANT-CHASM"],
+    "event_active": "SPACE_DAY_GLOBAL_SPAWN",
+    "description": "Гигантский Орбитл, чей мозг светится как кабина космического корабля.",
+    "condition_quest_stage": "SPACE_EVENT_QUEST:90",
+    "start_node": "intro",
+    "photo_path": "shared/assets/npcs/alpha_orbeetle.png",
+    "dialogue_nodes": {
+      "intro": {
+        "text": "БЗЗЗТ... (Мощная телепатическая волна сбивает вас с ног. Орбитл готовится к захвату кратера и атакует!)",
+        "actions": [
+          { "text": "Отразить вторжение! (Бой)", "script_id": "START_QUEST_BATTLE_SCALED:BOSS_ALPHA_ORBEETLE_SPACE" },
+          { "text": "Мне нужна пауза.", "script_id": "END_DIALOGUE" }
+        ]
+      }
+    }
+  },
+
+  "JIRACHI_METEOR_EVENT": {
+    "ru_name": "🌠 Джирачи",
+    "location_id": null,
+    "locations": ["MT-MOON", "RUINS-OF-ALPH", "METEOR-FALLS", "MT-CORONET", "GIANT-CHASM"],
+    "event_active": "SPACE_DAY_GLOBAL_SPAWN",
+    "description": "Крошечный покемон, слабо светящийся внутри обломка метеорита.",
+    "condition_quest_stage_in": [
+      "SPACE_EVENT_QUEST:110",
+      "SPACE_EVENT_QUEST:114",
+      "SPACE_EVENT_QUEST:116",
+      "SPACE_EVENT_QUEST:160"
+    ],
+    "start_node": "check_quest",
+    "photo_path": "shared/assets/npcs/jirachi_meteor.png",
+    "dialogue_nodes": {
+      "check_quest": {
+        "text": "...",
+        "actions": [
+          {
+            "text": "Подойти к метеориту",
+            "next_node_conditional": [
+              { "condition": "quest_stage:SPACE_EVENT_QUEST:160", "node_id": "finale_jirachi" },
+              { "condition": "quest_stage:SPACE_EVENT_QUEST:116", "node_id": "turn_in_items" },
+              { "condition": "quest_stage:SPACE_EVENT_QUEST:114", "node_id": "items_reminder" },
+              { "condition": "quest_stage:SPACE_EVENT_QUEST:110", "node_id": "intro_jirachi" }
+            ],
+            "next_node": "default"
+          }
+        ]
+      },
+      "default": { "text": "Джирачи мирно спит.", "actions": [{"text": "Уйти", "script_id": "END_DIALOGUE"}] },
+      "intro_jirachi": {
+        "text": "(В вашей голове раздается слабый детский голос): \n\n*«Пожалуйста... помоги... мне не хватает воздуха и энергии...»*\n\nЧтобы спасти Джирачи, вам нужно добыть из Космических капсул 2 Кислородных баллона и 1 Инопланетный артефакт (он послужит источником плазмы).",
+        "actions": [
+          { "text": "Я принесу всё необходимое!", "script_id": "ADVANCE_QUEST:SPACE_EVENT_QUEST:114" }
+        ]
+      },
+      "items_reminder": {
+        "text": "(Свет Джирачи тускнеет. Поторопитесь! Ему нужны 2 Кислородных баллона и 1 Инопланетный артефакт из Космических капсул).",
+        "actions": [
+          { "text": "Я ищу их.", "script_id": "END_DIALOGUE" }
+        ]
+      },
+      "turn_in_items": {
+        "text": "(Вы подносите баллоны и артефакт к метеориту. Джирачи жадно впитывает живительный кислород и плазменную энергию! Он начинает светиться всё ярче и ярче!)\n\n(Но внезапно... светиться начинает не только он. Инопланетный артефакт вступает в реакцию с обшивкой метеорита! Камень трещит по швам!)",
+        "actions": [
+          { "text": "Отдать предметы и отступить назад!", "script_id": "TAKE_ITEMS_AND_ADVANCE_QUEST:OXYGEN_TANK,2;ALIEN_ARTIFACT,1:SPACE_EVENT_QUEST:120" }
+        ]
+      },
+      "finale_jirachi": {
+        "text": "Джи-ра-чи! ✨\n\n(Малыш ярко светится и летает вокруг вас, оставляя за собой шлейф звездной пыли. Телепатически он передает вам свою безграничную благодарность. Он спасен, проснулся и хочет путешествовать с тем, кто защитил его от тьмы космоса!)",
+        "actions": [
+          { "text": "Добро пожаловать в команду, Звездочка!", "script_id": "COMPLETE_QUEST_AND_GIVE_REWARDS:SPACE_EVENT_QUEST" }
+        ]
+      }
+    }
+  },
+  "BOSS_ALPHA_DEOXYS_SPACE": {
+    "ru_name": "🦠 Альфа Деоксис",
+    "location_id": null,
+    "locations": ["MT-MOON", "RUINS-OF-ALPH", "METEOR-FALLS", "MT-CORONET", "GIANT-CHASM"],
+    "event_active": "SPACE_DAY_GLOBAL_SPAWN",
+    "description": "Мутировавший космический вирус, принявший жуткую форму. Его щупальца искрятся плазмой.",
+    "condition_quest_stage": "SPACE_EVENT_QUEST:120",
+    "start_node": "intro",
+    "photo_path": "shared/assets/npcs/alpha_deoxys.png",
+    "dialogue_nodes": {
+      "intro": {
+        "text": "ГХРРР-АААА!!! \n\n(Как только вы отдаете энергию Джирачи, кусок метеорита с грохотом раскалывается! Древний вирус, спавший на обшивке, впитал плазму и мутировал. Деоксис переходит в Боевую форму и бросается на вас, чтобы поглотить остатки энергии!)",
+        "actions": [
+          { "text": "Защитить Джирачи! (ФИНАЛЬНЫЙ БОЙ)", "script_id": "START_QUEST_BATTLE_SCALED:BOSS_ALPHA_DEOXYS_SPACE" },
+          { "text": "Мне нужно подготовить команду...", "script_id": "END_DIALOGUE" }
+        ]
+      }
+    }
+  },
+  "MAYOR_OLIVER_FINISHED": {
+    "ru_name": "🎩 Мэр Оливер",
+    "location_id": null,
+    "locations": [
+      "CELADON-CITY",
+      "GOLDENROD-CITY",
+      "LILYCOVE-CITY",
+      "HEARTHOME-CITY",
+      "CASTELIA-CITY"
+    ],
+    "event_active": "AFTER_EASTER",
+    "description": "Мэр Оливер счастливо улыбается и вытирает лоб шелковым платком. Весенний фестиваль прошел просто великолепно!",
+    "start_node": "intro",
+    "photo_path": "shared/assets/npcs/mayor_oliver.png",
+    "dialogue_nodes": {
+      "intro": {
+        "text": "Мы сделали это! Весенний Фестиваль спасен, Корзина Изобилия собрана до краев, а наша святыня сияет ярче прежнего. Огромное спасибо всем тренерам, кто внес свой вклад в этот праздник!",
+        "actions": [
+          {
+            "text": "🏆 Итоговая Доска почета",
+            "script_id": "OPEN_EASTER_TOPS"
+          },
+          {
+            "text": "👋 Уйти",
+            "script_id": "END_DIALOGUE"
+          }
+        ]
+      }
+    }
+  },
+  "DIRECTOR_PLANT_MAY": {
+    "ru_name": "🏭 Директор Завода",
+    "location_id": null,
+    "locations": ["CELADON-CITY", "GOLDENROD-CITY", "RUSTBORO-CITY", "CANALAVE-CITY", "CASTELIA-CITY"],
+    "event_active": "1_MAY",
+    "description": "Солидный мужчина в дорогом костюме, который сейчас измят и покрыт сажей. Он нервно протирает очки.",
+    "start_node": "check_quest",
+    "photo_path": "shared/assets/npcs/factory_director.png",
+    "dialogue_nodes": {
+      "check_quest": {
+        "text": "Это катастрофа! Миллионы инвестиций в трубу!",
+        "actions": [
+          {
+            "text": "Что у вас случилось?",
+            "next_node_conditional": [
+              { "condition": "quest_stage:MAY_DAY_LABOR_QUEST:130", "node_id": "finish_quest" },
+              { "condition": "quest_stage:MAY_DAY_LABOR_QUEST:110", "node_id": "volcanion_appear" },
+              { "condition": "quest_stage:MAY_DAY_LABOR_QUEST:70", "node_id": "repair_plan" },
+              { "condition": "quest_stage:MAY_DAY_LABOR_QUEST:10", "node_id": "intro" },
+              { "condition": "quest_not_started:MAY_DAY_LABOR_QUEST", "node_id": "offer_quest" }
+            ],
+            "next_node": "default"
+          }
+        ]
+      },
+      "default": {
+        "text": "Двигатель Прогресса изменит этот регион... если мы его запустим.",
+        "actions": [ { "text": "Ясно.", "script_id": "END_DIALOGUE" } ]
+      },
+      "offer_quest": {
+        "text": "Тренер! Ты как раз вовремя. Наш грандиозный 'Двигатель Прогресса' должен быть запущен на первомайские праздники, но эти неблагодарные рабочие устроили бунт! Они забаррикадировались в цехах и перекрыли подачу угля. Разберись с ними, и я щедро заплачу!",
+        "actions": [ { "text": "Я посмотрю, что можно сделать.", "script_id": "START_QUEST:MAY_DAY_LABOR_QUEST:10" } ]
+      },
+      "intro": {
+        "text": "Проходы на территорию завода блокируют дикие Machoke, которых привели рабочие. Тебе придется прорваться силой. Победи 30 штук, чтобы добраться до их Бригадира!",
+        "actions": [ { "text": "Вперед на завод!", "script_id": "ADVANCE_QUEST:MAY_DAY_LABOR_QUEST:20" } ]
+      },
+      "repair_plan": {
+        "text": "Ладно, ладно! Я видел их плакаты, я слышал их скандирования! Я подпишу этот договор. 8-часовой рабочий день и премии к празднику... \n\nНо сейчас не до этого! Ты очистил вентиляцию, но давление всё равно скачет. Каркас двигателя не выдерживает. Нам нужны Усиленные балки. Ступай на маршруты, выбей 5 таких балок из Gurdurr, иначе мы все взлетим на воздух!",
+        "actions": [ { "text": "Я добуду балки!", "script_id": "ADVANCE_QUEST:MAY_DAY_LABOR_QUEST:80" } ]
+      },
+      "volcanion_appear": {
+        "text": "Слава капиталу, ты победил этого угольного монстра! \n\nНо... что это за звук? \n\n(Внезапно предохранительные клапаны срывает. Гигантский столб густого, раскаленного пара вырывается в небо. В центре парового облака формируется колоссальная фигура). \n\nО боги... Избыток тепловой энергии призвал духа индустриализации! Это Вулканион! И он в ярости от того, как мы обошлись с машиной! Останови его, умоляю!",
+        "actions": [ { "text": "Защищаю завод! (В бой)", "script_id": "ADVANCE_QUEST:MAY_DAY_LABOR_QUEST:120" } ]
+      },
+      "finish_quest": {
+        "text": "Невероятно... Вулканион успокоился. Он понял, что теперь мы будем работать в гармонии с нашими покемонами и соблюдать технику безопасности. \n\nДвигатель работает идеально! В честь спасения завода я торжественно объявляю 1 мая днем отдыха и праздника! А это — твоя заслуженная награда. И вот еще что... один из кусочков блестящего угля из топки, кажется, обрел жизнь. Забирай его, он принесет тебе удачу!",
+        "actions": [ { "text": "Да здравствует Первомай!", "script_id": "COMPLETE_QUEST_AND_GIVE_REWARDS:MAY_DAY_LABOR_QUEST" } ]
+      }
+    }
+  },
+
+  "FOREMAN_LABOR_MAY": {
+    "ru_name": "👷 Бригадир",
+    "location_id": null,
+    "locations": ["CELADON-CITY", "GOLDENROD-CITY", "RUSTBORO-CITY", "CANALAVE-CITY", "CASTELIA-CITY"],
+    "event_active": "1_MAY",
+    "description": "Крепкий мужчина в засаленной робе и каске. В его руках гаечный ключ.",
+    "condition_quest_stage_in": [
+      "MAY_DAY_LABOR_QUEST:30",
+      "MAY_DAY_LABOR_QUEST:40",
+      "MAY_DAY_LABOR_QUEST:50",
+      "MAY_DAY_LABOR_QUEST:80",
+      "MAY_DAY_LABOR_QUEST:90"
+    ],
+    "start_node": "check_stage",
+    "photo_path": "shared/assets/npcs/foreman.png",
+    "dialogue_nodes": {
+      "check_stage": {
+        "text": "Завод принадлежит тем, кто на нем трудится!",
+        "actions": [
+          {
+            "text": "Поговорить",
+            "next_node_conditional": [
+              { "condition": "quest_stage:MAY_DAY_LABOR_QUEST:90", "node_id": "coalossal_attack" },
+              { "condition": "quest_stage:MAY_DAY_LABOR_QUEST:50", "node_id": "vespiquen_attack" },
+              { "condition": "quest_stage:MAY_DAY_LABOR_QUEST:30", "node_id": "strike_talk" }
+            ],
+            "next_node": "default"
+          }
+        ]
+      },
+      "default": { "text": "Мы не сдадимся, пока Директор не подпишет договор!", "actions": [ { "text": "Правильно.", "script_id": "END_DIALOGUE" } ] },
+      "strike_talk": {
+        "text": "Ты от Директора? Передай ему, что мы не вернемся к работе! Двигатель нестабилен, мы пашем без выходных, а техника безопасности на нуле. \n\nЕсли ты хочешь помочь, помоги нам организовать настоящую демонстрацию, чтобы нас услышал весь регион. Нам нужны художники и громкоговорители! Поймай для нас 1 Smeargle, чтобы он нарисовал плакаты, и 10 Loudred, чтобы они озвучили наши лозунги!",
+        "actions": [ { "text": "Соберу команду поддержки!", "script_id": "ADVANCE_QUEST:MAY_DAY_LABOR_QUEST:40" } ]
+      },
+      "vespiquen_attack": {
+        "text": "Отличная работа! Смиргл рисует потрясающие баннеры, а Лоудреды заглушают даже шум станков! \n\nНо у нас проблема... Пока двигатель простаивал, в вентиляционные шахты забрался рой Vespiquen и свил там огромные ульи. Двигатель задыхается, температура растет! Пробейся в шахты и разгони 10 Vespiquen, иначе завод взорвется!",
+        "actions": [ { "text": "В вентиляцию!", "script_id": "ADVANCE_QUEST:MAY_DAY_LABOR_QUEST:60" } ]
+      },
+      "coalossal_attack": {
+        "text": "(Бригадир берет балки и с помощью Мачоков быстро укрепляет каркас). Готово! Каркас выдержит. \n\n(Внезапно из главной топки вырывается столб пламени. Температура внутри достигла предела, и из перегретого угля формируется колоссальный монстр!) \n\nЭто Альфа-Coalossal! Он впитал всю энергию перегрева и сейчас разнесет здесь всё! Защити цех, тренер!",
+        "actions": [
+          { "text": "Принимаю огонь на себя! (Бой)", "script_id": "TAKE_ITEM_AND_ADVANCE_QUEST:REINFORCED_BEAM:5:MAY_DAY_LABOR_QUEST:100:NONE" }
+        ]
+      }
+    }
+  },
+  "BOSS_ALPHA_COALOSSAL_MAY": {
+    "ru_name": "🔥 Альфа Коалоссал",
+    "location_id": null,
+    "locations": ["CELADON-CITY", "GOLDENROD-CITY", "RUSTBORO-CITY", "CANALAVE-CITY", "CASTELIA-CITY"],
+    "event_active": "1_MAY",
+    "description": "Огромный монстр, сотканный из раскаленного угля и магмы. Из его спины вырываются языки пламени.",
+    "condition_quest_stage": "MAY_DAY_LABOR_QUEST:100",
+    "start_node": "intro",
+    "photo_path": "shared/assets/npcs/alpha_coalossal_npc.png",
+    "dialogue_nodes": {
+      "intro": {
+        "text": "ГХХРААААА!!! \n\n(Альфа-Коалоссал с ревом вырывается из главной топки! Раскаленные угли разлетаются по всему цеху, поджигая остатки мусора. Монстр впитал всю критическую температуру двигателя и теперь готов обратить весь завод в пепел!)",
+        "actions": [
+          {
+            "text": "Остудить его пыл! (Бой)",
+            "script_id": "START_QUEST_BATTLE_SCALED:BOSS_ALPHA_COALOSSAL_MAY"
+          },
+          {
+            "text": "Слишком горячо, мне нужно подготовиться...",
+            "script_id": "END_DIALOGUE"
+          }
+        ]
+      }
+    }
+  },
+
+  "BOSS_VOLCANION_STEAM_MAY": {
+    "ru_name": "💨 Вулканион",
+    "location_id": null,
+    "locations": ["CELADON-CITY", "GOLDENROD-CITY", "RUSTBORO-CITY", "CANALAVE-CITY", "CASTELIA-CITY"],
+    "event_active": "1_MAY",
+    "description": "Мифический покемон пара. Два кольца на его спине выпускают густые клубы обжигающего тумана.",
+    "condition_quest_stage": "MAY_DAY_LABOR_QUEST:120",
+    "start_node": "intro",
+    "photo_path": "shared/assets/npcs/volcanion_npc.png",
+    "dialogue_nodes": {
+      "intro": {
+        "text": "ВШШШШ... \n\n(Мощный выброс пара из поврежденных труб собирается в плотное облако. Из тумана выступает грозная фигура Вулканиона. Он оглядывает разрушения в цеху и издает оглушительный гудок, похожий на сирену паровоза. Он в ярости от того, как безответственно люди обращаются с технологиями и природой!)",
+        "actions": [
+          {
+            "text": "Доказать, что мы можем лучше! (В БОЙ)",
+            "script_id": "START_QUEST_BATTLE_SCALED:BOSS_VOLCANION_STEAM_MAY"
+          },
+          {
+            "text": "Мне нужно собрать команду...",
+            "script_id": "END_DIALOGUE"
+          }
+        ]
+      }
+    }
+  },
+  "GRAND_AUCTIONEER": {
+  "ru_name": "🎩 Аукционист",
+  "location_id": null,
+  "locations": [
+    "CELADON-CITY",
+    "GOLDENROD-CITY",
+    "LILYCOVE-CITY",
+    "HEARTHOME-CITY",
+    "CASTELIA-CITY"
+  ],
+  "description": "Элегантный мужчина в безупречном фраке. Он внимательно следит за публикой, выискивая самых щедрых покупателей.",
+  "start_node": "default",
+  "photo_path": "shared/assets/npcs/auctioneer.jpg",
+  "dialogue_nodes": {
+    "default": {
+      "text": "Приветствую в Гранд-Аукционе! Только здесь и только сегодня вы можете приобрести редчайшие сокровища со всего мира. Готовы сделать ставку?",
+      "actions": [
+        {
+          "text": "📜 Посмотреть текущие лоты",
+          "script_id": "OPEN_AUCTION"
+        },
+        {
+          "text": "👋 Уйти",
+          "script_id": "END_DIALOGUE"
+        }
+      ]
+    }
+  }
+},
+  "DIRECTOR_ALMA_ACADEMY": {
+    "ru_name": "👩‍🏫 Директриса Альма",
+    "locations": [
+      "KANTO-ROUTE-5",
+      "JOHTO-ROUTE-34",
+      "HOENN-ROUTE-117",
+      "SOLACEON-TOWN",
+      "UNOVA-ROUTE-3"
+    ],
+    "description": "Строгая, но глубоко заботливая женщина в строгом костюме. Сейчас её волосы растрепаны, а в руках она сжимает планшет с красным экраном ошибки.",
+    "start_node": "check_quest",
+    "photo_path": "shared/assets/npcs/alma_director.jpg",
+    "event_active": "1_JUNE_GLOBAL_SPAWN",
+    "dialogue_nodes": {
+      "check_quest": {
+        "text": "Внимание всем! Оставайтесь в безопасных зонах!",
+        "actions": [
+          {
+            "text": "Поговорить",
+            "next_node_conditional": [
+              { "condition": "quest_stage:CHILDREN_ACADEMY_QUEST:140", "node_id": "finish_quest" },
+              { "condition": "quest_stage:CHILDREN_ACADEMY_QUEST:50", "node_id": "craft_earmuffs" },
+              { "condition": "quest_stage:CHILDREN_ACADEMY_QUEST:40", "node_id": "reminder_silk" },
+              { "condition": "quest_stage:CHILDREN_ACADEMY_QUEST:30", "node_id": "give_silk_task" },
+              { "condition": "quest_stage:CHILDREN_ACADEMY_QUEST:20", "node_id": "reminder_babies" },
+              { "condition": "quest_not_started:CHILDREN_ACADEMY_QUEST", "node_id": "offer_quest" }
+            ],
+            "next_node": "default"
+          }
+        ]
+      },
+      "default": { "text": "Нам нужно восстановить систему...", "actions": [{"text": "Держитесь.", "script_id": "END_DIALOGUE"}] },
+      "offer_quest": {
+        "text": "Ты тренер? Слава Аркеусу! Наша Академия подверглась атаке! Какой-то психопат взломал систему оповещения и транслирует ужасающую 'Частоту Кошмаров'. \n\nОна действует прямо на мозг покемонов-малышей. Они в панике бьют всё вокруг! Пожалуйста, выйди во двор и усмири 5 Magby и 5 Elekid. Не дай им навредить себе и Академии!",
+        "actions": [
+          { "text": "Я немедленно их успокою!", "script_id": "START_QUEST:CHILDREN_ACADEMY_QUEST:20" }
+        ]
+      },
+      "reminder_babies": {
+        "text": "Во дворе всё еще хаос. Огненные и электрические вспышки разрушают фасады! 5 Магби и 5 Элекидов, поторопись!",
+        "actions": [ { "text": "Я в процессе.", "script_id": "END_DIALOGUE" } ]
+      },
+      "give_silk_task": {
+        "text": "Двор в безопасности... Спасибо! Но серверная заблокирована звуковым полем этой Кошмарной Частоты. Если мы пойдем туда без защиты, мы сойдем с ума. \n\nМне нужны натуральные звукоизоляторы. Отправляйся в лес и принеси 30 'Шелковых Нитей' от диких Leavanny. Я сошью из них защитные наушники.",
+        "actions": [
+          { "text": "Понял, за работу.", "script_id": "ADVANCE_QUEST:CHILDREN_ACADEMY_QUEST:40" }
+        ]
+      },
+      "reminder_silk": {
+        "text": "Без 30 Шелковых Нитей от Leavanny мы не пройдем звуковой барьер!",
+        "actions": [ { "text": "Уже ищу.", "script_id": "END_DIALOGUE" } ]
+      },
+      "craft_earmuffs": {
+        "text": "Отличный материал! (Она быстро оборачивает шелк вокруг дужек наушников). Вот, надень это. Звук больше не сведет с ума твоих покемонов. \n\nСлушай внимательно. В Западном Крыле оборону держит наш старый Хранитель. Он защитил инкубаторы, но наемники хакера сильно его потрепали. Найди его, ему нужна помощь!",
+        "actions": [
+          { "text": "Я найду Хранителя!", "script_id": "TAKE_ITEM_AND_ADVANCE_QUEST:SILK_THREAD_ITEM:20:CHILDREN_ACADEMY_QUEST:60:NONE" }
+        ]
+      },
+      "finish_quest": {
+        "text": "Частота отключена... Системы снова под моим контролем! \n\nТы совершил чудо. Этот хакер считал, что детство — это просто слабость, которую нужно перешагнуть через боль. Но ты и наши покемоны доказали: истинная сила рождается из заботы, защиты и любви.\n\nКосмог вернулся к звездам, а Академия спасена. Прими этот подарок, тренер. Ты заслужил его!",
+        "actions": [
+          { "text": "Всегда рад помочь!", "script_id": "COMPLETE_QUEST_AND_GIVE_REWARDS:CHILDREN_ACADEMY_QUEST" }
+        ]
+      }
+    }
+  },
+
+  "DRAMPA_GUARDIAN_NPC": {
+    "ru_name": "🐉 Дедушка Дрампа",
+    "locations": [
+      "KANTO-ROUTE-5",
+      "JOHTO-ROUTE-34",
+      "HOENN-ROUTE-117",
+      "SOLACEON-TOWN",
+      "UNOVA-ROUTE-3"
+    ],
+    "description": "Древний дракон с добрыми, но сейчас очень уставшими глазами. Он тяжело дышит, укрывая своим телом несколько испуганных покемонов.",
+    "condition_quest_stage_in": ["CHILDREN_ACADEMY_QUEST:60", "CHILDREN_ACADEMY_QUEST:70", "CHILDREN_ACADEMY_QUEST:80"],
+    "start_node": "check_stage",
+    "event_active": "1_JUNE_GLOBAL_SPAWN",
+    "photo_path": "shared/assets/npcs/drampa_guardian.jpg",
+    "dialogue_nodes": {
+      "check_stage": {
+        "text": "...",
+        "actions": [
+          {
+            "text": "Дедушка, вы в порядке?",
+            "next_node_conditional": [
+              { "condition": "quest_stage:CHILDREN_ACADEMY_QUEST:80", "node_id": "heal_drampa" },
+              { "condition": "quest_stage:CHILDREN_ACADEMY_QUEST:70", "node_id": "reminder_audino" },
+              { "condition": "quest_stage:CHILDREN_ACADEMY_QUEST:60", "node_id": "intro_drampa" }
+            ]
+          }
+        ]
+      },
+      "intro_drampa": {
+        "text": "(В вашей голове раздается мягкий, старческий голос телепата): \n\n*«Дитя... я держу барьер. Но наемники этого жестокого юноши отравили меня. Я не могу прорваться к серверной. Мой внутренний огонь угасает.* \n\n*Принеси мне покемона с чистым сердцем и даром исцеления. Поймай дикую Audino. Только её 'Импульс Исцеления' снимет токсины с моей ауры...»*",
+        "actions": [
+          { "text": "Я поймаю Audino! Держитесь!", "script_id": "ADVANCE_QUEST:CHILDREN_ACADEMY_QUEST:70" }
+        ]
+      },
+      "reminder_audino": {
+        "text": "*«Время идет, дитя... Мне нужна Audino...»*",
+        "actions": [ { "text": "Уже ищу!", "script_id": "END_DIALOGUE" } ]
+      },
+      "heal_drampa": {
+        "text": "(Вы выпускаете пойманную Audino. Она сразу же понимает, что нужно делать, и использует Исцеляющий Импульс на Хранителе. Дрампа с облегчением выдыхает, его чешуя снова блестит).\n\n*«Спасибо, дитя... Я восстановлен. Но злодей не дремлет. Он переписал чипы-ошейники наших Chansey! Теперь они агрессивны и блокируют коридор. Ступай и одолей 5 Chansey, прорвись к его логову!»*",
+        "actions": [
+          { "text": "Я остановлю их, дедушка!", "script_id": "ADVANCE_QUEST:CHILDREN_ACADEMY_QUEST:90" }
+        ]
+      }
+    }
+  },
+
+  "HACKER_ZERO_NPC": {
+    "ru_name": "💻 Хакер Нуль",
+    "locations": [
+      "KANTO-ROUTE-5",
+      "JOHTO-ROUTE-34",
+      "HOENN-ROUTE-117",
+      "SOLACEON-TOWN",
+      "UNOVA-ROUTE-3"
+    ],
+    "description": "Бледный подросток с нейро-интерфейсом на виске. Позади него в стеклянной капсуле страдает Cosmog, от которого отходят пульсирующие провода.",
+    "condition_quest_stage_in": ["CHILDREN_ACADEMY_QUEST:100", "CHILDREN_ACADEMY_QUEST:110", "CHILDREN_ACADEMY_QUEST:120", "CHILDREN_ACADEMY_QUEST:130"],
+    "start_node": "check_stage",
+    "event_active": "1_JUNE_GLOBAL_SPAWN",
+    "photo_path": "shared/assets/npcs/hacker_zero.jpg",
+    "dialogue_nodes": {
+      "check_stage": {
+        "text": "Ты взломал мой файрвол? Раздражает.",
+        "actions": [
+          {
+            "text": "Поговорить",
+            "next_node_conditional": [
+              { "condition": "quest_stage:CHILDREN_ACADEMY_QUEST:130", "node_id": "boss_battle" },
+              { "condition": "quest_stage:CHILDREN_ACADEMY_QUEST:120", "node_id": "mercenaries_defeated" },
+              { "condition": "quest_stage:CHILDREN_ACADEMY_QUEST:110", "node_id": "reminder_mercenaries" },
+              { "condition": "quest_stage:CHILDREN_ACADEMY_QUEST:100", "node_id": "intro_zero" }
+            ]
+          }
+        ]
+      },
+      "intro_zero": {
+        "text": "Зачем ты спасаешь их? Эти 'ясли', эта Академия — они делают покемонов слабыми. Любовь? Игры? Чушь! Эволюция происходит только под давлением! \n\nПосмотри на этого Космога! Он генерирует энергию чистых кошмаров. Я использую её, чтобы форсировать взросление каждого малыша в этом здании! \n\nНаемники! Устраните этот 'баг' в моей системе!",
+        "actions": [
+          { "text": "Твои методы чудовищны!", "script_id": "ADVANCE_QUEST:CHILDREN_ACADEMY_QUEST:110" }
+        ]
+      },
+      "reminder_mercenaries": {
+        "text": "Мои наемники размажут тебя. Тебе не остановить прогресс!",
+        "actions": [ { "text": "Еще посмотрим!", "script_id": "END_DIALOGUE" } ]
+      },
+      "mercenaries_defeated": {
+        "text": "Они проиграли? Бесполезные куски мяса! \n\nТы думаешь, любовь побеждает алгоритмы? Ты не видел настоящей эффективности! Мой код совершенен!",
+        "actions": [
+          { "text": "Я уничтожу твою машину!", "script_id": "ADVANCE_QUEST_AND_REDRAW:CHILDREN_ACADEMY_QUEST:130" }
+        ]
+      },
+      "boss_battle": {
+        "text": "Я покажу тебе покемонов, которые не знали 'счастливого детства'. Они родились как оружие! \n\nDragapult, Type:Null — стереть его данные из реальности!!!",
+        "actions": [
+          { "text": "Ты не понимаешь сути покемонов! (Бой)", "script_id": "START_QUEST_BATTLE_SCALED:BOSS_HACKER_ZERO" },
+          { "text": "Нужно перенастроить команду...", "script_id": "END_DIALOGUE" }
+        ]
+      }
+    }
+  },
+
+  "ZERO_MERCENARY": {
+    "ru_name": "⚔️ Элитный Наемник",
+    "locations": [
+      "KANTO-ROUTE-5",
+      "JOHTO-ROUTE-34",
+      "HOENN-ROUTE-117",
+      "SOLACEON-TOWN",
+      "UNOVA-ROUTE-3"
+    ],
+    "description": "Хмурый боец в тактической броне с глушилками на ушах. Он не задает вопросов.",
+    "condition_quest_stage": "CHILDREN_ACADEMY_QUEST:110",
+    "event_active": "1_JUNE_GLOBAL_SPAWN",
+    "start_node": "intro",
+    "photo_path": "shared/assets/npcs/mercenary_zero.jpg",
+    "dialogue_nodes": {
+      "intro": {
+        "text": "Пацан платит нам за твою голову. Ничего личного. Наши Type:Null и Riolu не знают пощады.",
+        "actions": [
+          { "text": "Прочь с дороги! (Бой)", "script_id": "START_QUEST_BATTLE_SCALED:ZERO_MERCENARY" },
+          { "text": "Подготовиться", "script_id": "END_DIALOGUE" }
+        ]
+      }
+    }
+  },
+  "JOURNALIST_OLIVIA_PROMENADE": {
+  "ru_name": "📝 Журналистка Оливия",
+  "location_id": "AZURE-PROMENADE",
+  "description": "Она стоит в тени сувенирной лавки, делая вид, что пьет кофе, но сама внимательно следит за охраной корпорации.",
+  "start_node": "check_stage",
+    "event_active": "OCEAN_DAY_GLOBAL_SPAWN",
+  "photo_path": "shared/assets/npcs/olivia.png",
+  "dialogue_nodes": {
+    "check_stage": {
+      "text": "Тсс! Не смотри на меня, смотри на сцену. Делай вид, что мы просто туристы.",
+      "actions": [
+        { "text": "Слушаю.", "next_node_conditional": [
+            { "condition": "quest_stage:AZURE_SHADOW_QUEST:280", "node_id": "post_quest" },
+            { "condition": "quest_stage:AZURE_SHADOW_QUEST:270", "node_id": "turn_in_final" },
+            { "condition": "quest_not_started:AZURE_SHADOW_QUEST", "node_id": "offer_quest" }
+          ],
+          "next_node": "default_chat"
+        }
+      ]
+    },
+    "default_chat": {
+      "text": "Фестиваль в самом разгаре, но корпораты уже заметают следы. Не дай музыке отвлечь тебя. Ищи Командира Смита, он где-то здесь, на Набережной!",
+      "actions": [ { "text": "Я в процессе.", "script_id": "END_DIALOGUE" } ]
+    },
+    "offer_quest": {
+      "text": "Я видела, как ты появился из телепорта. Тренер, верно? \n\nДобро пожаловать на День Океанов. Музыка, лозунги, спасение кораллов... Только всё это — фальшивка. 'Апекс Корпорейшн' использует праздник как пиар-ширму. Мой информатор работал здесь под прикрытием, но успел передать только одно слово — «Батарейки» — прежде чем пропал.\n\nМестная охрана меня знает, я не могу проскользнуть. Но ты — новое лицо. Найди Командира Смита (он руководит агентами корпорации на Набережной) и узнай, что они скрывают! Поможешь?",
+      "actions": [
+        { "text": "Я разберусь с корпорацией.", "script_id": "START_QUEST:AZURE_SHADOW_QUEST:20" },
+        { "text": "Я тут просто ради музыки. (Уйти)", "script_id": "END_DIALOGUE" }
+      ]
+    },
+    "turn_in_final": {
+      "text": "(Оливия просматривает скачанные данные. Ее руки дрожат). \n\nОни... они выкачивали энергию из покемонов ради производства искусственного жемчуга?! А этот фальшивый фестиваль был нужен, чтобы отмыть репутацию... \n\nЭто разорвет сеть! Власти уже вылетают на Архипелаг. Ты герой. А этот спасенный малыш (смотрит на Фионе)... думаю, он сам решил, с кем хочет остаться.",
+      "actions": [ { "text": "Это была славная охота.", "script_id": "COMPLETE_QUEST_AND_GIVE_REWARDS:AZURE_SHADOW_QUEST" } ]
+    },
+    "post_quest": {
+      "text": "На Архипелаге сейчас наводят порядок. Местные решили продолжить День Океанов, но уже без лживых спонсоров. Наслаждайся праздником, ты это заслужил!",
+      "actions": [ { "text": "Спасибо!", "script_id": "END_DIALOGUE" } ]
+    }
+  }
+},
+
+ "KADABRA_TELEPORTER": {
+  "ru_name": "🔮 Кадабра (Портал)",
+  "description": "Покемон-псионик. Вокруг него кружатся едва заметные фантомные брызги воды, а в воздухе пахнет океаном.",
+  "locations": ["VERMILION-CITY", "OLIVINE-CITY", "SLATEPORT-CITY", "CANALAVE-CITY", "CASTELIA-CITY"],
+  "start_node": "intro",
+   "event_active": "OCEAN_DAY_GLOBAL_SPAWN",
+  "photo_path": "shared/assets/npcs/kadabra_event.png",
+  "dialogue_nodes": {
+    "intro": {
+      "text": "Ка... даб-ра... (В вашем разуме раздается эхо:\n\n<i>«Лазурный Архипелаг зовет... Там проходит великий праздник Дня Океанов, но под яркой музыкой скрывается темная тень. Желаешь шагнуть за горизонт и увидеть всё своими глазами?»</i>)",
+      "actions": [
+        { "text": "Отправиться на Фестиваль", "script_id": "TELEPORT:AZURE-PROMENADE" },
+        { "text": "Я пока останусь здесь", "script_id": "END_DIALOGUE" }
+      ]
+    }
+  }
+},
+
+"KADABRA_RETURN_EVENT": {
+  "ru_name": "🔮 Кадабра (Материк)",
+  "description": "Его усы слегка подрагивают. Кажется, удерживать пространственную аномалию на таком расстоянии стоит ему немалых усилий.",
+  "location_id": "AZURE-PROMENADE",
+  "start_node": "intro",
+
+  "photo_path": "shared/assets/npcs/kadabra_event.png",
+  "dialogue_nodes": {
+    "intro": {
+      "text": "Даб-ра! (Серебряная ложка в его руке гнется и выпрямляется сама по себе. Знакомый телепатический голос снова эхом отдается в мыслях:\n\n<i>«Связь с материком истончается... Но я держу якорь твоего разума. Тебе нужно вернуться в безопасное место?»</i>)",
+      "actions": [
+        { "text": "Да, верни меня в город", "script_id": "TELEPORT_BACK" },
+        { "text": "Я еще не закончил здесь", "script_id": "END_DIALOGUE" }
+      ]
+    }
+  }
+},
+
+  "AGENT_COMMANDER_SMITH": {
+  "ru_name": "🕶️ Командир Смит",
+  "location_id": "AZURE-PROMENADE",
+  "description": "Мужчина в дорогом костюме. Он раздраженно смотрит на толпу веселящихся туристов.",
+  "condition_quest_stage_in": ["AZURE_SHADOW_QUEST:20", "AZURE_SHADOW_QUEST:30", "AZURE_SHADOW_QUEST:40", "AZURE_SHADOW_QUEST:50", "AZURE_SHADOW_QUEST:60"],
+  "start_node": "check_stage",
+    "event_active": "OCEAN_DAY_GLOBAL_SPAWN",
+  "photo_path": "shared/assets/npcs/commander_smith.png",
+  "dialogue_nodes": {
+    "check_stage": {
+      "text": "Зона отдыха в другой стороне, турист.",
+      "actions": [
+        { "text": "Поговорить", "next_node_conditional": [
+            { "condition": "quest_stage:AZURE_SHADOW_QUEST:60", "node_id": "defeat_dialogue" },
+            { "condition": "quest_stage:AZURE_SHADOW_QUEST:50", "node_id": "battle_start" },
+            { "condition": "quest_stage:AZURE_SHADOW_QUEST:40", "node_id": "offer_fight" },
+            { "condition": "quest_stage:AZURE_SHADOW_QUEST:20", "node_id": "intro_threat" }
+          ]
+        }
+      ]
+    },
+    "intro_threat": {
+      "text": "Смотрите-ка, еще один зевака заблудился. Слушай сюда: иди покупай сувениры и слушай музыку. Сцена для таких как ты. \n\nХотя погоди... Ты тренер? Буквально пару часов назад мы выловили одну «крысу» с микрофоном. Он визжал, что к нему на помощь придет крутой тренер. Так это ты? Ха! Парни, спустите на него наших Houndoom! Пусть этот турист бежит обратно на материк!",
+      "actions": [ { "text": "Я никуда не уйду! (Усмирить 20 Houndoom)", "script_id": "ADVANCE_QUEST:AZURE_SHADOW_QUEST:30" } ]
+    },
+    "offer_fight": {
+      "text": "Ты раскидал моих собак?! Слушай, 'Апекс' заплатил за этот фестиваль огромные деньги, и я не позволю какому-то выскочке портить нам PR-кампанию. Я сам вышвырну тебя с Архипелага!",
+      "actions": [ { "text": "Сначала попробуй! (Бой)", "script_id": "ADVANCE_QUEST_AND_REDRAW:AZURE_SHADOW_QUEST:50" } ]
+    },
+    "battle_start": {
+      "text": "Твоя ошибка!",
+      "actions": [ { "text": "В атаку!", "script_id": "START_QUEST_BATTLE_SCALED:AGENT_COMMANDER_SMITH" } ]
+    },
+    "defeat_dialogue": {
+      "text": "Кхх... проклятье... (Он бросает вам под ноги разбитый коммуникатор). Забирай игрушку своей инфо-крысы. Только он уже на дне, кормит рыб. Если так хочешь узнать правду — ищи Капитана Скрэпа в Теневых Доках. Только такие 'туристы' как ты оттуда не возвращаются.",
+      "actions": [ { "text": "Забрать ПДА и идти в Доки", "script_id": "ADVANCE_QUEST:AZURE_SHADOW_QUEST:70" } ]
+    }
+  }
+},
+
+  "DR_FINN_LAB": {
+  "ru_name": "🧬 Доктор Финн",
+  "location_id": "AZURE-PROMENADE",
+  "description": "Ученый с восторженным взглядом. Он раздает туристам значки с надписью 'Спасём Рифы'.",
+  "condition_quest_stage_in": ["AZURE_SHADOW_QUEST:120", "AZURE_SHADOW_QUEST:130", "AZURE_SHADOW_QUEST:140", "AZURE_SHADOW_QUEST:150", "AZURE_SHADOW_QUEST:180"],
+  "start_node": "check_stage",
+    "event_active": "OCEAN_DAY_GLOBAL_SPAWN",
+  "photo_path": "shared/assets/npcs/dr_finn.png",
+  "dialogue_nodes": {
+    "check_stage": {
+      "text": "Добро пожаловать на День Океанов! Наука и природа идут рука об руку!",
+      "actions": [
+        { "text": "Поговорить", "next_node_conditional": [
+            { "condition": "quest_stage:AZURE_SHADOW_QUEST:180", "node_id": "truth_reveal" },
+            { "condition": "quest_stage:AZURE_SHADOW_QUEST:140", "node_id": "turn_in_samples" },
+            { "condition": "quest_stage:AZURE_SHADOW_QUEST:130", "node_id": "reminder_samples" },
+            { "condition": "quest_stage:AZURE_SHADOW_QUEST:120", "node_id": "intro_truth" }
+          ]
+        }
+      ]
+    },
+    "intro_truth": {
+      "text": "Скрэп сбрасывает химикаты?! Юноша, вы что-то путаете! 'Апекс' наняли меня разработать био-удобрение для восстановления Мертвого Рифа. Это же суть нашего фестиваля! \n\n(Финн хмурится). Хотя... они забрали формулу месяц назад на 'доработку'. Неужели они... Принеси мне образцы с покемонов Мертвого Рифа. Я должен сделать анализ!",
+      "actions": [ { "text": "Я принесу доказательства.", "script_id": "ADVANCE_QUEST:AZURE_SHADOW_QUEST:130" } ]
+    },
+    "turn_in_samples": {
+      "text": "(Финн опускает тест-полоску в образец. Она мгновенно чернеет). \n\nБоже мой... Это не удобрение. Это кислотный растворитель! Он не растит кораллы, он их кристаллизует, убивая полипы! Они обманули меня и используют фестиваль как прикрытие! \n\nСлушай, пока ты был там, по радио передали: эко-радикал Рой прорвался на Риф. Он узнал правду и хочет взорвать всю гряду вместе с покемонами, чтобы отомстить корпорации. Останови его, он обезумел!",
+      "actions": [ { "text": "Я обезврежу бомбы.", "script_id": "ADVANCE_QUEST:AZURE_SHADOW_QUEST:150" } ]
+    },
+    "truth_reveal": {
+      "text": "Пока ты останавливал Роя, я взломал сервер корпорации. Это кошмар. 'Апекс' делают из окаменевших кораллов синтетический жемчуг, а энергию для станков берут, выкачивая жизнь из покемонов на Платформе 'Апекс'! Вот моя ключ-карта. Проникни туда и останови Сайласа. Ради науки. Ради океана.",
+      "actions": [ { "text": "Я положу этому конец.", "script_id": "ADVANCE_QUEST:AZURE_SHADOW_QUEST:190" } ]
+    }
+  }
+},
+
+"CAPTAIN_SCRAP_DOCKS": {
+  "ru_name": "⚓ Капитан Скрэп",
+  "location_id": "SHADOW-DOCKS",
+  "description": "Суровый моряк, пропахший рыбой и мазутом. На фоне слышен далекий гул праздника с Набережной.",
+  "condition_quest_stage_in": [
+    "AZURE_SHADOW_QUEST:70",
+    "AZURE_SHADOW_QUEST:80",
+    "AZURE_SHADOW_QUEST:90",
+    "AZURE_SHADOW_QUEST:100",
+    "AZURE_SHADOW_QUEST:110"
+  ],
+  "start_node": "check_stage",
+  "event_active": "OCEAN_DAY_GLOBAL_SPAWN",
+  "photo_path": "shared/assets/npcs/scrap_docks.png",
+  "dialogue_nodes": {
+    "check_stage": {
+      "text": "Тебе здесь не рады.",
+      "actions": [
+        { "text": "Говорить", "next_node_conditional": [
+            { "condition": "quest_stage:AZURE_SHADOW_QUEST:110", "node_id": "turn_in_final" },
+            { "condition": "quest_stage:AZURE_SHADOW_QUEST:100", "node_id": "battle_start" },
+            { "condition": "quest_stage:AZURE_SHADOW_QUEST:90", "node_id": "offer_fight" },
+            { "condition": "quest_stage:AZURE_SHADOW_QUEST:80", "node_id": "reminder" },
+            { "condition": "quest_stage:AZURE_SHADOW_QUEST:70", "node_id": "intro_scrap" }
+          ]
+        }
+      ]
+    },
+    "intro_scrap": {
+      "text": "Слышишь музыку? Это там, наверху, День Океанов. А здесь, в доках, настоящая работа. Смит прислал тебя? Или ты из тех эко-шизиков? Плевать. У нас тут работа, и нам никто не помешает. Парни, натравите Crawdaunt на этого героя!",
+      "actions": [ { "text": "Вы отравляете воду!", "script_id": "ADVANCE_QUEST:AZURE_SHADOW_QUEST:80" } ]
+    },
+    "reminder": {
+      "text": "Мои парни с Crawdaunt всё ещё патрулируют пирсы. Возвращайся, когда разберёшься с ними, если кишка не тонка!",
+      "actions": [ { "text": "Я вернусь.", "script_id": "END_DIALOGUE" } ]
+    },
+    "offer_fight": {
+      "text": "Моя команда в отключке?! Ты что, бешеный? Я ни слова не скажу про наши грузы, пока ты не уложишь меня лично!",
+      "actions": [ { "text": "Будет сделано! (Бой)", "script_id": "ADVANCE_QUEST_AND_REDRAW:AZURE_SHADOW_QUEST:100" } ]
+    },
+    "battle_start": {
+      "text": "Покажи, на что ты способен, сухопутная крыса! Я размажу тебя по палубе!",
+      "actions": [ { "text": "К бою!", "script_id": "START_QUEST_BATTLE_SCALED:CAPTAIN_SCRAP_DOCKS" } ]
+    },
+    "turn_in_final": {
+      "text": "Хватит, сдаюсь! Я просто водила! Спроси Доктора Финна, он сидит в крутой лаборатории на Набережной, раздает интервью туристам. Это он придумал свое 'чудо-удобрение' для кораллов, которое мы сливаем бочками. Я только выполняю заказ!",
+      "actions": [ { "text": "Я с ним поговорю.", "script_id": "ADVANCE_QUEST:AZURE_SHADOW_QUEST:120" } ]
+    }
+  }
+},
+  "RADICAL_ROY_REEF": {
+  "ru_name": "🧨 Радикал Рой",
+  "location_id": "DEAD-REEF",
+  "description": "Покрытый грязью парень. Он кричит что-то в мегафон, хотя на Мертвом Рифе нет никого, кроме отравленных покемонов.",
+  "condition_quest_stage_in": ["AZURE_SHADOW_QUEST:150", "AZURE_SHADOW_QUEST:160", "AZURE_SHADOW_QUEST:170"],
+  "start_node": "check_stage",
+  "event_active": "OCEAN_DAY_GLOBAL_SPAWN",
+  "photo_path": "shared/assets/npcs/radical_roy.png",
+  "dialogue_nodes": {
+    "check_stage": {
+      "text": "Природа должна очиститься... любой ценой!",
+      "actions": [
+        { "text": "Поговорить", "next_node_conditional": [
+            { "condition": "quest_stage:AZURE_SHADOW_QUEST:170", "node_id": "defeat_dialogue" },
+            { "condition": "quest_stage:AZURE_SHADOW_QUEST:160", "node_id": "battle_start" },
+            { "condition": "quest_stage:AZURE_SHADOW_QUEST:150", "node_id": "intro" }
+          ]
+        }
+      ]
+    },
+    "intro": {
+      "text": "Слышишь их глупую музыку с пляжа?! Они танцуют, празднуя День Океанов, пока прямо здесь, под их ногами, 'Апекс' превращает риф в токсичную гробницу! Мирные пикеты не работают. Законы куплены. Но взрывчатка не берет взяток! Я подорву несущие сваи, и этот мертвый риф похоронит под собой их проклятую Платформу!",
+      "actions": [ { "text": "Взрыв убьет местных покемонов! Отдай пульт! (Бой)", "script_id": "ADVANCE_QUEST_AND_REDRAW:AZURE_SHADOW_QUEST:160" } ]
+    },
+    "battle_start": {
+      "text": "Ты защищаешь их?! Значит, ты такой же преступник, как и они! Я не дам тебе меня остановить!",
+      "actions": [ { "text": "К бою!", "script_id": "START_QUEST_BATTLE_SCALED:RADICAL_ROY_REEF" } ]
+    },
+    "defeat_dialogue": {
+      "text": "(Рой падает на колени). Ты защищаешь их... корпоративных убийц. Забирай детонаторы. Иди, празднуй свой День Океанов, танцуй на костях... Но природа им этого не простит.",
+      "actions": [ { "text": "Я остановлю корпорацию без жертв. (Забрать)", "script_id": "ADVANCE_QUEST:AZURE_SHADOW_QUEST:180" } ]
+    }
+  }
+},
+
+  "APEX_GATE_GUARD": {
+  "ru_name": "🛡️ Начальник Охраны",
+  "location_id": "APEX-PLATFORM",
+  "description": "Громила в тяжелой корпоративной броне. Он преграждает путь к массивным стальным воротам.",
+  "condition_quest_stage_in": ["AZURE_SHADOW_QUEST:190", "AZURE_SHADOW_QUEST:200", "AZURE_SHADOW_QUEST:210"],
+  "start_node": "check_stage",
+    "event_active": "OCEAN_DAY_GLOBAL_SPAWN",
+  "photo_path": "shared/assets/npcs/apex_guard.png",
+  "dialogue_nodes": {
+    "check_stage": {
+      "text": "Стой, где стоишь! Территория корпорации.",
+      "actions": [
+        { "text": "Подойти", "next_node_conditional": [
+            { "condition": "quest_stage:AZURE_SHADOW_QUEST:210", "node_id": "defeat_dialogue" },
+            { "condition": "quest_stage:AZURE_SHADOW_QUEST:200", "node_id": "battle_start" },
+            { "condition": "quest_stage:AZURE_SHADOW_QUEST:190", "node_id": "intro" }
+          ]
+        }
+      ]
+    },
+    "intro": {
+      "text": "(Охранник грубо выхватывает вашу ключ-карту и проводит по сканеру). \n\nСистема: ДОСТУП ЗАПРЕЩЕН. ПРОПУСК АННУЛИРОВАН.\n\n(Он ухмыляется). Карта Финна? Значит, старик всё-таки сунул нос не в свое дело. Сайлас предупреждал, что могут быть гости. Команда ликвидации, уничтожить нарушителя!",
+      "actions": [ { "text": "Я пройду в любом случае! (Бой)", "script_id": "ADVANCE_QUEST_AND_REDRAW:AZURE_SHADOW_QUEST:200" } ]
+    },
+    "battle_start": {
+      "text": "Огонь на поражение!",
+      "actions": [ { "text": "В атаку!", "script_id": "START_QUEST_BATTLE_SCALED:APEX_GATE_GUARD" } ]
+    },
+    "defeat_dialogue": {
+      "text": "Кхх... (Начальник Охраны оседает на пол, тяжело дыша. С его пояса падает черная Мастер-карта).\n\n(Вы поднимаете карту и прикладываете к терминалу. Ворота с тяжелым лязгом отворяются, открывая путь в самое сердце платформы).",
+      "actions": [ { "text": "Войти внутрь (К Сайласу)", "script_id": "ADVANCE_QUEST:AZURE_SHADOW_QUEST:220" } ]
+    }
+  }
+},
+
+ "SILAS_BOSS_APEX": {
+  "ru_name": "🎩 Сайлас",
+  "location_id": "APEX-PLATFORM",
+  "description": "Одет с иголочки. Он с удовольствием пьет шампанское, наблюдая за работой гигантских турбин.",
+  "condition_quest_stage_in": ["AZURE_SHADOW_QUEST:220", "AZURE_SHADOW_QUEST:230", "AZURE_SHADOW_QUEST:240"],
+  "start_node": "check_stage",
+  "event_active": "OCEAN_DAY_GLOBAL_SPAWN",
+  "photo_path": "shared/assets/npcs/silas.png",
+  "dialogue_nodes": {
+    "check_stage": {
+      "text": "Прогресс требует жертв, не так ли?",
+      "actions": [
+        { "text": "Поговорить", "next_node_conditional": [
+            { "condition": "quest_stage:AZURE_SHADOW_QUEST:240", "node_id": "defeat_dialogue" },
+            { "condition": "quest_stage:AZURE_SHADOW_QUEST:230", "node_id": "battle_start" },
+            { "condition": "quest_stage:AZURE_SHADOW_QUEST:220", "node_id": "intro" }
+          ]
+        }
+      ]
+    },
+    "intro": {
+      "text": "Тренер! Рад приветствовать вас на Платформе 'Апекс'. Нравится наш фестиваль? Мы вложили в него душу... и миллионы покедолларов. Экология нынче отлично продается. \n\nВижу, вы добрались до моих резервуаров. Да, мы используем покемонов как источник энергии. Без выбросов! Экологически чисто! Разве не за это вы боретесь на своей Набережной? Не мешайте прогрессу, юноша.",
+      "actions": [ { "text": "Вы пытаете их! Фестиваль окончен! (Бой)", "script_id": "ADVANCE_QUEST_AND_REDRAW:AZURE_SHADOW_QUEST:230" } ]
+    },
+    "battle_start": {
+      "text": "Ты думаешь, что можешь остановить корпоративную машину?! Наивный глупец. Я покажу тебе, почему 'Апекс' правит этим архипелагом!",
+      "actions": [ { "text": "К бою!", "script_id": "START_QUEST_BATTLE_SCALED:SILAS_BOSS_APEX" } ]
+    },
+    "defeat_dialogue": {
+      "text": "Моя охрана... Мои генераторы! Ты хоть понимаешь, сколько стоит производство 'Апекс-Жемчужин'?! Если я иду ко дну, я заберу этот ваш жалкий океан с собой! \n\n(Сайлас разбивает панель аварийного сброса). Слить концентрат растворителя в главный резервуар! Пусть эта биомасса пожрет вас всех!",
+      "actions": [ { "text": "Что ты наделал?!", "script_id": "ADVANCE_QUEST:AZURE_SHADOW_QUEST:250" } ]
+    }
+  }
+},
+
+  "BOSS_ALPHA_DRAGALGE_EVENT": {
+    "ru_name": "☣️ Альфа-Драгалге",
+    "location_id": "APEX-PLATFORM",
+    "description": "Огромный покемон, чья форма искажена ядовитыми химикатами. Он выглядит как оживший ночной кошмар.",
+    "condition_quest_stage": "AZURE_SHADOW_QUEST:250",
+    "start_node": "intro",
+    "event_active": "OCEAN_DAY_GLOBAL_SPAWN",
+    "photo_path": "shared/assets/npcs/alpha_dragalge.png",
+    "dialogue_nodes": {
+      "intro": {
+        "text": "КРРР-АААГГГХХ! (Существо рычит, из его пор вырывается густой токсичный пар. Это не просто покемон, это ходячая экологическая катастрофа!)",
+        "actions": [
+          { "text": "Остановить чудовище! (ФИНАЛЬНЫЙ БОЙ)", "script_id": "START_QUEST_BATTLE_SCALED:BOSS_ALPHA_DRAGALGE_EVENT" },
+          { "text": "Мне нужно подлечиться.", "script_id": "END_DIALOGUE" }
+        ]
+      }
+    }
+  },
+
+  "FREED_PHIONE_NPC": {
+    "ru_name": "🌊 Фион",
+    "location_id": "APEX-PLATFORM",
+    "description": "Крошечный покемон, наконец-то свободный от проводов. Он светится мягким голубым светом.",
+    "condition_quest_stage": "AZURE_SHADOW_QUEST:260",
+    "start_node": "intro",
+    "event_active": "OCEAN_DAY_GLOBAL_SPAWN",
+    "photo_path": "shared/assets/npcs/phione_event.png",
+    "dialogue_nodes": {
+      "intro": {
+        "text": "Фи-он! (Покемон радостно кружится вокруг вас, выражая искреннюю благодарность за спасение.)",
+        "actions": [
+          { "text": "Идем домой, дружок.", "script_id": "COMPLETE_QUEST_AND_GIVE_REWARDS:AZURE_SHADOW_QUEST" }
+        ]
       }
     }
   }

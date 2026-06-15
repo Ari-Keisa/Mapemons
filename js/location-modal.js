@@ -537,9 +537,10 @@ window.openLightLocationModal = function(locId) {
                         pTier = window.pokemonRuData[pObj.en.toUpperCase()].Format || '';
                     }
                     
+                    let fObj = null;
                     if (formIdx > 0 && window.formsBySpecies && window.formsBySpecies[sp]) {
                         const forms = window.formsBySpecies[sp];
-                        let fObj = forms.find(f => f._FormKey === `${sp}-${formIdx}`);
+                        fObj = forms.find(f => f._FormKey === `${sp}-${formIdx}`);
                         if (!fObj && forms.length >= formIdx) fObj = forms[formIdx - 1];
                         
                         if (fObj) {
@@ -584,9 +585,48 @@ window.openLightLocationModal = function(locId) {
                             borderStyle = `border: 2px solid transparent; background: linear-gradient(135deg, rgba(0,0,0,0.3), rgba(0,0,0,0.3)) padding-box, ${c1} border-box;`;
                         }
                     }
-
+                    // Общий фильтр: если активен поиск (не по всем покемонам)
+                    if (window.currentPokemonMatches && window.pokemonDB && window.currentPokemonMatches.length > 0) {
+                        const totalPokes = Object.keys(window.pokemonDB).length;
+                        if (window.currentPokemonMatches.length < totalPokes - 20) {
+                            let isMatch = false;
+                            for (let i = 0; i < window.currentPokemonMatches.length; i++) {
+                                let m = window.currentPokemonMatches[i];
+                                if (m.p.en.toUpperCase() === sp) {
+                                    if (fObj && m.isForm && m.formObj && m.formObj._FormKey === fObj._FormKey) {
+                                        isMatch = true;
+                                        break;
+                                    }
+                                    if (!fObj && !m.isForm) {
+                                        isMatch = true;
+                                        break;
+                                    }
+                                    if (!m.isForm && fObj) {
+                                        isMatch = true;
+                                        break;
+                                    }
+                                }
+                            }
+                            if (!isMatch) return;
+                        }
+                    }
                     let rarityLabel = encInfo.rarity ? 'Р' + encInfo.rarity : 'О';
                     let tierHtml = pTier ? `<div style="font-size:0.55rem; color:#ffd700; font-weight:bold; margin-top:2px;">${pTier.toUpperCase()}</div>` : '';
+                    
+                    if (window.currentProfessionKey && window.calculateProfessionEfficiency) {
+                        let effs = window.calculateProfessionEfficiency(pObj, fObj, window.currentProfessionKey, window.abilitiesData);
+                        let total = 0;
+                        if (effs && effs.length > 0) {
+                            let maxEff = effs.reduce((prev, current) => (prev.total > current.total) ? prev : current);
+                            total = maxEff.total + (window.isShinyToggleActive ? 10 : 0);
+                        }
+                        if (total <= 0) return; // Skip rendering this pokemon if no bonus
+
+                        let profName = window.professionsData && window.professionsData[window.currentProfessionKey] 
+                            ? window.professionsData[window.currentProfessionKey].ru_name.replace(/^[^\p{L}]+/gu, '').trim() 
+                            : 'Профессия';
+                        tierHtml = `<div style="font-size:0.55rem; color:var(--primary); font-weight:bold; margin-top:2px;" title="${profName}">+${total}%</div>`;
+                    }
                     
                     pokeCards += `<div style="padding:5px; border-radius:8px; text-align:center; width:65px; cursor:pointer; transition:0.2s; position:relative; ${borderStyle}" title="${finalRuName}" 
                         onmouseover="this.style.filter='brightness(1.2)'; this.style.transform='scale(1.05)';" 

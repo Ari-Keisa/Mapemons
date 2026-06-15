@@ -986,8 +986,8 @@ function openPokemonDossier(pkId, isShiny = false, formIndex = null) {
                 for (const b of aff.bonuses) {
                     if (finalProfs[b.profession]) {
                         let pct = b.value ? Math.round((b.value - 1) * 100) : 0;
-                        if (isShiny) pct += 10;
                         finalProfs[b.profession].bonuses.push(`${aff.ru_name || affKey}: +${pct}%`);
+                        finalProfs[b.profession].totalBonus = (finalProfs[b.profession].totalBonus || 0) + pct;
                     }
                 }
             }
@@ -995,13 +995,15 @@ function openPokemonDossier(pkId, isShiny = false, formIndex = null) {
 
         const entries = Object.values(finalProfs);
 
-        if (isShiny) {
-            entries.forEach(p => {
-                if (p.bonuses.length === 0) {
-                    p.bonuses.push('Шайни: +10%');
-                }
-            });
-        }
+        entries.forEach(p => {
+            if (isShiny) {
+                p.bonuses.push('Шайни: +10%');
+                p.totalBonus = (p.totalBonus || 0) + 10;
+            }
+            if (p.totalBonus > 0) {
+                p.name = `${p.name} <span style="color:var(--primary);">[+${p.totalBonus}%]</span>`;
+            }
+        });
 
         if (entries.length > 0) {
             profHtml = `<div class="dossier-section dossier-prof-section">

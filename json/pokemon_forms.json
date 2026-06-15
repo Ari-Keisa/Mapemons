@@ -3200,7 +3200,10 @@
         "Flags": [
             "InheritFormWithEverstone"
         ],
-        "Evolution": "SLOWKING,Item,GALARICAWREATH",
+        "Evolution": [
+            "SLOWKING,Item,GALARICAWREATH",
+            "SLOWBRO,Item,GALARICACUFF"
+        ],
         "SpritePath": "shared/assets/home/10164.png",
         "ShinySpritePath": "shared/assets/home/shiny/10164.png",
         "TMMoves": [
@@ -7023,7 +7026,7 @@
             "BattleOnly",
             "UltraUber"
         ],
-        "MegaMove": "DRAGONASCENT",
+        "MegaStone": "RAYQUAZITE",
         "MegaMessage": 1,
         "BaseStats": [
             105,
@@ -12132,7 +12135,7 @@
         ],
         "EggGroups": "Undiscovered",
         "Pokedex": "The flower it's holding can no longer be found blooming anywhere. It's also thought to contain terrifying power.",
-        "Evolution": "FLORGES,None",
+        "Evolution": "",
         "Flags": [],
         "TMMoves": [
             "CHARM",
@@ -12188,7 +12191,9 @@
             "SWAGGER",
             "WORRYSEED"
         ],
-        "EggMoves": []
+        "EggMoves": [],
+        "SpritePath": "shared/assets/home/10061.png",
+        "ShinySpritePath": "shared/assets/home/shiny/10061.png"
     },
     "FLORGES-1": {
         "_SpeciesID": "FLORGES",
@@ -13525,6 +13530,36 @@
         "ShinySpritePath": "shared/assets/home/shiny/773-fairy.png",
         "Flags": []
     },
+    "MINIOR-1": {
+        "_SpeciesID": "ORICORIO",
+        "_FormID": 1,
+        "FormName": "Orange Meteor"
+    },
+    "MINIOR-2": {
+        "_SpeciesID": "ORICORIO",
+        "_FormID": 2,
+        "FormName": "Yellow Meteor"
+    },
+    "MINIOR-3": {
+        "_SpeciesID": "ORICORIO",
+        "_FormID": 3,
+        "FormName": "Green Meteor"
+    },
+    "MINIOR-4": {
+        "_SpeciesID": "ORICORIO",
+        "_FormID": 4,
+        "FormName": "Blue Meteor"
+    },
+    "MINIOR-5": {
+        "_SpeciesID": "ORICORIO",
+        "_FormID": 5,
+        "FormName": "Indigo Meteor"
+    },
+    "MINIOR-6": {
+        "_SpeciesID": "ORICORIO",
+        "_FormID": 6,
+        "FormName": "Violet Meteor"
+    },
     "MINIOR-7": {
         "_SpeciesID": "MINIOR",
         "_FormID": 7,
@@ -14299,7 +14334,7 @@
         "_FormID": 1,
         "FormName": "Antique",
         "Pokedex": "The swirl pattern in this Pokémon's body is its weakness. If it gets stirred, the swirl loses its shape, and Sinistea gets dizzy.",
-        "Evolution": "POLTEAGEIST,Item,CHIPPEDPOT",
+        "Evolution": "POLTEAGEIST,Item,CRACKEDPOT",
         "Flags": []
     },
     "POLTEAGEIST-1": {

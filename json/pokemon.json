@@ -155813,7 +155813,7 @@
     "MINIOR": {
         "Format": "Gold",
         "Name": "Minior",
-        "FormName": "Meteor",
+        "FormName": "Red Meteor",
         "Types": "ROCK,FLYING",
         "BaseStats": [
             60,
@@ -169138,7 +169138,7 @@
         "Pokedex": "Чашка, в которой обитает этот покемон, представляет собой знаменитый предмет старинной посуды. В обращении находится множество подделок.",
         "Generation": 8,
         "Evolution": [
-            "POLTEAGEIST,Item,CRACKEDPOT"
+            "POLTEAGEIST,Item,CHIPPEDPOT"
         ],
         "NationalId": 854,
         "SpritePath": "shared/assets/home/854.png",
