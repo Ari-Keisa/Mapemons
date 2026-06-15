@@ -530,6 +530,12 @@ window.openLightLocationModal = function(locId) {
                     let finalRuName = pObj.ru || pObj.en;
                     let finalEnName = pObj.en;
                     let fIndex = null;
+                    let pTypes = pObj.type || [];
+                    let pTier = '';
+                    
+                    if (window.pokemonRuData && window.pokemonRuData[pObj.en.toUpperCase()]) {
+                        pTier = window.pokemonRuData[pObj.en.toUpperCase()].Format || '';
+                    }
                     
                     if (formIdx > 0 && window.formsBySpecies && window.formsBySpecies[sp]) {
                         const forms = window.formsBySpecies[sp];
@@ -549,21 +555,49 @@ window.openLightLocationModal = function(locId) {
                                     finalRuName = finalRuName + ' (' + fObj.FormName + ')';
                                 }
                             }
+                            if (fObj.Types) pTypes = fObj.Types.split(',').map(t => t.trim().toLowerCase());
+                            if (fObj.Format) pTier = fObj.Format;
                             fIndex = forms.indexOf(fObj);
                         }
                     }
                     
+                    const typeColorsLoc = {
+                        'normal': '#A8A77A', 'fire': '#EE8130', 'water': '#6390F0',
+                        'electric': '#F7D02C', 'grass': '#7AC74C', 'ice': '#96D9D6',
+                        'fighting': '#C22E28', 'poison': '#A33EA1', 'ground': '#E2BF65',
+                        'flying': '#A98FF3', 'psychic': '#F95587', 'bug': '#A6B91A',
+                        'rock': '#B6A136', 'ghost': '#735797', 'dragon': '#6F35FC',
+                        'dark': '#705848', 'steel': '#B7B7CE', 'fairy': '#D685AD'
+                    };
+
+                    let borderStyle = `border: 2px solid rgba(255,255,255,0.1); background: rgba(0,0,0,0.3);`;
+                    if (pTypes.length > 0) {
+                        let c1 = typeColorsLoc[pTypes[0]] || '#aaa';
+                        if (pTypes[0] === 'dark') c1 = '#6a5a75';
+                        if (c1.length === 9) c1 = c1.substring(0, 7);
+                        if (pTypes.length > 1) {
+                            let c2 = typeColorsLoc[pTypes[1]] || '#aaa';
+                            if (pTypes[1] === 'dark') c2 = '#6a5a75';
+                            if (c2.length === 9) c2 = c2.substring(0, 7);
+                            borderStyle = `border: 2px solid transparent; background: linear-gradient(135deg, rgba(0,0,0,0.3), rgba(0,0,0,0.3)) padding-box, linear-gradient(135deg, ${c1}, ${c2}) border-box;`;
+                        } else {
+                            borderStyle = `border: 2px solid transparent; background: linear-gradient(135deg, rgba(0,0,0,0.3), rgba(0,0,0,0.3)) padding-box, ${c1} border-box;`;
+                        }
+                    }
+
                     let rarityLabel = encInfo.rarity ? 'Р' + encInfo.rarity : 'О';
+                    let tierHtml = pTier ? `<div style="font-size:0.55rem; color:#ffd700; font-weight:bold; margin-top:2px;">${pTier.toUpperCase()}</div>` : '';
                     
-                    pokeCards += `<div style="background:rgba(0,0,0,0.3); padding:5px; border-radius:8px; text-align:center; width:65px; cursor:pointer; transition:0.2s; position:relative;" title="${finalRuName}" 
-                        onmouseover="this.style.background='rgba(0,0,0,0.6)'; this.style.transform='scale(1.05)';" 
-                        onmouseout="this.style.background='rgba(0,0,0,0.3)'; this.style.transform='none';" 
+                    pokeCards += `<div style="padding:5px; border-radius:8px; text-align:center; width:65px; cursor:pointer; transition:0.2s; position:relative; ${borderStyle}" title="${finalRuName}" 
+                        onmouseover="this.style.filter='brightness(1.2)'; this.style.transform='scale(1.05)';" 
+                        onmouseout="this.style.filter='none'; this.style.transform='none';" 
                         onclick="if(typeof openPokemonDossier === 'function') openPokemonDossier('${sp.replace(/'/g, "\\'")}', window.isShinyToggleActive || false, ${fIndex !== null ? fIndex : 'null'})">
                         
                         <div style="position:absolute; top:-4px; right:-4px; background:rgba(0,0,0,0.85); border:1px solid var(--primary); border-radius:50%; width:22px; height:22px; font-size:0.55rem; display:flex; align-items:center; justify-content:center; color:#fff; font-weight:bold; z-index:2; box-shadow:0 2px 4px rgba(0,0,0,0.5);">${rarityLabel}</div>
                         
                         <img src="${imgSrc}" style="width:40px;height:40px;object-fit:contain;" onerror="this.src='images/items/0.png'">
                         <div style="font-size:0.6rem; margin-top:3px; white-space:nowrap; overflow:hidden; text-overflow:ellipsis;">${finalRuName}</div>
+                        ${tierHtml}
                     </div>`;
                 }
             }

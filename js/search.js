@@ -23,6 +23,7 @@ window.onerror = function (msg, url, line) {
 
 // === ГЛОБАЛЬНЫЙ СТЕЙТ ДЛЯ ШАЙНИ И ПОЛЗУНКА ===
 window.isShinyToggleActive = false;
+window.isHiddenAbilitySearch = false; // Default OFF
 window.currentSliderState = 0;
 
 window.toggleShinySearch = function(e) {
@@ -76,7 +77,35 @@ window.toggleShinySearch = function(e) {
             const displayEn = rawEn.charAt(0) + rawEn.slice(1).toLowerCase();
             enDiv.textContent = isShiny ? `⭐️${displayEn}⭐️` : displayEn;
         }
+        const textRuObj = document.getElementById('dex-stats-ru');
+        if (textRuObj && rawRu) {
+            textRuObj.innerHTML = isShiny ? `⭐️${rawRu}⭐️` : rawRu;
+        }
     });
+};
+
+window.toggleHiddenAbilitySearch = function(e) {
+    if (e) {
+        e.preventDefault();
+        e.stopPropagation();
+    }
+    window.isHiddenAbilitySearch = !window.isHiddenAbilitySearch;
+    const btn = document.getElementById('hiddenAbilityToggleButton');
+    if (btn) {
+        const isHidden = window.isHiddenAbilitySearch;
+        btn.style.background = isHidden ? 'rgba(78, 205, 196, 0.2)' : 'rgba(255,255,255,0.05)';
+        btn.style.border = `1px solid ${isHidden ? 'var(--primary)' : 'rgba(255,255,255,0.1)'}`;
+        btn.style.boxShadow = isHidden ? '0 0 10px rgba(78, 205, 196, 0.5)' : 'none';
+        const icon = btn.querySelector('i');
+        if (icon) icon.style.color = isHidden ? 'var(--primary)' : '#aaa';
+    }
+    
+    // Перезапуск поиска
+    const input = document.getElementById('pokemonSearch');
+    if (input && input.value.trim().length > 0) {
+        const btnSearch = document.getElementById('searchButton');
+        if (btnSearch) btnSearch.click();
+    }
 };
 
 // ==========================================
@@ -116,7 +145,7 @@ document.addEventListener('DOMContentLoaded', function () {
         'pokemon': 'Например: Pikachu, Charizard, Мьюту, #025, 125',
         'item': 'Например: Чёрный пояс, Уголёк, Амурит, item_996, 996',
         'centers': 'Список локаций, где присутствует Покецентр и Магазин',
-        'other': 'Например: Имя_NPC, Тип_покемона, Тир_покемона, Редкость ( О | Р_ ), Название_Локации, или добавьте ⭐️ для шайни'
+        'other': 'Например: Имя_NPC, Тип_покемона, Тир_покемона, Редкость ( О | Р_ ), Способность_покемона, Профессия_покемона, Название_Локации, или добавьте ⭐️ для шайни'
     };
 
     // === ДАННЫЕ (Экспортируем в глобальную область для dossier.js) ===
@@ -168,12 +197,13 @@ document.addEventListener('DOMContentLoaded', function () {
                 fetch('json/emoji_combos.json?v=' + new Date().getTime()).catch(() => ({ok: false})),
                 fetch('json/item_locations.json?v=' + new Date().getTime()).catch(() => ({ok: false})),
                 fetch('json/items_relations.json?v=' + new Date().getTime()).catch(() => ({ok: false})),
-                fetch('json/npcs.json?v=' + new Date().getTime()).catch(() => ({ok: false}))
+                fetch('json/npcs.json?v=' + new Date().getTime()).catch(() => ({ok: false})),
+                fetch('json/abilities.json?v=' + new Date().getTime()).catch(() => ({ok: false}))
             ]);
 
             const [
                 pRes, lRes, ruRes, prRes, affRes, fRes, uRes,
-                itemLegacyRes, itemsRes, comboRes, itemLocsRes, relRes, npcRes
+                itemLegacyRes, itemsRes, comboRes, itemLocsRes, relRes, npcRes, abRes
             ] = results;
 
             if (!pRes.ok) throw new Error(`pokemon_names.json не найден`);
@@ -186,6 +216,7 @@ document.addEventListener('DOMContentLoaded', function () {
             window.pokemonRuData = await ruRes.json();
             window.professionsData = await prRes.json();
             window.profAffinityData = await affRes.json();
+            if (abRes && abRes.ok) window.abilitiesData = await abRes.json();
             const formsRaw = await fRes.json();
             if (uRes && uRes.ok) {
                 const rawUpper = await uRes.json();
@@ -814,39 +845,64 @@ document.addEventListener('DOMContentLoaded', function () {
             let typeKey = null;
             let tierKey = null;
             let rarityKey = null;
+            let abilityKey = null;
+            let professionKey = null;
             
-            const qTypeRaw = cleanQuery.replace(/^тип\s+/i, '').trim();
+            const spacedQuery = rawQuery.toLowerCase().trim();
+            const qTypeRaw = spacedQuery.replace(/^тип\s+/i, '').replace(/[^\p{L}\d\s]/gu, '').trim();
             const qType = qTypeRaw.replace(/ё/g, 'е');
-            if (cleanQuery.startsWith('тип ')) typeKey = Object.keys(typeNamesRu).find(k => typeNamesRu[k].toLowerCase().replace(/ё/g, 'е') === qType || k === qTypeRaw) || qTypeRaw;
+            
+            if (spacedQuery.startsWith('тип ')) typeKey = Object.keys(typeNamesRu).find(k => typeNamesRu[k].toLowerCase().replace(/ё/g, 'е') === qType || k === qTypeRaw) || qTypeRaw;
             else typeKey = Object.keys(typeNamesRu).find(k => typeNamesRu[k].toLowerCase().replace(/ё/g, 'е') === qType || k === qTypeRaw);
 
             if (!typeKey) {
                 if (validTiers.includes(cleanQuery)) tierKey = cleanQuery;
-                else if (cleanQuery.startsWith('тир ')) {
-                    const tk = cleanQuery.split(' ')[1];
+                else if (spacedQuery.startsWith('тир ')) {
+                    const tk = spacedQuery.split(' ')[1];
                     if (validTiers.includes(tk)) tierKey = tk;
                 }
             }
+            
+            if (!typeKey && !tierKey && window.abilitiesData) {
+                let qAbil = spacedQuery.replace(/^способность\s+/i, '').replace(/[^\p{L}\d\s_]/gu, '').trim();
+                const abKey = Object.keys(window.abilitiesData).find(k => {
+                    const ab = window.abilitiesData[k];
+                    return ab.Name.toLowerCase() === qAbil || 
+                           (ab.RuName && ab.RuName.toLowerCase().replace(/ё/g, 'е') === qAbil.replace(/ё/g, 'е')) ||
+                           qAbil === `ability_${ab.num_id}`;
+                });
+                if (abKey) abilityKey = abKey;
+            }
+            
+            if (!typeKey && !tierKey && !abilityKey && window.professionsData) {
+                let qProf = spacedQuery.replace(/^профессия\s+/i, '').replace(/[^\p{L}\d\s]/gu, '').trim();
+                const prKey = Object.keys(window.professionsData).find(k => {
+                    const pr = window.professionsData[k];
+                    let prName = pr.ru_name.replace(/^[^\p{L}]+/gu, '').trim().toLowerCase();
+                    return k.toLowerCase() === qProf || prName === qProf || pr.ru_name.toLowerCase().includes(qProf);
+                });
+                if (prKey) professionKey = prKey;
+            }
 
-            if (!typeKey && !tierKey) {
-                let cleanRarityStr = cleanQuery.replace(/\s+/g, '');
-                if (validRarities.includes(cleanQuery)) rarityKey = cleanQuery;
-                else if (/^\d{1,2}$/.test(cleanQuery)) rarityKey = 'р' + cleanQuery;
-                else if (cleanQuery.startsWith('редкость ')) {
-                    const rk = cleanQuery.split(' ')[1];
-                    if (validRarities.includes(rk)) rarityKey = rk;
-                    else if (/^\d{1,2}$/.test(rk)) rarityKey = 'р' + rk;
+            if (!typeKey && !tierKey && !abilityKey && !professionKey) {
+                // Заменяем английскую 'p' на русскую 'р'
+                let qRarity = spacedQuery.replace(/p/g, 'р').replace(/[^\p{L}\d\s]/gu, '').trim();
+                
+                if (qRarity.startsWith('редкость ')) {
+                    qRarity = qRarity.replace(/^редкость\s+/i, '').trim();
                 }
-                else if (cleanQuery === 'обычный' || cleanQuery.startsWith('обычный')) rarityKey = 'о';
-                else {
-                    const rMatch = cleanQuery.match(/^редкость\s+(р\d{1,2}|о)$/);
-                    if (rMatch) rarityKey = rMatch[1];
-                    else if (/^редкость\d{1,2}$/.test(cleanRarityStr)) rarityKey = 'р' + cleanRarityStr.replace('редкость', '');
-                    else if (/^редкостьр\d{1,2}$/.test(cleanRarityStr)) rarityKey = cleanRarityStr.replace('редкость', '');
+
+                if (qRarity === 'обычный' || qRarity === 'обычная' || qRarity === 'о') {
+                    rarityKey = 'о';
+                } else if (/^р?\d{1,2}$/.test(qRarity)) {
+                    let num = qRarity.match(/\d{1,2}/)[0];
+                    if (parseInt(num) >= 1 && parseInt(num) <= 10) {
+                        rarityKey = 'р' + num;
+                    }
                 }
             }
 
-            if (typeKey || tierKey || rarityKey) {
+            if (typeKey || tierKey || rarityKey || abilityKey || professionKey) {
                 let pokemonMatches = [];
                 let locationMatches = {}; // Grouped by region
 
@@ -856,11 +912,24 @@ document.addEventListener('DOMContentLoaded', function () {
                     if (!p || !p.en) continue;
                     let pType = typeKey && p.type && p.type.includes(typeKey);
                     let pTier = false;
+                    let pAbil = false;
+                    let pAbilHidden = false;
+                    let pProf = false;
                     const ruEntry = window.pokemonRuData && window.pokemonRuData[p.en.toUpperCase()];
                     if (tierKey && ruEntry && ruEntry.Format && ruEntry.Format.toLowerCase() === tierKey) pTier = true;
+                    if (abilityKey && ruEntry) {
+                        if (ruEntry.Abilities && ruEntry.Abilities.includes(abilityKey)) pAbil = true;
+                        if (window.isHiddenAbilitySearch && ruEntry.HiddenAbilities && ruEntry.HiddenAbilities.includes(abilityKey)) {
+                            pAbil = true;
+                            if (!(ruEntry.Abilities && ruEntry.Abilities.includes(abilityKey))) pAbilHidden = true;
+                        }
+                    }
+                    if (professionKey && ruEntry && ruEntry.AptitudePool) {
+                        if (ruEntry.AptitudePool.includes(professionKey)) pProf = true;
+                    }
                     
-                    if (pType || pTier) {
-                        pokemonMatches.push({id, p, isForm: false, formIndex: null, formObj: null});
+                    if (pType || pTier || pAbil || pProf) {
+                        pokemonMatches.push({id, p, isForm: false, formIndex: null, formObj: null, isHA: pAbilHidden});
                     }
 
                     // --- Сбор форм ---
@@ -879,12 +948,35 @@ document.addEventListener('DOMContentLoaded', function () {
                             }
                             
                             let fTier = false;
+                            let fAbil = false;
+                            let fAbilHidden = false;
                             if (tierKey) {
                                 if (form.Format && form.Format.toLowerCase() === tierKey) fTier = true;
                                 else if (!form.Format && pTier) fTier = true; // Fallback to base tier
                             }
+                            
+                            if (abilityKey) {
+                                let formHasAbilStr = form.Abilities ? form.Abilities.includes(abilityKey) : false;
+                                let formHasHiddenStr = form.HiddenAbilities ? form.HiddenAbilities.includes(abilityKey) : false;
+                                
+                                if (formHasAbilStr) fAbil = true;
+                                else if (window.isHiddenAbilitySearch && formHasHiddenStr) { fAbil = true; fAbilHidden = true; }
+                                else if (!formHasAbilStr && !formHasHiddenStr) {
+                                    if (!form.Abilities && ruEntry && ruEntry.Abilities && ruEntry.Abilities.includes(abilityKey)) fAbil = true;
+                                    if (window.isHiddenAbilitySearch && !form.HiddenAbilities && ruEntry && ruEntry.HiddenAbilities && ruEntry.HiddenAbilities.includes(abilityKey)) {
+                                        fAbil = true;
+                                        if (!(!form.Abilities && ruEntry && ruEntry.Abilities && ruEntry.Abilities.includes(abilityKey))) fAbilHidden = true;
+                                    }
+                                }
+                            }
 
-                            if (formType || fTier) {
+                            let fProf = false;
+                            if (professionKey) {
+                                // Since professions are tied to AptitudePool on base species in ruData, fallback to pProf
+                                if (pProf) fProf = true;
+                            }
+
+                            if (formType || fTier || fAbil || fProf) {
                                 let mockP = {
                                     en: p.en,
                                     ru: p.ru,
@@ -918,6 +1010,7 @@ document.addEventListener('DOMContentLoaded', function () {
                                 let finalRuName = p.ru || p.en;
                                 let fTier = false;
                                 let formType = false;
+                                let formAbil = false;
                                 
                                 if (e.form > 0 && window.formsBySpecies && window.formsBySpecies[p.en.toUpperCase()]) {
                                     const forms = window.formsBySpecies[p.en.toUpperCase()];
@@ -946,11 +1039,40 @@ document.addEventListener('DOMContentLoaded', function () {
                                                 if (tArr.includes(typeKey.toLowerCase())) formType = true;
                                             } else if (p.type && p.type.includes(typeKey)) formType = true;
                                         }
+                                        if (abilityKey) {
+                                            if (fObj.Abilities && fObj.Abilities.includes(abilityKey)) formAbil = true;
+                                            else if (fObj.HiddenAbilities && fObj.HiddenAbilities.includes(abilityKey)) formAbil = true;
+                                            else if (!fObj.Abilities && !fObj.HiddenAbilities) {
+                                                const ruEntry = window.pokemonRuData && window.pokemonRuData[p.en.toUpperCase()];
+                                                if (ruEntry) {
+                                                    if (ruEntry.Abilities && ruEntry.Abilities.includes(abilityKey)) formAbil = true;
+                                                    if (ruEntry.HiddenAbilities && ruEntry.HiddenAbilities.includes(abilityKey)) formAbil = true;
+                                                }
+                                            }
+                                        }
                                     }
                                 }
 
                                 if (typeKey) {
                                     if (e.form > 0 ? formType : (p.type && p.type.includes(typeKey))) matchedSpecies.add(finalRuName);
+                                }
+                                if (abilityKey) {
+                                    if (e.form > 0) {
+                                        if (formAbil) matchedSpecies.add(finalRuName);
+                                    } else if (window.pokemonRuData) {
+                                        const ruEntry = window.pokemonRuData[p.en.toUpperCase()];
+                                        if (ruEntry && ((ruEntry.Abilities && ruEntry.Abilities.includes(abilityKey)) || (ruEntry.HiddenAbilities && ruEntry.HiddenAbilities.includes(abilityKey)))) {
+                                            matchedSpecies.add(finalRuName);
+                                        }
+                                    }
+                                }
+                                if (professionKey) {
+                                    if (window.pokemonRuData) {
+                                        const ruEntry = window.pokemonRuData[p.en.toUpperCase()];
+                                        if (ruEntry && ruEntry.AptitudePool && ruEntry.AptitudePool.includes(professionKey)) {
+                                            matchedSpecies.add(finalRuName);
+                                        }
+                                    }
                                 }
                                 if (tierKey && window.pokemonRuData) {
                                     if (e.form > 0) {
@@ -1008,7 +1130,11 @@ document.addEventListener('DOMContentLoaded', function () {
                 }
 
                 // --- 3. Генерация UI ---
-                let titleText = typeKey ? `Поиск по типу: ${typeNamesRu[typeKey] || typeKey}` : (tierKey ? `Поиск по тиру: ${tierKey.toUpperCase()}` : `Поиск по редкости: ${rarityKey.toUpperCase()}`);
+                let titleText = typeKey ? `Поиск по типу: ${typeNamesRu[typeKey] || typeKey}` : 
+                                (tierKey ? `Поиск по тиру: ${tierKey.toUpperCase()}` : 
+                                (abilityKey && window.abilitiesData && window.abilitiesData[abilityKey] ? `Поиск по способности: ${window.abilitiesData[abilityKey].RuName || window.abilitiesData[abilityKey].Name}` : 
+                                (professionKey && window.professionsData && window.professionsData[professionKey] ? `Поиск по профессии: ${window.professionsData[professionKey].ru_name.replace(/^[^\p{L}]+/gu, '').trim()}` : 
+                                `Поиск по редкости: ${rarityKey ? rarityKey.toUpperCase() : ''}`)));
                 els.title.innerHTML = `<i class="fas fa-search"></i> ${titleText}`;
 
                 // Локации HTML
@@ -1109,6 +1235,18 @@ document.addEventListener('DOMContentLoaded', function () {
                                     dispEn = `${dispEn} (${m.p.formRu})`;
                                 }
                             }
+                        } else {
+                            const ruEntry = window.pokemonRuData && window.pokemonRuData[m.p.en.toUpperCase()];
+                            if (ruEntry && ruEntry.FormName) {
+                                if (typeof window.translateFormName === 'function') {
+                                    let trans = window.translateFormName(ruEntry.FormName, dispRu, dispEn);
+                                    dispRu = trans.ru;
+                                    dispEn = trans.en;
+                                } else {
+                                    dispRu = `${dispRu} (${ruEntry.FormName})`;
+                                    dispEn = `${dispEn} (${ruEntry.FormName})`;
+                                }
+                            }
                         }
                         
                         const pNameRu = isShinySearch ? `⭐️${dispRu}⭐️` : dispRu;
@@ -1118,10 +1256,16 @@ document.addEventListener('DOMContentLoaded', function () {
                             ? `typeof openPokemonDossier === 'function' ? openPokemonDossier('${safeEn}', window.isShinyToggleActive, ${m.formIndex}) : (document.getElementById('pokemonSearch').value='${safeEn}', document.getElementById('searchButton').click())`
                             : `typeof openPokemonDossier === 'function' ? openPokemonDossier('${safeEn}', window.isShinyToggleActive) : (document.getElementById('pokemonSearch').value='${safeEn}', document.getElementById('searchButton').click())`;
                         
+                        let haBadge = '';
+                        if (m.isHA) {
+                            haBadge = `<div style="position: absolute; top: -8px; left: 50%; transform: translateX(-50%); background: rgba(255, 71, 87, 0.9); color: white; padding: 2px 8px; border-radius: 12px; font-size: 0.65rem; font-weight: bold; border: 1px solid rgba(255,255,255,0.3); z-index: 5; white-space: nowrap; box-shadow: 0 2px 4px rgba(0,0,0,0.5);" title="Скрытая способность">Скрытая</div>`;
+                        }
+
                         pokesHtml += `<div class="poke-trading-card" data-id="${m.id}" data-en="${safeEn}" data-ru="${safeRu}" data-inpages="${isInPages}" data-isform="${m.isForm ? 'true' : 'false'}" data-sprite="${m.formObj ? m.formObj.SpritePath : ''}" data-shinysprite="${m.formObj ? m.formObj.ShinySpritePath : ''}" style="${glowStyle} border-radius: 12px; padding: 10px; width: 140px; text-align: center; position: relative; cursor: pointer; transition: 0.2s;" 
                              onmouseover="this.style.transform='scale(1.05)'; ${hoverStyle}" 
                              onmouseout="this.style.transform='none'; ${hoverOutStyle}" 
                              onclick="${onClickCode}">
+                            ${haBadge}
                             <div style="position: absolute; top: 8px; left: 8px; background: rgba(0,0,0,0.6); padding: 2px 6px; border-radius: 10px; font-size: 0.75rem; font-weight: bold; color: #fff;">#${m.id.padStart(3, '0')}</div>
                             <div style="position: absolute; top: 8px; right: 8px; background: rgba(255,215,0,0.2); padding: 2px 6px; border-radius: 10px; font-size: 0.8rem; font-weight: bold; color: #ffd700; filter: drop-shadow(0 2px 4px rgba(0,0,0,0.5));">${badgeText}</div>
                             <img class="poke-card-img" src="${imgSrc}" style="width: 80px; height: 80px; object-fit: contain; margin-top: 20px; filter: drop-shadow(0 4px 6px rgba(0,0,0,0.5));" onerror="this.src='images/items/0.png'">
@@ -1136,6 +1280,8 @@ document.addEventListener('DOMContentLoaded', function () {
                     let totalText = "Всего найдено покемонов";
                     if (typeKey && typeNamesRu[typeKey.toLowerCase()]) {
                         totalText = `Всего покемонов типа «${typeNamesRu[typeKey.toLowerCase()]}»`;
+                    } else if (professionKey && window.professionsData && window.professionsData[professionKey]) {
+                        totalText = `Всего покемонов для профессии «${window.professionsData[professionKey].ru_name.replace(/^[^\p{L}]+/gu, '').trim()}»`;
                     }
                     let tColor = (typeKey && typeof typeColors !== 'undefined' && typeColors[typeKey.toLowerCase()]) ? typeColors[typeKey.toLowerCase()] : 'var(--primary)';
                     pokesHtml += `<div style="text-align:center; margin-top:30px; font-size:1.1rem; color:#ccc; font-weight:bold; background:rgba(0,0,0,0.3); border-radius:10px; padding:15px; border-bottom:3px solid ${tColor};">
@@ -1153,9 +1299,14 @@ document.addEventListener('DOMContentLoaded', function () {
                     </div>
                     <div style="flex: 1 1 0; min-width: 0; position: relative; display: flex; justify-content: flex-start; align-items: center; padding-left: 15px;">
                         <span id="slider-poke-text" style="color:#aaa; font-weight:bold; transition:0.3s; cursor:pointer; font-size: 0.95rem; white-space: nowrap;" onclick="setSliderState(1)">Покемоны</span>
-                        <button id="shinyToggleButton" class="shiny-slider-btn" onclick="toggleShinySearch(event)" title="Включить Шайни режим" style="position: absolute; right: 0; opacity: 0; pointer-events: none; background: ${isShinySearch ? 'rgba(78, 205, 196, 0.2)' : 'rgba(255,255,255,0.05)'}; border: 1px solid ${isShinySearch ? 'var(--primary)' : 'rgba(255,255,255,0.1)'}; border-radius: 8px; width: 34px; height: 34px; flex-shrink: 0; cursor: pointer; transition: 0.3s; display: flex; align-items: center; justify-content: center;">
-                            <i class="fas fa-star" style="color: ${isShinySearch ? 'var(--primary)' : '#aaa'}; font-size: 1.1rem;"></i>
-                        </button>
+                        <div style="position: absolute; right: 0; display: flex; flex-direction: row; gap: 8px;">
+                            <button id="shinyToggleButton" class="shiny-slider-btn" onclick="toggleShinySearch(event)" title="Включить Шайни режим" style="opacity: 0; pointer-events: none; background: ${isShinySearch ? 'rgba(78, 205, 196, 0.2)' : 'rgba(255,255,255,0.05)'}; border: 1px solid ${isShinySearch ? 'var(--primary)' : 'rgba(255,255,255,0.1)'}; border-radius: 8px; width: 34px; height: 34px; flex-shrink: 0; cursor: pointer; transition: 0.3s; display: flex; align-items: center; justify-content: center;">
+                                <i class="fas fa-star" style="color: ${isShinySearch ? 'var(--primary)' : '#aaa'}; font-size: 1.1rem;"></i>
+                            </button>
+                            <button id="hiddenAbilityToggleButton" class="shiny-slider-btn" onclick="toggleHiddenAbilitySearch(event)" title="Учитывать скрытые способности" style="opacity: 0; pointer-events: none; background: ${window.isHiddenAbilitySearch ? 'rgba(78, 205, 196, 0.2)' : 'rgba(255,255,255,0.05)'}; border: 1px solid ${window.isHiddenAbilitySearch ? 'var(--primary)' : 'rgba(255,255,255,0.1)'}; border-radius: 8px; width: 34px; height: 34px; flex-shrink: 0; cursor: pointer; transition: 0.3s; display: flex; align-items: center; justify-content: center;">
+                                <i class="fas fa-eye-slash" style="color: ${window.isHiddenAbilitySearch ? 'var(--primary)' : '#aaa'}; font-size: 1.1rem;"></i>
+                            </button>
+                        </div>
                     </div>
                 </div>
                 
@@ -1192,6 +1343,7 @@ document.addEventListener('DOMContentLoaded', function () {
                     tPoke.style.color = '#aaa';
                     
                     const shinyBtn = document.getElementById('shinyToggleButton');
+                    const hiddenBtn = document.getElementById('hiddenAbilityToggleButton');
                     
                     if (state === -1) {
                         thumb.style.left = '3px';
@@ -1199,17 +1351,20 @@ document.addEventListener('DOMContentLoaded', function () {
                         tLoc.style.color = 'var(--primary)';
                         vLoc.style.display = 'block';
                         if (shinyBtn) { shinyBtn.style.opacity = '0'; shinyBtn.style.pointerEvents = 'none'; }
+                        if (hiddenBtn) { hiddenBtn.style.opacity = '0'; hiddenBtn.style.pointerEvents = 'none'; }
                     } else if (state === 1) {
                         thumb.style.left = '49px';
                         thumb.style.background = 'var(--primary)';
                         tPoke.style.color = 'var(--primary)';
                         vPoke.style.display = 'block';
                         if (shinyBtn) { shinyBtn.style.opacity = '1'; shinyBtn.style.pointerEvents = 'auto'; }
+                        if (hiddenBtn) { hiddenBtn.style.opacity = '1'; hiddenBtn.style.pointerEvents = 'auto'; }
                     } else {
                         thumb.style.left = '26px';
                         thumb.style.background = 'var(--text-muted)';
                         vNeutral.style.display = 'block';
                         if (shinyBtn) { shinyBtn.style.opacity = '0'; shinyBtn.style.pointerEvents = 'none'; }
+                        if (hiddenBtn) { hiddenBtn.style.opacity = '0'; hiddenBtn.style.pointerEvents = 'none'; }
                     }
                 };
 
@@ -1246,6 +1401,13 @@ document.addEventListener('DOMContentLoaded', function () {
                         if (!isScrolling && typeof openLightLocationModal === 'function') openLightLocationModal(el.dataset.loc);
                     });
                 });
+
+                // Восстановление ползунка
+                if (window.currentSliderState !== 0) {
+                    setSliderState(window.currentSliderState);
+                } else if (pokemonMatches.length > 0 && typeKey === null && tierKey === null && rarityKey === null && abilityKey !== null && professionKey === null) {
+                    setSliderState(1);
+                }
 
                 return;
             }
@@ -1362,7 +1524,7 @@ document.addEventListener('DOMContentLoaded', function () {
             return;
         }
         const searchNameCaps = pokemon.en.toUpperCase().trim();
-        let habitats = findInWild(searchNameCaps);
+        let habitats = findInWild(searchNameCaps, formIndex);
         let message = "";
         let ancestorHabitats = [];
 
@@ -1393,7 +1555,7 @@ document.addEventListener('DOMContentLoaded', function () {
                 message = `Покемон <b>${pokemon.en}</b> (<i>${pokemon.ru}</i>)${specialText} не встречается в дикой природе, но вы можете эволюционировать его из: ${ancestorNames}.`;
                 
                 ancestors.forEach(anc => {
-                    const ancLocs = findInWild(anc.en.toUpperCase().trim());
+                    const ancLocs = findInWild(anc.en.toUpperCase().trim(), formIndex);
                     ancestorHabitats.push({ pokemon: anc, locations: ancLocs });
                 });
             } else {
@@ -1410,11 +1572,13 @@ document.addEventListener('DOMContentLoaded', function () {
         renderOutput(actualId, pokemon, habitats, message, ancestorHabitats, isShinySearch, formIndex);
     }
 
-    function findInWild(capsName) {
+    function findInWild(capsName, formIndex = null) {
         const found = [];
         for (const id in locationData) {
             const loc = locationData[id];
-            const enc = loc.encounters?.find(e => e.species === capsName);
+            if (!loc.encounters) continue;
+            let targetForm = formIndex !== null ? formIndex : 0;
+            const enc = loc.encounters.find(e => e.species === capsName && (e.form || 0) === targetForm);
             if (enc) found.push({ ...loc, name: id, info: enc });
         }
         return found;

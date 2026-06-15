@@ -2614,8 +2614,9 @@
 
                 // Индексируем формы покемонов по SpeciesID
                 if (pokemonFormsData) {
-                    const formsArr = Array.isArray(pokemonFormsData) ? pokemonFormsData : Object.values(pokemonFormsData);
-                    for (const form of formsArr) {
+                    for (const key in pokemonFormsData) {
+                        const form = pokemonFormsData[key];
+                        form._FormKey = key;
                         const sid = String(form._SpeciesID || form.SpeciesID || '');
                         if (!sid) continue;
                         if (!formsBySpecies[sid]) formsBySpecies[sid] = [];
@@ -3340,6 +3341,34 @@
                                     icon: '📦',
                                     type: 'item'
                                 });
+                            }
+                        }
+                    }
+                }
+
+                if (window.abilitiesData) {
+                    const norm = str => str.toLowerCase().replace(/ё/g, 'е').replace(/[^а-яa-z0-9\s]/gi, '');
+                    let qAbil = val.replace(/^способность\s+/i, '').trim();
+                    const normVal = norm(qAbil);
+                    if (normVal) {
+                        for (let key in window.abilitiesData) {
+                            const ab = window.abilitiesData[key];
+                            const ruN = ab.RuName ? norm(ab.RuName) : '';
+                            const enN = ab.Name ? norm(ab.Name) : '';
+                            
+                            if (ruN.includes(normVal) || enN.includes(normVal)) {
+                                if (!addedIds.has('abil_'+key)) {
+                                    addedIds.add('abil_'+key);
+                                    matches.push({
+                                        id: 'abil_'+key,
+                                        text: 'Способность ' + (ab.RuName || ab.Name),
+                                        subtext: ab.RuName && ab.Name ? ab.Name : 'Способность',
+                                        icon: '✨',
+                                        type: 'ability',
+                                        queryText: 'Способность ' + (ab.RuName || ab.Name),
+                                        description: ab.Description || ''
+                                    });
+                                }
                             }
                         }
                     }
