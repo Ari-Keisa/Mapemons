@@ -158,9 +158,29 @@ function showLocationInfo(locId, data) {
                     pk = window.pokemonDB[pkId] || null;
                 }
             }
+            let finalRuName = pk ? pk.ru : (ruEntry ? ruEntry.Name : capsSpecies);
+            let finalEnName = pk ? pk.en : (ruEntry ? ruEntry.Name : capsSpecies);
+            let formIndex = null;
+            
+            if (enc.form > 0 && window.formsBySpecies && window.formsBySpecies[capsSpecies]) {
+                const forms = window.formsBySpecies[capsSpecies];
+                let fObj = forms.find(f => f._FormKey === `${capsSpecies}-${enc.form}`);
+                if (!fObj && forms.length >= enc.form) fObj = forms[enc.form - 1];
+                
+                if (fObj && fObj.FormName) {
+                    if (typeof window.translateFormName === 'function') {
+                        const t = window.translateFormName(fObj.FormName, finalRuName, finalEnName);
+                        finalRuName = t.ru;
+                        finalEnName = t.en;
+                    } else {
+                        finalRuName = finalRuName + ' (' + fObj.FormName + ')';
+                        finalEnName = fObj.FormName;
+                    }
+                    formIndex = forms.indexOf(fObj);
+                }
+            }
+
             const numStr = pkId || (ruEntry && ruEntry.NationalId ? String(ruEntry.NationalId) : '???');
-            const ruName = pk ? pk.ru : (ruEntry ? ruEntry.Name : capsSpecies);
-            const enName = pk ? pk.en : (ruEntry ? ruEntry.Name : capsSpecies);
             const lvl = enc.min_level === enc.max_level ? `Ур. ${enc.min_level}` : `Ур. ${enc.min_level} - ${enc.max_level}`;
 
             let conditionLabel = '';
@@ -179,7 +199,7 @@ function showLocationInfo(locId, data) {
             <div class="poke-item">
                 <div class="poke-item-info">
                     <div style="font-weight: 500; margin-bottom: 3px;">
-                        <strong>#${String(numStr).replace(/^0+/, '') || numStr}</strong> ${ruName} / ${enName}
+                        <strong>#${String(numStr).replace(/^0+/, '') || numStr}</strong> ${finalRuName} / ${finalEnName}
                     </div>
                     <div style="color:var(--text-muted); font-size:0.82rem;">
                         ${lvl}
@@ -188,7 +208,7 @@ function showLocationInfo(locId, data) {
                 <div class="habitat-actions" style="display: flex; flex-direction: column; align-items: flex-end; gap: 4px;">
                     <div style="display: flex; align-items: center;">
                         <span class="poke-item-rarity" style="min-width: 40px; text-align: center; display: inline-block; margin-left: 0;">${rarityLabel}</span>
-                        <button class="poke-info-btn" style="margin-left: 6px;" onclick="openPokemonDossier('${dossierKey}')" title="Досье"><i class="fas fa-book-open"></i></button>
+                        <button class="poke-info-btn" style="margin-left: 6px;" onclick="openPokemonDossier('${dossierKey}', window.isShinyToggleActive || false, ${formIndex !== null ? formIndex : 'null'})" title="Досье"><i class="fas fa-book-open"></i></button>
                     </div>
                     ${conditionLabel ? `<div style="font-size: 0.8rem; color:var(--accent); opacity: 0.9; text-align: right;">${conditionLabel.trim()}</div>` : ''}
                 </div>
@@ -480,25 +500,70 @@ window.openLightLocationModal = function(locId) {
 
     let pokesHtml = '';
     if (data.encounters && data.encounters.length > 0) {
-        let speciesSet = new Set();
+        let encounterMap = new Map();
         data.encounters.forEach(e => {
-            if(e.species) speciesSet.add(e.species.toUpperCase());
+            if (e.species) {
+                const formKey = e.form || 0;
+                const key = `${e.species.toUpperCase()}_${formKey}`;
+                if (!encounterMap.has(key)) {
+                    encounterMap.set(key, { species: e.species.toUpperCase(), form: formKey, rarity: e.rarity });
+                } else {
+                    if (e.rarity !== undefined && e.rarity < encounterMap.get(key).rarity) {
+                        encounterMap.get(key).rarity = e.rarity;
+                    }
+                }
+            }
         });
         
         let pokeCards = '';
-        speciesSet.forEach(sp => {
+        encounterMap.forEach((encInfo, key) => {
+            const sp = encInfo.species;
+            const formIdx = encInfo.form;
+            
             if (window.pokemonDB) {
                 const pObj = Object.values(window.pokemonDB).find(x => x.en.toUpperCase() === sp);
                 if (pObj) {
                     const pId = Object.keys(window.pokemonDB).find(k => window.pokemonDB[k].en === pObj.en);
                     const isInPages = window.location.pathname.includes('/pages/');
-                    const imgSrc = `${isInPages ? '../' : ''}home/${parseInt(pId)}.png`;
-                    pokeCards += `<div style="background:rgba(0,0,0,0.3); padding:5px; border-radius:8px; text-align:center; width:65px; cursor:pointer; transition:0.2s;" title="${pObj.ru || pObj.en}" 
+                    let imgSrc = `${isInPages ? '../' : ''}home/${parseInt(pId)}.png`;
+                    
+                    let finalRuName = pObj.ru || pObj.en;
+                    let finalEnName = pObj.en;
+                    let fIndex = null;
+                    
+                    if (formIdx > 0 && window.formsBySpecies && window.formsBySpecies[sp]) {
+                        const forms = window.formsBySpecies[sp];
+                        let fObj = forms.find(f => f._FormKey === `${sp}-${formIdx}`);
+                        if (!fObj && forms.length >= formIdx) fObj = forms[formIdx - 1];
+                        
+                        if (fObj) {
+                            imgSrc = fObj.SpritePath || imgSrc;
+                            if (imgSrc && imgSrc.startsWith('shared/assets/')) {
+                                imgSrc = (isInPages ? '../' : '') + imgSrc.replace('shared/assets/', '');
+                            }
+                            if (fObj.FormName) {
+                                if (typeof window.translateFormName === 'function') {
+                                    const t = window.translateFormName(fObj.FormName, finalRuName, finalEnName);
+                                    finalRuName = t.ru;
+                                } else {
+                                    finalRuName = finalRuName + ' (' + fObj.FormName + ')';
+                                }
+                            }
+                            fIndex = forms.indexOf(fObj);
+                        }
+                    }
+                    
+                    let rarityLabel = encInfo.rarity ? 'Р' + encInfo.rarity : 'О';
+                    
+                    pokeCards += `<div style="background:rgba(0,0,0,0.3); padding:5px; border-radius:8px; text-align:center; width:65px; cursor:pointer; transition:0.2s; position:relative;" title="${finalRuName}" 
                         onmouseover="this.style.background='rgba(0,0,0,0.6)'; this.style.transform='scale(1.05)';" 
                         onmouseout="this.style.background='rgba(0,0,0,0.3)'; this.style.transform='none';" 
-                        onclick="if(typeof openPokemonDossier === 'function') openPokemonDossier('${pObj.en.toUpperCase().replace(/'/g, "\\'")}')">
+                        onclick="if(typeof openPokemonDossier === 'function') openPokemonDossier('${sp.replace(/'/g, "\\'")}', window.isShinyToggleActive || false, ${fIndex !== null ? fIndex : 'null'})">
+                        
+                        <div style="position:absolute; top:-4px; right:-4px; background:rgba(0,0,0,0.85); border:1px solid var(--primary); border-radius:50%; width:22px; height:22px; font-size:0.55rem; display:flex; align-items:center; justify-content:center; color:#fff; font-weight:bold; z-index:2; box-shadow:0 2px 4px rgba(0,0,0,0.5);">${rarityLabel}</div>
+                        
                         <img src="${imgSrc}" style="width:40px;height:40px;object-fit:contain;" onerror="this.src='images/items/0.png'">
-                        <div style="font-size:0.6rem; margin-top:3px; white-space:nowrap; overflow:hidden; text-overflow:ellipsis;">${pObj.ru || pObj.en}</div>
+                        <div style="font-size:0.6rem; margin-top:3px; white-space:nowrap; overflow:hidden; text-overflow:ellipsis;">${finalRuName}</div>
                     </div>`;
                 }
             }

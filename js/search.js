@@ -829,16 +829,20 @@ document.addEventListener('DOMContentLoaded', function () {
             }
 
             if (!typeKey && !tierKey) {
+                let cleanRarityStr = cleanQuery.replace(/\s+/g, '');
                 if (validRarities.includes(cleanQuery)) rarityKey = cleanQuery;
+                else if (/^\d{1,2}$/.test(cleanQuery)) rarityKey = 'р' + cleanQuery;
                 else if (cleanQuery.startsWith('редкость ')) {
                     const rk = cleanQuery.split(' ')[1];
                     if (validRarities.includes(rk)) rarityKey = rk;
+                    else if (/^\d{1,2}$/.test(rk)) rarityKey = 'р' + rk;
                 }
-                else if (cleanQuery === 'обычный') rarityKey = 'о';
-                else if (cleanQuery.startsWith('обычный')) rarityKey = 'о';
+                else if (cleanQuery === 'обычный' || cleanQuery.startsWith('обычный')) rarityKey = 'о';
                 else {
                     const rMatch = cleanQuery.match(/^редкость\s+(р\d{1,2}|о)$/);
                     if (rMatch) rarityKey = rMatch[1];
+                    else if (/^редкость\d{1,2}$/.test(cleanRarityStr)) rarityKey = 'р' + cleanRarityStr.replace('редкость', '');
+                    else if (/^редкостьр\d{1,2}$/.test(cleanRarityStr)) rarityKey = cleanRarityStr.replace('редкость', '');
                 }
             }
 
@@ -911,18 +915,85 @@ document.addEventListener('DOMContentLoaded', function () {
                                 const p = Object.values(pokemonDB).find(x => x.en.toUpperCase() === e.species.toUpperCase());
                                 if (!p) return;
                                 
-                                if (typeKey && p.type && p.type.includes(typeKey)) matchedSpecies.add(p.ru || p.en);
+                                let finalRuName = p.ru || p.en;
+                                let fTier = false;
+                                let formType = false;
+                                
+                                if (e.form > 0 && window.formsBySpecies && window.formsBySpecies[p.en.toUpperCase()]) {
+                                    const forms = window.formsBySpecies[p.en.toUpperCase()];
+                                    let fObj = forms.find(f => f._FormKey === `${p.en.toUpperCase()}-${e.form}`);
+                                    if (!fObj && forms.length >= e.form) fObj = forms[e.form - 1];
+                                    
+                                    if (fObj) {
+                                        if (fObj.FormName) {
+                                            if (typeof window.translateFormName === 'function') {
+                                                const t = window.translateFormName(fObj.FormName, finalRuName, p.en);
+                                                finalRuName = t.ru;
+                                            } else {
+                                                finalRuName = finalRuName + ' (' + fObj.FormName + ')';
+                                            }
+                                        }
+                                        if (tierKey) {
+                                            if (fObj.Format && fObj.Format.toLowerCase() === tierKey) fTier = true;
+                                            else {
+                                                const ruEntry = window.pokemonRuData && window.pokemonRuData[p.en.toUpperCase()];
+                                                if (!fObj.Format && ruEntry && ruEntry.Format && ruEntry.Format.toLowerCase() === tierKey) fTier = true;
+                                            }
+                                        }
+                                        if (typeKey) {
+                                            if (fObj.Types) {
+                                                let tArr = fObj.Types.split(',').map(t=>t.trim().toLowerCase());
+                                                if (tArr.includes(typeKey.toLowerCase())) formType = true;
+                                            } else if (p.type && p.type.includes(typeKey)) formType = true;
+                                        }
+                                    }
+                                }
+
+                                if (typeKey) {
+                                    if (e.form > 0 ? formType : (p.type && p.type.includes(typeKey))) matchedSpecies.add(finalRuName);
+                                }
                                 if (tierKey && window.pokemonRuData) {
-                                    const ruEntry = window.pokemonRuData[p.en.toUpperCase()];
-                                    if (ruEntry && ruEntry.Format && ruEntry.Format.toLowerCase() === tierKey) matchedSpecies.add(p.ru || p.en);
+                                    if (e.form > 0) {
+                                        if (fTier) matchedSpecies.add(finalRuName);
+                                    } else {
+                                        const ruEntry = window.pokemonRuData[p.en.toUpperCase()];
+                                        if (ruEntry && ruEntry.Format && ruEntry.Format.toLowerCase() === tierKey) matchedSpecies.add(finalRuName);
+                                    }
                                 }
                                 if (rarityKey) {
                                     const rarityStrMap = {0: 'о', 1: 'р1', 2: 'р2', 3: 'р3', 4: 'р4', 5: 'р5', 6: 'р6', 7: 'р7', 8: 'р8', 9: 'р9', 10: 'р10'};
                                     if (rarityStrMap[e.rarity] === rarityKey) {
-                                        matchedSpecies.add(p.ru || p.en);
-                                        if (!pokemonMatches.find(pm => pm.p.en === p.en)) {
-                                            const pId = Object.keys(pokemonDB).find(k => pokemonDB[k].en === p.en);
-                                            if(pId) pokemonMatches.push({id: pId, p: p});
+                                        matchedSpecies.add(finalRuName);
+                                        if (e.form > 0) {
+                                            if (!pokemonMatches.find(pm => pm.p.en === p.en && pm.isForm && pm.formIndex === e.form - 1)) {
+                                                const pId = Object.keys(pokemonDB).find(k => pokemonDB[k].en === p.en);
+                                                if (pId) {
+                                                    const forms = window.formsBySpecies[p.en.toUpperCase()];
+                                                    let fObj = forms.find(f => f._FormKey === `${p.en.toUpperCase()}-${e.form}`);
+                                                    if (!fObj && forms.length >= e.form) fObj = forms[e.form - 1];
+                                                    let formTypeArr = p.type;
+                                                    if (fObj && fObj.Types) formTypeArr = fObj.Types.split(',').map(t=>t.trim().toLowerCase());
+                                                    let mockP = {
+                                                        en: p.en,
+                                                        ru: p.ru,
+                                                        type: formTypeArr,
+                                                        formEn: fObj ? fObj.FormName : p.en,
+                                                        formRu: fObj ? fObj.FormName : p.ru
+                                                    };
+                                                    pokemonMatches.push({
+                                                        id: pId, 
+                                                        p: mockP, 
+                                                        isForm: true, 
+                                                        formIndex: forms.indexOf(fObj),
+                                                        formObj: fObj
+                                                    });
+                                                }
+                                            }
+                                        } else {
+                                            if (!pokemonMatches.find(pm => pm.p.en === p.en && !pm.isForm)) {
+                                                const pId = Object.keys(pokemonDB).find(k => pokemonDB[k].en === p.en);
+                                                if(pId) pokemonMatches.push({id: pId, p: p, isForm: false, formIndex: null, formObj: null});
+                                            }
                                         }
                                     }
                                 }
