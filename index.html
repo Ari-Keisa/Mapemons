@@ -2230,6 +2230,8 @@
             opacity: 1;
         }
     </style>
+    <link rel="stylesheet" href="css/about-modal.css?v=1">
+    <script src="js/about-modal.js?v=1"></script>
 </head>
 
 <body>
@@ -2588,6 +2590,12 @@
                 <div class="footer-logo">
                     <i class="fas fa-globe-americas"></i> Mapémon
                 </div>
+                <div class="secret-btn-container">
+                    <button id="secretAngelBtn" class="secret-angel-btn-small">
+                        <span class="ut-heart">❤</span> Открыть Секреты
+                    </button>
+                </div>
+                
                 <div class="footer-author">
                     Создано <span class="author-name">Ari San</span>
                     <span class="alias">(Your secret angel)</span>
@@ -2990,6 +2998,41 @@
     <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-database-compat.js"></script>
 
     <script src="js/clicker.js"></script>
+    <!-- VISUAL NOVEL OVERLAY -->
+    <div class="vn-overlay hidden-temp" id="vnOverlay">
+        
+        <!-- Final Screen (Video/Image) -->
+        <div class="vn-final-screen" id="vnFinalScreen" style="position: relative;">
+            <button class="vn-close-btn-clean" id="finalCloseBtn" style="position: absolute; top: 15px; right: 15px; margin: 0; z-index: 10006;">
+                <i class="fas fa-times"></i>
+            </button>
+            <div class="vn-final-media-container" style="width: 100%; max-width: 750px; margin: 0 auto; position: relative; margin-top: 20px;">
+                <video id="vnFinalVideo" controls loop playsinline src="images/video_1.mp4" class="vn-final-img" style="width: 100%; border-radius: 12px; border: 3px solid #ff6b6b; box-shadow: 0 0 20px rgba(255, 107, 107, 0.4);"></video>
+            </div>
+            
+            <div class="vn-final-ari" style="position: absolute; bottom: -10px; left: -10px; width: 140px; height: 140px; background-image: url('images/%D0%90%D1%80%D0%B8.png'), linear-gradient(-45deg, #09091a, #1a0b2e, #4a00e0, #2d0080); background-size: contain, 200% 200%; background-position: center bottom, 0% 50%; border-radius: 16px; border: 3px solid #fff; box-shadow: 0 10px 30px rgba(0,0,0,0.6); z-index: 10005;"></div>
+
+            <div class="vn-final-text" style="position: absolute; bottom: 0px; right: -20px; margin: 0; box-shadow: 0 10px 30px rgba(0,0,0,0.6); z-index: 10005;">
+                Удачной игры!! ✨
+            </div>
+        </div>
+
+        <!-- Portrait and Dialog Box -->
+        <div class="vn-portrait-container">
+            <div class="vn-portrait" id="vnPortrait"></div>
+            <div class="vn-portrait-right" id="vnPortraitRight"></div>
+        </div>
+        <div class="vn-dialog-box" id="vnDialogBox">
+            <button class="vn-close-btn" style="z-index: 10005;">
+                <i class="fas fa-times"></i>
+            </button>
+            <div class="vn-name-plate" id="vnNamePlate">Имя</div>
+            <div class="vn-name-plate-right" id="vnNamePlateRight">Имя</div>
+            <div class="vn-text" id="vnText"></div>
+            <div class="vn-indicator" id="vnIndicator">▼</div>
+        </div>
+    </div>
+
 </body>
 
 </html>

@@ -1,0 +1,380 @@
+/* ===== VISUAL NOVEL DIALOG STYLE ===== */
+@import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&family=Nunito:wght@400;600;800&display=swap');
+
+.vn-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.85);
+    backdrop-filter: blur(8px);
+    z-index: 10000;
+    display: none;
+    opacity: 0;
+    transition: opacity 0.5s ease;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    align-items: center;
+    padding-bottom: 50px;
+}
+
+.vn-overlay.active {
+    display: flex;
+    opacity: 1;
+}
+
+.vn-overlay.hidden-temp {
+    display: none !important;
+}
+
+/* Character Portrait Area */
+.vn-portrait-container {
+    position: relative;
+    width: 100%;
+    max-width: 800px;
+    height: 300px;
+    margin-bottom: -20px;
+    z-index: 10001;
+    display: flex;
+    justify-content: space-between;
+    padding: 0 40px;
+}
+
+.vn-portrait, .vn-portrait-right {
+    width: 250px;
+    height: 250px;
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    border-radius: 20px;
+    border: 4px solid #fff;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+    transform: translateY(50px);
+    opacity: 0;
+    transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    background-color: #24243e;
+}
+
+.vn-portrait {
+    align-self: flex-start;
+}
+
+.vn-portrait-right {
+    align-self: flex-start;
+}
+
+.vn-portrait.active, .vn-portrait-right.active {
+    transform: translateY(0);
+    opacity: 1;
+    animation: portrait-appear 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards, gradientMove 3s ease-in-out infinite;
+}
+
+@keyframes portrait-appear {
+    0% { transform: translateY(50px); opacity: 0; }
+    100% { transform: translateY(0); opacity: 1; }
+}
+
+@keyframes gradientMove {
+    0% { background-position: center bottom, 0% 50%; }
+    50% { background-position: center bottom, 100% 50%; }
+    100% { background-position: center bottom, 0% 50%; }
+}
+
+/* Dialog Box (Undertale style but modern) */
+.vn-dialog-box {
+    width: 90%;
+    max-width: 800px;
+    background: rgba(15, 12, 41, 0.95);
+    border: 4px solid #4ecdc4;
+    border-radius: 16px;
+    padding: 30px 40px;
+    box-shadow: 0 0 30px rgba(78, 205, 196, 0.4), inset 0 0 20px rgba(0,0,0,0.8);
+    position: relative;
+    z-index: 10002;
+    min-height: 180px;
+    transform: scale(0.95);
+    opacity: 0;
+    transition: all 0.3s ease;
+    cursor: pointer;
+}
+
+.vn-overlay.active .vn-dialog-box {
+    transform: scale(1);
+    opacity: 1;
+}
+
+.vn-name-plate {
+    position: absolute;
+    top: -25px;
+    left: 30px;
+    background: #4ecdc4;
+    color: #0f0c29;
+    font-family: 'Press Start 2P', cursive;
+    font-size: 0.9rem;
+    padding: 10px 20px;
+    border-radius: 8px;
+    border: 2px solid #fff;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+    transition: all 0.3s ease;
+}
+
+.vn-name-plate-right {
+    position: absolute;
+    top: -25px;
+    right: 30px;
+    background: #4ecdc4;
+    color: #0f0c29;
+    font-family: 'Press Start 2P', cursive;
+    font-size: 0.9rem;
+    padding: 10px 20px;
+    border-radius: 8px;
+    border: 2px solid #fff;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+    transition: all 0.3s ease;
+    display: none;
+}
+
+.vn-text {
+    font-family: 'Nunito', sans-serif;
+    font-size: 1.3rem;
+    color: #fdfdfd;
+    line-height: 1.7;
+    text-shadow: 0 2px 4px rgba(0,0,0,0.8), 0 0 10px rgba(78, 205, 196, 0.3);
+    letter-spacing: 0.5px;
+    white-space: pre-wrap;
+}
+
+.vn-indicator {
+    position: absolute;
+    bottom: 20px;
+    right: 30px;
+    color: #4ecdc4;
+    font-size: 1.5rem;
+    animation: bounce 1s infinite;
+    display: none;
+}
+
+.vn-indicator.show {
+    display: block;
+}
+
+@keyframes bounce {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(8px); }
+}
+
+.vn-close-btn {
+    position: absolute;
+    top: 15px;
+    right: 15px;
+    background: none;
+    border: none;
+    color: rgba(255,255,255,0.5);
+    font-size: 1.5rem;
+    cursor: pointer;
+    transition: 0.2s;
+}
+.vn-close-btn:hover {
+    background: #ff5252;
+    transform: scale(1.1);
+}
+
+.vn-close-btn-clean {
+    position: relative;
+    align-self: flex-end;
+    margin-bottom: 15px;
+    width: 36px;
+    height: 36px;
+    background: transparent;
+    border: 2px solid rgba(255,255,255,0.6);
+    border-radius: 50%;
+    color: #fff;
+    font-size: 1.2rem;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.3s ease;
+}
+
+.vn-close-btn-clean:hover {
+    background: rgba(255,255,255,0.2);
+    border-color: #fff;
+    transform: scale(1.1);
+}
+
+/* Final Video/Image Poster Screen */
+.vn-final-screen {
+    display: none;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    background: linear-gradient(-45deg, #09091a, #1a0b2e, #4a00e0, #2d0080);
+    background-size: 200% 200%;
+    animation: portrait-appear 0.6s ease forwards, gradientMove 3s ease-in-out infinite;
+    border: 4px solid #6b11ff;
+    border-radius: 20px;
+    padding: 20px;
+    max-width: 790px;
+    width: 95%;
+    margin-top: 10vh;
+    z-index: 10003;
+    box-shadow: 0 0 30px rgba(107, 17, 255, 0.4);
+}
+
+.vn-final-screen.active {
+    display: flex;
+}
+
+.vn-final-media-container {
+    width: 100%;
+    border-radius: 16px;
+    border: 4px solid #ff6b6b;
+    box-shadow: 0 0 50px rgba(255, 107, 107, 0.4);
+    overflow: hidden;
+    position: relative;
+    background: #000;
+}
+
+.vn-final-img {
+    width: 100%;
+    display: block;
+}
+
+.vn-final-text {
+    margin-top: 20px;
+    font-family: 'Nunito', sans-serif;
+    font-size: 1.2rem;
+    color: #fff;
+    text-align: center;
+    background: rgba(0,0,0,0.6);
+    padding: 15px 30px;
+    border-radius: 30px;
+    border: 1px solid rgba(255,255,255,0.2);
+}
+
+/* Small Glitch Secret Button (Undertale Style) */
+.footer-content {
+    position: relative;
+}
+
+.secret-btn-container {
+    position: absolute;
+    right: 5%;
+    top: 20px;
+    z-index: 50;
+    margin: 0;
+}
+
+.secret-angel-btn-small {
+    background: #000;
+    border: 2px solid #fff;
+    color: #fff;
+    padding: 5px 15px;
+    font-family: 'Courier New', Courier, monospace;
+    font-size: 0.9rem;
+    font-weight: bold;
+    cursor: pointer;
+    text-transform: uppercase;
+    transition: all 0.2s ease;
+    position: relative;
+    overflow: hidden;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    box-shadow: 2px 2px 0px rgba(78, 205, 196, 0.5);
+}
+
+.ut-heart {
+    color: #ff0000;
+    font-size: 1rem;
+    transition: all 0.2s ease;
+}
+
+.secret-angel-btn-small:hover {
+    border-color: #ffeb3b;
+    color: #ffeb3b;
+    box-shadow: 2px 2px 0px rgba(255, 235, 59, 0.8), -2px -2px 0px rgba(255, 0, 0, 0.8);
+    animation: glitch-anim 0.2s cubic-bezier(.25, .46, .45, .94) both infinite;
+}
+
+.secret-angel-btn-small:hover .ut-heart {
+    color: #ffeb3b;
+}
+
+@keyframes glitch-anim {
+    0% { transform: translate(0) }
+    20% { transform: translate(-2px, 1px) }
+    40% { transform: translate(-1px, -2px) }
+    60% { transform: translate(2px, 2px) }
+    80% { transform: translate(1px, -1px) }
+    100% { transform: translate(0) }
+}
+
+/* ===== MOBILE RESPONSIVENESS ===== */
+@media (max-width: 768px) {
+    .secret-btn-container {
+        position: static;
+        margin-top: 15px;
+        margin-bottom: 10px;
+    }
+
+    .vn-portrait-container {
+        padding: 0 10px;
+        height: 150px;
+        margin-bottom: -10px;
+    }
+
+    .vn-portrait, .vn-portrait-right {
+        width: 120px;
+        height: 120px;
+        border-width: 2px;
+        border-radius: 12px;
+    }
+
+    .vn-dialog-box {
+        padding: 20px;
+        min-height: 140px;
+    }
+
+    .vn-name-plate, .vn-name-plate-right {
+        font-size: 0.7rem;
+        padding: 8px 12px;
+        top: -15px;
+    }
+    
+    .vn-name-plate {
+        left: 15px;
+    }
+
+    .vn-name-plate-right {
+        right: 15px;
+    }
+
+    .vn-text {
+        font-size: 1rem;
+    }
+
+    .vn-indicator {
+        font-size: 1.2rem;
+        bottom: 10px;
+        right: 15px;
+    }
+
+    .vn-close-btn {
+        top: 10px;
+        right: 10px;
+    }
+
+    .vn-final-screen {
+        padding: 15px;
+        border-width: 2px;
+        border-radius: 12px;
+    }
+
+    .vn-final-text {
+        font-size: 1.2rem;
+    }
+}
