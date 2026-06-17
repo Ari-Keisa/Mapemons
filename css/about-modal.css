@@ -403,11 +403,11 @@
     }
     
     .vn-final-ari {
-        width: 80px;
-        height: 80px;
-        left: -5px;
-        bottom: -5px;
-        border-radius: 10px;
-        border-width: 2px;
+        width: 110px;
+        height: 110px;
+        left: -10px;
+        bottom: -10px;
+        border-radius: 14px;
+        border-width: 3px;
     }
 }
