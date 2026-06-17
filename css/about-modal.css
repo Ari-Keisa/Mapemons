@@ -9,7 +9,7 @@
     height: 100%;
     background: rgba(0, 0, 0, 0.85);
     backdrop-filter: blur(8px);
-    z-index: 10000;
+    z-index: 1000000;
     display: none;
     opacity: 0;
     transition: opacity 0.5s ease;
@@ -253,6 +253,27 @@
     padding: 15px 30px;
     border-radius: 30px;
     border: 1px solid rgba(255,255,255,0.2);
+    position: absolute;
+    bottom: -5px;
+    right: -15px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.6);
+    z-index: 10005;
+}
+
+.vn-final-ari {
+    position: absolute;
+    bottom: -10px;
+    left: -10px;
+    width: 140px;
+    height: 140px;
+    background-image: url('../images/%D0%90%D1%80%D0%B8.png'), linear-gradient(-45deg, #09091a, #1a0b2e, #4a00e0, #2d0080);
+    background-size: contain, 200% 200%;
+    background-position: center bottom, 0% 50%;
+    background-repeat: no-repeat;
+    border-radius: 16px;
+    border: 3px solid #fff;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.6);
+    z-index: 10005;
 }
 
 /* Small Glitch Secret Button (Undertale Style) */
@@ -375,6 +396,18 @@
     }
 
     .vn-final-text {
-        font-size: 1.2rem;
+        font-size: 0.9rem;
+        padding: 8px 16px;
+        bottom: 5px;
+        right: 0px;
+    }
+    
+    .vn-final-ari {
+        width: 80px;
+        height: 80px;
+        left: -5px;
+        bottom: -5px;
+        border-radius: 10px;
+        border-width: 2px;
     }
 }
