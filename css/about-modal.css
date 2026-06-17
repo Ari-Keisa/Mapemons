@@ -207,6 +207,7 @@
 
 /* Final Video/Image Poster Screen */
 .vn-final-screen {
+    position: relative;
     display: none;
     flex-direction: column;
     align-items: center;
@@ -258,6 +259,14 @@
     right: -15px;
     box-shadow: 0 10px 30px rgba(0,0,0,0.6);
     z-index: 10005;
+}
+
+.final-screen-close {
+    position: absolute;
+    top: 15px;
+    right: 15px;
+    margin: 0;
+    z-index: 10006;
 }
 
 .vn-final-ari {
@@ -395,19 +404,24 @@
         border-radius: 12px;
     }
 
+    .final-screen-close {
+        top: 35px;
+        right: 15px;
+    }
+
     .vn-final-text {
         font-size: 0.9rem;
-        padding: 8px 16px;
-        bottom: 5px;
-        right: 0px;
+        padding: 6px 12px;
+        bottom: 15px;
+        right: 15px;
     }
     
     .vn-final-ari {
-        width: 110px;
-        height: 110px;
-        left: -10px;
-        bottom: -10px;
-        border-radius: 14px;
-        border-width: 3px;
+        width: 80px;
+        height: 80px;
+        left: 15px;
+        bottom: 15px;
+        border-radius: 10px;
+        border-width: 2px;
     }
 }
