@@ -400,27 +400,31 @@
 
     .vn-final-screen {
         padding: 15px;
+        padding-bottom: 35px;
         border-width: 2px;
         border-radius: 12px;
     }
 
     .final-screen-close {
-        top: 35px;
-        right: 15px;
+        top: 10px;
+        right: 10px;
+        width: 32px;
+        height: 32px;
+        font-size: 1rem;
     }
 
     .vn-final-text {
-        font-size: 0.9rem;
-        padding: 6px 12px;
-        bottom: 15px;
-        right: 15px;
+        font-size: 0.85rem;
+        padding: 6px 14px;
+        bottom: -15px;
+        right: 10px;
     }
     
     .vn-final-ari {
-        width: 80px;
-        height: 80px;
-        left: 15px;
-        bottom: 15px;
+        width: 70px;
+        height: 70px;
+        left: 5px;
+        bottom: -15px;
         border-radius: 10px;
         border-width: 2px;
     }
