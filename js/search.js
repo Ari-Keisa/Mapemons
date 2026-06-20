@@ -2206,7 +2206,8 @@ document.addEventListener('DOMContentLoaded', function () {
                         addedIds.add('type_' + tKey);
                         matches.push({
                             id: 'type_' + tKey,
-                            text: 'Тип: ' + typeNamesRu[tKey],
+                            text: typeNamesRu[tKey],
+                            idBadge: 'Тип',
                             subtext: '', icon: typeIcons[tKey] || '✨', type: 'type',
                             queryText: 'тип ' + typeNamesRu[tKey]
                         });
@@ -2220,7 +2221,8 @@ document.addEventListener('DOMContentLoaded', function () {
                         addedIds.add('tier_' + tier);
                         matches.push({
                             id: 'tier_' + tier,
-                            text: 'Тир: ' + tier.toUpperCase(),
+                            text: tier.toUpperCase(),
+                            idBadge: 'Тир',
                             subtext: '', icon: '🏆', type: 'tier',
                             queryText: 'тир ' + tier
                         });
@@ -2234,7 +2236,8 @@ document.addEventListener('DOMContentLoaded', function () {
                         addedIds.add('rarity_' + r);
                         matches.push({
                             id: 'rarity_' + r,
-                            text: 'Редкость: ' + r.toUpperCase(),
+                            text: r.toUpperCase(),
+                            idBadge: 'Редкость',
                             subtext: '', icon: '✨', type: 'rarity',
                             queryText: 'редкость ' + r
                         });
@@ -2251,7 +2254,8 @@ document.addEventListener('DOMContentLoaded', function () {
                             addedIds.add('ability_' + aKey);
                             matches.push({
                                 id: 'ability_' + aKey,
-                                text: 'Способность: ' + (ab.RuName || ab.Name),
+                                text: (ab.RuName || ab.Name),
+                                idBadge: 'Способность',
                                 subtext: ab.RuName && ab.Name ? ab.Name : '',
                                 icon: '🌟', type: 'ability',
                                 queryText: 'способность ' + (ab.RuName || ab.Name)
@@ -2269,7 +2273,8 @@ document.addEventListener('DOMContentLoaded', function () {
                             addedIds.add('prof_' + pKey);
                             matches.push({
                                 id: 'prof_' + pKey,
-                                text: 'Профессия: ' + pr.ru_name,
+                                text: pr.ru_name,
+                                idBadge: 'Профессия',
                                 subtext: '', icon: '💼', type: 'profession',
                                 queryText: 'профессия ' + pr.ru_name.replace(/^[^\p{L}]+/gu, '').trim()
                             });
@@ -2337,7 +2342,24 @@ document.addEventListener('DOMContentLoaded', function () {
                 
                 let descHtml = m.description ? `<div class="autocomplete-desc" style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis; font-size: 0.8rem; color: rgba(255,255,255,0.6); margin-top: 2px; max-width: 100%;">${m.description}</div>` : '';
                 let regionHtml = m.region ? `<span class="region-badge badge-${m.region.toLowerCase()}">${m.region}</span>` : '';
-                let idBadgeHtml = m.idBadge ? `<span style="color: var(--primary); font-size: 0.9rem; font-weight: bold; margin-right: 8px; opacity: 0.9; white-space: nowrap;">${m.idBadge}</span>` : '';
+                let idBadgeHtml = '';
+                if (m.idBadge) {
+                    if (m.idBadge.startsWith('#') || m.idBadge.startsWith('ID:')) {
+                        idBadgeHtml = `<span style="color: var(--primary); font-size: 0.9rem; font-weight: bold; margin-right: 8px; opacity: 0.9; white-space: nowrap;">${m.idBadge}</span>`;
+                    } else {
+                        let badgeBg = 'rgba(78, 205, 196, 0.2)';
+                        let badgeBorder = 'rgba(78, 205, 196, 0.4)';
+                        let badgeColor = 'var(--primary)';
+                        
+                        if (m.type === 'ability') { badgeBg = 'rgba(255, 215, 0, 0.2)'; badgeBorder = 'rgba(255, 215, 0, 0.4)'; badgeColor = '#ffd700'; }
+                        else if (m.type === 'tier') { badgeBg = 'rgba(255, 99, 71, 0.2)'; badgeBorder = 'rgba(255, 99, 71, 0.4)'; badgeColor = '#ff6347'; }
+                        else if (m.type === 'type') { badgeBg = 'rgba(135, 206, 250, 0.2)'; badgeBorder = 'rgba(135, 206, 250, 0.4)'; badgeColor = '#87cefa'; }
+                        else if (m.type === 'rarity') { badgeBg = 'rgba(147, 112, 219, 0.2)'; badgeBorder = 'rgba(147, 112, 219, 0.4)'; badgeColor = '#9370db'; }
+                        else if (m.type === 'profession') { badgeBg = 'rgba(255, 105, 180, 0.2)'; badgeBorder = 'rgba(255, 105, 180, 0.4)'; badgeColor = '#ff69b4'; }
+
+                        idBadgeHtml = `<span style="background: ${badgeBg}; color: ${badgeColor}; border: 1px solid ${badgeBorder}; font-size: 0.7rem; font-weight: bold; text-transform: uppercase; padding: 2px 6px; border-radius: 4px; margin-right: 8px; white-space: nowrap; flex-shrink: 0;">${m.idBadge}</span>`;
+                    }
+                }
                 
                 div.innerHTML = `
                     <div class="autocomplete-icon">${m.icon}</div>

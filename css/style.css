@@ -89,8 +89,9 @@
 }
 
 .autocomplete-item {
-    padding: 0 15px;
-    height: 38px;
+    padding: 8px 15px;
+    min-height: 38px;
+    height: auto;
     box-sizing: border-box;
     cursor: pointer;
     background: transparent;
