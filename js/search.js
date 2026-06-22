@@ -1385,15 +1385,26 @@ document.addEventListener('DOMContentLoaded', function () {
                     </div>`;
                 }
 
+                let hiddenAbilHtml = '';
+                if (abilityKey) {
+                    hiddenAbilHtml = `<button id="hiddenAbilityToggleButton" class="shiny-slider-btn" onclick="toggleHiddenAbilitySearch(event)" title="Учитывать скрытые способности" style="opacity: 0; pointer-events: none; background: ${window.isHiddenAbilitySearch ? 'rgba(78, 205, 196, 0.2)' : 'rgba(255,255,255,0.05)'}; border: 1px solid ${window.isHiddenAbilitySearch ? 'var(--primary)' : 'rgba(255,255,255,0.1)'}; border-radius: 8px; width: 34px; height: 34px; flex-shrink: 0; cursor: pointer; transition: 0.3s; display: flex; align-items: center; justify-content: center;">
+                        <i class="fas fa-eye-slash" style="color: ${window.isHiddenAbilitySearch ? 'var(--primary)' : '#aaa'}; font-size: 1.1rem;"></i>
+                    </button>`;
+                }
+
                 let html = regionHeaderHtml + `
                 <style>
                     @media (max-width: 768px) {
                         .search-action-buttons {
-                            top: 45px !important;
-                            right: 0 !important;
+                            top: 50px !important;
+                            right: auto !important;
+                            left: 50% !important;
+                            transform: translateX(-50%) !important;
+                            justify-content: center;
+                            width: max-content;
                         }
                         .slider-container {
-                            margin-bottom: 55px !important;
+                            margin-bottom: 70px !important;
                         }
                     }
                 </style>
@@ -1406,14 +1417,12 @@ document.addEventListener('DOMContentLoaded', function () {
                     </div>
                     <div style="flex: 1 1 0; min-width: 0; position: relative; display: flex; justify-content: flex-start; align-items: center; padding-left: 15px;">
                         <span id="slider-poke-text" style="color:#aaa; font-weight:bold; transition:0.3s; cursor:pointer; font-size: 0.95rem; white-space: nowrap;" onclick="setSliderState(1)">Покемоны</span>
-                        <div class="search-action-buttons" style="position: absolute; right: 0; display: flex; flex-direction: row; gap: 8px; z-index: 10;">
-                            <button id="shinyToggleButton" class="shiny-slider-btn" onclick="toggleShinySearch(event)" title="Включить Шайни режим" style="opacity: 0; pointer-events: none; background: ${isShinySearch ? 'rgba(78, 205, 196, 0.2)' : 'rgba(255,255,255,0.05)'}; border: 1px solid ${isShinySearch ? 'var(--primary)' : 'rgba(255,255,255,0.1)'}; border-radius: 8px; width: 34px; height: 34px; flex-shrink: 0; cursor: pointer; transition: 0.3s; display: flex; align-items: center; justify-content: center;">
-                                <i class="fas fa-star" style="color: ${isShinySearch ? 'var(--primary)' : '#aaa'}; font-size: 1.1rem;"></i>
-                            </button>
-                            ${abilityKey ? `<button id="hiddenAbilityToggleButton" class="shiny-slider-btn" onclick="toggleHiddenAbilitySearch(event)" title="Учитывать скрытые способности" style="opacity: 0; pointer-events: none; background: ${window.isHiddenAbilitySearch ? 'rgba(78, 205, 196, 0.2)' : 'rgba(255,255,255,0.05)'}; border: 1px solid ${window.isHiddenAbilitySearch ? 'var(--primary)' : 'rgba(255,255,255,0.1)'}; border-radius: 8px; width: 34px; height: 34px; flex-shrink: 0; cursor: pointer; transition: 0.3s; display: flex; align-items: center; justify-content: center;">
-                                <i class="fas fa-eye-slash" style="color: ${window.isHiddenAbilitySearch ? 'var(--primary)' : '#aaa'}; font-size: 1.1rem;"></i>
-                            </button>` : ''}
-                        </div>
+                    </div>
+                    <div class="search-action-buttons" style="position: absolute; right: 0; display: flex; flex-direction: row; gap: 8px; z-index: 10; align-items: center;">
+                        <button id="shinyToggleButton" class="shiny-slider-btn" onclick="toggleShinySearch(event)" title="Включить Шайни режим" style="opacity: 0; pointer-events: none; background: ${isShinySearch ? 'rgba(78, 205, 196, 0.2)' : 'rgba(255,255,255,0.05)'}; border: 1px solid ${isShinySearch ? 'var(--primary)' : 'rgba(255,255,255,0.1)'}; border-radius: 8px; width: 34px; height: 34px; flex-shrink: 0; cursor: pointer; transition: 0.3s; display: flex; align-items: center; justify-content: center;">
+                            <i class="fas fa-star" style="color: ${isShinySearch ? 'var(--primary)' : '#aaa'}; font-size: 1.1rem;"></i>
+                        </button>
+                        ${hiddenAbilHtml}
                     </div>
                 </div>
                 
