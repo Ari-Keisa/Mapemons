@@ -1505,7 +1505,7 @@
     counter.innerText = clickCount;
 
     container.appendChild(button);
-    container.appendChild(counter);
+    // container.appendChild(counter); // Removed counter as it infinitely shows 0
     document.body.appendChild(container);
 
     // ========== Animate counter number ==========
