@@ -19,3 +19,12 @@
 [debug] [2026-07-23T08:43:40.353Z] Checked if tokens are valid: true, expires at: 1784799671030
 [debug] [2026-07-23T08:43:40.353Z] Checked if tokens are valid: true, expires at: 1784799671030
 [debug] [2026-07-23T08:43:40.354Z] >>> [apiv2][query] GET https://firebase.googleapis.com/v1beta1/projects/mapemons-mmorpg [none]
+[debug] [2026-07-23T08:43:40.649Z] <<< [apiv2][status] GET https://firebase.googleapis.com/v1beta1/projects/mapemons-mmorpg 200
+[debug] [2026-07-23T08:43:40.649Z] <<< [apiv2][body] GET https://firebase.googleapis.com/v1beta1/projects/mapemons-mmorpg {"projectId":"mapemons-mmorpg","projectNumber":"728236353892","displayName":"Mapemons-MMORPG","name":"projects/mapemons-mmorpg","resources":{"hostingSite":"mapemons-mmorpg"},"state":"ACTIVE","labels":{"firebase":"enabled"},"etag":"1_a0f43c15-49f2-4238-85d2-99988c26dcfb"}
+[info] 
+[info] === Deploying to 'mapemons-mmorpg'...
+[info] 
+[info] i  deploying hosting 
+[debug] [2026-07-23T08:43:40.654Z] Checked if tokens are valid: true, expires at: 1784799671030
+[debug] [2026-07-23T08:43:40.654Z] Checked if tokens are valid: true, expires at: 1784799671030
+[debug] [2026-07-23T08:43:40.655Z] >>> [apiv2][query] GET https://firebasehosting.googleapis.com/v1beta1/projects/mapemons-mmorpg/sites/mapemons-mmorpg [none]
