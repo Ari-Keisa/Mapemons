@@ -2275,8 +2275,8 @@
         "description": "Пограничный маршрут между регионами, где реки и пещеры создают живописный, но опасный путь. Тренеры, переходящие через этот маршрут, сталкиваются с сильными покемонами и бурными потоками. Это место, где начинается новое приключение в Джото!",
         "num_id": 106,
         "environment": "None",
-        "has_pokecenter": false,
-        "has_pokemart": false,
+        "has_pokecenter": true,
+        "has_pokemart": true,
         "sprite_path": "shared/assets/locations/Kanto/Маршрут 27.jpg"
     },
     "KANTO-ROUTE-28": {
@@ -9835,8 +9835,7 @@
         "name": "hoenn-battle-frontier",
         "region": "HOENN",
         "ru_name": "🏜Боевой рубеж",
-        "connections": [
-        ],
+        "connections": [],
         "encounters": [],
         "description": "Эпическое поле битв на краю мира, где сталкиваются лучшие тренеры. Арены, башни и лабиринты полны вызовов для твоей команды. Атмосфера напряжения и славы — здесь рождаются настоящие легенды!",
         "num_id": 813,
@@ -22810,956 +22809,946 @@
         "sprite_path": ""
     },
     "AZURE-PROMENADE": {
-    "name": "azure-promenade",
-    "region": "OCEAN_EVENT",
-    "ru_name": "🏖️ Лазурная Набережная",
-    "connections": [
-        "AZURE-GROVE",
-        "SHADOW-DOCKS"
-      ],
-    "encounters": [
-      {
-        "rarity": 0,
-        "species": "WINGULL",
-        "form": 0,
-        "min_level": 15,
-        "max_level": 30,
-        "conditions": null,
-        "catch_ball_id":"MASTERBALL"
-      },
-      {
-        "rarity": 1,
-        "species": "SLOWPOKE",
-        "form": 0,
-        "min_level": 15,
-        "max_level": 30,
-        "conditions": null,
-          "catch_ball_id":"MASTERBALL"
-      },
-      {
-        "rarity": 2,
-        "species": "VIVILLON",
-        "form": 7,
-        "min_level": 30,
-        "max_level": 30,
-        "conditions": null,
-          "catch_ball_id":"MASTERBALL"
-      },
-        {
-          "rarity": 4,
-          "species": "BRUXISH",
-          "form": 0,
-          "min_level": 60,
-          "max_level": 80,
-            "catch_ball_id":"MASTERBALL"
-        },
-      {
-        "rarity": 5,
-        "species": "RAICHU",
-        "form": 1,
-        "min_level": 50,
-        "max_level": 60,
-        "conditions": null,
-          "catch_ball_id":"MASTERBALL"
-      },
-      {
-        "rarity": 8,
-        "species": "POPPLIO",
-        "form": 0,
-        "min_level": 15,
-        "max_level": 20,
-        "conditions": null,
-          "catch_ball_id":"MASTERBALL"
-      },
-        {
-          "rarity": 9,
-          "species": "BARRASKEWDA",
-          "form": 0,
-          "min_level": 70,
-          "max_level": 70,
-            "catch_ball_id":"MASTERBALL"
-        },
-      {
-        "rarity": 1,
-        "species": "HOUNDOOM",
-        "form": 0,
-        "min_level": 100,
-        "max_level": 100,
-        "conditions": {
-          "quest_active": "AZURE_SHADOW_QUEST:30"
-        },
-        "can_catch": false
-      }
-    ],
-    "description": "Яркая и шумная туристическая зона Лазурного Архипелага. Белоснежные пляжи, торговые лавки и уютные кафе привлекают сюда тренеров со всех регионов. Теплый бриз и крики водных покемонов создают идеальную атмосферу для беззаботного отдыха у океана.",
-    "num_id": 11000,
-    "environment": "None",
-    "has_pokecenter": true,
-    "has_pokemart": true,
-    "sprite_path": "shared/assets/locations/Event/AzurePromenade.jpg"
-  },
-
-  "SHADOW-DOCKS": {
-  "name": "shadow-docks",
-  "region": "OCEAN_EVENT",
-  "ru_name": "🏗️ Теневые Доки",
-  "connections": [
-    "AZURE-PROMENADE",
-    "SCRAP-COAST"
-  ],
-  "encounters": [
-    {
-      "rarity": 0,
-      "species": "MUK",
-      "form": 0,
-      "min_level": 40,
-      "max_level": 55,
-      "conditions": null,
-        "catch_ball_id":"MASTERBALL"
+        "name": "azure-promenade",
+        "region": "OCEAN_EVENT",
+        "ru_name": "🏖️ Лазурная Набережная",
+        "connections": [
+            "AZURE-GROVE",
+            "SHADOW-DOCKS"
+        ],
+        "encounters": [
+            {
+                "rarity": 0,
+                "species": "WINGULL",
+                "form": 0,
+                "min_level": 15,
+                "max_level": 30,
+                "conditions": null,
+                "catch_ball_id": "MASTERBALL"
+            },
+            {
+                "rarity": 1,
+                "species": "SLOWPOKE",
+                "form": 0,
+                "min_level": 15,
+                "max_level": 30,
+                "conditions": null,
+                "catch_ball_id": "MASTERBALL"
+            },
+            {
+                "rarity": 2,
+                "species": "VIVILLON",
+                "form": 7,
+                "min_level": 30,
+                "max_level": 30,
+                "conditions": null,
+                "catch_ball_id": "MASTERBALL"
+            },
+            {
+                "rarity": 4,
+                "species": "BRUXISH",
+                "form": 0,
+                "min_level": 60,
+                "max_level": 80,
+                "catch_ball_id": "MASTERBALL"
+            },
+            {
+                "rarity": 5,
+                "species": "RAICHU",
+                "form": 1,
+                "min_level": 50,
+                "max_level": 60,
+                "conditions": null,
+                "catch_ball_id": "MASTERBALL"
+            },
+            {
+                "rarity": 8,
+                "species": "POPPLIO",
+                "form": 0,
+                "min_level": 15,
+                "max_level": 20,
+                "conditions": null,
+                "catch_ball_id": "MASTERBALL"
+            },
+            {
+                "rarity": 9,
+                "species": "BARRASKEWDA",
+                "form": 0,
+                "min_level": 70,
+                "max_level": 70,
+                "catch_ball_id": "MASTERBALL"
+            },
+            {
+                "rarity": 1,
+                "species": "HOUNDOOM",
+                "form": 0,
+                "min_level": 100,
+                "max_level": 100,
+                "conditions": {
+                    "quest_active": "AZURE_SHADOW_QUEST:30"
+                },
+                "can_catch": false
+            }
+        ],
+        "description": "Яркая и шумная туристическая зона Лазурного Архипелага. Белоснежные пляжи, торговые лавки и уютные кафе привлекают сюда тренеров со всех регионов. Теплый бриз и крики водных покемонов создают идеальную атмосферу для беззаботного отдыха у океана.",
+        "num_id": 11000,
+        "environment": "None",
+        "has_pokecenter": true,
+        "has_pokemart": true,
+        "sprite_path": "shared/assets/locations/Event/AzurePromenade.jpg"
     },
-    {
-      "rarity": 2,
-      "species": "CORPHISH",
-      "form": 0,
-      "min_level": 20,
-      "max_level": 30,
-      "conditions": null,
-        "catch_ball_id":"MASTERBALL"
+    "SHADOW-DOCKS": {
+        "name": "shadow-docks",
+        "region": "OCEAN_EVENT",
+        "ru_name": "🏗️ Теневые Доки",
+        "connections": [
+            "AZURE-PROMENADE",
+            "SCRAP-COAST"
+        ],
+        "encounters": [
+            {
+                "rarity": 0,
+                "species": "MUK",
+                "form": 0,
+                "min_level": 40,
+                "max_level": 55,
+                "conditions": null,
+                "catch_ball_id": "MASTERBALL"
+            },
+            {
+                "rarity": 2,
+                "species": "CORPHISH",
+                "form": 0,
+                "min_level": 20,
+                "max_level": 30,
+                "conditions": null,
+                "catch_ball_id": "MASTERBALL"
+            },
+            {
+                "rarity": 4,
+                "species": "SCRAGGY",
+                "form": 0,
+                "min_level": 25,
+                "max_level": 40,
+                "conditions": null,
+                "catch_ball_id": "MASTERBALL"
+            },
+            {
+                "rarity": 9,
+                "species": "GRIMER",
+                "form": 1,
+                "min_level": 25,
+                "max_level": 40,
+                "conditions": null,
+                "catch_ball_id": "MASTERBALL"
+            },
+            {
+                "rarity": 3,
+                "species": "HOUNDOUR",
+                "form": 0,
+                "min_level": 25,
+                "max_level": 40,
+                "conditions": null,
+                "catch_ball_id": "MASTERBALL"
+            },
+            {
+                "rarity": 3,
+                "species": "CRAWDAUNT",
+                "form": 0,
+                "min_level": 60,
+                "max_level": 80,
+                "conditions": null,
+                "catch_ball_id": "MASTERBALL"
+            },
+            {
+                "rarity": 7,
+                "species": "DHELMISE",
+                "form": 0,
+                "min_level": 50,
+                "max_level": 60,
+                "conditions": null,
+                "catch_ball_id": "MASTERBALL"
+            },
+            {
+                "rarity": 1,
+                "species": "CRAWDAUNT",
+                "form": 0,
+                "min_level": 100,
+                "max_level": 100,
+                "conditions": {
+                    "quest_active": "AZURE_SHADOW_QUEST:80"
+                },
+                "can_catch": false
+            }
+        ],
+        "description": "Скрытый от глаз туристов, полузаброшенный портовый район. Воздух здесь пропитан тяжелым запахом мазута и водорослей. В лабиринте ржавых контейнеров и темных пирсов обитают опасные покемоны и люди, предпочитающие вести дела вдали от закона.",
+        "num_id": 11001,
+        "environment": "None",
+        "has_pokecenter": false,
+        "has_pokemart": false,
+        "sprite_path": "shared/assets/locations/Event/ShadowDocks.jpg"
     },
-    {
-      "rarity": 4,
-      "species": "SCRAGGY",
-      "form": 0,
-      "min_level": 25,
-      "max_level": 40,
-      "conditions": null,
-        "catch_ball_id":"MASTERBALL"
+    "DEAD-REEF": {
+        "name": "dead-reef",
+        "region": "OCEAN_EVENT",
+        "ru_name": "🪸 Мертвый Риф",
+        "connections": [
+            "SCRAP-COAST",
+            "APEX-TESTING-FACILITY",
+            "ABYSSAL-TRENCH"
+        ],
+        "encounters": [
+            {
+                "rarity": 0,
+                "species": "TENTACOOL",
+                "form": 0,
+                "min_level": 10,
+                "max_level": 50,
+                "conditions": null,
+                "catch_ball_id": "MASTERBALL"
+            },
+            {
+                "rarity": 0,
+                "species": "TENTACRUEL",
+                "form": 0,
+                "min_level": 10,
+                "max_level": 50,
+                "conditions": null,
+                "catch_ball_id": "MASTERBALL"
+            },
+            {
+                "rarity": 1,
+                "species": "CORSOLA",
+                "form": 0,
+                "min_level": 35,
+                "max_level": 50,
+                "conditions": null,
+                "catch_ball_id": "MASTERBALL"
+            },
+            {
+                "rarity": 4,
+                "species": "SKRELP",
+                "form": 0,
+                "min_level": 40,
+                "max_level": 55,
+                "conditions": null,
+                "catch_ball_id": "MASTERBALL"
+            },
+            {
+                "rarity": 10,
+                "species": "TOXAPEX",
+                "form": 0,
+                "min_level": 45,
+                "max_level": 60,
+                "conditions": null,
+                "catch_ball_id": "MASTERBALL"
+            },
+            {
+                "rarity": 5,
+                "species": "PINCURCHIN",
+                "form": 0,
+                "min_level": 45,
+                "max_level": 60,
+                "conditions": null,
+                "catch_ball_id": "MASTERBALL"
+            },
+            {
+                "rarity": 8,
+                "species": "CORSOLA",
+                "form": 1,
+                "min_level": 45,
+                "max_level": 55,
+                "conditions": null,
+                "catch_ball_id": "MASTERBALL"
+            }
+        ],
+        "description": "Обширная зона экологического бедствия, где некогда цветущие кораллы превратились в бледные окаменелости. Вода пропитана едкими отходами, из-за чего местные покемоны стали крайне агрессивными. Жуткое напоминание о последствиях бездумной индустриализации.",
+        "num_id": 11002,
+        "environment": "None",
+        "has_pokecenter": false,
+        "has_pokemart": false,
+        "sprite_path": "shared/assets/locations/Event/DeadReef.jpg"
     },
-    {
-      "rarity": 9,
-      "species": "GRIMER",
-      "form": 1,
-      "min_level": 25,
-      "max_level": 40,
-      "conditions": null,
-        "catch_ball_id":"MASTERBALL"
+    "APEX-PLATFORM": {
+        "name": "apex-platform",
+        "region": "OCEAN_EVENT",
+        "ru_name": "⚙️ Платформа «Апекс»",
+        "connections": [
+            "APEX-TESTING-FACILITY"
+        ],
+        "encounters": [],
+        "description": "Колоссальное высокотехнологичное сооружение, возвышающееся прямо посреди открытого океана. Стальные перекрытия, гудящие турбины и строгие системы безопасности делают платформу неприступной крепостью. Ходят слухи, что в ее глубоких подводных резервуарах проводятся секретные исследования.",
+        "num_id": 11003,
+        "environment": "None",
+        "has_pokecenter": false,
+        "has_pokemart": false,
+        "sprite_path": "shared/assets/locations/Event/ApexPlatform.jpg"
     },
-    {
-      "rarity": 3,
-      "species": "HOUNDOUR",
-      "form": 0,
-      "min_level": 25,
-      "max_level": 40,
-      "conditions": null,
-        "catch_ball_id":"MASTERBALL"
+    "AZURE-GROVE": {
+        "name": "azure-grove",
+        "region": "OCEAN_EVENT",
+        "ru_name": "🌴 Тропическая Роща",
+        "connections": [
+            "AZURE-PROMENADE",
+            "HIDDEN-COVE"
+        ],
+        "encounters": [
+            {
+                "rarity": 0,
+                "species": "ODDISH",
+                "form": 0,
+                "min_level": 15,
+                "max_level": 25,
+                "conditions": null,
+                "catch_ball_id": "MASTERBALL"
+            },
+            {
+                "rarity": 0,
+                "species": "PARAS",
+                "form": 0,
+                "min_level": 15,
+                "max_level": 25,
+                "conditions": null,
+                "catch_ball_id": "MASTERBALL"
+            },
+            {
+                "rarity": 1,
+                "species": "BOUNSWEET",
+                "form": 0,
+                "min_level": 15,
+                "max_level": 25,
+                "conditions": null,
+                "catch_ball_id": "MASTERBALL"
+            },
+            {
+                "rarity": 2,
+                "species": "FOMANTIS",
+                "form": 0,
+                "min_level": 20,
+                "max_level": 35,
+                "conditions": null,
+                "catch_ball_id": "MASTERBALL"
+            },
+            {
+                "rarity": 3,
+                "species": "EXEGGCUTE",
+                "form": 0,
+                "min_level": 25,
+                "max_level": 40,
+                "conditions": null,
+                "catch_ball_id": "MASTERBALL"
+            },
+            {
+                "rarity": 3,
+                "species": "HERACROSS",
+                "form": 0,
+                "min_level": 40,
+                "max_level": 50,
+                "conditions": null,
+                "catch_ball_id": "MASTERBALL"
+            },
+            {
+                "rarity": 3,
+                "species": "PINSIR",
+                "form": 0,
+                "min_level": 40,
+                "max_level": 50,
+                "conditions": null,
+                "catch_ball_id": "MASTERBALL"
+            },
+            {
+                "rarity": 4,
+                "species": "TROPIUS",
+                "form": 0,
+                "min_level": 80,
+                "max_level": 100,
+                "conditions": null,
+                "catch_ball_id": "MASTERBALL"
+            },
+            {
+                "rarity": 5,
+                "species": "PASSIMIAN",
+                "form": 0,
+                "min_level": 30,
+                "max_level": 45,
+                "conditions": null,
+                "catch_ball_id": "MASTERBALL"
+            },
+            {
+                "rarity": 7,
+                "species": "COMFEY",
+                "form": 0,
+                "min_level": 25,
+                "max_level": 40,
+                "conditions": null,
+                "catch_ball_id": "MASTERBALL"
+            },
+            {
+                "rarity": 6,
+                "species": "GRUBBIN",
+                "form": 0,
+                "min_level": 15,
+                "max_level": 25,
+                "conditions": null,
+                "catch_ball_id": "MASTERBALL"
+            },
+            {
+                "rarity": 5,
+                "species": "PIKIPEK",
+                "form": 0,
+                "min_level": 15,
+                "max_level": 25,
+                "conditions": null,
+                "catch_ball_id": "MASTERBALL"
+            },
+            {
+                "rarity": 10,
+                "species": "TAPUBULU",
+                "form": 0,
+                "min_level": 70,
+                "max_level": 70,
+                "conditions": null,
+                "catch_ball_id": "MASTERBALL"
+            }
+        ],
+        "description": "Буйные тропические джунгли, прилегающие к туристической зоне. Огромные листья пальм и экзотические цветы скрывают редких покемонов-насекомых и травяных типов. Отличное место для спокойных прогулок в тени.",
+        "num_id": 11004,
+        "environment": "None",
+        "has_pokecenter": false,
+        "has_pokemart": false,
+        "sprite_path": "shared/assets/locations/Event/AzureGrove.jpg"
     },
-    {
-      "rarity": 3,
-      "species": "CRAWDAUNT",
-      "form": 0,
-      "min_level": 60,
-      "max_level": 80,
-      "conditions": null,
-        "catch_ball_id":"MASTERBALL"
+    "HIDDEN-COVE": {
+        "name": "hidden-cove",
+        "region": "OCEAN_EVENT",
+        "ru_name": "🌊 Скрытая Бухта",
+        "connections": [
+            "AZURE-GROVE",
+            "OLD-LIGHTHOUSE"
+        ],
+        "encounters": [
+            {
+                "rarity": 0,
+                "species": "SHELLOS",
+                "form": 0,
+                "min_level": 20,
+                "max_level": 35,
+                "conditions": null,
+                "catch_ball_id": "MASTERBALL"
+            },
+            {
+                "rarity": 1,
+                "species": "SHELLDER",
+                "form": 0,
+                "min_level": 20,
+                "max_level": 35,
+                "conditions": null,
+                "catch_ball_id": "MASTERBALL"
+            },
+            {
+                "rarity": 2,
+                "species": "VIVILLON",
+                "form": 11,
+                "min_level": 30,
+                "max_level": 30,
+                "catch_ball_id": "MASTERBALL"
+            },
+            {
+                "rarity": 3,
+                "species": "MARILL",
+                "form": 0,
+                "min_level": 20,
+                "max_level": 35,
+                "conditions": null,
+                "catch_ball_id": "MASTERBALL"
+            },
+            {
+                "rarity": 4,
+                "species": "CLAMPERL",
+                "form": 0,
+                "min_level": 30,
+                "max_level": 45,
+                "conditions": null,
+                "catch_ball_id": "MASTERBALL"
+            },
+            {
+                "rarity": 5,
+                "species": "PYUKUMUKU",
+                "form": 0,
+                "min_level": 35,
+                "max_level": 50,
+                "conditions": null,
+                "catch_ball_id": "MASTERBALL"
+            },
+            {
+                "rarity": 6,
+                "species": "ALOMOMOLA",
+                "form": 0,
+                "min_level": 40,
+                "max_level": 55,
+                "conditions": null,
+                "catch_ball_id": "MASTERBALL"
+            },
+            {
+                "rarity": 7,
+                "species": "DRATINI",
+                "form": 0,
+                "min_level": 20,
+                "max_level": 30,
+                "conditions": null,
+                "catch_ball_id": "MASTERBALL"
+            },
+            {
+                "rarity": 10,
+                "species": "TAPUFINI",
+                "form": 0,
+                "min_level": 70,
+                "max_level": 70,
+                "conditions": null,
+                "catch_ball_id": "MASTERBALL"
+            }
+        ],
+        "description": "Уединенный песчаный пляж, скрытый за высокими скалами. Сюда редко забредают обычные туристы, что делает бухту идеальным убежищем для пугливых водных покемонов и искателей сокровищ.",
+        "num_id": 11005,
+        "environment": "None",
+        "has_pokecenter": false,
+        "has_pokemart": false,
+        "sprite_path": "shared/assets/locations/Event/HiddenCove.jpg"
     },
-    {
-      "rarity": 7,
-      "species": "DHELMISE",
-      "form": 0,
-      "min_level": 50,
-      "max_level": 60,
-      "conditions": null,
-        "catch_ball_id":"MASTERBALL"
+    "OLD-LIGHTHOUSE": {
+        "name": "old-lighthouse",
+        "region": "OCEAN_EVENT",
+        "ru_name": "🗼 Старый Маяк",
+        "connections": [
+            "HIDDEN-COVE"
+        ],
+        "encounters": [
+            {
+                "rarity": 0,
+                "species": "PELIPPER",
+                "form": 0,
+                "min_level": 30,
+                "max_level": 50,
+                "conditions": null,
+                "catch_ball_id": "MASTERBALL"
+            },
+            {
+                "rarity": 0,
+                "species": "PLUSLE",
+                "form": 0,
+                "min_level": 30,
+                "max_level": 50,
+                "conditions": null,
+                "catch_ball_id": "MASTERBALL"
+            },
+            {
+                "rarity": 1,
+                "species": "ELECTRODE",
+                "form": 0,
+                "min_level": 40,
+                "max_level": 60,
+                "conditions": null,
+                "catch_ball_id": "MASTERBALL"
+            },
+            {
+                "rarity": 1,
+                "species": "GASTLY",
+                "form": 0,
+                "min_level": 20,
+                "max_level": 35,
+                "conditions": null,
+                "catch_ball_id": "MASTERBALL"
+            },
+            {
+                "rarity": 2,
+                "species": "NOCTOWL",
+                "form": 0,
+                "min_level": 40,
+                "max_level": 60,
+                "conditions": null,
+                "catch_ball_id": "MASTERBALL"
+            },
+            {
+                "rarity": 3,
+                "species": "DRIFLOON",
+                "form": 0,
+                "min_level": 25,
+                "max_level": 40,
+                "conditions": null,
+                "catch_ball_id": "MASTERBALL"
+            },
+            {
+                "rarity": 3,
+                "species": "MURKROW",
+                "form": 0,
+                "min_level": 30,
+                "max_level": 45,
+                "conditions": null,
+                "catch_ball_id": "MASTERBALL"
+            },
+            {
+                "rarity": 4,
+                "species": "AMPHAROS",
+                "form": 0,
+                "min_level": 35,
+                "max_level": 50,
+                "conditions": null,
+                "catch_ball_id": "MASTERBALL"
+            },
+            {
+                "rarity": 5,
+                "species": "ROTOM",
+                "form": 0,
+                "min_level": 40,
+                "max_level": 50,
+                "conditions": null,
+                "catch_ball_id": "MASTERBALL"
+            },
+            {
+                "rarity": 6,
+                "species": "MIMIKYU",
+                "form": 0,
+                "min_level": 40,
+                "max_level": 55,
+                "conditions": null,
+                "catch_ball_id": "MASTERBALL"
+            },
+            {
+                "rarity": 7,
+                "species": "LITWICK",
+                "form": 0,
+                "min_level": 20,
+                "max_level": 30,
+                "conditions": null,
+                "catch_ball_id": "MASTERBALL"
+            },
+            {
+                "rarity": 10,
+                "species": "XURKITREE",
+                "form": 0,
+                "min_level": 70,
+                "max_level": 70,
+                "conditions": null,
+                "catch_ball_id": "MASTERBALL"
+            }
+        ],
+        "description": "Заброшенный каменный маяк на утесе, с которого открывается захватывающий вид на весь Архипелаг. Лампы давно не горят, но по ночам здесь всё равно можно заметить странное электрическое свечение и блуждающие огни.",
+        "num_id": 11006,
+        "environment": "None",
+        "has_pokecenter": false,
+        "has_pokemart": false,
+        "sprite_path": "shared/assets/locations/Event/OldLighthouse.jpg"
     },
-    {
-      "rarity": 1,
-      "species": "CRAWDAUNT",
-      "form": 0,
-      "min_level": 100,
-      "max_level": 100,
-      "conditions": {
-        "quest_active": "AZURE_SHADOW_QUEST:80"
-      },
-      "can_catch": false
+    "SCRAP-COAST": {
+        "name": "scrap-coast",
+        "region": "OCEAN_EVENT",
+        "ru_name": "🛢️ Берег Отходов",
+        "connections": [
+            "SHADOW-DOCKS",
+            "DEAD-REEF"
+        ],
+        "encounters": [
+            {
+                "rarity": 5,
+                "species": "TRUBBISH",
+                "form": 0,
+                "min_level": 25,
+                "max_level": 40,
+                "conditions": null,
+                "catch_ball_id": "MASTERBALL"
+            },
+            {
+                "rarity": 0,
+                "species": "KOFFING",
+                "form": 0,
+                "min_level": 25,
+                "max_level": 40,
+                "conditions": null,
+                "catch_ball_id": "MASTERBALL"
+            },
+            {
+                "rarity": 0,
+                "species": "KRABBY",
+                "form": 0,
+                "min_level": 30,
+                "max_level": 45,
+                "conditions": null,
+                "catch_ball_id": "MASTERBALL"
+            },
+            {
+                "rarity": 4,
+                "species": "SWALOT",
+                "form": 0,
+                "min_level": 45,
+                "max_level": 55,
+                "conditions": null,
+                "catch_ball_id": "MASTERBALL"
+            },
+            {
+                "rarity": 1,
+                "species": "WEEZING",
+                "form": 0,
+                "min_level": 45,
+                "max_level": 55,
+                "conditions": null,
+                "catch_ball_id": "MASTERBALL"
+            },
+            {
+                "rarity": 7,
+                "species": "PALOSSAND",
+                "form": 0,
+                "min_level": 50,
+                "max_level": 65,
+                "conditions": null,
+                "catch_ball_id": "MASTERBALL"
+            },
+            {
+                "rarity": 10,
+                "species": "GUZZLORD",
+                "form": 0,
+                "min_level": 70,
+                "max_level": 70,
+                "conditions": null,
+                "catch_ball_id": "MASTERBALL"
+            }
+        ],
+        "description": "Печально известная часть побережья, куда течениями прибивает промышленный мусор из Теневых Доков и с Платформы 'Апекс'. Токсичная среда привлекла сюда покемонов, питающихся отходами, сделав берег опасным для неподготовленных тренеров.",
+        "num_id": 11007,
+        "environment": "None",
+        "has_pokecenter": false,
+        "has_pokemart": false,
+        "sprite_path": "shared/assets/locations/Event/ScrapCoast.jpg"
+    },
+    "ABYSSAL-TRENCH": {
+        "name": "abyssal-trench",
+        "region": "OCEAN_EVENT",
+        "ru_name": "🕳️ Бездонная Впадина",
+        "connections": [
+            "SCRAP-COAST",
+            "DEAD-REEF"
+        ],
+        "encounters": [
+            {
+                "rarity": 0,
+                "species": "LUMINEON",
+                "form": 0,
+                "min_level": 40,
+                "max_level": 55,
+                "conditions": null,
+                "catch_ball_id": "MASTERBALL"
+            },
+            {
+                "rarity": 0,
+                "species": "MANTINE",
+                "form": 0,
+                "min_level": 40,
+                "max_level": 55,
+                "conditions": null,
+                "catch_ball_id": "MASTERBALL"
+            },
+            {
+                "rarity": 1,
+                "species": "LANTURN",
+                "form": 0,
+                "min_level": 45,
+                "max_level": 60,
+                "conditions": null,
+                "catch_ball_id": "MASTERBALL"
+            },
+            {
+                "rarity": 7,
+                "species": "WISHIWASHI",
+                "form": 0,
+                "min_level": 35,
+                "max_level": 50,
+                "conditions": null,
+                "catch_ball_id": "MASTERBALL"
+            },
+            {
+                "rarity": 3,
+                "species": "CLAMPERL",
+                "form": 0,
+                "min_level": 45,
+                "max_level": 60,
+                "conditions": null,
+                "catch_ball_id": "MASTERBALL"
+            },
+            {
+                "rarity": 2,
+                "species": "RELICANTH",
+                "form": 0,
+                "min_level": 50,
+                "max_level": 65,
+                "conditions": null,
+                "catch_ball_id": "MASTERBALL"
+            },
+            {
+                "rarity": 4,
+                "species": "CLAWITZER",
+                "form": 0,
+                "min_level": 45,
+                "max_level": 60,
+                "conditions": null,
+                "catch_ball_id": "MASTERBALL"
+            },
+            {
+                "rarity": 6,
+                "species": "GOLISOPOD",
+                "form": 0,
+                "min_level": 50,
+                "max_level": 65,
+                "conditions": null,
+                "catch_ball_id": "MASTERBALL"
+            },
+            {
+                "rarity": 8,
+                "species": "MALAMAR",
+                "form": 0,
+                "min_level": 50,
+                "max_level": 65,
+                "conditions": null,
+                "catch_ball_id": "MASTERBALL"
+            },
+            {
+                "rarity": 4,
+                "species": "KINGDRA",
+                "form": 0,
+                "min_level": 55,
+                "max_level": 70,
+                "conditions": null,
+                "catch_ball_id": "MASTERBALL"
+            },
+            {
+                "rarity": 10,
+                "species": "NIHILEGO",
+                "form": 0,
+                "min_level": 70,
+                "max_level": 70,
+                "conditions": null,
+                "catch_ball_id": "MASTERBALL"
+            }
+        ],
+        "description": "Мрачный и глубокий подводный желоб, вода в котором неестественно холодна. Из-за отсутствия солнечного света обитатели впадины научились вырабатывать собственное электрическое свечение, освещая путь сквозь густую тьму.",
+        "num_id": 11008,
+        "environment": "None",
+        "has_pokecenter": false,
+        "has_pokemart": false,
+        "sprite_path": "shared/assets/locations/Event/AbyssalTrench.jpg"
+    },
+    "APEX-TESTING-FACILITY": {
+        "name": "apex-testing-facility",
+        "region": "OCEAN_EVENT",
+        "ru_name": "🚧 Полигон «Апекс»",
+        "connections": [
+            "DEAD-REEF",
+            "APEX-PLATFORM"
+        ],
+        "encounters": [
+            {
+                "rarity": 3,
+                "species": "KLINK",
+                "form": 0,
+                "min_level": 35,
+                "max_level": 50,
+                "conditions": null,
+                "catch_ball_id": "MASTERBALL"
+            },
+            {
+                "rarity": 0,
+                "species": "ARON",
+                "form": 0,
+                "min_level": 35,
+                "max_level": 50,
+                "conditions": null,
+                "catch_ball_id": "MASTERBALL"
+            },
+            {
+                "rarity": 1,
+                "species": "MAGNEMITE",
+                "form": 0,
+                "min_level": 30,
+                "max_level": 45,
+                "conditions": null,
+                "catch_ball_id": "MASTERBALL"
+            },
+            {
+                "rarity": 0,
+                "species": "VOLTORB",
+                "form": 0,
+                "min_level": 30,
+                "max_level": 45,
+                "conditions": null,
+                "catch_ball_id": "MASTERBALL"
+            },
+            {
+                "rarity": 5,
+                "species": "TOGEDEMARU",
+                "form": 0,
+                "min_level": 40,
+                "max_level": 55,
+                "conditions": null,
+                "catch_ball_id": "MASTERBALL"
+            },
+            {
+                "rarity": 4,
+                "species": "KLEFKI",
+                "form": 0,
+                "min_level": 40,
+                "max_level": 55,
+                "conditions": null,
+                "catch_ball_id": "MASTERBALL"
+            },
+            {
+                "rarity": 5,
+                "species": "SKARMORY",
+                "form": 0,
+                "min_level": 45,
+                "max_level": 60,
+                "conditions": null,
+                "catch_ball_id": "MASTERBALL"
+            },
+            {
+                "rarity": 9,
+                "species": "DURALUDON",
+                "form": 0,
+                "min_level": 50,
+                "max_level": 65,
+                "conditions": null,
+                "catch_ball_id": "MASTERBALL"
+            },
+            {
+                "rarity": 7,
+                "species": "DITTO",
+                "form": 0,
+                "min_level": 45,
+                "max_level": 60,
+                "conditions": null,
+                "catch_ball_id": "MASTERBALL"
+            },
+            {
+                "rarity": 4,
+                "species": "PORYGON",
+                "form": 0,
+                "min_level": 40,
+                "max_level": 50,
+                "conditions": null,
+                "catch_ball_id": "MASTERBALL"
+            },
+            {
+                "rarity": 10,
+                "species": "GENESECT",
+                "form": 0,
+                "min_level": 70,
+                "max_level": 70,
+                "conditions": null,
+                "catch_ball_id": "MASTERBALL"
+            }
+        ],
+        "description": "Изолированный искусственный остров, покрытый металлическими пластинами и датчиками. Здесь корпорация тайно тестирует свое новое оборудование. Воздух гудит от статического электричества и низкочастотных вибраций.",
+        "num_id": 11009,
+        "environment": "None",
+        "has_pokecenter": false,
+        "has_pokemart": false,
+        "sprite_path": "shared/assets/locations/Event/ApexTestingFacility.jpg"
     }
-  ],
-  "description": "Скрытый от глаз туристов, полузаброшенный портовый район. Воздух здесь пропитан тяжелым запахом мазута и водорослей. В лабиринте ржавых контейнеров и темных пирсов обитают опасные покемоны и люди, предпочитающие вести дела вдали от закона.",
-  "num_id": 11001,
-  "environment": "None",
-  "has_pokecenter": false,
-  "has_pokemart": false,
-  "sprite_path": "shared/assets/locations/Event/ShadowDocks.jpg"
-},
-
-  "DEAD-REEF": {
-    "name": "dead-reef",
-    "region": "OCEAN_EVENT",
-    "ru_name": "🪸 Мертвый Риф",
-    "connections": [
-        "SCRAP-COAST",
-        "APEX-TESTING-FACILITY",
-        "ABYSSAL-TRENCH"
-      ],
-    "encounters": [
-        {
-          "rarity": 0,
-          "species": "TENTACOOL",
-          "form": 0,
-          "min_level": 10,
-          "max_level": 50,
-          "conditions": null,
-            "catch_ball_id":"MASTERBALL"
-        },
-        {
-          "rarity": 0,
-          "species": "TENTACRUEL",
-          "form": 0,
-          "min_level": 10,
-          "max_level": 50,
-          "conditions": null,
-            "catch_ball_id":"MASTERBALL"
-        },
-        {
-          "rarity": 1,
-          "species": "CORSOLA",
-          "form": 0,
-          "min_level": 35,
-          "max_level": 50,
-          "conditions": null,
-            "catch_ball_id":"MASTERBALL"
-        },
-        {
-          "rarity": 4,
-          "species": "SKRELP",
-          "form": 0,
-          "min_level": 40,
-          "max_level": 55,
-          "conditions": null,
-            "catch_ball_id":"MASTERBALL"
-        },
-        {
-          "rarity": 10,
-          "species": "TOXAPEX",
-          "form": 0,
-          "min_level": 45,
-          "max_level": 60,
-          "conditions": null,
-            "catch_ball_id":"MASTERBALL"
-        },
-        {
-          "rarity": 5,
-          "species": "PINCURCHIN",
-          "form": 0,
-          "min_level": 45,
-          "max_level": 60,
-          "conditions": null,
-            "catch_ball_id":"MASTERBALL"
-        },
-        {
-          "rarity": 8,
-          "species": "CORSOLA",
-          "form": 1,
-          "min_level": 45,
-          "max_level": 55,
-          "conditions": null,
-            "catch_ball_id":"MASTERBALL"
-        }
-    ],
-    "description": "Обширная зона экологического бедствия, где некогда цветущие кораллы превратились в бледные окаменелости. Вода пропитана едкими отходами, из-за чего местные покемоны стали крайне агрессивными. Жуткое напоминание о последствиях бездумной индустриализации.",
-    "num_id": 11002,
-    "environment": "None",
-    "has_pokecenter": false,
-    "has_pokemart": false,
-    "sprite_path": "shared/assets/locations/Event/DeadReef.jpg"
-  },
-
-  "APEX-PLATFORM": {
-    "name": "apex-platform",
-    "region": "OCEAN_EVENT",
-    "ru_name": "⚙️ Платформа «Апекс»",
-    "connections": [
-        "APEX-TESTING-FACILITY"
-      ],
-    "encounters": [],
-    "description": "Колоссальное высокотехнологичное сооружение, возвышающееся прямо посреди открытого океана. Стальные перекрытия, гудящие турбины и строгие системы безопасности делают платформу неприступной крепостью. Ходят слухи, что в ее глубоких подводных резервуарах проводятся секретные исследования.",
-    "num_id": 11003,
-    "environment": "None",
-    "has_pokecenter": false,
-    "has_pokemart": false,
-    "sprite_path": "shared/assets/locations/Event/ApexPlatform.jpg"
-  },
-
-  "AZURE-GROVE": {
-    "name": "azure-grove",
-    "region": "OCEAN_EVENT",
-    "ru_name": "🌴 Тропическая Роща",
-    "connections": [
-        "AZURE-PROMENADE",
-        "HIDDEN-COVE"
-      ],
-    "encounters": [
-    {
-      "rarity": 0,
-      "species": "ODDISH",
-      "form": 0,
-      "min_level": 15,
-      "max_level": 25,
-      "conditions": null,
-        "catch_ball_id":"MASTERBALL"
-    },
-    {
-      "rarity": 0,
-      "species": "PARAS",
-      "form": 0,
-      "min_level": 15,
-      "max_level": 25,
-      "conditions": null,
-        "catch_ball_id":"MASTERBALL"
-    },
-    {
-      "rarity": 1,
-      "species": "BOUNSWEET",
-      "form": 0,
-      "min_level": 15,
-      "max_level": 25,
-      "conditions": null,
-        "catch_ball_id":"MASTERBALL"
-    },
-    {
-      "rarity": 2,
-      "species": "FOMANTIS",
-      "form": 0,
-      "min_level": 20,
-      "max_level": 35,
-      "conditions": null,
-        "catch_ball_id":"MASTERBALL"
-    },
-    {
-      "rarity": 3,
-      "species": "EXEGGCUTE",
-      "form": 0,
-      "min_level": 25,
-      "max_level": 40,
-      "conditions": null,
-        "catch_ball_id":"MASTERBALL"
-    },
-    {
-      "rarity": 3,
-      "species": "HERACROSS",
-      "form": 0,
-      "min_level": 40,
-      "max_level": 50,
-      "conditions": null,
-        "catch_ball_id":"MASTERBALL"
-    },
-    {
-      "rarity": 3,
-      "species": "PINSIR",
-      "form": 0,
-      "min_level": 40,
-      "max_level": 50,
-      "conditions": null,
-        "catch_ball_id":"MASTERBALL"
-    },
-    {
-      "rarity": 4,
-      "species": "TROPIUS",
-      "form": 0,
-      "min_level": 80,
-      "max_level": 100,
-      "conditions": null,
-        "catch_ball_id":"MASTERBALL"
-    },
-    {
-      "rarity": 5,
-      "species": "PASSIMIAN",
-      "form": 0,
-      "min_level": 30,
-      "max_level": 45,
-      "conditions": null,
-        "catch_ball_id":"MASTERBALL"
-    },
-    {
-      "rarity": 7,
-      "species": "COMFEY",
-      "form": 0,
-      "min_level": 25,
-      "max_level": 40,
-      "conditions": null,
-        "catch_ball_id":"MASTERBALL"
-    },
-    {
-      "rarity": 6,
-      "species": "GRUBBIN",
-      "form": 0,
-      "min_level": 15,
-      "max_level": 25,
-      "conditions": null,
-        "catch_ball_id":"MASTERBALL"
-    },
-    {
-      "rarity": 5,
-      "species": "PIKIPEK",
-      "form": 0,
-      "min_level": 15,
-      "max_level": 25,
-      "conditions": null,
-        "catch_ball_id":"MASTERBALL"
-    },
-        {
-      "rarity": 10,
-      "species": "TAPUBULU",
-      "form": 0,
-      "min_level": 70,
-      "max_level": 70,
-      "conditions": null,
-        "catch_ball_id":"MASTERBALL"
-    }
-  ],
-    "description": "Буйные тропические джунгли, прилегающие к туристической зоне. Огромные листья пальм и экзотические цветы скрывают редких покемонов-насекомых и травяных типов. Отличное место для спокойных прогулок в тени.",
-    "num_id": 11004,
-    "environment": "None",
-    "has_pokecenter": false,
-    "has_pokemart": false,
-    "sprite_path": "shared/assets/locations/Event/AzureGrove.jpg"
-  },
-
-  "HIDDEN-COVE": {
-    "name": "hidden-cove",
-    "region": "OCEAN_EVENT",
-    "ru_name": "🌊 Скрытая Бухта",
-    "connections": [
-        "AZURE-GROVE",
-        "OLD-LIGHTHOUSE"
-      ],
-    "encounters": [
-    {
-      "rarity": 0,
-      "species": "SHELLOS",
-      "form": 0,
-      "min_level": 20,
-      "max_level": 35,
-      "conditions": null,
-        "catch_ball_id":"MASTERBALL"
-    },
-    {
-      "rarity": 1,
-      "species": "SHELLDER",
-      "form": 0,
-      "min_level": 20,
-      "max_level": 35,
-      "conditions": null,
-        "catch_ball_id":"MASTERBALL"
-    },
-
-    {
-      "rarity": 2,
-      "species": "VIVILLON",
-      "form": 11,
-      "min_level": 30,
-      "max_level": 30,
-        "catch_ball_id":"MASTERBALL"
-    },
-    {
-      "rarity": 3,
-      "species": "MARILL",
-      "form": 0,
-      "min_level": 20,
-      "max_level": 35,
-      "conditions": null,
-        "catch_ball_id":"MASTERBALL"
-    },
-    {
-      "rarity": 4,
-      "species": "CLAMPERL",
-      "form": 0,
-      "min_level": 30,
-      "max_level": 45,
-      "conditions": null,
-        "catch_ball_id":"MASTERBALL"
-    },
-    {
-      "rarity": 5,
-      "species": "PYUKUMUKU",
-      "form": 0,
-      "min_level": 35,
-      "max_level": 50,
-      "conditions": null,
-        "catch_ball_id":"MASTERBALL"
-    },
-    {
-      "rarity": 6,
-      "species": "ALOMOMOLA",
-      "form": 0,
-      "min_level": 40,
-      "max_level": 55,
-      "conditions": null,
-        "catch_ball_id":"MASTERBALL"
-    },
-    {
-      "rarity": 7,
-      "species": "DRATINI",
-      "form": 0,
-      "min_level": 20,
-      "max_level": 30,
-      "conditions": null,
-        "catch_ball_id":"MASTERBALL"
-    },
-    {
-      "rarity": 10,
-      "species": "TAPUFINI",
-      "form": 0,
-      "min_level": 70,
-      "max_level": 70,
-      "conditions": null,
-        "catch_ball_id":"MASTERBALL"
-    }
-  ],
-    "description": "Уединенный песчаный пляж, скрытый за высокими скалами. Сюда редко забредают обычные туристы, что делает бухту идеальным убежищем для пугливых водных покемонов и искателей сокровищ.",
-    "num_id": 11005,
-    "environment": "None",
-    "has_pokecenter": false,
-    "has_pokemart": false,
-    "sprite_path": "shared/assets/locations/Event/HiddenCove.jpg"
-  },
-
-  "OLD-LIGHTHOUSE": {
-    "name": "old-lighthouse",
-    "region": "OCEAN_EVENT",
-    "ru_name": "🗼 Старый Маяк",
-    "connections": [
-      "HIDDEN-COVE"
-    ],
-   "encounters": [
-    {
-      "rarity": 0,
-      "species": "PELIPPER",
-      "form": 0,
-      "min_level": 30,
-      "max_level": 50,
-      "conditions": null,
-        "catch_ball_id":"MASTERBALL"
-    },
-    {
-      "rarity": 0,
-      "species": "PLUSLE",
-      "form": 0,
-      "min_level": 30,
-      "max_level": 50,
-      "conditions": null,
-        "catch_ball_id":"MASTERBALL"
-    },
-    {
-      "rarity": 1,
-      "species": "ELECTRODE",
-      "form": 0,
-      "min_level": 40,
-      "max_level": 60,
-      "conditions": null,
-        "catch_ball_id":"MASTERBALL"
-    },
-    {
-      "rarity": 1,
-      "species": "GASTLY",
-      "form": 0,
-      "min_level": 20,
-      "max_level": 35,
-      "conditions": null,
-        "catch_ball_id":"MASTERBALL"
-    },
-    {
-      "rarity": 2,
-      "species": "NOCTOWL",
-      "form": 0,
-      "min_level": 40,
-      "max_level": 60,
-      "conditions": null,
-        "catch_ball_id":"MASTERBALL"
-    },
-    {
-      "rarity": 3,
-      "species": "DRIFLOON",
-      "form": 0,
-      "min_level": 25,
-      "max_level": 40,
-      "conditions": null,
-        "catch_ball_id":"MASTERBALL"
-    },
-    {
-      "rarity": 3,
-      "species": "MURKROW",
-      "form": 0,
-      "min_level": 30,
-      "max_level": 45,
-      "conditions": null,
-        "catch_ball_id":"MASTERBALL"
-    },
-    {
-      "rarity": 4,
-      "species": "AMPHAROS",
-      "form": 0,
-      "min_level": 35,
-      "max_level": 50,
-      "conditions": null,
-        "catch_ball_id":"MASTERBALL"
-    },
-    {
-      "rarity": 5,
-      "species": "ROTOM",
-      "form": 0,
-      "min_level": 40,
-      "max_level": 50,
-      "conditions": null,
-        "catch_ball_id":"MASTERBALL"
-    },
-    {
-      "rarity": 6,
-      "species": "MIMIKYU",
-      "form": 0,
-      "min_level": 40,
-      "max_level": 55,
-      "conditions": null,
-        "catch_ball_id":"MASTERBALL"
-    },
-    {
-      "rarity": 7,
-      "species": "LITWICK",
-      "form": 0,
-      "min_level": 20,
-      "max_level": 30,
-      "conditions": null,
-        "catch_ball_id":"MASTERBALL"
-    },
-    {
-      "rarity": 10,
-      "species": "XURKITREE",
-      "form": 0,
-      "min_level": 70,
-      "max_level": 70,
-      "conditions": null,
-        "catch_ball_id":"MASTERBALL"
-    }
-  ],
-    "description": "Заброшенный каменный маяк на утесе, с которого открывается захватывающий вид на весь Архипелаг. Лампы давно не горят, но по ночам здесь всё равно можно заметить странное электрическое свечение и блуждающие огни.",
-    "num_id": 11006,
-    "environment": "None",
-    "has_pokecenter": false,
-    "has_pokemart": false,
-    "sprite_path": "shared/assets/locations/Event/OldLighthouse.jpg"
-  },
-
-  "SCRAP-COAST": {
-    "name": "scrap-coast",
-    "region": "OCEAN_EVENT",
-    "ru_name": "🛢️ Берег Отходов",
-    "connections": [
-      "SHADOW-DOCKS",
-        "DEAD-REEF"
-    ],
-    "encounters": [
-    {
-      "rarity": 5,
-      "species": "TRUBBISH",
-      "form": 0,
-      "min_level": 25,
-      "max_level": 40,
-      "conditions": null,
-        "catch_ball_id":"MASTERBALL"
-    },
-    {
-      "rarity": 0,
-      "species": "KOFFING",
-      "form": 0,
-      "min_level": 25,
-      "max_level": 40,
-      "conditions": null,
-        "catch_ball_id":"MASTERBALL"
-    },
-    {
-      "rarity": 0,
-      "species": "KRABBY",
-      "form": 0,
-      "min_level": 30,
-      "max_level": 45,
-      "conditions": null,
-        "catch_ball_id":"MASTERBALL"
-    },
-    {
-      "rarity": 4,
-      "species": "SWALOT",
-      "form": 0,
-      "min_level": 45,
-      "max_level": 55,
-      "conditions": null,
-        "catch_ball_id":"MASTERBALL"
-    },
-    {
-      "rarity": 1,
-      "species": "WEEZING",
-      "form": 0,
-      "min_level": 45,
-      "max_level": 55,
-      "conditions": null,
-        "catch_ball_id":"MASTERBALL"
-    },
-    {
-      "rarity": 7,
-      "species": "PALOSSAND",
-      "form": 0,
-      "min_level": 50,
-      "max_level": 65,
-      "conditions": null,
-        "catch_ball_id":"MASTERBALL"
-    },
-    {
-      "rarity": 10,
-      "species": "GUZZLORD",
-      "form": 0,
-      "min_level": 70,
-      "max_level": 70,
-      "conditions": null,
-        "catch_ball_id":"MASTERBALL"
-    }
-  ],
-    "description": "Печально известная часть побережья, куда течениями прибивает промышленный мусор из Теневых Доков и с Платформы 'Апекс'. Токсичная среда привлекла сюда покемонов, питающихся отходами, сделав берег опасным для неподготовленных тренеров.",
-    "num_id": 11007,
-    "environment": "None",
-    "has_pokecenter": false,
-    "has_pokemart": false,
-    "sprite_path": "shared/assets/locations/Event/ScrapCoast.jpg"
-  },
-
-  "ABYSSAL-TRENCH": {
-    "name": "abyssal-trench",
-    "region": "OCEAN_EVENT",
-    "ru_name": "🕳️ Бездонная Впадина",
-    "connections": [
-        "SCRAP-COAST",
-        "DEAD-REEF"
-      ],
-    "encounters": [
-    {
-      "rarity": 0,
-      "species": "LUMINEON",
-      "form": 0,
-      "min_level": 40,
-      "max_level": 55,
-      "conditions": null,
-        "catch_ball_id":"MASTERBALL"
-    },
-    {
-      "rarity": 0,
-      "species": "MANTINE",
-      "form": 0,
-      "min_level": 40,
-      "max_level": 55,
-      "conditions": null,
-        "catch_ball_id":"MASTERBALL"
-    },
-    {
-      "rarity": 1,
-      "species": "LANTURN",
-      "form": 0,
-      "min_level": 45,
-      "max_level": 60,
-      "conditions": null,
-        "catch_ball_id":"MASTERBALL"
-    },
-    {
-      "rarity": 7,
-      "species": "WISHIWASHI",
-      "form": 0,
-      "min_level": 35,
-      "max_level": 50,
-      "conditions": null,
-        "catch_ball_id":"MASTERBALL"
-    },
-    {
-      "rarity": 3,
-      "species": "CLAMPERL",
-      "form": 0,
-      "min_level": 45,
-      "max_level": 60,
-      "conditions": null,
-        "catch_ball_id":"MASTERBALL"
-    },
-    {
-      "rarity": 2,
-      "species": "RELICANTH",
-      "form": 0,
-      "min_level": 50,
-      "max_level": 65,
-      "conditions": null,
-        "catch_ball_id":"MASTERBALL"
-    },
-    {
-      "rarity": 4,
-      "species": "CLAWITZER",
-      "form": 0,
-      "min_level": 45,
-      "max_level": 60,
-      "conditions": null,
-        "catch_ball_id":"MASTERBALL"
-    },
-    {
-      "rarity": 6,
-      "species": "GOLISOPOD",
-      "form": 0,
-      "min_level": 50,
-      "max_level": 65,
-      "conditions": null,
-        "catch_ball_id":"MASTERBALL"
-    },
-    {
-      "rarity": 8,
-      "species": "MALAMAR",
-      "form": 0,
-      "min_level": 50,
-      "max_level": 65,
-      "conditions": null,
-        "catch_ball_id":"MASTERBALL"
-    },
-    {
-      "rarity": 4,
-      "species": "KINGDRA",
-      "form": 0,
-      "min_level": 55,
-      "max_level": 70,
-      "conditions": null,
-        "catch_ball_id":"MASTERBALL"
-    },
-    {
-      "rarity": 10,
-      "species": "NIHILEGO",
-      "form": 0,
-      "min_level": 70,
-      "max_level": 70,
-      "conditions": null,
-        "catch_ball_id":"MASTERBALL"
-    }
-  ],
-    "description": "Мрачный и глубокий подводный желоб, вода в котором неестественно холодна. Из-за отсутствия солнечного света обитатели впадины научились вырабатывать собственное электрическое свечение, освещая путь сквозь густую тьму.",
-    "num_id": 11008,
-    "environment": "None",
-    "has_pokecenter": false,
-    "has_pokemart": false,
-    "sprite_path": "shared/assets/locations/Event/AbyssalTrench.jpg"
-  },
-
-  "APEX-TESTING-FACILITY": {
-    "name": "apex-testing-facility",
-    "region": "OCEAN_EVENT",
-    "ru_name": "🚧 Полигон «Апекс»",
-    "connections": [
-        "DEAD-REEF",
-        "APEX-PLATFORM"
-      ],
-    "encounters": [
-    {
-      "rarity": 3,
-      "species": "KLINK",
-      "form": 0,
-      "min_level": 35,
-      "max_level": 50,
-      "conditions": null,
-        "catch_ball_id":"MASTERBALL"
-    },
-    {
-      "rarity": 0,
-      "species": "ARON",
-      "form": 0,
-      "min_level": 35,
-      "max_level": 50,
-      "conditions": null,
-        "catch_ball_id":"MASTERBALL"
-    },
-    {
-      "rarity": 1,
-      "species": "MAGNEMITE",
-      "form": 0,
-      "min_level": 30,
-      "max_level": 45,
-      "conditions": null,
-        "catch_ball_id":"MASTERBALL"
-    },
-    {
-      "rarity": 0,
-      "species": "VOLTORB",
-      "form": 0,
-      "min_level": 30,
-      "max_level": 45,
-      "conditions": null,
-        "catch_ball_id":"MASTERBALL"
-    },
-    {
-      "rarity": 5,
-      "species": "TOGEDEMARU",
-      "form": 0,
-      "min_level": 40,
-      "max_level": 55,
-      "conditions": null,
-        "catch_ball_id":"MASTERBALL"
-    },
-    {
-      "rarity": 4,
-      "species": "KLEFKI",
-      "form": 0,
-      "min_level": 40,
-      "max_level": 55,
-      "conditions": null,
-        "catch_ball_id":"MASTERBALL"
-    },
-    {
-      "rarity": 5,
-      "species": "SKARMORY",
-      "form": 0,
-      "min_level": 45,
-      "max_level": 60,
-      "conditions": null,
-        "catch_ball_id":"MASTERBALL"
-    },
-    {
-      "rarity": 9,
-      "species": "DURALUDON",
-      "form": 0,
-      "min_level": 50,
-      "max_level": 65,
-      "conditions": null,
-        "catch_ball_id":"MASTERBALL"
-    },
-    {
-      "rarity": 7,
-      "species": "DITTO",
-      "form": 0,
-      "min_level": 45,
-      "max_level": 60,
-      "conditions": null,
-        "catch_ball_id":"MASTERBALL"
-    },
-    {
-      "rarity": 4,
-      "species": "PORYGON",
-      "form": 0,
-      "min_level": 40,
-      "max_level": 50,
-      "conditions": null,
-        "catch_ball_id":"MASTERBALL"
-    },
-    {
-      "rarity": 10,
-      "species": "GENESECT",
-      "form": 0,
-      "min_level": 70,
-      "max_level": 70,
-      "conditions": null,
-        "catch_ball_id":"MASTERBALL"
-    }
-  ],
-    "description": "Изолированный искусственный остров, покрытый металлическими пластинами и датчиками. Здесь корпорация тайно тестирует свое новое оборудование. Воздух гудит от статического электричества и низкочастотных вибраций.",
-    "num_id": 11009,
-    "environment": "None",
-    "has_pokecenter": false,
-    "has_pokemart": false,
-    "sprite_path": "shared/assets/locations/Event/ApexTestingFacility.jpg"
-  }
 }
